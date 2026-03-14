@@ -251,24 +251,24 @@ const Events = () => {
 
         {/* Disney+ Style Filters */}
         <div className="flex flex-col items-center gap-4">
-          <SegmentedSelector
+          <SegmentedSelector<SeriesFilter>
             label="Series"
             options={[
-              { value: "all" as SeriesFilter, label: "All" },
-              { value: "infracodebase" as SeriesFilter, label: "Infracodebase" },
-              { value: "buildwithher" as SeriesFilter, label: "Build With Her" },
+              { value: "all", label: "All" },
+              { value: "infracodebase", label: "Infracodebase" },
+              { value: "buildwithher", label: "Build With Her" },
             ]}
             value={seriesFilter}
             onChange={setSeriesFilter}
           />
-          <SegmentedSelector
+          <SegmentedSelector<TypeFilter>
             label="Type"
             options={[
-              { value: "all" as TypeFilter, label: "All Types" },
-              { value: "conversation" as TypeFilter, label: "Conversation" },
-              { value: "technical" as TypeFilter, label: "Technical Session" },
-              { value: "webinar" as TypeFilter, label: "Live Webinar" },
-              { value: "career" as TypeFilter, label: "Career Talk" },
+              { value: "all", label: "All Types" },
+              { value: "conversation", label: "Conversation" },
+              { value: "technical", label: "Technical Session" },
+              { value: "webinar", label: "Live Webinar" },
+              { value: "career", label: "Career Talk" },
             ]}
             value={typeFilter}
             onChange={setTypeFilter}
