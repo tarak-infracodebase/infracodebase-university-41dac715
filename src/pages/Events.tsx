@@ -249,6 +249,32 @@ const Events = () => {
           </p>
         </div>
 
+        {/* Disney+ Style Filters */}
+        <div className="flex flex-col items-center gap-4">
+          <SegmentedSelector
+            label="Series"
+            options={[
+              { value: "all" as SeriesFilter, label: "All" },
+              { value: "infracodebase" as SeriesFilter, label: "Infracodebase" },
+              { value: "buildwithher" as SeriesFilter, label: "Build With Her" },
+            ]}
+            value={seriesFilter}
+            onChange={setSeriesFilter}
+          />
+          <SegmentedSelector
+            label="Type"
+            options={[
+              { value: "all" as TypeFilter, label: "All Types" },
+              { value: "conversation" as TypeFilter, label: "Conversation" },
+              { value: "technical" as TypeFilter, label: "Technical Session" },
+              { value: "webinar" as TypeFilter, label: "Live Webinar" },
+              { value: "career" as TypeFilter, label: "Career Talk" },
+            ]}
+            value={typeFilter}
+            onChange={setTypeFilter}
+          />
+        </div>
+
         {/* Inside a Session */}
         <div className="glass-panel rounded-2xl p-6">
           <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Inside a Session</h2>
