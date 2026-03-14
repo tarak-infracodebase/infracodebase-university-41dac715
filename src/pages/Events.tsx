@@ -1,5 +1,5 @@
 import { AppLayout } from "@/components/AppLayout";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap } from "lucide-react";
 
@@ -115,6 +115,62 @@ function SpeakerAvatar({ name }: { name: string }) {
   );
 }
 
+function SegmentedSelector<T extends string>({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: { value: T; label: string }[];
+  value: T;
+  onChange: (v: T) => void;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [highlight, setHighlight] = useState({ left: 0, width: 0 });
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const activeIdx = options.findIndex(o => o.value === value);
+    const buttons = containerRef.current.querySelectorAll<HTMLButtonElement>("[data-seg-btn]");
+    if (buttons[activeIdx]) {
+      const btn = buttons[activeIdx];
+      setHighlight({ left: btn.offsetLeft, width: btn.offsetWidth });
+    }
+  }, [value, options]);
+
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider shrink-0">{label}</span>
+      <div
+        ref={containerRef}
+        className="relative flex items-center rounded-full bg-muted/40 border border-border/50 p-1 backdrop-blur-sm shadow-[0_0_12px_-4px_hsl(var(--primary)/0.15)]"
+      >
+        {/* Sliding highlight */}
+        <div
+          className="absolute top-1 bottom-1 rounded-full bg-primary/15 border border-primary/25 shadow-[0_0_8px_-2px_hsl(var(--primary)/0.3)] transition-all duration-[250ms] ease-out"
+          style={{ left: highlight.left, width: highlight.width }}
+        />
+        {options.map(opt => (
+          <button
+            key={opt.value}
+            data-seg-btn
+            onClick={() => onChange(opt.value)}
+            className={cn(
+              "relative z-10 px-4 py-1.5 rounded-full text-xs font-medium transition-colors duration-200 whitespace-nowrap",
+              value === opt.value
+                ? "text-foreground"
+                : "text-muted-foreground hover:text-foreground/70"
+            )}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function EventCard({ event }: { event: EventItem }) {
   return (
     <a
@@ -193,6 +249,32 @@ const Events = () => {
           </p>
         </div>
 
+        {/* Disney+ Style Filters */}
+        <div className="flex flex-col items-center gap-4">
+          <SegmentedSelector<SeriesFilter>
+            label="Series"
+            options={[
+              { value: "all", label: "All" },
+              { value: "infracodebase", label: "Infracodebase" },
+              { value: "buildwithher", label: "Build With Her" },
+            ]}
+            value={seriesFilter}
+            onChange={setSeriesFilter}
+          />
+          <SegmentedSelector<TypeFilter>
+            label="Type"
+            options={[
+              { value: "all", label: "All Types" },
+              { value: "conversation", label: "Conversation" },
+              { value: "technical", label: "Technical Session" },
+              { value: "webinar", label: "Live Webinar" },
+              { value: "career", label: "Career Talk" },
+            ]}
+            value={typeFilter}
+            onChange={setTypeFilter}
+          />
+        </div>
+
         {/* Inside a Session */}
         <div className="glass-panel rounded-2xl p-6">
           <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Inside a Session</h2>
@@ -243,25 +325,7 @@ const Events = () => {
           </div>
         )}
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-4">
-          <div className="flex gap-1.5">
-            <span className="text-[10px] text-muted-foreground self-center mr-1">Series:</span>
-            {([["all", "All"], ["infracodebase", "Infracodebase"], ["buildwithher", "Build With Her"]] as [SeriesFilter, string][]).map(([val, label]) => (
-              <button key={val} onClick={() => setSeriesFilter(val)} className={cn("px-3 py-1.5 rounded-lg text-xs font-medium transition-colors", seriesFilter === val ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground bg-muted/50")}>
-                {label}
-              </button>
-            ))}
-          </div>
-          <div className="flex gap-1.5">
-            <span className="text-[10px] text-muted-foreground self-center mr-1">Type:</span>
-            {([["all", "All Types"], ["conversation", "Conversation"], ["technical", "Technical Session"], ["webinar", "Live Webinar"], ["career", "Career Talk"]] as [TypeFilter, string][]).map(([val, label]) => (
-              <button key={val} onClick={() => setTypeFilter(val)} className={cn("px-3 py-1.5 rounded-lg text-xs font-medium transition-colors", typeFilter === val ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground bg-muted/50")}>
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Filters removed — now placed under hero */}
 
         {/* Series: Infracodebase */}
         {(seriesFilter === "all" || seriesFilter === "infracodebase") && infraEvents.length > 0 && (
