@@ -1,6 +1,6 @@
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import { Share2, MapPin, Calendar, Flame, Trophy, ExternalLink, Zap } from "lucide-react";
+import { Share2, MapPin, Calendar, Flame, Trophy } from "lucide-react";
 
 const projects = [
   { name: "VPC Multi-Region Setup", desc: "Production-grade VPC with cross-region peering", tags: ["Networking", "Architecture"], color: "hsl(var(--crystal-cyan))" },

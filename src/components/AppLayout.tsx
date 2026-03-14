@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { 
   Home, LayoutDashboard, BookOpen, TrendingUp, Trophy, Calendar, 
-  User, MessageSquare, Play, Zap, ChevronLeft, ChevronRight,
+  User, MessageSquare, Play, ChevronLeft, ChevronRight,
   X, FolderOpen, Palette
 } from "lucide-react";
 import { cn } from "@/lib/utils";

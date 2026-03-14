@@ -1,7 +1,7 @@
 import { AppLayout } from "@/components/AppLayout";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Calendar, Users, Radio, ArrowRight, Play, ExternalLink, Sparkles, Globe, Zap } from "lucide-react";
+import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap } from "lucide-react";
 
 type SeriesFilter = "all" | "infracodebase" | "buildwithher";
 type TypeFilter = "all" | "conversation" | "technical" | "webinar" | "career";
