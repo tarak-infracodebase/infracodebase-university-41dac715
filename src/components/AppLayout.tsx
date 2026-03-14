@@ -91,7 +91,7 @@ export function MobileNav() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-border/50 bg-background/80 backdrop-blur-xl flex items-center justify-between px-4 lg:hidden">
         <Link to="/" className="flex items-center gap-2">
-          <img src={brandCrystal} alt="" className="h-6 w-6 object-contain" />
+          <CrystalIcon color="hsl(var(--crystal-violet))" size={24} />
           <span className="font-mono font-bold text-sm">Infracodebase<span className="text-primary">U</span></span>
         </Link>
         <button onClick={() => setOpen(true)} className="p-2 text-muted-foreground hover:text-foreground">
