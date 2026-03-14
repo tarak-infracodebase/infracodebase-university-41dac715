@@ -1,5 +1,5 @@
 import { AppLayout } from "@/components/AppLayout";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap } from "lucide-react";
 
