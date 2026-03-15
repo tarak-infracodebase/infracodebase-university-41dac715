@@ -132,14 +132,14 @@ const Dashboard = () => {
               <div className="flex items-start gap-4">
                 <CrystalIcon color={crystalColors[2]} size={32} />
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] text-primary font-mono mb-0.5">Track 3</p>
-                  <h3 className="text-sm font-bold mb-2">Real Infrastructure Engineering</h3>
+                  <p className="text-[10px] text-primary font-mono mb-0.5">Track {currentTrack?.order}</p>
+                  <h3 className="text-sm font-bold mb-2">{currentTrack?.title}</h3>
                   <div className="flex items-center gap-3 mb-2">
                     <Progress value={progressPct} className="h-1.5 flex-1 max-w-[200px] bg-muted" />
                     <span className="text-[10px] font-mono text-muted-foreground">{completedLessons} / {currentTrackLessons} lessons</span>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Next: <span className="text-foreground">Controlling Traffic with Routing and NAT</span>
+                    Next: <span className="text-foreground">{nextLesson?.title ?? "All lessons complete"}</span>
                   </p>
                 </div>
                 <Link to="/path/real-infrastructure">
