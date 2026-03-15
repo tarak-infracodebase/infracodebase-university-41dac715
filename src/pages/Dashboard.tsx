@@ -78,34 +78,31 @@ const Dashboard = () => {
 
         {/* ═══ HERO: Resume Learning ═══ */}
         <Link
-          to="/path/real-infrastructure/lesson/controlling-traffic"
+          to={nextLesson ? `/path/real-infrastructure/lesson/${nextLesson.id}` : "/path/real-infrastructure"}
           className="block group"
         >
           <div className="glass-panel rounded-2xl p-6 lg:p-8 border-primary/20 hover:border-primary/40 transition-all relative overflow-hidden">
-            {/* Subtle gradient accent */}
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/60 to-transparent rounded-t-2xl" />
-
             <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
               <div className="h-16 w-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
                 <BookOpen className="h-7 w-7 text-primary" />
               </div>
-
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] uppercase tracking-widest text-primary font-semibold mb-1">Resume Learning</p>
-                <p className="text-xs text-muted-foreground mb-1">Track 3 — Real Infrastructure Engineering</p>
-                <h2 className="text-lg font-bold mb-3">Controlling Traffic with Routing and NAT</h2>
+                <p className="text-xs text-muted-foreground mb-1">Track {currentTrack?.order} — {currentTrack?.title}</p>
+                <h2 className="text-lg font-bold mb-1">{nextLesson?.title ?? "Track Complete"}</h2>
+                <p className="text-xs text-muted-foreground mb-3">{completedLessons} / {currentTrackLessons} lessons completed</p>
                 <div className="flex items-center gap-3">
                   <Progress value={progressPct} className="h-2 flex-1 max-w-[280px] bg-muted" />
                   <span className="text-xs font-mono text-muted-foreground">{progressPct}%</span>
                 </div>
               </div>
-
               <div className="flex items-center gap-3 shrink-0">
                 <Button size="sm" className="gap-1.5 text-xs">
                   <Play className="h-3 w-3" /> Resume Lesson
                 </Button>
                 <Link
-                  to="/path/real-infrastructure"
+                  to={`/path/${currentTrack?.id}`}
                   onClick={e => e.stopPropagation()}
                   className="text-xs text-muted-foreground hover:text-primary transition-colors"
                 >
