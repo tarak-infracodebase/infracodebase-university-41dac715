@@ -55,11 +55,13 @@ const Dashboard = () => {
   const [hoveredCrystal, setHoveredCrystal] = useState<number | null>(null);
   const [hoveredLocked, setHoveredLocked] = useState<number | null>(null);
 
-  // Current track info
+  // Current track info — resolved dynamically from curriculum data
   const currentTrack = learningPaths.find(p => p.id === "real-infrastructure");
-  const currentTrackLessons = currentTrack?.courses.reduce((t, c) => t + c.lessons.length, 0) || 0;
-  const completedLessons = 4;
-  const progressPct = Math.round((completedLessons / currentTrackLessons) * 100);
+  const allCurrentLessons = currentTrack?.courses.flatMap(c => c.lessons) || [];
+  const currentTrackLessons = allCurrentLessons.length;
+  const completedLessons = 2; // TODO: replace with real progress tracking
+  const nextLesson = allCurrentLessons[completedLessons]; // first incomplete lesson
+  const progressPct = currentTrackLessons > 0 ? Math.round((completedLessons / currentTrackLessons) * 100) : 0;
 
   // Recommended next
   const nextTrack = learningPaths.find(p => p.id === "architecture-diagrams");
@@ -76,34 +78,31 @@ const Dashboard = () => {
 
         {/* ═══ HERO: Resume Learning ═══ */}
         <Link
-          to="/path/real-infrastructure/lesson/controlling-traffic"
+          to={nextLesson ? `/path/real-infrastructure/lesson/${nextLesson.id}` : "/path/real-infrastructure"}
           className="block group"
         >
           <div className="glass-panel rounded-2xl p-6 lg:p-8 border-primary/20 hover:border-primary/40 transition-all relative overflow-hidden">
-            {/* Subtle gradient accent */}
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/60 to-transparent rounded-t-2xl" />
-
             <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
               <div className="h-16 w-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
                 <BookOpen className="h-7 w-7 text-primary" />
               </div>
-
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] uppercase tracking-widest text-primary font-semibold mb-1">Resume Learning</p>
-                <p className="text-xs text-muted-foreground mb-1">Track 3 — Real Infrastructure Engineering</p>
-                <h2 className="text-lg font-bold mb-3">Controlling Traffic with Routing and NAT</h2>
+                <p className="text-xs text-muted-foreground mb-1">Track {currentTrack?.order} — {currentTrack?.title}</p>
+                <h2 className="text-lg font-bold mb-1">{nextLesson?.title ?? "Track Complete"}</h2>
+                <p className="text-xs text-muted-foreground mb-3">{completedLessons} / {currentTrackLessons} lessons completed</p>
                 <div className="flex items-center gap-3">
                   <Progress value={progressPct} className="h-2 flex-1 max-w-[280px] bg-muted" />
                   <span className="text-xs font-mono text-muted-foreground">{progressPct}%</span>
                 </div>
               </div>
-
               <div className="flex items-center gap-3 shrink-0">
                 <Button size="sm" className="gap-1.5 text-xs">
                   <Play className="h-3 w-3" /> Resume Lesson
                 </Button>
                 <Link
-                  to="/path/real-infrastructure"
+                  to={`/path/${currentTrack?.id}`}
                   onClick={e => e.stopPropagation()}
                   className="text-xs text-muted-foreground hover:text-primary transition-colors"
                 >
@@ -133,14 +132,14 @@ const Dashboard = () => {
               <div className="flex items-start gap-4">
                 <CrystalIcon color={crystalColors[2]} size={32} />
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] text-primary font-mono mb-0.5">Track 3</p>
-                  <h3 className="text-sm font-bold mb-2">Real Infrastructure Engineering</h3>
+                  <p className="text-[10px] text-primary font-mono mb-0.5">Track {currentTrack?.order}</p>
+                  <h3 className="text-sm font-bold mb-2">{currentTrack?.title}</h3>
                   <div className="flex items-center gap-3 mb-2">
                     <Progress value={progressPct} className="h-1.5 flex-1 max-w-[200px] bg-muted" />
                     <span className="text-[10px] font-mono text-muted-foreground">{completedLessons} / {currentTrackLessons} lessons</span>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Next: <span className="text-foreground">Controlling Traffic with Routing and NAT</span>
+                    Next: <span className="text-foreground">{nextLesson?.title ?? "All lessons complete"}</span>
                   </p>
                 </div>
                 <Link to="/path/real-infrastructure">
