@@ -67,7 +67,7 @@ const Manifesto = () => {
       </section>
 
       {/* Manifesto */}
-      <section className="px-6 py-24 md:py-36">
+      <section className="px-6 pt-10 md:pt-14 pb-24 md:pb-36">
         <div className="mx-auto max-w-xl space-y-10 md:space-y-14">
           {manifestoParagraphs.map((text, i) => {
             const isShort = !text.includes("\n") && text.length < 50;
@@ -84,6 +84,14 @@ const Manifesto = () => {
               </p>
             );
           })}
+          {/* Signature */}
+          <div className="flex justify-center pt-16 md:pt-20">
+            <img
+              src={signatureImg}
+              alt="Founder's signature"
+              className="w-[220px] md:w-[260px] h-auto"
+            />
+          </div>
         </div>
       </section>
 
