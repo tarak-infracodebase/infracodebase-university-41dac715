@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
+  { path: "/manifesto", label: "Manifesto", icon: BookOpen },
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/curriculum", label: "Curriculum", icon: BookOpen },
   { path: "/progress", label: "Progress", icon: TrendingUp },
