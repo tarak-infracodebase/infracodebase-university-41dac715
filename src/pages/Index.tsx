@@ -30,9 +30,12 @@ const Index = () => {
           <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-2xl">
             Learn how modern infrastructure teams design, build, document, and govern infrastructure using AI-assisted workflows with Infracodebase.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <Link to="/manifesto" className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors shadow-glow">
-              Read the Manifesto <ArrowRight className="h-4 w-4" />
+          <div className="flex flex-wrap gap-4">
+            <Link to="/curriculum" className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors shadow-glow">
+              Start Learning <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link to="/manifesto" className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/40 hover:bg-primary/5 transition-colors">
+              Read our Manifesto
             </Link>
           </div>
         </div>
