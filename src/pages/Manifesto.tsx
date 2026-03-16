@@ -40,7 +40,7 @@ const Manifesto = () => {
   return (
     <div className="min-h-screen bg-[hsl(0,0%,100%)] text-[hsl(228,20%,12%)] selection:bg-[hsl(260,70%,58%)/0.15]">
       {/* Hero */}
-      <section className="flex flex-col items-center justify-center px-6 pt-32 pb-24 md:pt-44 md:pb-36">
+      <section className="flex flex-col items-center justify-center px-6 pt-32 pb-12 md:pt-44 md:pb-16">
         <CrystalIcon size={48} color="hsl(260,70%,58%)" />
 
         <h1
