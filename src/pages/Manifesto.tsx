@@ -116,13 +116,13 @@ const Manifesto = () => {
       {/* CTA */}
       <section className="flex flex-col items-center px-6 pt-12 pb-32 md:pb-44">
         <p className="text-base md:text-lg text-[hsl(220,10%,40%)] text-center font-sans">
-          Start learning modern infrastructure architecture.
+          Ready to start building real systems?
         </p>
         <Link
-          to="/curriculum"
+          to="/dashboard"
           className="mt-10 inline-flex items-center rounded-full bg-[hsl(228,20%,10%)] px-8 py-3.5 text-sm font-medium text-[hsl(0,0%,100%)] hover:bg-[hsl(228,20%,18%)] transition-colors"
         >
-          Browse Learning Paths
+          Enter Infracodebase University
         </Link>
       </section>
     </div>
