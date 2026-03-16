@@ -17,6 +17,7 @@ import VideoLibrary from "./pages/VideoLibrary";
 import FeedbackPage from "./pages/FeedbackPage";
 import Resources from "./pages/Resources";
 import Appearance from "./pages/Appearance";
+import Manifesto from "./pages/Manifesto";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
