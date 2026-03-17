@@ -38,12 +38,14 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
     )}>
       {/* Logo */}
       <div className="flex items-center h-14 px-3 border-b border-border/50">
-        <Link to="/" className="flex items-center gap-2 overflow-hidden">
-          <CrystalIcon color="hsl(var(--crystal-violet))" size={28} />
-          {!collapsed && (
-            <span className="font-mono font-bold text-sm text-foreground whitespace-nowrap">
-              Infracodebase<span className="text-primary">U</span>
+        <Link to="/" className="flex items-center overflow-hidden">
+          {!collapsed ? (
+            <span className="text-sm tracking-wide whitespace-nowrap sidebar-logo-gradient">
+              <span className="font-medium">Infracodebase</span>{' '}
+              <span className="font-normal">University</span>
             </span>
+          ) : (
+            <span className="text-sm font-medium sidebar-logo-gradient">IU</span>
           )}
         </Link>
       </div>
