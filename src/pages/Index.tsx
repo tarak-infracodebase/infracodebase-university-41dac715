@@ -2,19 +2,19 @@ import { Link } from "react-router-dom";
 import { learningPaths, getTotalLessons, getTotalCourses } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import { 
-  ArrowRight, ChevronRight, Play, Shield, Layers, 
-  FileText, Cpu, Network 
-} from "lucide-react";
+import {
+  ArrowRight, ChevronRight, Play, Shield, Layers,
+  FileText, Cpu, Network } from
+"lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 const exploreRows = [
-  { label: "Start building infrastructure", path: `/path/${learningPaths[0]?.id}` },
-  { label: "Production architectures", path: `/path/${learningPaths[2]?.id || learningPaths[0]?.id}` },
-  { label: "Security & governance", path: `/path/${learningPaths[4]?.id || learningPaths[0]?.id}` },
-  { label: "Architecture patterns", path: `/path/${learningPaths[5]?.id || learningPaths[0]?.id}` },
-  { label: "Documentation & diagrams", path: `/path/${learningPaths[3]?.id || learningPaths[0]?.id}` },
-];
+{ label: "Start building infrastructure", path: `/path/${learningPaths[0]?.id}` },
+{ label: "Production architectures", path: `/path/${learningPaths[2]?.id || learningPaths[0]?.id}` },
+{ label: "Security & governance", path: `/path/${learningPaths[4]?.id || learningPaths[0]?.id}` },
+{ label: "Architecture patterns", path: `/path/${learningPaths[5]?.id || learningPaths[0]?.id}` },
+{ label: "Documentation & diagrams", path: `/path/${learningPaths[3]?.id || learningPaths[0]?.id}` }];
+
 
 const Index = () => {
   const firstTrack = learningPaths[0];
@@ -32,7 +32,7 @@ const Index = () => {
             Guided learning paths designed for every level.
           </p>
           <p className="text-base text-muted-foreground leading-relaxed mb-10 max-w-2xl">
-            From first-time builders to specialists, learn how to design, build, and operate infrastructure using an agent control plane — and build the skills to work at scale.
+            From first-time builders to specialists, learn how to design, build, and operate infrastructure using an agent control plane and build the skills to work at scale.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link to="/curriculum" className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors shadow-glow">
@@ -57,8 +57,8 @@ const Index = () => {
           </p>
           <Link
             to={`/path/${firstTrack?.id}`}
-            className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
-          >
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
+            
             Start <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -79,8 +79,8 @@ const Index = () => {
           </p>
           <Link
             to="/dashboard"
-            className="inline-flex items-center gap-2 rounded-lg bg-primary/10 border border-primary/20 px-5 py-2.5 text-sm font-medium text-primary hover:bg-primary/20 transition-colors"
-          >
+            className="inline-flex items-center gap-2 rounded-lg bg-primary/10 border border-primary/20 px-5 py-2.5 text-sm font-medium text-primary hover:bg-primary/20 transition-colors">
+            
             <Play className="h-3.5 w-3.5" /> Resume
           </Link>
         </div>
@@ -95,8 +95,8 @@ const Index = () => {
           </p>
           <Link
             to="/roadmap"
-            className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/40 hover:bg-primary/5 transition-colors"
-          >
+            className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/40 hover:bg-primary/5 transition-colors">
+            
             View roadmap <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -107,16 +107,16 @@ const Index = () => {
         <div className="max-w-3xl">
           <h2 className="text-2xl font-bold mb-6">Explore</h2>
           <div className="space-y-1">
-            {exploreRows.map((row, i) => (
-              <Link
-                key={i}
-                to={row.path}
-                className="flex items-center justify-between rounded-lg px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors group"
-              >
+            {exploreRows.map((row, i) =>
+            <Link
+              key={i}
+              to={row.path}
+              className="flex items-center justify-between rounded-lg px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors group">
+              
                 <span>{row.label}</span>
                 <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
-            ))}
+            )}
           </div>
         </div>
       </section>
@@ -132,8 +132,8 @@ const Index = () => {
           </p>
           <Link
             to="/manifesto"
-            className="text-sm text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-1"
-          >
+            className="text-sm text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-1">
+            
             Read the manifesto <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
@@ -143,8 +143,8 @@ const Index = () => {
       <footer className="border-t border-border/30 py-8 px-6 lg:px-12">
         <p className="text-center text-xs text-muted-foreground">© 2026 Infracodebase University. A technical academy for infrastructure engineering.</p>
       </footer>
-    </AppLayout>
-  );
+    </AppLayout>);
+
 };
 
 export default Index;
