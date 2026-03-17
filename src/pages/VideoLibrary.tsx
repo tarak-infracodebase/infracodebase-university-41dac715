@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
 const videoTopics = [
-  "All", "Getting Started", "Infrastructure Architecture",
+  "All", "Getting Started", "Infrastructure Architecture", "Architecture Documentation",
 ];
 
 interface VideoItem {
