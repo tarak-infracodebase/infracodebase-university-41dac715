@@ -226,6 +226,39 @@ const LessonPage = () => {
               </section>
             )}
 
+            {/* Context */}
+            <section className="mb-8 glass-panel rounded-xl p-5">
+              <div className="text-[10px] text-muted-foreground font-mono space-y-1">
+                <p>Workspace: <span className="text-foreground">Production Web Application</span></p>
+                <p>You are here: <span className="text-foreground">{path.shortTitle} → {lesson.title}</span></p>
+                <p>Architecture stage: <span className="text-primary">v2 — Secured</span></p>
+              </div>
+            </section>
+
+            {/* Next Step */}
+            {nextLesson && (
+              <section className="mb-8">
+                <Link
+                  to={`/path/${path.id}/lesson/${nextLesson.id}`}
+                  onClick={() => { setSelectedAnswer(null); window.scrollTo(0, 0); }}
+                  className="glass-panel rounded-xl p-5 block hover:border-primary/30 transition-colors"
+                >
+                  <p className="text-[10px] uppercase tracking-widest text-primary font-semibold mb-1">Next step</p>
+                  <h3 className="text-sm font-bold mb-1">{nextLesson.title}</h3>
+                  <span className="inline-flex items-center gap-1.5 text-xs text-primary">
+                    Continue <ArrowRight className="h-3 w-3" />
+                  </span>
+                </Link>
+              </section>
+            )}
+
+            {/* Continuous Evolution */}
+            <section className="mb-8 border-l-2 border-primary/30 pl-4">
+              <p className="text-xs text-muted-foreground">
+                After this lesson, consider how you can improve your architecture further — add monitoring, strengthen security, or optimize costs.
+              </p>
+            </section>
+
             {/* Navigation */}
             <div className="flex items-center justify-between pt-8 border-t border-border/30">
               {prevLesson ? (

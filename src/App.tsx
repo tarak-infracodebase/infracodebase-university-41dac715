@@ -18,6 +18,7 @@ import FeedbackPage from "./pages/FeedbackPage";
 import Resources from "./pages/Resources";
 import Appearance from "./pages/Appearance";
 import Manifesto from "./pages/Manifesto";
+import Roadmap from "./pages/Roadmap";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/curriculum" element={<Curriculum />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
