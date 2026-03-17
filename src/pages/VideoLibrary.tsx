@@ -39,6 +39,15 @@ const videos: VideoItem[] = [
     trackLabel: "Track 3 — Real Infrastructure Engineering",
     trackPath: "/path/real-infrastructure",
   },
+  {
+    id: "5th-video",
+    title: "Architecture Diagrams & Living Documentation",
+    src: "/assets/5th_video.mp4",
+    category: "Architecture Documentation",
+    description: "A walkthrough of architecture diagrams and living documentation practices in modern infrastructure systems.",
+    trackLabel: "Track 4 — Architecture Diagrams & Living Documentation",
+    trackPath: "/path/architecture-diagrams",
+  },
 ];
 
 function getProgress(id: string): number {

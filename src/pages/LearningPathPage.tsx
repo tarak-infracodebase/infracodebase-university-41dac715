@@ -14,6 +14,7 @@ const crystalColors = [
 const trackVideoMap: Record<string, string> = {
   foundations: "/assets/Introduction.mp4",
   "real-infrastructure": "/assets/Applying_Infracodebase2.mp4",
+  "architecture-diagrams": "/assets/5th_video.mp4",
 };
 
 function IntroVideo({ pathId }: { pathId: string }) {
