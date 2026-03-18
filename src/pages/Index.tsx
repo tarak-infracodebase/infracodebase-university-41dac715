@@ -23,9 +23,18 @@ const Index = () => {
             <CrystalIcon size={14} />
             {getTotalCourses()} Courses · {getTotalLessons()} Lessons · {learningPaths.length} Learning Paths
           </div>
-          <h1 className="text-4xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.1]">
-            <span className="text-gradient">Infracodebase</span>{" "}
-            <span className="text-foreground">University</span>
+          <h1
+            className="text-5xl lg:text-7xl xl:text-8xl font-semibold mb-6 leading-[1.1]"
+            style={{
+              background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              letterSpacing: "-0.02em",
+              lineHeight: "1.1",
+            }}
+          >
+            Infracodebase University
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-2xl">
             Learn how modern infrastructure teams design, build, document, and govern infrastructure using AI-assisted workflows with Infracodebase.

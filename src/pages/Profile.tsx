@@ -68,7 +68,73 @@ const Profile = () => {
 
         <div className="px-6 lg:px-8 mt-8 grid lg:grid-cols-[1fr_280px] gap-6">
           {/* Main column */}
-          <div className="space-y-6">
+          <div className="space-y-8">
+            {/* Engineer Profile */}
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-5">Engineer Profile</h2>
+              <div className="space-y-3 max-w-xl">
+                <p className="text-sm text-foreground leading-relaxed">
+                  Infrastructure Engineer focused on building secure and scalable systems.
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Designs and operates production infrastructure, automated deployment pipelines, and high-performance cloud applications.
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Works across cloud infrastructure, platform engineering, and frontend systems when needed.
+                </p>
+              </div>
+            </div>
+
+            {/* Infrastructure Stack */}
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-5">Infrastructure Stack</h2>
+              <div className="space-y-6">
+                {/* Cloud Infrastructure */}
+                <div>
+                  <p className="text-[11px] text-muted-foreground mb-1">Primary Cloud: <span className="text-foreground font-medium">AWS</span></p>
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Cloud Infrastructure</h3>
+                  <div className="space-y-3">
+                    {[
+                      { name: "AWS", pct: 52, color: "hsl(var(--crystal-orange))" },
+                      { name: "Azure", pct: 37, color: "hsl(var(--crystal-cyan))" },
+                      { name: "GCP", pct: 7, color: "hsl(var(--crystal-green))" },
+                    ].map(c => (
+                      <div key={c.name}>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-xs text-muted-foreground">{c.name}</span>
+                          <span className="text-xs font-mono text-foreground">{c.pct}%</span>
+                        </div>
+                        <div className="h-2.5 rounded-full bg-muted overflow-hidden">
+                          <div className="h-full rounded-full transition-all duration-700" style={{ width: `${c.pct}%`, backgroundColor: c.color, opacity: 0.7 }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* Infrastructure as Code */}
+                <div>
+                  <p className="text-[11px] text-muted-foreground mb-1">Primary IaC: <span className="text-foreground font-medium">Terraform</span></p>
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Infrastructure as Code</h3>
+                  <div className="space-y-3">
+                    {[
+                      { name: "Terraform", pct: 99, color: "hsl(var(--crystal-violet))" },
+                      { name: "Bicep", pct: 1, color: "hsl(var(--crystal-cyan))" },
+                    ].map(c => (
+                      <div key={c.name}>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-xs text-muted-foreground">{c.name}</span>
+                          <span className="text-xs font-mono text-foreground">{c.pct}%</span>
+                        </div>
+                        <div className="h-2.5 rounded-full bg-muted overflow-hidden">
+                          <div className="h-full rounded-full transition-all duration-700" style={{ width: `${c.pct}%`, backgroundColor: c.color, opacity: 0.7 }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Projects */}
             <div>
               <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Infrastructure Projects</h2>
