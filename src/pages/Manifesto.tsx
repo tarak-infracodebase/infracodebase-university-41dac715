@@ -43,10 +43,10 @@ const manifestoParagraphs: ManifestoParagraph[] = [
 ];
 
 const styleClasses: Record<ParagraphStyle, string> = {
-  statement: "text-[18px] md:text-[20px] font-normal text-[hsl(228,20%,10%)] mt-14 md:mt-16",
-  narrative: "text-[16px] md:text-[18px] font-normal text-[hsl(220,10%,25%)] mt-8 md:mt-10",
-  supporting: "text-[15px] md:text-[16px] font-normal text-[hsl(220,8%,50%)] mt-8 md:mt-10",
-  emphasis: "text-[18px] md:text-[20px] font-medium text-[hsl(228,20%,10%)] mt-14 md:mt-16",
+  statement: "text-[17px] md:text-[19px] font-normal text-[hsl(228,20%,12%)] mt-10 md:mt-12",
+  narrative: "text-[17px] md:text-[19px] font-normal text-[hsl(220,10%,28%)] mt-7 md:mt-9",
+  supporting: "text-[17px] md:text-[19px] font-normal text-[hsl(220,8%,45%)] mt-7 md:mt-9",
+  emphasis: "text-[17px] md:text-[19px] font-medium text-[hsl(228,20%,12%)] mt-10 md:mt-12",
 };
 
 const Manifesto = () => {
@@ -93,11 +93,11 @@ const Manifesto = () => {
 
       {/* Manifesto */}
       <section className="px-6 pt-6 md:pt-8 pb-24 md:pb-36">
-        <div className="mx-auto max-w-[680px]">
+        <div className="mx-auto max-w-[620px]">
           {manifestoParagraphs.map((p, i) => (
             <p
               key={i}
-              className={`font-sans leading-[1.65] whitespace-pre-line ${styleClasses[p.style]} ${i === 0 ? "!mt-0" : ""}`}
+              className={`font-sans leading-[1.75] whitespace-pre-line ${styleClasses[p.style]} ${i === 0 ? "!mt-0" : ""}`}
             >
               {p.text}
             </p>
