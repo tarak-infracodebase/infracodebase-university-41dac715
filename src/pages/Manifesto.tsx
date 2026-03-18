@@ -43,10 +43,10 @@ const manifestoParagraphs: ManifestoParagraph[] = [
 ];
 
 const styleClasses: Record<ParagraphStyle, string> = {
-  statement: "text-[17px] md:text-[19px] font-normal text-[hsl(228,20%,12%)] mt-10 md:mt-12",
-  narrative: "text-[17px] md:text-[19px] font-normal text-[hsl(220,10%,28%)] mt-7 md:mt-9",
-  supporting: "text-[17px] md:text-[19px] font-normal text-[hsl(220,8%,45%)] mt-7 md:mt-9",
-  emphasis: "text-[17px] md:text-[19px] font-medium text-[hsl(228,20%,12%)] mt-10 md:mt-12",
+  statement: "text-[17px] md:text-[19px] font-normal text-[#111] mt-10 md:mt-12",
+  narrative: "text-[17px] md:text-[19px] font-normal text-[#111] mt-7 md:mt-9",
+  supporting: "text-[17px] md:text-[19px] font-normal text-[#111] mt-7 md:mt-9",
+  emphasis: "text-[17px] md:text-[19px] font-medium text-[#111] mt-10 md:mt-12",
 };
 
 const Manifesto = () => {
