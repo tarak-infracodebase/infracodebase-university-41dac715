@@ -480,8 +480,10 @@ Observe:
   {
     id: "track-3-hands-on",
     trackNumber: 3,
-    title: "Real Infrastructure",
+    title: "Hands-on Training: Real Infrastructure Engineering",
     description: "Move from generating isolated resources to building connected, working infrastructure environments through structured iteration.",
+    level: "Intermediate",
+    curriculumTrackId: "real-infrastructure",
     color: "hsl(185, 70%, 48%)",
     accentColor: "hsl(185, 70%, 92%)",
     moduleCount: 2,
