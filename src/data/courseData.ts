@@ -303,7 +303,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "working-with-the-agent",
         title: "Working With the Agent",
-        description: "The agent is a collaborator.\nYou will learn how to guide the agent to design and generate infrastructure, and how to review what it produces.",
+        description: "Designing infrastructure starts with how you describe what you want to build.\nGuide the agent effectively and understand how it generates infrastructure.",
         difficulty: "beginner",
         estimatedTime: "25 min",
         lessons: [
