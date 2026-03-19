@@ -833,7 +833,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "understanding-visually",
         title: "Understanding Infrastructure Visually",
-        description: "You will learn how infrastructure can be understood through diagrams and system visualization.",
+        description: "As systems grow, understanding architecture becomes harder.\nUse visualization to see how services interact and how traffic flows.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
