@@ -218,7 +218,7 @@ const LearningPathPage = () => {
 
   const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
   const firstLesson = path.courses[0]?.lessons[0];
-  const nextTrackId = getNextTrackId(path.id);
+  
 
   return (
     <AppLayout>
