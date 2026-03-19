@@ -115,6 +115,7 @@ const speakerInitialColors: Record<string, string> = {
   Alex: "hsl(var(--crystal-orange))",
   Fatima: "hsl(var(--crystal-yellow))",
   "Seif Hateb": "hsl(var(--crystal-red))",
+  Divine: "hsl(var(--crystal-orange))",
 };
 
 function SpeakerAvatar({ name }: { name: string }) {
