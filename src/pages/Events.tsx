@@ -9,6 +9,7 @@ import webinarDec from "@/assets/events/webinar-dec.png";
 import webinarFeb from "@/assets/events/webinar-feb.png";
 import webinarLalit from "@/assets/events/webinar-lalit.png";
 import webinarShannon from "@/assets/events/webinar-shannon.png";
+import webinarBrand from "@/assets/events/webinar-personal-brand.jpg";
 
 type SeriesFilter = "all" | "infracodebase" | "buildwithher";
 type TypeFilter = "all" | "conversation" | "technical" | "webinar" | "career";
