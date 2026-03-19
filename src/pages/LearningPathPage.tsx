@@ -1,9 +1,9 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { getLearningPathById, learningPaths } from "@/data/courseData";
+import { useParams, Link } from "react-router-dom";
+import { getLearningPathById } from "@/data/courseData";
 import { handsOnTracks } from "@/data/handsOnData";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, Video, Hammer } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, Video, Hammer, CheckCircle2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
@@ -18,13 +18,6 @@ const trackVideoMap: Record<string, string> = {
   "architecture-diagrams": "/assets/Architecture_Diagrams.mp4",
 };
 
-function getNextTrackId(currentId: string): string | null {
-  const idx = learningPaths.findIndex(p => p.id === currentId);
-  if (idx >= 0 && idx < learningPaths.length - 1) {
-    return learningPaths[idx + 1].id;
-  }
-  return null;
-}
 
 function IntroVideo({ pathId }: { pathId: string }) {
   const videoSrc = trackVideoMap[pathId];
@@ -104,19 +97,47 @@ function ContinueLearningCard({
   );
 }
 
+const upNextContent: Record<string, { trackNumber: number; title: string; description: string; pathId: string }> = {
+  "welcome-orientation": {
+    trackNumber: 2,
+    title: "Foundations — Understanding Infracodebase",
+    description: "Learn what Infracodebase is, how workspaces are organized, and how the agent collaborates with you to design infrastructure.",
+    pathId: "foundations",
+  },
+  foundations: {
+    trackNumber: 3,
+    title: "Real Infrastructure Engineering",
+    description: "Move from generating isolated resources to building connected, working infrastructure environments.",
+    pathId: "real-infrastructure",
+  },
+  "real-infrastructure": {
+    trackNumber: 4,
+    title: "Architecture Diagrams & Living Documentation",
+    description: "Understand how infrastructure is structured, visualized, and documented as it evolves.",
+    pathId: "architecture-diagrams",
+  },
+  "architecture-diagrams": {
+    trackNumber: 5,
+    title: "Enterprise Governance & Platform Engineering",
+    description: "Learn how to apply rulesets, workflows, and structure to control how infrastructure is generated.",
+    pathId: "enterprise-governance",
+  },
+  "enterprise-governance": {
+    trackNumber: 6,
+    title: "Advanced Infrastructure Architecture",
+    description: "Design resilient, multi-region infrastructure systems that handle scale, failure, and complexity.",
+    pathId: "advanced-architecture",
+  },
+};
+
 function ProgressSidebar({
-  totalLessons,
-  nextLessonTitle,
-  nextTrackId,
   currentTrackId,
 }: {
-  totalLessons: number;
-  nextLessonTitle: string;
-  nextTrackId: string | null;
   currentTrackId: string;
 }) {
   const matchingHandsOn = handsOnTracks.find(t => t.curriculumTrackId === currentTrackId);
-  const nextTrack = nextTrackId ? learningPaths.find(p => p.id === nextTrackId) : null;
+  const upNext = upNextContent[currentTrackId];
+  const isLastTrack = currentTrackId === "advanced-architecture";
 
   return (
     <div className="space-y-5">
@@ -144,18 +165,29 @@ function ProgressSidebar({
         )}
       </div>
 
-      {/* Up Next */}
-      {nextTrack && (
+      {/* Up Next / Completion */}
+      {isLastTrack ? (
         <div className="glass-panel rounded-xl p-5">
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Up Next</h4>
-          <p className="text-sm font-medium">{nextTrack.title}</p>
-          <Link to={`/path/${nextTrack.id}`}>
-            <Button size="sm" className="mt-3 w-full gap-1.5 text-xs">
+          <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Completion</h4>
+          <p className="text-xs text-muted-foreground mb-3">You have completed the full learning path.</p>
+          <Link to="/dashboard">
+            <Button size="sm" className="w-full gap-1.5 text-xs">
+              <CheckCircle2 className="h-3 w-3" /> Review your progress
+            </Button>
+          </Link>
+        </div>
+      ) : upNext ? (
+        <div className="glass-panel rounded-xl p-5">
+          <h4 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
+          <p className="text-sm font-semibold mb-1">Track {upNext.trackNumber}: {upNext.title}</p>
+          <p className="text-xs text-muted-foreground leading-relaxed mb-4">{upNext.description}</p>
+          <Link to={`/path/${upNext.pathId}`}>
+            <Button size="sm" className="w-full gap-1.5 text-xs">
               Continue my training <ArrowRight className="h-3 w-3" />
             </Button>
           </Link>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
@@ -179,7 +211,7 @@ const LearningPathPage = () => {
 
   const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
   const firstLesson = path.courses[0]?.lessons[0];
-  const nextTrackId = getNextTrackId(path.id);
+  
 
   return (
     <AppLayout>
@@ -271,9 +303,6 @@ const LearningPathPage = () => {
           {/* Right: Progress Sidebar */}
           <div className="w-full lg:w-72 shrink-0">
             <ProgressSidebar
-              totalLessons={totalLessons}
-              nextLessonTitle={firstLesson?.title || "Start course"}
-              nextTrackId={nextTrackId}
               currentTrackId={path.id}
             />
           </div>
