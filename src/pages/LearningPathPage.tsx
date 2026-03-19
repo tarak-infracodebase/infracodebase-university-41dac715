@@ -138,6 +138,7 @@ function ProgressSidebar({
   const matchingHandsOn = handsOnTracks.find(t => t.curriculumTrackId === currentTrackId);
   const upNext = upNextContent[currentTrackId];
   const isLastTrack = currentTrackId === "advanced-architecture";
+  const isOnboarding = currentTrackId === "welcome-orientation";
 
   return (
     <div className="space-y-5">
@@ -148,46 +149,77 @@ function ProgressSidebar({
         <p className="text-xs text-muted-foreground font-mono">0%</p>
       </div>
 
-      {/* Assessment */}
-      <div className="glass-panel rounded-xl p-5">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Assessment</h4>
-        <p className="text-xs text-muted-foreground mb-3">Test your understanding by applying what you learned.</p>
-        {matchingHandsOn ? (
-          <Link to={`/hands-on/${matchingHandsOn.id}`}>
-            <Button size="sm" className="w-full gap-1.5 text-xs">
-              <Hammer className="h-3 w-3" /> Do the hands-on training
-            </Button>
-          </Link>
-        ) : (
-          <Button size="sm" className="w-full gap-1.5 text-xs" disabled>
-            No hands-on training available
-          </Button>
-        )}
-      </div>
+      {isOnboarding ? (
+        <>
+          {/* Next Step — onboarding action block */}
+          <div className="glass-panel rounded-xl p-5">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Next Step</h4>
+            <p className="text-xs text-muted-foreground mb-3">You are ready to start building your first infrastructure environment.</p>
+            <p className="text-sm font-semibold mb-1">Track 2: Foundations — Understanding Infracodebase</p>
+            <p className="text-xs text-muted-foreground leading-relaxed mb-4">Learn what Infracodebase is, how workspaces are organized, and how the agent collaborates with you.</p>
+            <Link to="/path/foundations">
+              <Button size="sm" className="w-full gap-1.5 text-xs">
+                <Play className="h-3 w-3" /> Start Track 2
+              </Button>
+            </Link>
+          </div>
 
-      {/* Up Next / Completion */}
-      {isLastTrack ? (
-        <div className="glass-panel rounded-xl p-5">
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Completion</h4>
-          <p className="text-xs text-muted-foreground mb-3">You have completed the full learning path.</p>
-          <Link to="/dashboard">
-            <Button size="sm" className="w-full gap-1.5 text-xs">
-              <CheckCircle2 className="h-3 w-3" /> Review your progress
-            </Button>
-          </Link>
-        </div>
-      ) : upNext ? (
-        <div className="glass-panel rounded-xl p-5">
-          <h4 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
-          <p className="text-sm font-semibold mb-1">Track {upNext.trackNumber}: {upNext.title}</p>
-          <p className="text-xs text-muted-foreground leading-relaxed mb-4">{upNext.description}</p>
-          <Link to={`/path/${upNext.pathId}`}>
-            <Button size="sm" className="w-full gap-1.5 text-xs">
-              Continue my training <ArrowRight className="h-3 w-3" />
-            </Button>
-          </Link>
-        </div>
-      ) : null}
+          {/* Up Next — secondary guidance */}
+          <div className="glass-panel rounded-xl p-5">
+            <h4 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
+            <p className="text-sm font-semibold mb-1">Track 2: Foundations — Understanding Infracodebase</p>
+            <p className="text-xs text-muted-foreground leading-relaxed mb-4">Learn what Infracodebase is, how workspaces are organized, and how the agent collaborates with you.</p>
+            <Link to="/path/foundations">
+              <Button size="sm" variant="secondary" className="w-full gap-1.5 text-xs">
+                Continue my training <ArrowRight className="h-3 w-3" />
+              </Button>
+            </Link>
+          </div>
+        </>
+      ) : (
+        <>
+          {/* Assessment */}
+          <div className="glass-panel rounded-xl p-5">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Assessment</h4>
+            <p className="text-xs text-muted-foreground mb-3">Test your understanding by applying what you learned.</p>
+            {matchingHandsOn ? (
+              <Link to={`/hands-on/${matchingHandsOn.id}`}>
+                <Button size="sm" className="w-full gap-1.5 text-xs">
+                  <Hammer className="h-3 w-3" /> Do the hands-on training
+                </Button>
+              </Link>
+            ) : (
+              <Button size="sm" className="w-full gap-1.5 text-xs" disabled>
+                No hands-on training available
+              </Button>
+            )}
+          </div>
+
+          {/* Up Next / Completion */}
+          {isLastTrack ? (
+            <div className="glass-panel rounded-xl p-5">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Completion</h4>
+              <p className="text-xs text-muted-foreground mb-3">You have completed the full learning path.</p>
+              <Link to="/dashboard">
+                <Button size="sm" className="w-full gap-1.5 text-xs">
+                  <CheckCircle2 className="h-3 w-3" /> Review your progress
+                </Button>
+              </Link>
+            </div>
+          ) : upNext ? (
+            <div className="glass-panel rounded-xl p-5">
+              <h4 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
+              <p className="text-sm font-semibold mb-1">Track {upNext.trackNumber}: {upNext.title}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-4">{upNext.description}</p>
+              <Link to={`/path/${upNext.pathId}`}>
+                <Button size="sm" className="w-full gap-1.5 text-xs">
+                  Continue my training <ArrowRight className="h-3 w-3" />
+                </Button>
+              </Link>
+            </div>
+          ) : null}
+        </>
+      )}
     </div>
   );
 }
