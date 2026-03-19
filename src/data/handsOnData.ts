@@ -24,6 +24,8 @@ export interface HandsOnTrack {
   trackNumber: number;
   title: string;
   description: string;
+  level: "Beginner" | "Intermediate" | "Advanced";
+  curriculumTrackId: string;
   color: string;
   accentColor: string;
   moduleCount: number;
