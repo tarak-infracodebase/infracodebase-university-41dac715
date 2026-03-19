@@ -45,6 +45,7 @@ export interface LearningPath {
   title: string;
   shortTitle: string;
   description: string;
+  trackIntro?: string;
   icon: string;
   courses: Course[];
   order: number;
