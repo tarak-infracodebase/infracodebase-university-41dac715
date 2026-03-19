@@ -178,12 +178,11 @@ const LearningPathPage = () => {
         <div className="flex flex-col lg:flex-row gap-8 max-w-5xl">
           {/* Left: Course content */}
           <div className="flex-1 min-w-0">
-            {path.courses.map((course) => (
+            {path.courses.map((course, courseIdx) => (
               <div key={course.id} className="mb-10">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-3">
                   <div>
                     <h2 className="text-lg font-bold mb-0.5">{course.title}</h2>
-                    <p className="text-xs text-muted-foreground">{course.description}</p>
                   </div>
                   <div className="hidden md:flex items-center gap-3 text-[10px] text-muted-foreground">
                     {course.estimatedTime && (
@@ -192,26 +191,35 @@ const LearningPathPage = () => {
                     <span className="rounded-full border border-border px-2 py-0.5 capitalize">{course.difficulty}</span>
                   </div>
                 </div>
+                {course.description && (
+                  <p className="text-xs text-muted-foreground/80 leading-relaxed mb-4 max-w-2xl">
+                    {course.description}
+                  </p>
+                )}
                 <div className="space-y-1.5">
-                  {course.lessons.map((lesson, i) => (
-                    <Link
-                      key={lesson.id}
-                      to={`/path/${path.id}/lesson/${lesson.id}`}
-                      className="group flex items-center gap-3 glass-panel-hover rounded-xl p-4"
-                    >
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted text-[10px] font-mono text-muted-foreground">
-                        {i + 1}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <h3 className="text-sm font-medium">{lesson.title}</h3>
-                        <p className="text-[10px] text-muted-foreground line-clamp-1 mt-0.5">
-                          {lesson.whyThisMatters.substring(0, 100)}...
-                        </p>
-                      </div>
-                      <span className="text-[10px] font-mono text-crystal-yellow shrink-0">+50 XP</span>
-                      <ArrowRight className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
-                    </Link>
-                  ))}
+                  {course.lessons.map((lesson, i) => {
+                    // Calculate global lesson number across all courses
+                    const globalIndex = path.courses.slice(0, courseIdx).reduce((acc, c) => acc + c.lessons.length, 0) + i;
+                    return (
+                      <Link
+                        key={lesson.id}
+                        to={`/path/${path.id}/lesson/${lesson.id}`}
+                        className="group flex items-center gap-3 glass-panel-hover rounded-xl p-4"
+                      >
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted text-[10px] font-mono text-muted-foreground">
+                          {globalIndex + 1}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <h3 className="text-sm font-medium">{lesson.title}</h3>
+                          <p className="text-[10px] text-muted-foreground line-clamp-1 mt-0.5">
+                            {lesson.whyThisMatters.substring(0, 100)}...
+                          </p>
+                        </div>
+                        <span className="text-[10px] font-mono text-crystal-yellow shrink-0">+50 XP</span>
+                        <ArrowRight className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             ))}
