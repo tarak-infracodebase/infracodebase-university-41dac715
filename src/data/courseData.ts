@@ -177,17 +177,17 @@ export const learningPaths: LearningPath[] = [
     id: "foundations",
     title: "Foundations — Understanding Infracodebase",
     shortTitle: "Foundations",
-    description: "Learn the operating model of Infracodebase including enterprises, workspaces, rulesets, workflows, agents, subagents, documentation, architecture diagrams, GitHub integration, and infrastructure history.",
+    description: "Learn the core model of Infracodebase including enterprises, workspaces, rulesets, workflows, agents, subagents, documentation, architecture diagrams, GitHub integration, and infrastructure history.",
     icon: "Layers",
     order: 2,
     color: "primary",
     courses: [
       {
-        id: "understanding-infracodebase",
-        title: "Understanding Infracodebase",
-        description: "Learn what Infracodebase is, how it is organized, and how engineers collaborate with the AI agent.",
+        id: "introduction-to-infracodebase",
+        title: "Introduction to Infracodebase",
+        description: "This course will help you understand how Infracodebase works and how to use it effectively. You will learn what Infracodebase is, how workspaces are organized, and how you collaborate with the agent to design infrastructure.",
         difficulty: "beginner",
-        estimatedTime: "90 min",
+        estimatedTime: "30 min",
         lessons: [
           {
             id: "what-is-infracodebase",
@@ -271,33 +271,6 @@ export const learningPaths: LearningPath[] = [
             }
           },
           {
-            id: "inviting-people-teams",
-            title: "Inviting People and Creating Teams",
-            whyThisMatters: "Now let's imagine something very common. You are not building infrastructure alone. Maybe you are part of a small team. Maybe you are part of a larger platform engineering organization. In both cases, multiple engineers need to collaborate on the same infrastructure.",
-            whatYoullLearn: ["How members are invited into the enterprise", "How roles define what someone is allowed to do", "How teams simplify collaboration"],
-            coreConcepts: "Inside your enterprise you can invite other engineers. Each person who joins the enterprise is called a member. Members receive a role. Roles determine what someone can do in Infracodebase.\n\nFor example: Owner - manages the enterprise and billing. Admin - manages settings and members. Editor - creates and modifies infrastructure. Viewer - can see resources but cannot modify them.\n\nNow imagine you have ten engineers working together. Instead of assigning permissions individually for every workspace, you can create teams: Platform Team, Security Team, DevOps Team. Then you assign teams to workspaces. When someone joins or leaves a team, their access updates automatically.",
-            stepByStep: "1. Open the enterprise settings.\n2. Navigate to the Members section.\n3. Invite a new member by email.\n4. Assign a role.\n5. Navigate to the Teams section.\n6. Create a team.\n7. Add the member to that team.",
-            exercise: {
-              title: "Create a Team",
-              description: "Create a team called Platform Team. Add one member to that team. Then write one sentence answering: Why is managing access through teams easier than assigning access user by user across every workspace?"
-            },
-            artifact: {
-              title: "Team Setup",
-              description: "One invited member, one created team, and one member assigned to the team."
-            },
-            validationChecklist: [
-              "One invited member",
-              "One created team",
-              "One member assigned to the team",
-              "Clear understanding of why teams simplify access management"
-            ],
-            knowledgeCheck: {
-              question: "Your company has 20 engineers working across many infrastructure projects. What is the main advantage of using teams?",
-              options: ["Teams generate infrastructure automatically", "Teams simplify how access is managed across workspaces", "Teams replace user roles", "Teams replace the enterprise"],
-              correctAnswer: 1
-            }
-          },
-          {
             id: "the-agent",
             title: "The Agent",
             whyThisMatters: "Now imagine you want to build infrastructure. Traditionally you would start writing infrastructure code. For example Terraform. You would create files. Define resources. Configure networking. And then review everything carefully. This process takes time. The idea behind Infracodebase is different. Instead of starting with code, you start with intent. You describe what you want to build. The agent then helps generate the infrastructure. But something important needs to be said clearly. The agent helps you. It does not remove the need for engineering judgment.",
@@ -322,7 +295,16 @@ export const learningPaths: LearningPath[] = [
               options: ["It replaces engineers entirely", "It acts as a collaborator that helps generate and refine infrastructure", "It only works for diagrams", "It can be trusted without review in production environments"],
               correctAnswer: 1
             }
-          },
+          }
+        ]
+      },
+      {
+        id: "working-with-the-agent",
+        title: "Working With the Agent",
+        description: "One important idea in this course is that the agent is a collaborator. It can help you design and generate infrastructure. But you should always review what it produces.",
+        difficulty: "beginner",
+        estimatedTime: "25 min",
+        lessons: [
           {
             id: "prompting-best-practices",
             title: "Prompting Best Practices",
@@ -401,27 +383,88 @@ export const learningPaths: LearningPath[] = [
             }
           },
           {
-            id: "tools-integrations",
-            title: "Tools and Integrations",
-            whyThisMatters: "Sometimes the agent needs more information than what is inside the workspace. For example: Maybe it needs to inspect resources that already exist in your cloud account. Maybe it needs to interact with a Git repository. Maybe it needs to retrieve information from an internal API. Without access to those systems, the agent would only work with the files inside the workspace. That is where tools and integrations become important.",
-            whatYoullLearn: ["How the agent connects to external systems", "What tools are in Infracodebase", "How integrations expand what the agent can do"],
-            coreConcepts: "The agent can interact with external systems through tools. A tool is essentially a connection between the agent and another system. For example, a tool can allow the agent to interact with: AWS, GitHub, Terraform Cloud, Kubernetes, internal APIs.\n\nThese connections allow the agent to retrieve information or perform actions outside the workspace. The way these integrations work is through something called the Model Context Protocol, often abbreviated as MCP. The Model Context Protocol gives AI agents a standardized way to communicate with external systems.\n\nIn practical terms, it means the agent can safely interact with tools while maintaining clear boundaries.",
+            id: "using-the-agent",
+            title: "Using the Agent",
+            whyThisMatters: "Now things start getting interesting. Because this is where you begin working with the agent to design infrastructure. Instead of writing every line of Terraform yourself, you collaborate with the agent. And the more clearly you express what you want, the better the results become.",
+            whatYoullLearn: ["How to request infrastructure from the agent", "How the agent uses workspace context", "How to iterate step by step", "How generation becomes refinement"],
+            coreConcepts: "Inside a workspace you interact with the agent through conversation. You describe the infrastructure you want to build. The agent then reads the workspace context, applies rulesets, follows workflows, uses available tools, and generates infrastructure code.\n\nThe conversation is persistent. So the agent remembers previous context. That means you do not need to treat every request as a brand new task. You can build iteratively. First ask for a baseline. Then review it. Then modify it. That is much closer to how real infrastructure work actually happens.",
             exercise: {
-              title: "Identify Integration Needs",
-              description: "Open the Tools section in your enterprise settings. Look at the available integrations. Then write down three systems your organization would want the agent to interact with, and why."
+              title: "Iterative Infrastructure",
+              description: "Start a conversation with the agent. Describe the infrastructure you want. Review what was generated. Ask the agent to make one improvement instead of recreating everything from scratch. For example: Create a Terraform module for an S3 bucket with encryption and versioning enabled. Then say: Now add tags for environment and owner."
             },
             artifact: {
-              title: "Integration List",
-              description: "A short list of three systems that could be connected through tools, plus one sentence describing why each one matters."
+              title: "Iterative Output",
+              description: "Generated infrastructure code plus one follow-up modification request."
             },
             validationChecklist: [
-              "Understand what tools are in Infracodebase",
-              "Understand how the agent connects to external systems",
-              "Understand why integrations expand the agent's capabilities"
+              "Generated infrastructure code",
+              "Reviewed what the agent created",
+              "Refined the output through a second request"
             ],
             knowledgeCheck: {
-              question: "You want the agent to inspect an existing AWS environment instead of only working from files in the workspace. What makes that possible?",
-              options: ["Infrastructure templates", "Tools connected through MCP", "Public workspaces", "Diagram generation"],
+              question: "What is the best way to use the agent in a real project?",
+              options: ["Only ask it to create things once and never review the output", "Use it iteratively by generating, reviewing, and refining infrastructure step by step", "Paste finished Terraform into chat and ignore the workspace", "Only use it for naming suggestions"],
+              correctAnswer: 1
+            }
+          }
+        ]
+      },
+      {
+        id: "organizing-infrastructure",
+        title: "Organizing Infrastructure",
+        description: "Infrastructure design, security, governance, and architecture decisions often involve multiple roles. Understanding how infrastructure work is organized will help you collaborate more effectively.",
+        difficulty: "beginner",
+        estimatedTime: "25 min",
+        lessons: [
+          {
+            id: "inviting-people-teams",
+            title: "Inviting People and Creating Teams",
+            whyThisMatters: "Now let's imagine something very common. You are not building infrastructure alone. Maybe you are part of a small team. Maybe you are part of a larger platform engineering organization. In both cases, multiple engineers need to collaborate on the same infrastructure.",
+            whatYoullLearn: ["How members are invited into the enterprise", "How roles define what someone is allowed to do", "How teams simplify collaboration"],
+            coreConcepts: "Inside your enterprise you can invite other engineers. Each person who joins the enterprise is called a member. Members receive a role. Roles determine what someone can do in Infracodebase.\n\nFor example: Owner - manages the enterprise and billing. Admin - manages settings and members. Editor - creates and modifies infrastructure. Viewer - can see resources but cannot modify them.\n\nNow imagine you have ten engineers working together. Instead of assigning permissions individually for every workspace, you can create teams: Platform Team, Security Team, DevOps Team. Then you assign teams to workspaces. When someone joins or leaves a team, their access updates automatically.",
+            stepByStep: "1. Open the enterprise settings.\n2. Navigate to the Members section.\n3. Invite a new member by email.\n4. Assign a role.\n5. Navigate to the Teams section.\n6. Create a team.\n7. Add the member to that team.",
+            exercise: {
+              title: "Create a Team",
+              description: "Create a team called Platform Team. Add one member to that team. Then write one sentence answering: Why is managing access through teams easier than assigning access user by user across every workspace?"
+            },
+            artifact: {
+              title: "Team Setup",
+              description: "One invited member, one created team, and one member assigned to the team."
+            },
+            validationChecklist: [
+              "One invited member",
+              "One created team",
+              "One member assigned to the team",
+              "Clear understanding of why teams simplify access management"
+            ],
+            knowledgeCheck: {
+              question: "Your company has 20 engineers working across many infrastructure projects. What is the main advantage of using teams?",
+              options: ["Teams generate infrastructure automatically", "Teams simplify how access is managed across workspaces", "Teams replace user roles", "Teams replace the enterprise"],
+              correctAnswer: 1
+            }
+          },
+          {
+            id: "workspaces",
+            title: "Workspaces",
+            whyThisMatters: "Think about how infrastructure projects normally work. You usually have architecture documents, infrastructure code, conversations between engineers, design diagrams, and history of changes. Now imagine those things scattered across many different tools. This fragmentation creates friction. The workspace solves that.",
+            whatYoullLearn: ["What a workspace contains", "How workspaces organize infrastructure projects", "How workspace visibility works"],
+            coreConcepts: "A workspace is the environment where infrastructure work happens. Inside a workspace you will find: chat conversations, infrastructure code, architecture diagrams, documentation, and history of changes.\n\nYou can think of a workspace as a home for an infrastructure project. Workspaces also have visibility settings:\n- Private: only invited members can access it\n- Internal: everyone in the enterprise can see it\n- Public: anyone with the link can view it",
+            exercise: {
+              title: "Create and Explore a Workspace",
+              description: "Create a workspace with internal visibility. Then identify where you would expect to find: the conversation with the agent, the infrastructure files, the project documentation, and the history of changes."
+            },
+            artifact: {
+              title: "Workspace Overview",
+              description: "A workspace created in your enterprise, plus a short note describing what you expect to keep inside it."
+            },
+            validationChecklist: [
+              "One workspace created",
+              "Visibility configured",
+              "Clearer understanding of what a workspace contains"
+            ],
+            knowledgeCheck: {
+              question: "A teammate wants a space where infrastructure code, documentation, diagrams, and history all stay connected for one project. What should you create?",
+              options: ["A secret", "A workspace", "A ruleset", "A subagent"],
               correctAnswer: 1
             }
           },
@@ -503,57 +546,16 @@ export const learningPaths: LearningPath[] = [
               options: ["Because secrets make diagrams load faster", "Because secrets protect sensitive values and keep them out of conversations and logs", "Because the agent cannot work with AWS", "Because secrets replace workflows"],
               correctAnswer: 1
             }
-          },
-          {
-            id: "workspaces",
-            title: "Workspaces",
-            whyThisMatters: "Think about how infrastructure projects normally work. You usually have architecture documents, infrastructure code, conversations between engineers, design diagrams, and history of changes. Now imagine those things scattered across many different tools. This fragmentation creates friction. The workspace solves that.",
-            whatYoullLearn: ["What a workspace contains", "How workspaces organize infrastructure projects", "How workspace visibility works"],
-            coreConcepts: "A workspace is the environment where infrastructure work happens. Inside a workspace you will find: chat conversations, infrastructure code, architecture diagrams, documentation, and history of changes.\n\nYou can think of a workspace as a home for an infrastructure project. Workspaces also have visibility settings:\n- Private: only invited members can access it\n- Internal: everyone in the enterprise can see it\n- Public: anyone with the link can view it",
-            exercise: {
-              title: "Create and Explore a Workspace",
-              description: "Create a workspace with internal visibility. Then identify where you would expect to find: the conversation with the agent, the infrastructure files, the project documentation, and the history of changes."
-            },
-            artifact: {
-              title: "Workspace Overview",
-              description: "A workspace created in your enterprise, plus a short note describing what you expect to keep inside it."
-            },
-            validationChecklist: [
-              "One workspace created",
-              "Visibility configured",
-              "Clearer understanding of what a workspace contains"
-            ],
-            knowledgeCheck: {
-              question: "A teammate wants a space where infrastructure code, documentation, diagrams, and history all stay connected for one project. What should you create?",
-              options: ["A secret", "A workspace", "A ruleset", "A subagent"],
-              correctAnswer: 1
-            }
-          },
-          {
-            id: "using-the-agent",
-            title: "Using the Agent",
-            whyThisMatters: "Now things start getting interesting. Because this is where you begin working with the agent to design infrastructure. Instead of writing every line of Terraform yourself, you collaborate with the agent. And the more clearly you express what you want, the better the results become.",
-            whatYoullLearn: ["How to request infrastructure from the agent", "How the agent uses workspace context", "How to iterate step by step", "How generation becomes refinement"],
-            coreConcepts: "Inside a workspace you interact with the agent through conversation. You describe the infrastructure you want to build. The agent then reads the workspace context, applies rulesets, follows workflows, uses available tools, and generates infrastructure code.\n\nThe conversation is persistent. So the agent remembers previous context. That means you do not need to treat every request as a brand new task. You can build iteratively. First ask for a baseline. Then review it. Then modify it. That is much closer to how real infrastructure work actually happens.",
-            exercise: {
-              title: "Iterative Infrastructure",
-              description: "Start a conversation with the agent. Describe the infrastructure you want. Review what was generated. Ask the agent to make one improvement instead of recreating everything from scratch. For example: Create a Terraform module for an S3 bucket with encryption and versioning enabled. Then say: Now add tags for environment and owner."
-            },
-            artifact: {
-              title: "Iterative Output",
-              description: "Generated infrastructure code plus one follow-up modification request."
-            },
-            validationChecklist: [
-              "Generated infrastructure code",
-              "Reviewed what the agent created",
-              "Refined the output through a second request"
-            ],
-            knowledgeCheck: {
-              question: "What is the best way to use the agent in a real project?",
-              options: ["Only ask it to create things once and never review the output", "Use it iteratively by generating, reviewing, and refining infrastructure step by step", "Paste finished Terraform into chat and ignore the workspace", "Only use it for naming suggestions"],
-              correctAnswer: 1
-            }
-          },
+          }
+        ]
+      },
+      {
+        id: "infrastructure-artifacts",
+        title: "Infrastructure Artifacts",
+        description: "This course is not only about generating infrastructure code. It is about understanding the full workflow around infrastructure: architecture, documentation, governance, review, and evolution over time.",
+        difficulty: "beginner",
+        estimatedTime: "20 min",
+        lessons: [
           {
             id: "code-editor",
             title: "Code Editor",
@@ -653,6 +655,40 @@ export const learningPaths: LearningPath[] = [
               question: "A teammate asks who introduced a new networking rule and what changed in the files. Where should you look first?",
               options: ["The history panel", "The secrets section", "The team settings", "The visibility settings"],
               correctAnswer: 0
+            }
+          }
+        ]
+      },
+      {
+        id: "integrations",
+        title: "Integrations",
+        description: "In most engineering teams, infrastructure code lives inside Git repositories.",
+        difficulty: "beginner",
+        estimatedTime: "15 min",
+        lessons: [
+          {
+            id: "tools-integrations",
+            title: "Tools and Integrations",
+            whyThisMatters: "Sometimes the agent needs more information than what is inside the workspace. For example: Maybe it needs to inspect resources that already exist in your cloud account. Maybe it needs to interact with a Git repository. Maybe it needs to retrieve information from an internal API. Without access to those systems, the agent would only work with the files inside the workspace. That is where tools and integrations become important.",
+            whatYoullLearn: ["How the agent connects to external systems", "What tools are in Infracodebase", "How integrations expand what the agent can do"],
+            coreConcepts: "The agent can interact with external systems through tools. A tool is essentially a connection between the agent and another system. For example, a tool can allow the agent to interact with: AWS, GitHub, Terraform Cloud, Kubernetes, internal APIs.\n\nThese connections allow the agent to retrieve information or perform actions outside the workspace. The way these integrations work is through something called the Model Context Protocol, often abbreviated as MCP. The Model Context Protocol gives AI agents a standardized way to communicate with external systems.\n\nIn practical terms, it means the agent can safely interact with tools while maintaining clear boundaries.",
+            exercise: {
+              title: "Identify Integration Needs",
+              description: "Open the Tools section in your enterprise settings. Look at the available integrations. Then write down three systems your organization would want the agent to interact with, and why."
+            },
+            artifact: {
+              title: "Integration List",
+              description: "A short list of three systems that could be connected through tools, plus one sentence describing why each one matters."
+            },
+            validationChecklist: [
+              "Understand what tools are in Infracodebase",
+              "Understand how the agent connects to external systems",
+              "Understand why integrations expand the agent's capabilities"
+            ],
+            knowledgeCheck: {
+              question: "You want the agent to inspect an existing AWS environment instead of only working from files in the workspace. What makes that possible?",
+              options: ["Infrastructure templates", "Tools connected through MCP", "Public workspaces", "Diagram generation"],
+              correctAnswer: 1
             }
           },
           {
