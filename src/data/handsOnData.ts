@@ -1366,8 +1366,10 @@ Observe:
   {
     id: "track-5-hands-on",
     trackNumber: 5,
-    title: "Scalable Architecture",
+    title: "Hands-on Training: Enterprise Governance & Platform Engineering",
     description: "Design infrastructure that supports multiple environments, handles growth, and remains stable as systems evolve over time.",
+    level: "Advanced",
+    curriculumTrackId: "enterprise-governance",
     color: "hsl(260, 70%, 58%)",
     accentColor: "hsl(260, 70%, 92%)",
     moduleCount: 2,
