@@ -18,13 +18,6 @@ const trackVideoMap: Record<string, string> = {
   "architecture-diagrams": "/assets/Architecture_Diagrams.mp4",
 };
 
-function getNextTrackId(currentId: string): string | null {
-  const idx = learningPaths.findIndex(p => p.id === currentId);
-  if (idx >= 0 && idx < learningPaths.length - 1) {
-    return learningPaths[idx + 1].id;
-  }
-  return null;
-}
 
 function IntroVideo({ pathId }: { pathId: string }) {
   const videoSrc = trackVideoMap[pathId];
