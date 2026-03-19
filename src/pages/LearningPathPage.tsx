@@ -1,8 +1,9 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getLearningPathById, learningPaths } from "@/data/courseData";
+import { handsOnTracks } from "@/data/handsOnData";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, Video } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, Video, Hammer } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
