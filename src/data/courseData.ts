@@ -554,7 +554,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "infrastructure-artifacts",
         title: "Infrastructure Artifacts",
-        description: "This course is not only about generating infrastructure code.\nIt is about understanding the full workflow around infrastructure: architecture, documentation, governance, review, and evolution over time.",
+        description: "Infrastructure is more than code sitting in a repository.\nConnect code, diagrams, documentation, and history into a single system.",
         difficulty: "beginner",
         estimatedTime: "20 min",
         lessons: [
