@@ -722,6 +722,7 @@ export const learningPaths: LearningPath[] = [
     title: "Real Infrastructure Engineering",
     shortTitle: "Infrastructure",
     description: "Build a realistic infrastructure environment step by step, covering architecture intent, VPC networking, subnets, routing, NAT, load balancers, application servers, databases, identity, storage, environments, resilience, and debugging.",
+    trackIntro: "In Track 2, you designed and deployed an application environment that included:\n\na VPC network\npublic and private subnets\nrouting and NAT connectivity\nidentity permissions\napplication servers\nconfiguration automation\nstorage resources\nmultiple environments\nresilience across availability zones",
     icon: "Server",
     order: 3,
     color: "primary",
