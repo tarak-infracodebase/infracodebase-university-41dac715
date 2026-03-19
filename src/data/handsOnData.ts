@@ -1858,8 +1858,10 @@ Observe:
   {
     id: "track-6-hands-on",
     trackNumber: 6,
-    title: "Advanced Architecture",
+    title: "Hands-on Training: Advanced Infrastructure Architecture",
     description: "Design multi-region resilient systems and enterprise infrastructure platforms that handle failure, scale, and organizational complexity.",
+    level: "Advanced",
+    curriculumTrackId: "advanced-architecture",
     color: "hsl(330, 65%, 55%)",
     accentColor: "hsl(330, 65%, 92%)",
     moduleCount: 2,
