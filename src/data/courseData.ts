@@ -811,7 +811,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "operating-evolving",
         title: "Operating and Evolving Infrastructure",
-        description: "Real infrastructure engineering rarely ends at deployment.\nInfrastructure must evolve as systems grow.",
+        description: "Infrastructure does not stop at deployment.\nAdapt and evolve it as systems grow and change.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
