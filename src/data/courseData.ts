@@ -733,8 +733,6 @@ export const learningPaths: LearningPath[] = [
         description: "Before writing infrastructure code, engineers must understand the system they are designing.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
-        difficulty: "intermediate",
-        estimatedTime: "20 min",
         lessons: [
           { id: "understanding-system", title: "Understanding the System We Are Building", whyThisMatters: "Before writing infrastructure code, engineers must understand the system they are designing. Without answering questions about users, availability, and access patterns, infrastructure decisions become random.", coreConcepts: "Our application architecture will contain several components. The system needs network isolation (VPC with multiple subnets), a public entry point (load balancer), private application servers, a private database service, and outbound internet access for internal services.", exercise: { title: "Define Architecture Intent", description: "Ask the agent to generate the initial architecture for the application system. The goal is to establish the system you will evolve throughout the track." }, artifact: { title: "Initial Architecture", description: "A generated architecture for the application infrastructure." }, validationChecklist: ["Initial infrastructure design created", "Application servers placed behind a load balancer", "Database component in the architecture"] }
         ]
