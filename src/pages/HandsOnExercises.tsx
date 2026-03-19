@@ -138,10 +138,10 @@ const HandsOnExercises = () => {
               className="group rounded-xl border border-border/50 bg-card/30 hover:bg-card/60 p-6 transition-all hover:shadow-md hover:border-border"
             >
               <div className="flex items-center gap-2 mb-4">
-                <div
-                  className="h-2 w-10 rounded-full"
-                  style={{ background: track.color }}
-                />
+                <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
+                  Track {trackNumberMap[track.id]}
+                </span>
+                <span className="text-muted-foreground/30">·</span>
                 <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(track.level)}`}>
                   {track.level}
                 </span>
