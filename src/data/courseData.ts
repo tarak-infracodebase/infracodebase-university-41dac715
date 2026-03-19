@@ -873,7 +873,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "living-documentation",
         title: "Living Documentation",
-        description: "Diagrams and documentation remain synchronized with infrastructure.\nThis creates living architecture documentation where systems evolve over time.",
+        description: "Infrastructure is constantly evolving.\nKeep diagrams and documentation synchronized with the system over time.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
