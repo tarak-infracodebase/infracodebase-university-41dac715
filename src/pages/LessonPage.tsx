@@ -142,6 +142,19 @@ const LessonPage = () => {
               </section>
             )}
 
+            {/* Modification Exercise */}
+            {lesson.modificationExercise && (
+              <section className="mb-8">
+                <div className="flex items-center gap-2 mb-3">
+                  <RefreshCw className="h-4 w-4 text-crystal-magenta" />
+                  <h2 className="text-base font-bold">Modification Exercise</h2>
+                </div>
+                <div className="rounded-xl border border-crystal-magenta/20 bg-crystal-magenta/5 p-5 text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                  {lesson.modificationExercise}
+                </div>
+              </section>
+            )}
+
             {/* Exercise */}
             <section className="mb-8">
               <div className="flex items-center gap-2 mb-3">
