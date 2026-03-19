@@ -864,8 +864,8 @@ export const learningPaths: LearningPath[] = [
       },
       {
         id: "documenting-architecture-decisions",
-        title: "Documenting Architecture Decisions",
-        description: "You learned how to document architectural decisions.",
+        title: "Architecture Decisions",
+        description: "You will learn how to document architecture decisions and explain why systems are designed in a certain way.",
         difficulty: "intermediate",
         estimatedTime: "30 min",
         lessons: [
