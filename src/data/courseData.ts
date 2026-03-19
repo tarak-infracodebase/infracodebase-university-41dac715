@@ -761,7 +761,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "compute-application-layer",
         title: "Compute and Application Layer",
-        description: "Provisioning infrastructure is only half the work. Servers also need to be configured with software and application logic.",
+        description: "Provisioning infrastructure is only part of the work.\nRun applications, configure servers, and make the system usable.",
         difficulty: "intermediate",
         estimatedTime: "20 min",
         lessons: [
