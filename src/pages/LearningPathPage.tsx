@@ -1,8 +1,8 @@
-import { useParams, Link } from "react-router-dom";
-import { getLearningPathById } from "@/data/courseData";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { getLearningPathById, learningPaths } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, CheckCircle2, Video } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, Video } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
@@ -16,6 +16,14 @@ const trackVideoMap: Record<string, string> = {
   "real-infrastructure": "/assets/Applying_Infracodebase2.mp4",
   "architecture-diagrams": "/assets/Architecture_Diagrams.mp4",
 };
+
+function getNextTrackId(currentId: string): string | null {
+  const idx = learningPaths.findIndex(p => p.id === currentId);
+  if (idx >= 0 && idx < learningPaths.length - 1) {
+    return learningPaths[idx + 1].id;
+  }
+  return null;
+}
 
 function IntroVideo({ pathId }: { pathId: string }) {
   const videoSrc = trackVideoMap[pathId];
@@ -54,6 +62,17 @@ function IntroVideo({ pathId }: { pathId: string }) {
   );
 }
 
+function TrackIntroBlock({ text }: { text: string }) {
+  return (
+    <div className="glass-panel rounded-xl p-6">
+      <h3 className="text-[10px] uppercase tracking-wider text-primary font-semibold mb-3">Why This Matters</h3>
+      <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+        {text}
+      </div>
+    </div>
+  );
+}
+
 function ContinueLearningCard({
   nextLessonTitle,
   totalLessons,
@@ -87,9 +106,11 @@ function ContinueLearningCard({
 function ProgressSidebar({
   totalLessons,
   nextLessonTitle,
+  nextTrackId,
 }: {
   totalLessons: number;
   nextLessonTitle: string;
+  nextTrackId: string | null;
 }) {
   return (
     <div className="space-y-5">
@@ -110,9 +131,17 @@ function ProgressSidebar({
       <div className="glass-panel rounded-xl p-5">
         <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Up Next</h4>
         <p className="text-sm font-medium">{nextLessonTitle}</p>
-        <Button size="sm" className="mt-3 w-full gap-1.5 text-xs">
-          Complete & continue <ArrowRight className="h-3 w-3" />
-        </Button>
+        {nextTrackId ? (
+          <Link to={`/path/${nextTrackId}`}>
+            <Button size="sm" className="mt-3 w-full gap-1.5 text-xs">
+              Continue my training <ArrowRight className="h-3 w-3" />
+            </Button>
+          </Link>
+        ) : (
+          <Button size="sm" className="mt-3 w-full gap-1.5 text-xs">
+            Complete & continue <ArrowRight className="h-3 w-3" />
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -137,6 +166,7 @@ const LearningPathPage = () => {
 
   const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
   const firstLesson = path.courses[0]?.lessons[0];
+  const nextTrackId = getNextTrackId(path.id);
 
   return (
     <AppLayout>
@@ -153,16 +183,17 @@ const LearningPathPage = () => {
             <p className="text-sm text-muted-foreground max-w-2xl mb-4">{path.description}</p>
             <div className="flex items-center gap-5 text-xs text-muted-foreground">
               <span className="flex items-center gap-1.5"><BookOpen className="h-3.5 w-3.5" /> {totalLessons} Lessons</span>
-              <span className="flex items-center gap-1.5"><BarChart3 className="h-3.5 w-3.5" /> {path.courses.length} Course{path.courses.length !== 1 ? "s" : ""}</span>
+              <span className="flex items-center gap-1.5"><BarChart3 className="h-3.5 w-3.5" /> {path.courses.length} Section{path.courses.length !== 1 ? "s" : ""}</span>
               <span className="text-crystal-yellow font-mono">+{totalLessons * 50} XP</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Introduction Video + Continue Learning */}
+      {/* Introduction Video + Track Intro + Continue Learning */}
       <section className="px-6 lg:px-12 max-w-5xl pt-8 space-y-6">
         <IntroVideo pathId={path.id} />
+        {path.trackIntro && <TrackIntroBlock text={path.trackIntro} />}
         {firstLesson && (
           <ContinueLearningCard
             nextLessonTitle={firstLesson.title}
@@ -173,7 +204,7 @@ const LearningPathPage = () => {
         )}
       </section>
 
-      {/* Two-column: Courses + Progress Sidebar */}
+      {/* Two-column: Sections + Progress Sidebar */}
       <section className="px-6 lg:px-12 py-8">
         <div className="flex flex-col lg:flex-row gap-8 max-w-5xl">
           {/* Left: Course content */}
@@ -192,13 +223,12 @@ const LearningPathPage = () => {
                   </div>
                 </div>
                 {course.description && (
-                  <p className="text-xs text-muted-foreground/80 leading-relaxed mb-4 max-w-2xl">
+                  <p className="text-xs text-muted-foreground/80 leading-relaxed mb-4 max-w-2xl whitespace-pre-line">
                     {course.description}
                   </p>
                 )}
                 <div className="space-y-1.5">
                   {course.lessons.map((lesson, i) => {
-                    // Calculate global lesson number across all courses
                     const globalIndex = path.courses.slice(0, courseIdx).reduce((acc, c) => acc + c.lessons.length, 0) + i;
                     return (
                       <Link
@@ -230,6 +260,7 @@ const LearningPathPage = () => {
             <ProgressSidebar
               totalLessons={totalLessons}
               nextLessonTitle={firstLesson?.title || "Start course"}
+              nextTrackId={nextTrackId}
             />
           </div>
         </div>
