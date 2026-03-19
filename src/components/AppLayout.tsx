@@ -18,13 +18,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 const navItems = [
   { path: "/", label: "Home", icon: Home },
   { path: "/manifesto", label: "Manifesto", icon: BookOpen },
-  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/curriculum", label: "Curriculum", icon: BookOpen },
-  { path: "/progress", label: "Progress", icon: TrendingUp },
+  { path: "/hands-on", label: "Hands-On", icon: Hammer },
+  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { path: "/videos", label: "Video Library", icon: Play },
   { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { path: "/events", label: "Events", icon: Calendar },
-  { path: "/videos", label: "Video Library", icon: Play },
-  { path: "/hands-on", label: "Hands-On", icon: Hammer },
   { path: "/resources", label: "Resources", icon: FolderOpen },
 ];
 

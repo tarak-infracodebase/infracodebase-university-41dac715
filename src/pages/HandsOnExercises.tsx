@@ -12,8 +12,26 @@ const methodSteps = [
   { label: "Iterate", description: "Refine until the system matches your intent" },
 ];
 
-const featuredTrack = handsOnTracks[handsOnTracks.length - 1];
-const otherTracks = handsOnTracks.filter(t => t.id !== featuredTrack.id);
+// Ordered tracks: Track 2 (Foundations) first, then 3, 4, 5, 6
+const orderedTracks = [
+  handsOnTracks.find(t => t.id === "track-2-hands-on")!,
+  handsOnTracks.find(t => t.id === "track-3-hands-on")!,
+  handsOnTracks.find(t => t.id === "track-4-hands-on")!,
+  handsOnTracks.find(t => t.id === "track-5-hands-on")!,
+  handsOnTracks.find(t => t.id === "track-6-hands-on")!,
+].filter(Boolean);
+
+const featuredTrack = orderedTracks[0];
+const otherTracks = orderedTracks.slice(1);
+
+function getLevelColor(level: string) {
+  switch (level) {
+    case "Beginner": return "bg-emerald-500/15 text-emerald-400 border-emerald-500/30";
+    case "Intermediate": return "bg-sky-500/15 text-sky-400 border-sky-500/30";
+    case "Advanced": return "bg-purple-500/15 text-purple-400 border-purple-500/30";
+    default: return "bg-muted text-muted-foreground";
+  }
+}
 
 const HandsOnExercises = () => {
   return (
@@ -21,9 +39,9 @@ const HandsOnExercises = () => {
       <div className="max-w-6xl mx-auto px-6 py-10 lg:py-14">
         {/* Header */}
         <div className="mb-10">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-3">Hands-On Exercises</h1>
+          <h1 className="text-3xl lg:text-4xl font-bold mb-3">Hands-On Training</h1>
           <p className="text-muted-foreground text-sm max-w-2xl">
-            Practice infrastructure engineering through structured exercises. Each track builds on the previous one. Work through modules, produce artifacts, and validate your understanding.
+            Build your skills through learning paths designed for every experience level. Each track builds on the previous one.
           </p>
         </div>
 
@@ -45,6 +63,9 @@ const HandsOnExercises = () => {
                 style={{ background: featuredTrack.accentColor, color: featuredTrack.color }}
               >
                 Your Learning Path
+              </span>
+              <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(featuredTrack.level)}`}>
+                {featuredTrack.level}
               </span>
             </div>
             <h2 className="text-2xl lg:text-3xl font-bold mb-2" style={{ color: featuredTrack.color }}>
@@ -79,8 +100,8 @@ const HandsOnExercises = () => {
         </Link>
 
         {/* How You Will Learn */}
-        <div className="mb-12">
-          <h2 className="text-lg font-bold mb-5 text-center">How You Will Learn</h2>
+        <div className="mb-10">
+          <h2 className="text-lg font-bold mb-4 text-center">How You Will Learn</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {methodSteps.map((step, i) => (
               <div
@@ -97,17 +118,22 @@ const HandsOnExercises = () => {
 
         {/* More Learning Paths */}
         <h2 className="text-lg font-bold mb-5 text-center">More learning paths</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
           {otherTracks.map((track) => (
             <Link
               key={track.id}
               to={`/hands-on/${track.id}`}
               className="group rounded-xl border border-border/50 bg-card/30 hover:bg-card/60 p-6 transition-all hover:shadow-md hover:border-border"
             >
-              <div
-                className="h-2 w-10 rounded-full mb-4"
-                style={{ background: track.color }}
-              />
+              <div className="flex items-center gap-2 mb-4">
+                <div
+                  className="h-2 w-10 rounded-full"
+                  style={{ background: track.color }}
+                />
+                <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(track.level)}`}>
+                  {track.level}
+                </span>
+              </div>
               <h3 className="font-bold text-base mb-2">{track.title}</h3>
               <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-2">
                 {track.description}

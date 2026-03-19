@@ -2,6 +2,16 @@ import { useParams, Link } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import { getHandsOnTrack } from "@/data/handsOnData";
 import { ArrowLeft, ArrowRight, BookOpen, Clock, CheckCircle2 } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+
+function getLevelColor(level: string) {
+  switch (level) {
+    case "Beginner": return "bg-emerald-500/15 text-emerald-400 border-emerald-500/30";
+    case "Intermediate": return "bg-sky-500/15 text-sky-400 border-sky-500/30";
+    case "Advanced": return "bg-purple-500/15 text-purple-400 border-purple-500/30";
+    default: return "bg-muted text-muted-foreground";
+  }
+}
 
 const HandsOnTrack = () => {
   const { trackId } = useParams<{ trackId: string }>();
@@ -13,7 +23,7 @@ const HandsOnTrack = () => {
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Track Not Found</h1>
-            <Link to="/hands-on" className="text-primary hover:underline text-sm">← Back to Hands-On Exercises</Link>
+            <Link to="/hands-on" className="text-primary hover:underline text-sm">Back to Hands-On Training</Link>
           </div>
         </div>
       </AppLayout>
@@ -22,9 +32,9 @@ const HandsOnTrack = () => {
 
   return (
     <AppLayout>
-      <div className="max-w-4xl mx-auto px-6 py-10 lg:py-14">
+      <div className="max-w-5xl mx-auto px-6 py-10 lg:py-14">
         <Link to="/hands-on" className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-8 transition-colors">
-          <ArrowLeft className="h-3 w-3" /> All Exercises
+          <ArrowLeft className="h-3 w-3" /> All Hands-On Training
         </Link>
 
         {/* Header */}
@@ -33,9 +43,9 @@ const HandsOnTrack = () => {
             className="h-1.5 w-14 rounded-full mb-4"
             style={{ background: track.color }}
           />
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
-              Track {track.trackNumber}
+          <div className="flex items-center gap-2 mb-3">
+            <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(track.level)}`}>
+              {track.level}
             </span>
           </div>
           <h1 className="text-3xl lg:text-4xl font-bold mb-3">{track.title}</h1>
@@ -49,6 +59,11 @@ const HandsOnTrack = () => {
               <Clock className="h-3.5 w-3.5" />
               ~{track.estimatedHours} Hours
             </span>
+          </div>
+          {/* Progress */}
+          <div className="flex items-center gap-3 mt-4">
+            <Progress value={0} className="h-2 flex-1 max-w-[300px] bg-muted" />
+            <span className="text-xs font-mono text-muted-foreground">0 / {track.moduleCount} Modules</span>
           </div>
         </div>
 
