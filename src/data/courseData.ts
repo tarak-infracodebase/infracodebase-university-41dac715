@@ -664,7 +664,7 @@ export const learningPaths: LearningPath[] = [
       {
         id: "integrations",
         title: "Integrations",
-        description: "In most engineering teams, infrastructure code lives inside Git repositories.",
+        description: "Infrastructure does not exist in isolation from other systems.\nConnect your workspace to external tools such as Git repositories.",
         difficulty: "beginner",
         estimatedTime: "15 min",
         lessons: [
