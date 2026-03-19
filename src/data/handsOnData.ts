@@ -37,8 +37,10 @@ export const handsOnTracks: HandsOnTrack[] = [
   {
     id: "track-2-hands-on",
     trackNumber: 2,
-    title: "Foundations",
+    title: "Hands-on Training: Foundations — Understanding Infracodebase",
     description: "Learn how to set up your environment, interact with the agent, and build the habits that separate casual users from real engineers.",
+    level: "Beginner",
+    curriculumTrackId: "foundations",
     color: "hsl(145, 60%, 45%)",
     accentColor: "hsl(145, 60%, 92%)",
     moduleCount: 2,
