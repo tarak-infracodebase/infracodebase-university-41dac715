@@ -312,9 +312,6 @@ const LearningPathPage = () => {
           {/* Right: Progress Sidebar */}
           <div className="w-full lg:w-72 shrink-0">
             <ProgressSidebar
-              totalLessons={totalLessons}
-              nextLessonTitle={firstLesson?.title || "Start course"}
-              nextTrackId={nextTrackId}
               currentTrackId={path.id}
             />
           </div>
