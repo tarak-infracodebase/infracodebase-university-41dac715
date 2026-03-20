@@ -111,6 +111,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <>
