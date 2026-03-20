@@ -176,6 +176,7 @@ export function MobileNav() {
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
