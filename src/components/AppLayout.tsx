@@ -1,19 +1,13 @@
 import { Link, useLocation } from "react-router-dom";
 import { 
   Home, LayoutDashboard, BookOpen, Trophy, Calendar, 
-  User, MessageSquare, Play, ChevronLeft, ChevronRight,
-  X, FolderOpen, Palette, Hammer
+  MessageSquare, Play, ChevronLeft, ChevronRight,
+  X, FolderOpen, Hammer
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { UserButton, useUser } from "@clerk/clerk-react";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
