@@ -25,6 +25,17 @@ const stats = [
 ];
 
 const Profile = () => {
+  const { user } = useUser();
+  const fullName = user?.fullName || user?.firstName || "Your Name";
+  const initials = user?.firstName && user?.lastName
+    ? `${user.firstName[0]}${user.lastName[0]}`
+    : user?.firstName?.[0] || "YO";
+  const handle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
+  const avatarUrl = user?.imageUrl;
+  const joinedDate = user?.createdAt
+    ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })
+    : "Feb 2026";
+
   return (
     <AppLayout>
       <div className="max-w-5xl mx-auto pb-12">
