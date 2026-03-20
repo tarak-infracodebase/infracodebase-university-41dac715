@@ -127,7 +127,11 @@ export function MobileNav() {
                   avatarBox: "h-8 w-8",
                 },
               }}
-            />
+            >
+              <UserButton.MenuItems>
+                <UserButton.Link label="Profile" labelIcon={<LayoutDashboard className="h-4 w-4" />} href="/profile" />
+              </UserButton.MenuItems>
+            </UserButton>
           </SignedIn>
           <SignedOut>
             <Link to="/sign-in" className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
