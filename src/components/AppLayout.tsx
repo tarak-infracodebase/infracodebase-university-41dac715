@@ -7,7 +7,8 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
-import { UserButton, useUser } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { LogIn } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
@@ -118,14 +119,22 @@ export function MobileNav() {
           <span className="font-mono font-bold text-sm">Infracodebase<span className="text-primary">U</span></span>
         </Link>
         <div className="flex items-center gap-2">
-          <UserButton
-            afterSignOutUrl="/"
-            appearance={{
-              elements: {
-                avatarBox: "h-8 w-8",
-              },
-            }}
-          />
+          <SignedIn>
+            <UserButton
+              afterSignOutUrl="/"
+              appearance={{
+                elements: {
+                  avatarBox: "h-8 w-8",
+                },
+              }}
+            />
+          </SignedIn>
+          <SignedOut>
+            <Link to="/sign-in" className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
+              <LogIn className="h-3.5 w-3.5" />
+              <span>Sign in</span>
+            </Link>
+          </SignedOut>
           <button onClick={() => setOpen(true)} className="p-2 text-muted-foreground hover:text-foreground">
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
@@ -168,16 +177,24 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
       </div>
       <MobileNav />
-      {/* Desktop User Button */}
+      {/* Desktop User Button / Sign In */}
       <div className="hidden lg:block fixed top-4 right-6 z-50">
-        <UserButton
-          afterSignOutUrl="/"
-          appearance={{
-            elements: {
-              avatarBox: "h-10 w-10 border-2 border-border/50 shadow-lg",
-            },
-          }}
-        />
+        <SignedIn>
+          <UserButton
+            afterSignOutUrl="/"
+            appearance={{
+              elements: {
+                avatarBox: "h-10 w-10 border-2 border-border/50 shadow-lg",
+              },
+            }}
+          />
+        </SignedIn>
+        <SignedOut>
+          <Link to="/sign-in" className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 hover:bg-primary/5 transition-colors">
+            <LogIn className="h-4 w-4" />
+            Sign in
+          </Link>
+        </SignedOut>
       </div>
       <main className={cn(
         "transition-all duration-300 min-h-screen",
