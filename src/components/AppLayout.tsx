@@ -1,8 +1,8 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   Home, LayoutDashboard, BookOpen, Trophy, Calendar, 
   MessageSquare, Play, ChevronLeft, ChevronRight,
-  X, FolderOpen, Hammer
+  X, FolderOpen, Hammer, User
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -20,6 +20,7 @@ const navItems = [
   { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { path: "/events", label: "Events", icon: Calendar },
   { path: "/resources", label: "Resources", icon: FolderOpen },
+  { path: "/profile", label: "Profile", icon: User },
 ];
 
 export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
@@ -110,6 +111,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -129,7 +131,7 @@ export function MobileNav() {
               }}
             >
               <UserButton.MenuItems>
-                <UserButton.Link label="Profile" labelIcon={<LayoutDashboard className="h-4 w-4" />} href="/profile" />
+                <UserButton.Action label="Profile" labelIcon={<User className="h-4 w-4" />} onClick={() => navigate("/profile")} />
               </UserButton.MenuItems>
             </UserButton>
           </SignedIn>
@@ -174,6 +176,7 @@ export function MobileNav() {
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-background">
@@ -193,7 +196,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             }}
           >
             <UserButton.MenuItems>
-              <UserButton.Link label="Profile" labelIcon={<LayoutDashboard className="h-4 w-4" />} href="/profile" />
+              <UserButton.Action label="Profile" labelIcon={<User className="h-4 w-4" />} onClick={() => navigate("/profile")} />
             </UserButton.MenuItems>
           </UserButton>
         </SignedIn>
