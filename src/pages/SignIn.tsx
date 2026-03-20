@@ -1,4 +1,5 @@
 import { SignIn as ClerkSignIn } from "@clerk/clerk-react";
+import { dark } from "@clerk/themes";
 
 const SignInPage = () => {
   return (
@@ -9,11 +10,10 @@ const SignInPage = () => {
         signUpUrl="/sign-up"
         afterSignInUrl="/dashboard"
         appearance={{
+          baseTheme: dark,
           variables: {
             colorPrimary: "hsl(260, 70%, 58%)",
             colorBackground: "hsl(228, 30%, 10%)",
-            colorText: "hsl(0, 0%, 95%)",
-            colorTextSecondary: "hsl(0, 0%, 60%)",
             colorInputBackground: "hsl(228, 20%, 14%)",
             colorInputText: "hsl(0, 0%, 95%)",
             borderRadius: "0.75rem",
