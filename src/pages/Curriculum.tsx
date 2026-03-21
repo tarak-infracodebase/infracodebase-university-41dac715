@@ -81,6 +81,13 @@ const Curriculum = () => {
   const [viewMode, setViewMode] = useState<ViewMode>("paths");
   const [search, setSearch] = useState("");
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
+  const [bannerDismissed, setBannerDismissed] = useState(() => localStorage.getItem(BANNER_DISMISSED_KEY) === "true");
+  const [quizOpen, setQuizOpen] = useState(false);
+
+  const dismissBanner = () => {
+    setBannerDismissed(true);
+    localStorage.setItem(BANNER_DISMISSED_KEY, "true");
+  };
 
   const filteredPaths = learningPaths.filter(p =>
     p.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -97,6 +104,34 @@ const Curriculum = () => {
           <h1 className="text-2xl font-bold mb-1">Curriculum</h1>
           <p className="text-sm text-muted-foreground">Browse the complete Infracodebase learning program</p>
         </div>
+
+        {/* Guidance Banner */}
+        {!bannerDismissed && (
+          <div
+            className="mb-8 rounded-xl p-[1.5px]"
+            style={{ background: BANNER_GRADIENT }}
+          >
+            <div className="rounded-[11px] bg-[#141414] px-5 py-4 flex items-center gap-4">
+              <HelpCircle className="h-5 w-5 shrink-0 text-[hsl(var(--muted-foreground))]" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-[hsl(var(--foreground))]">Want help getting started?</p>
+                <p className="text-xs text-[hsl(var(--muted-foreground))] mt-0.5">Answer 3 quick questions and we'll frame the curriculum around where you are right now.</p>
+              </div>
+              <button
+                onClick={() => setQuizOpen(true)}
+                className="shrink-0 flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-lg border border-[#333] text-[hsl(var(--foreground))] hover:border-[#555] transition-colors"
+              >
+                Get personalised guidance
+                <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+              <button onClick={dismissBanner} className="shrink-0 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        <CurriculumGuidanceQuiz open={quizOpen} onClose={() => setQuizOpen(false)} />
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
