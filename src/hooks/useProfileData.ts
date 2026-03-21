@@ -57,3 +57,20 @@ export function getProfileDataForUser(userId: string): ProfileData {
     return defaults;
   }
 }
+
+/** Check if a custom handle is already taken by another user */
+export function isHandleTaken(handle: string, currentUserId: string): boolean {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith("icu_profile_")) continue;
+      const uid = key.replace("icu_profile_", "");
+      if (uid === currentUserId) continue;
+      const raw = localStorage.getItem(key);
+      if (!raw) continue;
+      const data = JSON.parse(raw) as Partial<ProfileData>;
+      if (data.customHandle && data.customHandle.toLowerCase() === handle.toLowerCase()) return true;
+    }
+  } catch {}
+  return false;
+}
