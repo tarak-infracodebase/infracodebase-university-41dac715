@@ -27,6 +27,7 @@ import HandsOnTrack from "./pages/HandsOnTrack";
 import HandsOnModule from "./pages/HandsOnModule";
 import SignInPage from "./pages/SignIn";
 import SignUpPage from "./pages/SignUp";
+import OfficeHours from "./pages/OfficeHours";
 
 const CLERK_PUBLISHABLE_KEY = "pk_test_ZGVsaWNhdGUta29pLTkyLmNsZXJrLmFjY291bnRzLmRldiQ";
 
@@ -64,6 +65,7 @@ const App = () => (
               <Route path="/hands-on" element={<ProtectedRoute><HandsOnExercises /></ProtectedRoute>} />
               <Route path="/hands-on/:trackId" element={<ProtectedRoute><HandsOnTrack /></ProtectedRoute>} />
               <Route path="/hands-on/:trackId/:moduleId" element={<ProtectedRoute><HandsOnModule /></ProtectedRoute>} />
+              <Route path="/office-hours" element={<ProtectedRoute><OfficeHours /></ProtectedRoute>} />
 
               {/* Public username profile route */}
               <Route path="/:username" element={<Profile />} />
