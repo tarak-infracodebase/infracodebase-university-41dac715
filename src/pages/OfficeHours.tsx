@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { AppLayout } from "@/components/AppLayout";
 import {
   Calendar, Clock, ExternalLink, Play, ChevronLeft, ChevronRight,
