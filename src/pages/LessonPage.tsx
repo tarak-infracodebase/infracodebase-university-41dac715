@@ -4,6 +4,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, AlertTriangle, Lightbulb, PenTool, ChevronRight, Zap, RefreshCw } from "lucide-react";
 import { useState } from "react";
+import TierSelectionCards from "@/components/lesson/TierSelectionCards";
 
 const crystalColors = [
   "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
@@ -121,6 +122,11 @@ const LessonPage = () => {
                 })}
               </div>
             </section>
+
+            {/* Tier Selection Cards — only on "How to Begin" lesson */}
+            {lesson.id === "prereq-how-to-begin" && (
+              <TierSelectionCards />
+            )}
 
             {/* Comparison Tables */}
             {lesson.comparisonTables && lesson.comparisonTables.length > 0 && (
