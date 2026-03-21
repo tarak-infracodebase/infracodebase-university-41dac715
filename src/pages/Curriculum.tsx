@@ -2,7 +2,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { learningPaths } from "@/data/courseData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { BookOpen, Clock, ArrowRight, Search, Filter } from "lucide-react";
+import { BookOpen, Clock, ArrowRight, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 
@@ -34,6 +34,45 @@ const topicToPath: Record<string, string[]> = {
 
 type ViewMode = "paths" | "topics";
 
+const PREREQ_COLOR = "hsl(235, 56%, 34%)";
+const PREREQ_TEXT_COLOR = "hsl(235, 56%, 70%)";
+
+function PathCard({ path, colorOverride }: { path: typeof learningPaths[number]; colorOverride?: string }) {
+  const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
+  const isPrereq = path.color === "prerequisite";
+  const iconColor = colorOverride || (isPrereq ? PREREQ_COLOR : crystalColors[path.order % crystalColors.length]);
+
+  return (
+    <Link key={path.id} to={`/path/${path.id}`}
+      className="group glass-panel-hover rounded-xl p-5 flex items-start gap-5 block">
+      <div className="shrink-0 mt-1">
+        <CrystalIcon color={iconColor} size={32} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1">
+          {isPrereq ? (
+            <>
+              <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[hsl(235,56%,34%)]/20 text-[hsl(235,56%,70%)] border border-[hsl(235,56%,34%)]/30">Prerequisite</span>
+              <span className="text-[10px] text-muted-foreground/60 font-mono">Complete before Track 1</span>
+            </>
+          ) : (
+            <span className="text-[10px] font-mono text-muted-foreground uppercase">Track {path.order}</span>
+          )}
+          <span className="text-[10px] px-2 py-0.5 rounded-full crystal-badge text-primary">{path.courses[0]?.difficulty || "beginner"}</span>
+        </div>
+        <h3 className="text-base font-semibold text-foreground mb-1">{path.title}</h3>
+        <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{path.description}</p>
+        <div className="flex items-center gap-4 text-[10px] text-muted-foreground">
+          <span className="flex items-center gap-1"><BookOpen className="h-3 w-3" /> {totalLessons} lessons</span>
+          <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {path.courses[0]?.estimatedTime || "~2 hrs"}</span>
+          <span className="text-crystal-yellow font-mono">+{totalLessons * 50} XP</span>
+        </div>
+      </div>
+      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0 mt-2" />
+    </Link>
+  );
+}
+
 const Curriculum = () => {
   const [viewMode, setViewMode] = useState<ViewMode>("paths");
   const [search, setSearch] = useState("");
@@ -43,6 +82,9 @@ const Curriculum = () => {
     p.title.toLowerCase().includes(search.toLowerCase()) ||
     p.description.toLowerCase().includes(search.toLowerCase())
   );
+
+  const prereqPaths = filteredPaths.filter(p => p.color === "prerequisite");
+  const curriculumPaths = filteredPaths.filter(p => p.color !== "prerequisite");
 
   return (
     <AppLayout>
@@ -72,39 +114,28 @@ const Curriculum = () => {
 
         {viewMode === "paths" ? (
           <div className="space-y-4">
-            {filteredPaths.map((path, i) => {
-              const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
-              const isPrereq = path.color === "prerequisite";
-              return (
-                <Link key={path.id} to={`/path/${path.id}`}
-                  className="group glass-panel-hover rounded-xl p-5 flex items-start gap-5 block">
-                  <div className="shrink-0 mt-1">
-                    <CrystalIcon color={isPrereq ? "hsl(235, 56%, 34%)" : crystalColors[i % crystalColors.length]} size={32} />
+            {/* Prerequisite Tracks */}
+            {prereqPaths.length > 0 && (
+              <>
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[hsl(235,56%,70%)]">Cloud & Infrastructure Prerequisites</span>
+                  <div className="flex-1 h-px bg-[hsl(235,56%,34%)]/30" />
+                </div>
+                {prereqPaths.map(path => (
+                  <PathCard key={path.id} path={path} />
+                ))}
+                {curriculumPaths.length > 0 && (
+                  <div className="flex items-center gap-3 mt-8 mb-2">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Infracodebase Curriculum</span>
+                    <div className="flex-1 h-px bg-border/50" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      {isPrereq ? (
-                        <>
-                          <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[hsl(235,56%,34%)]/20 text-[hsl(235,56%,70%)] border border-[hsl(235,56%,34%)]/30">Prerequisite</span>
-                          <span className="text-[10px] text-muted-foreground/60 font-mono">Complete before Track 1</span>
-                        </>
-                      ) : (
-                        <span className="text-[10px] font-mono text-muted-foreground uppercase">Track {path.order}</span>
-                      )}
-                      <span className="text-[10px] px-2 py-0.5 rounded-full crystal-badge text-primary">{path.courses[0]?.difficulty || "beginner"}</span>
-                    </div>
-                    <h3 className="text-base font-semibold text-foreground mb-1">{path.title}</h3>
-                    <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{path.description}</p>
-                    <div className="flex items-center gap-4 text-[10px] text-muted-foreground">
-                      <span className="flex items-center gap-1"><BookOpen className="h-3 w-3" /> {totalLessons} lessons</span>
-                      <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {path.courses[0]?.estimatedTime || "~2 hrs"}</span>
-                      <span className="text-crystal-yellow font-mono">+{totalLessons * 50} XP</span>
-                    </div>
-                  </div>
-                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0 mt-2" />
-                </Link>
-              );
-            })}
+                )}
+              </>
+            )}
+            {/* Curriculum Tracks */}
+            {curriculumPaths.map(path => (
+              <PathCard key={path.id} path={path} />
+            ))}
           </div>
         ) : (
           <div>

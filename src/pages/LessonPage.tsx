@@ -122,6 +122,34 @@ const LessonPage = () => {
               </div>
             </section>
 
+            {/* Comparison Tables */}
+            {lesson.comparisonTables && lesson.comparisonTables.length > 0 && (
+              <section className="mb-8">
+                {lesson.comparisonTables.map((table, ti) => (
+                  <div key={ti} className="mb-4 overflow-x-auto">
+                    <table className="w-full text-sm border border-border/30 rounded-lg overflow-hidden">
+                      <thead>
+                        <tr className="bg-muted/40">
+                          {table.headers.map((h, hi) => (
+                            <th key={hi} className="text-left px-4 py-2.5 text-xs font-semibold text-foreground border-b border-border/30">{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {table.rows.map((row, ri) => (
+                          <tr key={ri} className="border-b border-border/20 last:border-0">
+                            {row.map((cell, ci) => (
+                              <td key={ci} className="px-4 py-2.5 text-muted-foreground text-xs">{cell}</td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </section>
+            )}
+
             {/* Step by Step */}
             {lesson.stepByStep && (
               <section className="mb-8">
