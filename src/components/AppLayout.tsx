@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   Home, LayoutDashboard, BookOpen, Trophy, Calendar, 
   MessageSquare, Play, ChevronLeft, ChevronRight,
-  X, FolderOpen, Hammer, User
+  X, FolderOpen, Hammer, User, Radio
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
