@@ -86,37 +86,25 @@ function VideoCard({ video, onPlay }: { video: VideoItem; onPlay: (v: VideoItem)
 
   return (
     <div
-      className={cn(
-        "group glass-panel rounded-xl overflow-hidden transition-transform duration-200 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10",
-        !video.embedPlayer && "cursor-pointer"
-      )}
-      onClick={video.embedPlayer ? undefined : () => onPlay(video)}
+      className="group glass-panel rounded-xl overflow-hidden transition-transform duration-200 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 cursor-pointer"
+      onClick={() => onPlay(video)}
     >
       {/* Video area */}
       <div className="aspect-video bg-muted/30 relative overflow-hidden">
-        {video.embedPlayer ? (
-          <iframe
-            src={video.src}
-            title={video.title}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="w-full h-full rounded-t-xl"
-          />
+        {video.thumbnail ? (
+          <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover" />
         ) : (
-          <>
-            <video src={video.src} preload="metadata" muted className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-background/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <div className="h-14 w-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg shadow-primary/30">
-                <Play className="h-6 w-6 text-primary-foreground ml-0.5" />
-              </div>
-            </div>
-            {progress > 0 && (
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-muted/50">
-                <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
-              </div>
-            )}
-          </>
+          <video src={video.src} preload="metadata" muted className="w-full h-full object-cover" />
+        )}
+        <div className="absolute inset-0 bg-background/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="h-14 w-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg shadow-primary/30">
+            <Play className="h-6 w-6 text-primary-foreground ml-0.5" />
+          </div>
+        </div>
+        {progress > 0 && (
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-muted/50">
+            <div className="h-full bg-primary transition-all" style={{ width: `${progress}%` }} />
+          </div>
         )}
       </div>
 
