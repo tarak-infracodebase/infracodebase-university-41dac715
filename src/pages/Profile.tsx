@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
+import CertificateSection from "@/components/CertificateSection";
 import { MapPin, Calendar, Flame, Trophy, Pencil, Globe, ExternalLink, Camera, X, Check } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
 import { useProfileData, isHandleTaken } from "@/hooks/useProfileData";
