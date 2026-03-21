@@ -48,6 +48,15 @@ const videos: VideoItem[] = [
     trackLabel: "Track 4 — Architecture Diagrams & Living Documentation",
     trackPath: "/path/architecture-diagrams",
   },
+  {
+    id: "advanced-architecture",
+    title: "Track 6: Advanced Infrastructure Architecture",
+    src: "/assets/Track6_Introduction.mp4",
+    category: "Infrastructure Architecture",
+    description: "Start this track by understanding how to design systems that handle scale, failure, and complexity.",
+    trackLabel: "Track 6 — Advanced Infrastructure Architecture",
+    trackPath: "/path/advanced-architecture",
+  },
 ];
 
 function getProgress(id: string): number {
