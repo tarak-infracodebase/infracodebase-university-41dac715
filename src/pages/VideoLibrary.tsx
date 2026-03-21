@@ -160,23 +160,34 @@ function InlinePlayer({ video, onClose }: { video: VideoItem; onClose: () => voi
           Close ✕
         </button>
       </div>
-      <video
-        ref={ref}
-        controls
-        autoPlay
-        preload="metadata"
-        playsInline
-        onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={() => {
-          const el = ref.current;
-          if (!el) return;
-          const saved = getProgress(video.id);
-          if (saved > 0 && saved < 98) el.currentTime = (saved / 100) * el.duration;
-        }}
-        className="w-full aspect-video bg-black"
-      >
-        <source src={video.src} type="video/mp4" />
-      </video>
+      {video.youtubeEmbed ? (
+        <iframe
+          src={video.youtubeEmbed}
+          title={video.title}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="w-full aspect-video"
+        />
+      ) : (
+        <video
+          ref={ref}
+          controls
+          autoPlay
+          preload="metadata"
+          playsInline
+          onTimeUpdate={handleTimeUpdate}
+          onLoadedMetadata={() => {
+            const el = ref.current;
+            if (!el) return;
+            const saved = getProgress(video.id);
+            if (saved > 0 && saved < 98) el.currentTime = (saved / 100) * el.duration;
+          }}
+          className="w-full aspect-video bg-black"
+        >
+          <source src={video.src} type="video/mp4" />
+        </video>
+      )}
       <div className="p-4">
         <p className="text-xs text-muted-foreground">{video.description}</p>
         <Link to={video.trackPath} className="text-xs text-primary hover:underline mt-2 inline-block">
