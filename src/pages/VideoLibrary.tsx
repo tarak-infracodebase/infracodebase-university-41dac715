@@ -1,6 +1,6 @@
 import { AppLayout } from "@/components/AppLayout";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Search, Play, Clock, Filter, ArrowRight, Video } from "lucide-react";
+import { Search, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Progress } from "@/components/ui/progress";
