@@ -303,10 +303,17 @@ const VideoLibrary = () => {
             {selectedTopic === "All" ? "All Videos" : selectedTopic}
           </h2>
           <div className="grid sm:grid-cols-2 gap-5">
-            {filtered.map(v => (
+            {filtered.filter(v => !v.embedPlayer).map(v => (
               <VideoCard key={v.id} video={v} onPlay={handlePlay} />
             ))}
           </div>
+          {filtered.some(v => v.embedPlayer) && (
+            <div className="grid sm:grid-cols-2 gap-5 mt-5">
+              {filtered.filter(v => v.embedPlayer).map(v => (
+                <VideoCard key={v.id} video={v} onPlay={handlePlay} />
+              ))}
+            </div>
+          )}
           {filtered.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-12">No videos match your search.</p>
           )}
