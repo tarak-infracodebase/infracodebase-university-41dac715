@@ -610,8 +610,23 @@ export default function OfficeHours() {
   const [sessionDesc, setSessionDesc] = useState("Live demo: inspect manually provisioned Azure infrastructure, generate Terraform code with Infracodebase, establish a clean IaC baseline, and shift remediation left.");
 
   // Instructor photo uploads
-  const [justinPhoto, setJustinPhoto] = useState<string | null>(null);
-  const [tarakPhoto, setTarakPhoto] = useState<string | null>(null);
+  const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => {
+    return localStorage.getItem('office-hours-photo-justin') || null;
+  });
+  const [tarakPhoto, setTarakPhotoState] = useState<string | null>(() => {
+    return localStorage.getItem('office-hours-photo-tarak') || null;
+  });
+
+  const setJustinPhoto = (val: string | null) => {
+    setJustinPhotoState(val);
+    if (val) localStorage.setItem('office-hours-photo-justin', val);
+    else localStorage.removeItem('office-hours-photo-justin');
+  };
+  const setTarakPhoto = (val: string | null) => {
+    setTarakPhotoState(val);
+    if (val) localStorage.setItem('office-hours-photo-tarak', val);
+    else localStorage.removeItem('office-hours-photo-tarak');
+  };
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>, setter: (v: string) => void) => {
     const file = e.target.files?.[0];
