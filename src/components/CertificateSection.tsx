@@ -113,12 +113,21 @@ function Certificate({ cert, isMaster = false }: CertProps) {
       const canvas = await html2canvas(certRef.current, {
         scale: 3,
         useCORS: true,
+        allowTaint: true,
         backgroundColor: "#0d0d0d",
+        onclone: (clonedDoc) => {
+          const el = clonedDoc.querySelector("[data-cert-card]") as HTMLElement | null;
+          if (el) {
+            el.style.borderRadius = "0";
+          }
+        }
       });
-      const pdf = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
-      const w = pdf.internal.pageSize.getWidth();
-      const h = pdf.internal.pageSize.getHeight();
-      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, w, h);
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: [canvas.width / 3, canvas.height / 3]
+      });
+      pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width / 3, canvas.height / 3);
       pdf.save(filename);
     } catch (err) {
       console.error("PDF generation failed:", err);
@@ -151,6 +160,7 @@ function Certificate({ cert, isMaster = false }: CertProps) {
       {/* Certificate Card */}
       <div
         ref={certRef}
+        data-cert-card
         style={{
           background: masterBg,
           borderRadius: 16,
