@@ -228,7 +228,25 @@ const Profile = () => {
               ) : (
                 <h1 className="text-2xl font-bold">{displayName}</h1>
               )}
-              <p className="text-sm text-muted-foreground mt-0.5">@{viewedHandle}</p>
+              {editing ? (
+                <div className="mt-1">
+                  <div className="flex items-center gap-0">
+                    <span className="text-sm text-muted-foreground pl-2">@</span>
+                    <Input
+                      value={draft.customHandle}
+                      onChange={e => handleHandleChange(e.target.value)}
+                      placeholder="username"
+                      maxLength={20}
+                      className="text-sm h-7 py-0 px-1 bg-transparent border-border/50 focus:border-primary/40 w-40 text-muted-foreground"
+                    />
+                  </div>
+                  {handleError && (
+                    <p className="text-[11px] text-destructive mt-0.5 pl-2">{handleError}</p>
+                  )}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground mt-0.5">@{viewedHandle}</p>
+              )}
             </div>
 
             {/* Actions */}
