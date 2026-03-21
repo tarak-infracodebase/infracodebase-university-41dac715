@@ -10,40 +10,83 @@ const CERTS = [
 const MASTER = { name: "Tarak", track: "Infracodebase Platform Practitioner", date: "March 21, 2026", credId: "ICB-2026-MASTER-TB", signedBy: "Infracodebase University Team" };
 
 function CrystalGem({ size = 48 }: { size?: number }) {
+  const s = size;
+  const cx = s / 2;
+  const cy = s / 2;
+  const r = s * 0.38;
+  // Hexagon with colored facets
+  const points = Array.from({ length: 6 }, (_, i) => {
+    const angle = (Math.PI / 3) * i - Math.PI / 2;
+    return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)] as [number, number];
+  });
+  const colors = ["#E03A3E", "#F5821F", "#FDB827", "#61BB46", "#009DDC", "#963D97"];
   return (
-    <svg width={size} height={size} viewBox="0 0 48 48" fill="none">
-      <polygon points="24,4 38,18 24,44 10,18" fill="url(#gem-grad)" opacity={0.9} />
-      <polygon points="24,4 38,18 24,22" fill="white" opacity={0.15} />
-      <polygon points="24,4 10,18 24,22" fill="white" opacity={0.08} />
-      <polygon points="10,18 24,44 24,22" fill="black" opacity={0.1} />
-      <line x1={10} y1={18} x2={38} y2={18} stroke="white" strokeWidth={0.5} opacity={0.3} />
-      <line x1={24} y1={4} x2={24} y2={44} stroke="white" strokeWidth={0.3} opacity={0.2} />
-      <defs>
-        <linearGradient id="gem-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#a78bfa" />
-          <stop offset="100%" stopColor="#22d3ee" />
-        </linearGradient>
-      </defs>
+    <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} fill="none">
+      {points.map((p, i) => {
+        const next = points[(i + 1) % 6];
+        return (
+          <polygon
+            key={i}
+            points={`${cx},${cy} ${p[0]},${p[1]} ${next[0]},${next[1]}`}
+            fill={colors[i]}
+            opacity={0.85}
+          />
+        );
+      })}
+      {/* Highlight facets */}
+      <polygon points={`${cx},${cy} ${points[0][0]},${points[0][1]} ${points[1][0]},${points[1][1]}`} fill="white" opacity={0.15} />
+      <polygon points={`${cx},${cy} ${points[5][0]},${points[5][1]} ${points[0][0]},${points[0][1]}`} fill="white" opacity={0.1} />
+      {/* Shadow facets */}
+      <polygon points={`${cx},${cy} ${points[3][0]},${points[3][1]} ${points[4][0]},${points[4][1]}`} fill="black" opacity={0.15} />
     </svg>
   );
 }
 
-function Seal({ size = 64 }: { size?: number }) {
+function Seal({ size = 80 }: { size?: number }) {
+  const cx = size / 2;
+  const cy = size / 2;
+  const outerR = size * 0.46;
+  const dotCount = 32;
+  const dotR = size * 0.025;
+  const textR = size * 0.38;
+  const gemSize = size * 0.36;
+
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none">
-      {Array.from({ length: 24 }).map((_, i) => {
-        const angle = (i / 24) * Math.PI * 2;
-        return <line key={i} x1={32 + Math.cos(angle) * 24} y1={32 + Math.sin(angle) * 24} x2={32 + Math.cos(angle) * 30} y2={32 + Math.sin(angle) * 30} stroke="#555" strokeWidth={1.5} />;
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
+      {/* Scalloped dots around edge */}
+      {Array.from({ length: dotCount }).map((_, i) => {
+        const angle = (i / dotCount) * Math.PI * 2 - Math.PI / 2;
+        return (
+          <circle
+            key={i}
+            cx={cx + Math.cos(angle) * outerR}
+            cy={cy + Math.sin(angle) * outerR}
+            r={dotR}
+            fill="#666"
+          />
+        );
       })}
-      <circle cx={32} cy={32} r={22} fill="none" stroke="#666" strokeWidth={1.5} />
-      <circle cx={32} cy={32} r={18} fill="none" stroke="#444" strokeWidth={0.5} />
-      <circle cx={32} cy={32} r={16} fill="#1a1a1a" />
-      <text x={32} y={29} textAnchor="middle" fill="#888" fontSize={5} fontWeight={700} letterSpacing={1}>
-        INFRACODEBASE
+      {/* Inner ring */}
+      <circle cx={cx} cy={cy} r={size * 0.4} fill="none" stroke="#555" strokeWidth={0.8} />
+      {/* Curved text */}
+      <defs>
+        <path id={`sealTextTop-${size}`} d={`M ${cx - textR},${cy} A ${textR},${textR} 0 1,1 ${cx + textR},${cy}`} />
+        <path id={`sealTextBot-${size}`} d={`M ${cx + textR},${cy} A ${textR},${textR} 0 1,1 ${cx - textR},${cy}`} />
+      </defs>
+      <text fontSize={size * 0.058} fill="#888" fontWeight={600} letterSpacing={2}>
+        <textPath href={`#sealTextTop-${size}`} startOffset="50%" textAnchor="middle">
+          INFRACODEBASE
+        </textPath>
       </text>
-      <text x={32} y={38} textAnchor="middle" fill="#555" fontSize={3.5} letterSpacing={0.5}>
-        CERTIFIED · 2026
+      <text fontSize={size * 0.05} fill="#777" fontWeight={500} letterSpacing={1.5}>
+        <textPath href={`#sealTextBot-${size}`} startOffset="50%" textAnchor="middle">
+          CERTIFIED · 2026
+        </textPath>
       </text>
+      {/* Center gem */}
+      <g transform={`translate(${cx - gemSize / 2}, ${cy - gemSize / 2})`}>
+        <CrystalGem size={gemSize} />
+      </g>
     </svg>
   );
 }
@@ -99,110 +142,139 @@ function Certificate({ cert, isMaster = false }: CertProps) {
 
   const color = cert.color || "#f0f0f0";
 
+  const masterBg = isMaster
+    ? "radial-gradient(ellipse at 40% 80%, rgba(245,130,31,0.18) 0%, transparent 50%), radial-gradient(ellipse at 60% 70%, rgba(253,184,39,0.12) 0%, transparent 45%), radial-gradient(ellipse at 55% 85%, rgba(0,157,220,0.10) 0%, transparent 50%), #0d0d0d"
+    : `radial-gradient(ellipse at 50% 80%, ${color}18 0%, transparent 50%), #0d0d0d`;
+
   return (
     <div style={{ marginBottom: 32 }}>
       {/* Certificate Card */}
       <div
         ref={certRef}
         style={{
-          background: "#0d0d0d",
+          background: masterBg,
           borderRadius: 16,
           overflow: "hidden",
           position: "relative",
+          border: "1px solid #1a1a1a",
         }}
       >
-        {/* Top gradient line */}
-        <div style={{ height: 3, background: isMaster ? "linear-gradient(90deg, #a78bfa, #22d3ee, #34d399)" : color }} />
+        {/* Top gradient border */}
+        <div
+          style={{
+            height: 3,
+            background: isMaster
+              ? "linear-gradient(90deg, #E03A3E, #F5821F, #FDB827, #61BB46, #009DDC, #963D97)"
+              : `linear-gradient(90deg, ${color}, ${color}00)`,
+          }}
+        />
 
-        {/* Corner glow */}
-        <div style={{ position: "absolute", top: 0, right: 0, width: 200, height: 200, background: `radial-gradient(circle at top right, ${color}15, transparent 70%)`, pointerEvents: "none" }} />
-
-        <div style={{ padding: "48px 56px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", position: "relative" }}>
+        <div style={{ padding: "40px 48px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start", position: "relative" }}>
           {/* Left content */}
           <div style={{ flex: 1 }}>
-            {/* Logo area */}
-            <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 32 }}>
-              <div style={{ position: "relative" }}>
-                <CrystalGem size={40} />
-              </div>
+            {/* Logo */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
+              <CrystalGem size={36} />
               <div>
-                <p style={{ fontSize: 14, fontWeight: 700, color: "#e0e0e0", letterSpacing: 2, margin: 0 }}>Infracodebase</p>
-                <p style={{ fontSize: 11, color: "#666", letterSpacing: 1, margin: 0 }}>University</p>
+                <p style={{ fontSize: 14, fontWeight: 600, color: "#e0e0e0", letterSpacing: 1, margin: 0 }}>Infracodebase</p>
+                <p style={{ fontSize: 10, color: "#666", letterSpacing: 2, margin: 0, textTransform: "uppercase" }}>University</p>
               </div>
             </div>
 
-            <p style={{ fontSize: 11, color: "#555", textTransform: "uppercase", letterSpacing: 3, marginBottom: 16 }}>
+            <p style={{ fontSize: 10, color: "#22d3ee", textTransform: "uppercase", letterSpacing: 3, marginBottom: 12, fontWeight: 600 }}>
               {isMaster ? "Master Certificate" : "Certificate of Completion"}
             </p>
 
-            <p style={{ fontSize: 28, fontWeight: 700, color: "#f0f0f0", marginBottom: 8 }}>{cert.name}</p>
-
-            <p style={{ fontSize: 12, color: "#666", marginBottom: 24 }}>has successfully completed</p>
+            <p style={{ fontSize: 32, fontWeight: 700, color: "#f0f0f0", marginBottom: 8 }}>{cert.name}</p>
+            <p style={{ fontSize: 12, color: "#666", marginBottom: 20 }}>has successfully completed</p>
 
             {isMaster ? (
-              <div style={{ borderLeft: `3px solid ${color}`, paddingLeft: 16, marginBottom: 32 }}>
-                <p style={{ fontSize: 18, fontWeight: 600, color: "#e0e0e0", margin: 0 }}>{cert.track}</p>
+              <div style={{ display: "inline-block", borderRadius: 8, padding: "12px 20px", marginBottom: 32, background: `linear-gradient(135deg, ${color}22, ${color}0a)`, border: `1px solid ${color}30` }}>
+                <p style={{ fontSize: 16, fontWeight: 600, color: "#e0e0e0", margin: 0 }}>{cert.track}</p>
               </div>
             ) : (
-              <div style={{ borderLeft: `3px solid ${color}`, paddingLeft: 16, marginBottom: 32 }}>
-                <p style={{ fontSize: 18, fontWeight: 600, color: "#e0e0e0", margin: 0 }}>{cert.short}</p>
-                <p style={{ fontSize: 12, color: "#888", marginTop: 4 }}>{cert.track}</p>
+              <div style={{ display: "inline-block", borderRadius: 8, padding: "12px 20px", marginBottom: 32, background: `linear-gradient(135deg, ${color}22, ${color}0a)`, border: `1px solid ${color}30` }}>
+                <p style={{ fontSize: 15, fontWeight: 600, color, margin: 0 }}>{cert.short}</p>
+                <p style={{ fontSize: 11, color: "#999", marginTop: 4, margin: "4px 0 0" }}>{cert.track}</p>
               </div>
             )}
           </div>
 
           {/* Right: Seal */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, marginLeft: 32 }}>
-            <Seal size={80} />
-            <p style={{ fontSize: 10, color: "#555", textAlign: "center", margin: 0 }}>{cert.signedBy}</p>
-            <p style={{ fontSize: 10, color: "#444", textAlign: "center", margin: 0 }}>Earned on {cert.date}</p>
+          <div style={{ marginLeft: 24, flexShrink: 0 }}>
+            <Seal size={100} />
           </div>
+        </div>
+
+        {/* Spacer for glow area */}
+        <div style={{ height: 100, position: "relative" }}>
+          {/* Radial glow orb */}
+          <div style={{
+            position: "absolute",
+            bottom: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 200,
+            height: 120,
+            borderRadius: "50%",
+            background: isMaster
+              ? "radial-gradient(ellipse, rgba(245,130,31,0.15), rgba(253,184,39,0.08), transparent)"
+              : `radial-gradient(ellipse, ${color}20, ${color}08, transparent)`,
+            filter: "blur(20px)",
+            pointerEvents: "none",
+          }} />
         </div>
 
         {/* Footer */}
-        <div style={{ padding: "12px 56px 16px", display: "flex", alignItems: "center", gap: 12, borderTop: "1px solid #1a1a1a" }}>
-          <Shield size={12} color="#444" />
+        <div style={{ padding: "16px 48px 20px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderTop: "1px solid #1a1a1a" }}>
           <div>
-            <p style={{ fontSize: 9, color: "#444", margin: 0 }}>Credential ID</p>
-            <p style={{ fontSize: 11, color: "#666", fontFamily: "monospace", margin: 0 }}>{cert.credId}</p>
+            <div style={{ width: 24, height: 2, background: "#444", marginBottom: 8 }} />
+            <p style={{ fontSize: 13, fontWeight: 600, color: "#e0e0e0", margin: 0 }}>{cert.signedBy}</p>
+            <p style={{ fontSize: 11, color: "#666", margin: "2px 0 0" }}>Earned on {cert.date}</p>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <p style={{ fontSize: 9, color: "#555", letterSpacing: 2, textTransform: "uppercase", margin: 0 }}>Credential ID</p>
+            <p style={{ fontSize: 12, color: "#888", fontFamily: "monospace", margin: "2px 0 0" }}>{cert.credId}</p>
           </div>
         </div>
-
-        {/* Background pattern */}
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 80, background: "linear-gradient(to top, #0a0a0a, transparent)", pointerEvents: "none" }} />
       </div>
 
       {/* Action buttons */}
-      <div style={{ display: "flex", gap: 8, marginTop: 12, flexWrap: "wrap" }}>
-        <button
-          onClick={handleDownload}
-          disabled={downloading}
-          style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, border: "1px solid #2a2a2a", background: "none", color: "#888", fontSize: 12, cursor: downloading ? "wait" : "pointer", transition: "all 0.15s" }}
-          onMouseEnter={e => { if (!downloading) { (e.currentTarget as HTMLButtonElement).style.borderColor = "#444"; (e.currentTarget as HTMLButtonElement).style.color = "#f0f0f0"; }}}
-          onMouseLeave={e => { if (!downloading) { (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a"; (e.currentTarget as HTMLButtonElement).style.color = "#888"; }}}
-        >
-          {downloading ? <><Loader size={13} style={{ animation: "spin 1s linear infinite" }} /> Generating...</> : <><Download size={13} /> Download PDF</>}
-        </button>
-        <button
-          onClick={handleLinkedIn}
-          style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, border: "1px solid #2a2a2a", background: "none", color: "#888", fontSize: 12, cursor: "pointer", transition: "all 0.15s" }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "#0a66c2"; (e.currentTarget as HTMLButtonElement).style.color = "#0a66c2"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a"; (e.currentTarget as HTMLButtonElement).style.color = "#888"; }}
-        >
-          <Linkedin size={13} /> Share on LinkedIn
-        </button>
-        <button
-          onClick={handleCopy}
-          style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, border: "1px solid #2a2a2a", background: "none", color: copied ? "#34d399" : "#888", fontSize: 12, cursor: "pointer", transition: "all 0.15s" }}
-          onMouseEnter={e => { if (!copied) { (e.currentTarget as HTMLButtonElement).style.borderColor = "#444"; (e.currentTarget as HTMLButtonElement).style.color = "#f0f0f0"; }}}
-          onMouseLeave={e => { if (!copied) { (e.currentTarget as HTMLButtonElement).style.borderColor = "#2a2a2a"; (e.currentTarget as HTMLButtonElement).style.color = "#888"; }}}
-        >
-          <ExternalLink size={13} /> {copied ? "Copied!" : "Copy verify link"}
-        </button>
+      <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+        {[
+          { label: downloading ? "Generating..." : "Download PDF", icon: downloading ? <Loader size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Download size={14} />, onClick: handleDownload, disabled: downloading, hoverColor: "#f0f0f0" },
+          { label: "Share on LinkedIn", icon: <Linkedin size={14} />, onClick: handleLinkedIn, hoverColor: "#0a66c2" },
+          { label: copied ? "Copied!" : "Copy verify link", icon: <ExternalLink size={14} />, onClick: handleCopy, hoverColor: copied ? "#34d399" : "#f0f0f0" },
+        ].map((btn, i) => (
+          <button
+            key={i}
+            onClick={btn.onClick}
+            disabled={btn.disabled}
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 6,
+              padding: "10px 16px",
+              borderRadius: 10,
+              border: "1px solid #2a2a2a",
+              background: "#111",
+              color: btn.label === "Copied!" ? "#34d399" : "#888",
+              fontSize: 13,
+              cursor: btn.disabled ? "wait" : "pointer",
+              transition: "all 0.15s",
+            }}
+            onMouseEnter={e => { if (!btn.disabled) { (e.currentTarget).style.borderColor = "#444"; (e.currentTarget).style.color = btn.hoverColor || "#f0f0f0"; } }}
+            onMouseLeave={e => { if (!btn.disabled) { (e.currentTarget).style.borderColor = "#2a2a2a"; (e.currentTarget).style.color = btn.label === "Copied!" ? "#34d399" : "#888"; } }}
+          >
+            {btn.icon} {btn.label}
+          </button>
+        ))}
       </div>
 
       {/* Verify URL */}
-      <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 8, fontSize: 11, color: "#444" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 8, fontSize: 11, color: "#444", fontFamily: "monospace" }}>
         <Shield size={10} />
         {verifyUrl}
       </div>
@@ -236,13 +308,15 @@ export default function CertificateSection() {
       {tab === "master" && (
         <div>
           {/* Progress */}
-          <div style={{ marginBottom: 24, padding: "12px 16px", borderRadius: 10, background: "#151515", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ marginBottom: 24, padding: "14px 20px", borderRadius: 12, background: "#111", border: "1px solid #1a1a1a", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div>
-              <p style={{ fontSize: 12, color: "#888", margin: 0 }}>Progress toward master certificate</p>
-              <p style={{ fontSize: 11, color: "#555", margin: 0 }}>3 / 9 tracks</p>
+              <p style={{ fontSize: 13, color: "#999", margin: 0 }}>Progress toward master certificate</p>
             </div>
-            <div style={{ width: 120, height: 6, borderRadius: 3, background: "#222", overflow: "hidden" }}>
-              <div style={{ width: "33%", height: "100%", borderRadius: 3, background: "linear-gradient(90deg, #a78bfa, #22d3ee)" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <div style={{ width: 160, height: 6, borderRadius: 3, background: "#222", overflow: "hidden" }}>
+                <div style={{ width: "33%", height: "100%", borderRadius: 3, background: "linear-gradient(90deg, #E03A3E, #F5821F, #FDB827, #61BB46, #009DDC)" }} />
+              </div>
+              <p style={{ fontSize: 13, color: "#22d3ee", fontFamily: "monospace", fontWeight: 600, margin: 0, whiteSpace: "nowrap" }}>3 / 9 tracks</p>
             </div>
           </div>
 
