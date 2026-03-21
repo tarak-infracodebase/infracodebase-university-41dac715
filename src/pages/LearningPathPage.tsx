@@ -169,7 +169,7 @@ function ProgressSidebar({
   const matchingHandsOn = handsOnTracks.find(t => t.curriculumTrackId === currentTrackId);
   const upNext = upNextContent[currentTrackId];
   const isLastTrack = currentTrackId === "advanced-architecture";
-  const isPrereq = currentTrackId === "cloud-infrastructure-intro";
+  const isPrereq = currentTrackId === "cloud-infrastructure-intro" || currentTrackId.startsWith("prereq-");
   const isOnboarding = currentTrackId === "welcome-orientation" || isPrereq;
 
   return (
