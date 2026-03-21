@@ -102,9 +102,30 @@ function ContinueLearningCard({
 
 const upNextContent: Record<string, { trackNumber: number; title: string; description: string; pathId: string; label?: string }> = {
   "cloud-infrastructure-intro": {
+    trackNumber: 0,
+    title: "Foundations",
+    description: "Begin the first tier of the cloud & infrastructure prerequisite program.",
+    pathId: "prereq-foundations",
+    label: "Start Tier 1",
+  },
+  "prereq-foundations": {
+    trackNumber: 0,
+    title: "Intermediate",
+    description: "Continue to the second tier covering real IaC, security architecture, and CI/CD.",
+    pathId: "prereq-intermediate",
+    label: "Start Tier 2",
+  },
+  "prereq-intermediate": {
+    trackNumber: 0,
+    title: "Expert",
+    description: "Continue to the third tier covering resilience, governance, and cloud-native architecture.",
+    pathId: "prereq-expert",
+    label: "Start Tier 3",
+  },
+  "prereq-expert": {
     trackNumber: 1,
     title: "Welcome & Orientation",
-    description: "You are ready to begin the Infracodebase curriculum.",
+    description: "You have completed all prerequisites. Begin the Infracodebase curriculum.",
     pathId: "welcome-orientation",
     label: "Start Track 1",
   },
