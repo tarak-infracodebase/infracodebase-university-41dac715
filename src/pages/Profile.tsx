@@ -3,7 +3,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import { MapPin, Calendar, Flame, Trophy, Pencil, Globe, ExternalLink, Camera, X, Check } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
-import { useProfileData } from "@/hooks/useProfileData";
+import { useProfileData, isHandleTaken } from "@/hooks/useProfileData";
 import { ShareProfilePopover } from "@/components/profile/ShareProfilePopover";
 import { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
