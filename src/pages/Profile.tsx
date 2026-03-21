@@ -35,11 +35,16 @@ const defaultBannerGradient = "linear-gradient(135deg, hsl(260 70% 30%) 0%, hsl(
 const Profile = () => {
   const { username: urlUsername } = useParams<{ username: string }>();
   const { user, isLoaded } = useUser();
+  const navigate = useNavigate();
   const [editing, setEditing] = useState(false);
+  const [handleError, setHandleError] = useState("");
 
-  const handle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
-  const isOwner = !urlUsername || urlUsername === handle;
-  const viewedHandle = urlUsername || handle;
+  const { profileData, saveProfile } = useProfileData(user?.id);
+
+  const clerkHandle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
+  const resolvedHandle = profileData.customHandle || clerkHandle;
+  const isOwner = !urlUsername || urlUsername === resolvedHandle || urlUsername === clerkHandle;
+  const viewedHandle = urlUsername || resolvedHandle;
 
   const { profileData, saveProfile } = useProfileData(user?.id);
 
