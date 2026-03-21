@@ -295,13 +295,13 @@ const VideoLibrary = () => {
             {selectedTopic === "All" ? "All Videos" : selectedTopic}
           </h2>
           <div className="grid sm:grid-cols-2 gap-5">
-            {filtered.filter(v => !v.embedPlayer).map(v => (
+            {filtered.filter(v => !v.youtubeEmbed).map(v => (
               <VideoCard key={v.id} video={v} onPlay={handlePlay} />
             ))}
           </div>
-          {filtered.some(v => v.embedPlayer) && (
+          {filtered.some(v => v.youtubeEmbed) && (
             <div className="grid sm:grid-cols-2 gap-5 mt-5">
-              {filtered.filter(v => v.embedPlayer).map(v => (
+              {filtered.filter(v => v.youtubeEmbed).map(v => (
                 <VideoCard key={v.id} video={v} onPlay={handlePlay} />
               ))}
             </div>
