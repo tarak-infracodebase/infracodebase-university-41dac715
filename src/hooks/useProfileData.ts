@@ -7,6 +7,7 @@ export interface ProfileData {
   website: string;
   bannerUrl: string | null;
   customAvatarUrl: string | null;
+  customHandle: string;
 }
 
 const defaults: ProfileData = {
