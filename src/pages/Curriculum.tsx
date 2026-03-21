@@ -1,10 +1,14 @@
 import { AppLayout } from "@/components/AppLayout";
 import { learningPaths } from "@/data/courseData";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { BookOpen, Clock, ArrowRight, Search } from "lucide-react";
+import { useState, useEffect } from "react";
+import { BookOpen, Clock, ArrowRight, Search, HelpCircle, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CrystalIcon } from "@/components/DashboardWidgets";
+import { CurriculumGuidanceQuiz } from "@/components/CurriculumGuidanceQuiz";
+
+const BANNER_GRADIENT = "linear-gradient(135deg, #1a1a1a 0%, #c2410c 15%, #d97706 35%, #ca8a04 50%, #16a34a 68%, #0891b2 85%, #1a1a1a 100%)";
+const BANNER_DISMISSED_KEY = "curriculum-guidance-dismissed";
 
 const crystalColors = [
   "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
