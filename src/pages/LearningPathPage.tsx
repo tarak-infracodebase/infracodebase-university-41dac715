@@ -97,7 +97,14 @@ function ContinueLearningCard({
   );
 }
 
-const upNextContent: Record<string, { trackNumber: number; title: string; description: string; pathId: string }> = {
+const upNextContent: Record<string, { trackNumber: number; title: string; description: string; pathId: string; label?: string }> = {
+  "cloud-infrastructure-intro": {
+    trackNumber: 1,
+    title: "Welcome & Orientation",
+    description: "You are ready to begin the Infracodebase curriculum.",
+    pathId: "welcome-orientation",
+    label: "Start Track 1",
+  },
   "welcome-orientation": {
     trackNumber: 2,
     title: "Foundations — Understanding Infracodebase",
