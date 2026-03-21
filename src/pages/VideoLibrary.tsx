@@ -60,8 +60,6 @@ const videos: VideoItem[] = [
     trackLabel: "Track 6 — Advanced Infrastructure Architecture",
     trackPath: "/path/advanced-architecture",
     badge: "Track Introduction",
-    thumbnail: `https://img.youtube.com/vi/uttMQYxDa_s/hqdefault.jpg`,
-    youtubeEmbed: "https://www.youtube.com/embed/uttMQYxDa_s?rel=0&modestbranding=1&controls=1&autoplay=1",
   },
 ];
 
