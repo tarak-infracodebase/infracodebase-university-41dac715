@@ -162,27 +162,44 @@ function ProgressSidebar({
           {/* Next Step — onboarding action block */}
           <div className="glass-panel rounded-xl p-5">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Next Step</h4>
-            <p className="text-xs text-muted-foreground mb-3">You are ready to start building your first infrastructure environment.</p>
-            <p className="text-sm font-semibold mb-1">Track 2: Foundations — Understanding Infracodebase</p>
-            <p className="text-xs text-muted-foreground leading-relaxed mb-4">Learn what Infracodebase is, how workspaces are organized, and how the agent collaborates with you.</p>
-            <Link to="/path/foundations">
-              <Button size="sm" className="w-full gap-1.5 text-xs">
-                <Play className="h-3 w-3" /> Start Track 2
-              </Button>
-            </Link>
+            {isPrereq ? (
+              <>
+                <p className="text-xs text-muted-foreground mb-3">You are ready to begin the Infracodebase curriculum.</p>
+                <p className="text-sm font-semibold mb-1">Track 1: Welcome & Orientation</p>
+                <p className="text-xs text-muted-foreground leading-relaxed mb-4">Start the Infracodebase curriculum with the full orientation and program overview.</p>
+                <Link to="/path/welcome-orientation">
+                  <Button size="sm" className="w-full gap-1.5 text-xs">
+                    <Play className="h-3 w-3" /> Start Track 1
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <p className="text-xs text-muted-foreground mb-3">You are ready to start building your first infrastructure environment.</p>
+                <p className="text-sm font-semibold mb-1">Track 2: Foundations — Understanding Infracodebase</p>
+                <p className="text-xs text-muted-foreground leading-relaxed mb-4">Learn what Infracodebase is, how workspaces are organized, and how the agent collaborates with you.</p>
+                <Link to="/path/foundations">
+                  <Button size="sm" className="w-full gap-1.5 text-xs">
+                    <Play className="h-3 w-3" /> Start Track 2
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Up Next — secondary guidance */}
-          <div className="glass-panel rounded-xl p-5">
-            <h4 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
-            <p className="text-sm font-semibold mb-1">Track 2: Foundations — Understanding Infracodebase</p>
-            <p className="text-xs text-muted-foreground leading-relaxed mb-4">Learn what Infracodebase is, how workspaces are organized, and how the agent collaborates with you.</p>
-            <Link to="/path/foundations">
-              <Button size="sm" variant="secondary" className="w-full gap-1.5 text-xs">
-                Continue my training <ArrowRight className="h-3 w-3" />
-              </Button>
-            </Link>
-          </div>
+          {upNext && (
+            <div className="glass-panel rounded-xl p-5">
+              <h4 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
+              <p className="text-sm font-semibold mb-1">Track {upNext.trackNumber}: {upNext.title}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-4">{upNext.description}</p>
+              <Link to={`/path/${upNext.pathId}`}>
+                <Button size="sm" variant="secondary" className="w-full gap-1.5 text-xs">
+                  {upNext.label || "Continue my training"} <ArrowRight className="h-3 w-3" />
+                </Button>
+              </Link>
+            </div>
+          )}
         </>
       ) : (
         <>
