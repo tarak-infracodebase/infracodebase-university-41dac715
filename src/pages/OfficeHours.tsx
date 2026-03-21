@@ -675,13 +675,6 @@ export default function OfficeHours() {
               </div>
 
               <div className="flex flex-wrap gap-3 pt-2">
-                <a
-                  href="#"
-                  className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-                  style={{ background: SPECTRUM_GRADIENT }}
-                >
-                  Register for free
-                </a>
                 <CalendarDropdown />
               </div>
             </div>
