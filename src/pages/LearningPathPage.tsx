@@ -46,7 +46,10 @@ function IntroVideo({ pathId }: { pathId: string }) {
       <div className="text-center px-6">
         <h3 className="text-sm font-semibold text-foreground mb-1">Introduction</h3>
         <p className="text-xs text-muted-foreground max-w-sm">
-          This track will include an embedded introduction video to guide learners through the course overview and learning objectives.
+          {pathId === "cloud-infrastructure-intro"
+            ? "This track will introduce the cloud & infrastructure prerequisite program, explain the three tiers, and help you identify where to start."
+            : "This track will include an embedded introduction video to guide learners through the course overview and learning objectives."
+          }
         </p>
         <span className="inline-block mt-3 text-[10px] font-mono text-muted-foreground/50 border border-border/30 rounded-full px-3 py-1">
           Video coming soon
