@@ -608,6 +608,18 @@ export default function OfficeHours() {
   const [sessionEditing, setSessionEditing] = useState(false);
   const [sessionTitle, setSessionTitle] = useState("Build with Her — ClickOps to IaC: Azure Infrastructure Modernization");
   const [sessionDesc, setSessionDesc] = useState("Live demo: inspect manually provisioned Azure infrastructure, generate Terraform code with Infracodebase, establish a clean IaC baseline, and shift remediation left.");
+
+  // Instructor photo uploads
+  const [justinPhoto, setJustinPhoto] = useState<string | null>(null);
+  const [tarakPhoto, setTarakPhoto] = useState<string | null>(null);
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>, setter: (v: string) => void) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => setter(ev.target?.result as string);
+    reader.readAsDataURL(file);
+  };
   const [sessionDate, setSessionDate] = useState("March 18, 2026");
 
   const handleSubmitQuestion = () => {
@@ -672,30 +684,32 @@ export default function OfficeHours() {
             <div className="shrink-0 rounded-lg border border-border/30 bg-white/[0.03] p-5 space-y-4" style={{ minWidth: '300px' }}>
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hosted by</p>
               <div className="space-y-4">
-                {[
-                  { name: "Justin", photo: "/Justin.jpeg", title: "Founder, Infracodebase" },
-                  { name: "Tarak", photo: "/Tarak.jpeg", title: "Co-Founder, Infracodebase" },
-                ].map(host => (
+                {([
+                  { name: "Justin", initial: "J", defaultPhoto: "/Justin.jpeg", title: "Founder, Infracodebase", photo: justinPhoto, setter: setJustinPhoto, uploadId: "upload-justin" },
+                  { name: "Tarak", initial: "T", defaultPhoto: "/Tarak.jpeg", title: "Co-Founder, Infracodebase", photo: tarakPhoto, setter: setTarakPhoto, uploadId: "upload-tarak" },
+                ] as const).map(host => (
                   <div key={host.name} className="flex items-center gap-3">
-                    <div style={{
-                      width: '44px',
-                      height: '44px',
-                      borderRadius: '50%',
-                      overflow: 'hidden',
-                      flexShrink: 0,
-                      border: '2px solid #1c2e47',
-                      backgroundColor: '#162035',
-                    }}>
-                      <img
-                        src={host.photo}
-                        alt={host.name}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                          display: 'block',
-                        }}
-                      />
+                    <div
+                      style={{ position: 'relative', cursor: 'pointer' }}
+                      onClick={() => document.getElementById(host.uploadId)?.click()}
+                    >
+                      {(host.photo || host.defaultPhoto) ? (
+                        <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
+                          <img src={host.photo || host.defaultPhoto} alt={host.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                        </div>
+                      ) : (
+                        <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px dashed rgba(255,255,255,0.3)' }}>
+                          {host.initial}
+                        </div>
+                      )}
+                      <div
+                        style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s' }}
+                        onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                        onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
+                      >
+                        <span style={{ color: '#fff', fontSize: '9px', fontWeight: 700 }}>EDIT</span>
+                      </div>
+                      <input id={host.uploadId} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handlePhotoUpload(e, host.setter)} />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-foreground">{host.name}</p>
