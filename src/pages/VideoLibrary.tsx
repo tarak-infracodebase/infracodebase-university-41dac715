@@ -149,17 +149,7 @@ function InlinePlayer({ video, onClose }: { video: VideoItem; onClose: () => voi
           Close ✕
         </button>
       </div>
-      {video.youtubeEmbed ? (
-        <iframe
-          src={video.youtubeEmbed}
-          title={video.title}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="w-full aspect-video"
-        />
-      ) : (
-        <video
+      <video
           ref={ref}
           controls
           autoPlay
