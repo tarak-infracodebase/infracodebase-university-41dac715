@@ -46,7 +46,6 @@ const Profile = () => {
   const isOwner = !urlUsername || urlUsername === resolvedHandle || urlUsername === clerkHandle;
   const viewedHandle = urlUsername || resolvedHandle;
 
-  const { profileData, saveProfile } = useProfileData(user?.id);
 
   // Draft state for inline editing
   const [draft, setDraft] = useState({
