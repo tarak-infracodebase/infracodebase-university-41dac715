@@ -261,7 +261,7 @@ function CalendarDropdown() {
   };
 
   return (
-    <div ref={calRef} style={{ position: 'relative' }}>
+    <div ref={calRef} style={{ position: 'relative', zIndex: 300 }}>
       <button
         onClick={() => setCalOpen(o => !o)}
         style={{
@@ -291,7 +291,7 @@ function CalendarDropdown() {
             borderRadius: '10px',
             minWidth: '240px',
             padding: '6px',
-            zIndex: 200,
+            zIndex: 300,
             boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
           }}
         >
@@ -622,8 +622,8 @@ export default function OfficeHours() {
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-10 space-y-10">
 
         {/* ── SECTION 1 — HERO ── */}
-        <section className="rounded-xl border border-border/50 overflow-hidden relative" style={{ background: "#0d0d0d" }}>
-          <div className="h-1" style={{ background: SPECTRUM_GRADIENT }} />
+        <section style={{ position: 'relative', borderRadius: '14px', border: '1px solid #25405f', background: '#0d0d0d' }}>
+          <div style={{ height: '4px', background: SPECTRUM_GRADIENT, borderRadius: '14px 14px 0 0' }} />
 
           {/* Edit button */}
           <button
@@ -669,7 +669,7 @@ export default function OfficeHours() {
             </div>
 
             {/* Hosted by */}
-            <div className="shrink-0 rounded-lg border border-border/30 bg-white/[0.03] p-5 space-y-4" style={{ minWidth: '280px' }}>
+            <div className="shrink-0 rounded-lg border border-border/30 bg-white/[0.03] p-5 space-y-4" style={{ minWidth: '300px' }}>
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hosted by</p>
               <div className="space-y-4">
                 {[
@@ -677,14 +677,21 @@ export default function OfficeHours() {
                   { name: "Tarak", photo: "/Tarak.jpeg", title: "Co-Founder, Infracodebase" },
                 ].map(host => (
                   <div key={host.name} className="flex items-center gap-3">
-                    <div style={{ width: '44px', height: '44px', flexShrink: 0, overflow: 'hidden', borderRadius: '50%' }}>
+                    <div style={{
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      flexShrink: 0,
+                      border: '2px solid #1c2e47',
+                      backgroundColor: '#162035',
+                    }}>
                       <img
                         src={host.photo}
                         alt={host.name}
                         style={{
-                          width: '44px',
-                          height: '44px',
-                          borderRadius: '50%',
+                          width: '100%',
+                          height: '100%',
                           objectFit: 'cover',
                           display: 'block',
                         }}
