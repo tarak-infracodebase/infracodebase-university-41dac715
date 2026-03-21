@@ -59,6 +59,8 @@ export interface LearningPath {
   accentColor?: string;
 }
 
+import { prereqFoundations, prereqIntermediate, prereqExpert } from "./prereqTracksData";
+
 export const learningPaths: LearningPath[] = [
   {
     id: "cloud-infrastructure-intro",
@@ -68,6 +70,7 @@ export const learningPaths: LearningPath[] = [
     icon: "CloudCog",
     order: 0,
     color: "prerequisite",
+    accentColor: "#312E81",
     courses: [
       {
         id: "cloud-infra-intro-overview",
