@@ -14,6 +14,11 @@ export interface KnowledgeCheck {
   correctAnswer: number;
 }
 
+export interface ComparisonTable {
+  headers: string[];
+  rows: string[][];
+}
+
 export interface Lesson {
   id: string;
   title: string;
@@ -29,6 +34,7 @@ export interface Lesson {
   modificationExercise?: string;
   engineeringReflection?: string;
   knowledgeCheck?: KnowledgeCheck;
+  comparisonTables?: ComparisonTable[];
 }
 
 export interface Course {
@@ -50,7 +56,10 @@ export interface LearningPath {
   courses: Course[];
   order: number;
   color: string;
+  accentColor?: string;
 }
+
+import { prereqFoundations, prereqIntermediate, prereqExpert } from "./prereqTracksData";
 
 export const learningPaths: LearningPath[] = [
   {
@@ -61,6 +70,7 @@ export const learningPaths: LearningPath[] = [
     icon: "CloudCog",
     order: 0,
     color: "prerequisite",
+    accentColor: "#312E81",
     courses: [
       {
         id: "cloud-infra-intro-overview",
@@ -170,6 +180,9 @@ export const learningPaths: LearningPath[] = [
       }
     ]
   },
+  prereqFoundations,
+  prereqIntermediate,
+  prereqExpert,
   {
     id: "welcome-orientation",
     title: "Welcome & Orientation",
