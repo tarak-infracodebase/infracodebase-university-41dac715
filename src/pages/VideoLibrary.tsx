@@ -166,7 +166,6 @@ function InlinePlayer({ video, onClose }: { video: VideoItem; onClose: () => voi
         >
           <source src={video.src} type="video/mp4" />
         </video>
-      )}
       <div className="p-4">
         <p className="text-xs text-muted-foreground">{video.description}</p>
         <Link to={video.trackPath} className="text-xs text-primary hover:underline mt-2 inline-block">
