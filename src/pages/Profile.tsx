@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import { MapPin, Calendar, Flame, Trophy, Pencil, Globe, ExternalLink, Camera, X, Check } from "lucide-react";
