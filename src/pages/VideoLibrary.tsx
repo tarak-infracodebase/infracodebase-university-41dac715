@@ -76,14 +76,6 @@ function setProgressStorage(id: string, pct: number) {
 
 function VideoCard({ video, onPlay }: { video: VideoItem; onPlay: (v: VideoItem) => void }) {
   const progress = getProgress(video.id);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const handleTimeUpdate = useCallback(() => {
-    const el = videoRef.current;
-    if (!el || !el.duration) return;
-    setProgressStorage(video.id, (el.currentTime / el.duration) * 100);
-  }, [video.id]);
-
   return (
     <div
       className="group glass-panel rounded-xl overflow-hidden transition-transform duration-200 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 cursor-pointer"
