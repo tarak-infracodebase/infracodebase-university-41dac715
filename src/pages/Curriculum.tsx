@@ -74,15 +74,23 @@ const Curriculum = () => {
           <div className="space-y-4">
             {filteredPaths.map((path, i) => {
               const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
+              const isPrereq = path.color === "prerequisite";
               return (
                 <Link key={path.id} to={`/path/${path.id}`}
                   className="group glass-panel-hover rounded-xl p-5 flex items-start gap-5 block">
                   <div className="shrink-0 mt-1">
-                    <CrystalIcon color={crystalColors[i % crystalColors.length]} size={32} />
+                    <CrystalIcon color={isPrereq ? "hsl(235, 56%, 34%)" : crystalColors[i % crystalColors.length]} size={32} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-mono text-muted-foreground uppercase">Track {path.order}</span>
+                      {isPrereq ? (
+                        <>
+                          <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[hsl(235,56%,34%)]/20 text-[hsl(235,56%,70%)] border border-[hsl(235,56%,34%)]/30">Prerequisite</span>
+                          <span className="text-[10px] text-muted-foreground/60 font-mono">Complete before Track 1</span>
+                        </>
+                      ) : (
+                        <span className="text-[10px] font-mono text-muted-foreground uppercase">Track {path.order}</span>
+                      )}
                       <span className="text-[10px] px-2 py-0.5 rounded-full crystal-badge text-primary">{path.courses[0]?.difficulty || "beginner"}</span>
                     </div>
                     <h3 className="text-base font-semibold text-foreground mb-1">{path.title}</h3>

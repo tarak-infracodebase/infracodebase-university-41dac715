@@ -54,6 +54,123 @@ export interface LearningPath {
 
 export const learningPaths: LearningPath[] = [
   {
+    id: "cloud-infrastructure-intro",
+    title: "Cloud & Infrastructure Training — Introduction",
+    shortTitle: "Prereq: Cloud & Infra",
+    description: "Understand the full cloud & infrastructure prerequisite program before beginning the Infracodebase curriculum. This track explains what the three training tiers cover, where they fit in the program, and which tier is the right starting point for you.",
+    icon: "CloudCog",
+    order: 0,
+    color: "prerequisite",
+    courses: [
+      {
+        id: "cloud-infra-intro-overview",
+        title: "Cloud & Infrastructure Training — Introduction",
+        description: "What this is, where it fits, and how to use it",
+        difficulty: "beginner",
+        estimatedTime: "30 min",
+        lessons: [
+          {
+            id: "prereq-introduction",
+            title: "Introduction",
+            whyThisMatters: "If you are starting Infracodebase University, you need to understand what the cloud & infrastructure prerequisite track is before you open any of the three tier documents. This lesson explains what the training is, why it exists, and what completing it unlocks.",
+            coreConcepts: "This is the prerequisite track for Infracodebase University. Before you engage with Infracodebase — its model, its workflows, its agents, and its architecture tooling — you need a solid foundation in how cloud infrastructure actually works.\n\nThis training gives you that foundation. It is organized into three separate documents, one per tier, that take you from your first cloud concept all the way to designing resilient, secure, production-grade systems at scale. The content is completely provider-agnostic: every concept applies whether you are working in AWS, Azure, or Google Cloud.\n\nThere are no certifications to chase here. The goal is real mastery: the kind that lets you reason clearly about any cloud environment, build confidently with infrastructure as code, and make architectural decisions that hold up under pressure.\n\nComplete this track before beginning Track 1. Everything in the Infracodebase curriculum assumes this cloud foundation. Once you have finished all three tiers, you are ready to begin.",
+            exercise: {
+              title: "Identify Your Starting Point",
+              description: "Write one sentence describing your current cloud experience level and one sentence describing what you most want to understand by the end of this prerequisite track."
+            },
+            artifact: {
+              title: "Starting Point Statement",
+              description: "A two-sentence self-assessment: your current experience level and your learning goal for this prerequisite track."
+            },
+            validationChecklist: [
+              "Understand what the cloud & infrastructure prerequisite track is",
+              "Know why it comes before Track 1",
+              "Have a clear sense of what completing all three tiers unlocks"
+            ]
+          },
+          {
+            id: "prereq-where-this-fits",
+            title: "Where This Fits",
+            whyThisMatters: "Understanding the full program structure before diving into content helps you navigate with intention. You will know exactly where you are at every step.",
+            coreConcepts: "The Infracodebase University program has two parts: the prerequisite track and the curriculum tracks.\n\n**The prerequisite track consists of four documents:**\n\n- Prereq 0 — Introduction (this document): what the program is, the three tiers, who starts where\n- Prereq 1 — Tier 1: Foundations: cloud concepts, compute, storage, networking, identity, first system, IaC basics\n- Prereq 2 — Tier 2: Intermediate: real IaC, multi-AZ networking, security, scalability, CI/CD, observability\n- Prereq 3 — Tier 3: Expert: resilience, Well-Architected Framework, FinOps, governance, DevSecOps, cloud-native patterns\n\n**The curriculum tracks are:**\n\n- Track 1 — Welcome & Orientation: why Infracodebase, how the program is structured\n- Track 2 — Foundations — Understanding Infracodebase: enterprises, workspaces, rulesets, workflows, agents, documentation\n- Track 3 — Real Infrastructure Engineering: architecture, VPC, routing, load balancers, databases, resilience\n- Track 4 — Architecture Diagrams & Living Documentation: diagrams synchronized with infrastructure code\n- Track 5 — Enterprise Governance & Platform Engineering: rulesets, workflows, subagents, platform engineering at scale\n- Track 6 — Advanced Infrastructure Architecture: scalability, failure domains, resilient and security architecture, multi-region\n- Track 7 — Review & Wrap-Up: full journey review, reflection, key insights\n\nYou complete the four prerequisite documents first, then begin at Track 1.",
+            exercise: {
+              title: "Map the Program",
+              description: "Review the full program structure above. Identify which prerequisite tier you expect to be most challenging for you and write one reason why."
+            },
+            artifact: {
+              title: "Program Map Understanding",
+              description: "A note identifying your expected most-challenging tier and your reason."
+            },
+            validationChecklist: [
+              "Can name all four prerequisite documents in order",
+              "Can name all seven curriculum tracks in order",
+              "Understand that the prereq track comes before Track 1"
+            ]
+          },
+          {
+            id: "prereq-three-tiers",
+            title: "The Three Tiers",
+            whyThisMatters: "Each tier covers a distinct level of cloud depth. Knowing what each one contains helps you engage with the right material and move forward with confidence rather than uncertainty.",
+            coreConcepts: "**Tier 1 — Foundations**\nWhat the cloud is. How its five building blocks — compute, storage, networking, identity, observability — fit together. How to design a simple system before building it. Your first real infrastructure environment, built and validated step by step.\n\nModules: Understanding What the Cloud Actually Is · Compute, Storage, Networking, and Identity · How Infrastructure Components Form a Real System · Infrastructure as Code · Building Your First Real Infrastructure System · Hands-On Foundations Labs · Validation, Debugging, and Moving to Tier 2 · Tier 1 Capstone\n\n**Tier 2 — Intermediate**\nReal infrastructure as code with Terraform. Multi-AZ VPC design. Security architecture at production scale. Scalability patterns including auto scaling, caching, and CDNs. CI/CD pipelines and deployment strategies. The three pillars of observability with SLOs.\n\nModules: Infrastructure as Code in Depth · Networking Architecture in Depth · Security Architecture · Scalability and Performance · CI/CD and Deployment Pipelines · Observability: Understanding System Behavior · Tier 2 Capstone\n\n**Tier 3 — Expert**\nResilience engineering and multi-region architecture. The Well-Architected Framework's five pillars. FinOps and cloud cost management. Governance and landing zones at organizational scale. Platform engineering. DevSecOps and compliance as code. Cloud-native architecture patterns including microservices, event-driven systems, and Kubernetes in production.\n\nModules: High Availability and Resilience Engineering · The Well-Architected Framework · Cloud Cost Management and FinOps · Governance and Organizational-Scale Infrastructure · DevSecOps: Security as Engineering Practice · Cloud-Native Architecture Patterns · Kubernetes in Production · Tier 3 Capstone\n\nEach tier ends with a capstone. Do not move to the next tier until you can complete the capstone without referring back to the lessons.",
+            exercise: {
+              title: "Tier Content Review",
+              description: "Read the module list for each tier. Write one sentence about what you already know well in that tier and one sentence about what is new to you."
+            },
+            artifact: {
+              title: "Tier Familiarity Assessment",
+              description: "Three pairs of sentences — one per tier — describing your existing knowledge and the new material you will encounter."
+            },
+            validationChecklist: [
+              "Know what Tier 1 covers",
+              "Know what Tier 2 covers",
+              "Know what Tier 3 covers",
+              "Understand that each tier ends with a capstone"
+            ]
+          },
+          {
+            id: "prereq-who-should-start-where",
+            title: "Who Should Start Where",
+            whyThisMatters: "Starting at the wrong tier wastes your time. Starting below your level means covering ground you already know. Starting above your level means missing the foundation the content builds on.",
+            coreConcepts: "**Start at Tier 1 if:**\n- You have never built cloud infrastructure before\n- You know what AWS or Azure is but have not actually provisioned resources\n- You want to make sure your fundamentals are solid before going deeper\n- You have used cloud consoles manually but never worked with infrastructure as code\n\n**Start at Tier 2 if:**\n- You can already deploy compute, create networks, and set up basic storage\n- You understand what VPCs, subnets, security groups, and IAM roles are\n- You want to go deeper on IaC, security design, scalability, and CI/CD\n- You have used Terraform or similar tools but want a more rigorous approach\n\n**Start at Tier 3 if:**\n- You build production systems regularly and want a rigorous architectural framework\n- You need to think seriously about resilience, disaster recovery, and multi-region design\n- You are responsible for governance, cost management, or security at organizational scale\n- You want to sharpen the architectural decision-making skills that separate senior engineers from principal-level architects\n\n**A note on skipping tiers:**\nEach tier ends with a capstone. The capstone is the check on whether understanding has become capability. Do not move to the next tier until you can complete the capstone without referring back to the lessons. The tiers build on each other — arriving at Tier 3 without the Tier 2 foundation means you will have gaps in the expert content.\n\nIf you are unsure, read the Tier 1 capstone first. If you can answer every question from memory without looking things up, proceed to Tier 2.",
+            exercise: {
+              title: "Choose Your Starting Tier",
+              description: "Based on the criteria above, identify which tier you will start at and write two specific reasons why that tier is the right level for you."
+            },
+            artifact: {
+              title: "Starting Tier Decision",
+              description: "Your chosen starting tier and two reasons that justify the choice."
+            },
+            validationChecklist: [
+              "Know which tier to start at",
+              "Have two specific reasons that justify the choice",
+              "Understand the capstone check and why not to skip tiers"
+            ]
+          },
+          {
+            id: "prereq-how-to-begin",
+            title: "How to Begin",
+            whyThisMatters: "Knowing what to open next and why each tier connects to specific Infracodebase tracks means you enter the curriculum with a clear mental model rather than just starting from page one.",
+            coreConcepts: "**How each tier connects to the Infracodebase curriculum:**\n\n- Track 1 — Welcome & Orientation: the infrastructure knowledge problems that motivated Infracodebase will make full sense once you understand how fragmented cloud tooling causes pain in practice. Tier 1 gives you enough context to feel that problem.\n- Track 2 — Foundations: the Infracodebase model of enterprises, workspaces, rulesets, and workflows maps directly onto the governance and organizational concepts from Tier 3.\n- Track 3 — Real Infrastructure Engineering: you will build real environments using Infracodebase. Your Tier 1 and Tier 2 skills are what make those builds substantive rather than mechanical.\n- Track 4 — Architecture Diagrams & Living Documentation: the architecture thinking from Tier 2 and Tier 3 is what produces diagrams worth creating and documentation worth maintaining.\n- Track 5 — Enterprise Governance & Platform Engineering: the governance frameworks, landing zones, and platform engineering concepts from Tier 3 are the direct foundation for this track.\n- Track 6 — Advanced Infrastructure Architecture: the resilience patterns, Well-Architected Framework, and multi-region design from Tier 3 are what this track builds on.\n- Track 7 — Review & Wrap-Up: the cloud mastery you carry through the tiers is the lens through which the full Infracodebase learning journey makes most sense in reflection.\n\n**What to do right now:**\nOpen the tier document that matches your starting point. If you are starting at Tier 1, open prereq_1_foundations and begin with Module 0: Understanding What the Cloud Actually Is. If you are starting at Tier 2, open prereq_2_intermediate and begin with Module 7: Infrastructure as Code in Depth. If you are starting at Tier 3, open prereq_3_expert and begin with Module 13: High Availability and Resilience Engineering.",
+            exercise: {
+              title: "Set Up Your Environment",
+              description: "Open your chosen starting tier document. Read the first module heading and the first lesson's \"Why This Matters\" section. Write one sentence about what you expect to learn in that first lesson."
+            },
+            artifact: {
+              title: "First Lesson Preview",
+              description: "One sentence describing what you expect to learn in the first lesson of your chosen starting tier."
+            },
+            validationChecklist: [
+              "Know which tier document to open first",
+              "Understand how completing the prereq track connects to Track 1",
+              "Know which Infracodebase tracks are most directly built on each tier",
+              "Ready to begin the prerequisite track"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     id: "welcome-orientation",
     title: "Welcome & Orientation",
     shortTitle: "Welcome",

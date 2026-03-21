@@ -278,9 +278,15 @@ const LearningPathPage = () => {
           <ArrowLeft className="h-3 w-3" /> All Learning Paths
         </Link>
         <div className="flex items-start gap-4">
-          <CrystalIcon color={crystalColors[(path.order - 1) % crystalColors.length]} size={40} />
+          <CrystalIcon color={path.color === "prerequisite" ? "hsl(235, 56%, 34%)" : crystalColors[(path.order - 1) % crystalColors.length]} size={40} />
           <div>
-            <div className="text-[10px] text-primary font-mono mb-1">Track {path.order}</div>
+            <div className="text-[10px] font-mono mb-1">
+              {path.color === "prerequisite" ? (
+                <span className="px-2 py-0.5 rounded-full bg-[hsl(235,56%,34%)]/20 text-[hsl(235,56%,70%)] border border-[hsl(235,56%,34%)]/30">PREREQUISITE TRACK</span>
+              ) : (
+                <span className="text-primary">Track {path.order}</span>
+              )}
+            </div>
             <h1 className="text-2xl lg:text-3xl font-bold mb-3">{path.title}</h1>
             <p className="text-sm text-muted-foreground max-w-2xl mb-4">{path.description}</p>
             <div className="flex items-center gap-5 text-xs text-muted-foreground">
