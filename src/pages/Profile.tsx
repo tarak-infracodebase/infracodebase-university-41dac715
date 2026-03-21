@@ -80,7 +80,24 @@ const Profile = () => {
     setEditing(false);
   };
 
+  const validateHandle = (h: string): string => {
+    if (!h) return "Username is required";
+    if (h.length > 20) return "Max 20 characters";
+    if (!/^[a-z0-9_]+$/.test(h)) return "Only lowercase letters, numbers, underscores";
+    if (user?.id && isHandleTaken(h, user.id)) return "Username already taken";
+    return "";
+  };
+
+  const handleHandleChange = (value: string) => {
+    const sanitized = value.toLowerCase().replace(/[^a-z0-9_]/g, "").slice(0, 20);
+    setDraft(d => ({ ...d, customHandle: sanitized }));
+    setHandleError(validateHandle(sanitized));
+  };
+
   const handleSave = () => {
+    const err = validateHandle(draft.customHandle);
+    if (err) { setHandleError(err); return; }
+    const newHandle = draft.customHandle.trim();
     saveProfile({
       displayName: draft.displayName.trim(),
       bio: draft.bio.trim(),
@@ -88,8 +105,13 @@ const Profile = () => {
       website: draft.website.trim(),
       bannerUrl: draft.bannerUrl,
       customAvatarUrl: draft.customAvatarUrl,
+      customHandle: newHandle,
     });
     setEditing(false);
+    // Navigate to new handle URL if changed
+    if (newHandle !== resolvedHandle) {
+      navigate(`/${newHandle}`, { replace: true });
+    }
   };
 
   const handleFile = (file: File, field: "bannerUrl" | "customAvatarUrl") => {
