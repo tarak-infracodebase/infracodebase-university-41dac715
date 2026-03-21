@@ -608,6 +608,18 @@ export default function OfficeHours() {
   const [sessionEditing, setSessionEditing] = useState(false);
   const [sessionTitle, setSessionTitle] = useState("Build with Her — ClickOps to IaC: Azure Infrastructure Modernization");
   const [sessionDesc, setSessionDesc] = useState("Live demo: inspect manually provisioned Azure infrastructure, generate Terraform code with Infracodebase, establish a clean IaC baseline, and shift remediation left.");
+
+  // Instructor photo uploads
+  const [justinPhoto, setJustinPhoto] = useState<string | null>(null);
+  const [tarakPhoto, setTarakPhoto] = useState<string | null>(null);
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>, setter: (v: string) => void) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => setter(ev.target?.result as string);
+    reader.readAsDataURL(file);
+  };
   const [sessionDate, setSessionDate] = useState("March 18, 2026");
 
   const handleSubmitQuestion = () => {
