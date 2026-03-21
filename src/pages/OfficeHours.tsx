@@ -217,64 +217,118 @@ function Lightbox({
 
 /* ── Calendar Dropdown ── */
 function CalendarDropdown() {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [calOpen, setCalOpen] = useState(false);
+  const calRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!open) return;
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    const handleClick = (e: MouseEvent) => {
+      if (calRef.current && !calRef.current.contains(e.target as Node)) {
+        setCalOpen(false);
+      }
     };
-    document.addEventListener("click", handler, true);
-    return () => document.removeEventListener("click", handler, true);
-  }, [open]);
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   const googleUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Infracodebase+University+%E2%80%94+Office+Hours&dates=20260325T160000Z/20260325T170000Z&details=Weekly+live+Q%26A+with+Justin+and+Tarak&recur=RRULE:FREQ%3DWEEKLY;BYDAY%3DWE";
   const outlookUrl = "https://outlook.live.com/calendar/0/deeplink/compose?subject=Infracodebase+University+%E2%80%94+Office+Hours&startdt=2026-03-25T16:00:00Z&enddt=2026-03-25T17:00:00Z&body=Weekly+live+Q%26A+with+Justin+and+Tarak&allday=false";
 
+  const handleICS = () => {
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Infracodebase University//EN',
+      'BEGIN:VEVENT',
+      'DTSTART:20260325T160000Z',
+      'DTEND:20260325T170000Z',
+      'SUMMARY:Infracodebase University — Office Hours',
+      'DESCRIPTION:Weekly live Q&A with Justin and Tarak.',
+      'LOCATION:Online',
+      'RRULE:FREQ=WEEKLY;BYDAY=WE',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+    const blob = new Blob([ics], { type: 'text/calendar' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'infracodebase-office-hours.ics';
+    a.click();
+    setCalOpen(false);
+  };
+
+  const optionStyle: React.CSSProperties = {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    padding: '10px 14px',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: '#cbd5e1',
+    fontSize: '13px',
+    borderRadius: '7px',
+    textAlign: 'left' as const,
+  };
+
   return (
-    <div ref={ref} className="relative">
+    <div ref={calRef} style={{ position: 'relative' }}>
       <button
-        onClick={() => setOpen(o => !o)}
-        className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium border border-border/50 text-foreground hover:bg-muted/50 transition-colors"
+        onClick={() => setCalOpen(o => !o)}
+        style={{
+          background: SPECTRUM_GRADIENT,
+          color: 'white',
+          fontWeight: 700,
+          fontSize: '14px',
+          border: 'none',
+          borderRadius: '9px',
+          padding: '11px 22px',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
       >
-        <Calendar className="h-4 w-4" /> Add to calendar <ChevronDown className="h-3.5 w-3.5 ml-1" />
+        <Calendar className="h-4 w-4" /> Add to calendar <ChevronDown className="h-3.5 w-3.5" />
       </button>
-      {open && (
+      {calOpen && (
         <div
-          className="absolute top-full left-0 mt-2 z-50 min-w-[220px] rounded-[10px] border p-1.5"
-          style={{ background: "#0d1117", borderColor: "#25405f" }}
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 8px)',
+            left: 0,
+            background: '#101929',
+            border: '1px solid #25405f',
+            borderRadius: '10px',
+            minWidth: '240px',
+            padding: '6px',
+            zIndex: 200,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+          }}
         >
-          <a
-            href={googleUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-2.5 px-3 h-9 rounded-md text-sm text-foreground transition-colors"
-            style={{ ["--hover-bg" as string]: "#162035" }}
-            onMouseEnter={e => (e.currentTarget.style.background = "#162035")}
-            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-          >
-            <ExternalLink className="h-4 w-4 text-muted-foreground" /> Google Calendar
-          </a>
-          <a
-            href={outlookUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-2.5 px-3 h-9 rounded-md text-sm text-foreground transition-colors"
-            onMouseEnter={e => (e.currentTarget.style.background = "#162035")}
-            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-          >
-            <ExternalLink className="h-4 w-4 text-muted-foreground" /> Microsoft Outlook
-          </a>
           <button
-            onClick={() => { downloadICS(); setOpen(false); }}
-            className="w-full flex items-center gap-2.5 px-3 h-9 rounded-md text-sm text-foreground transition-colors"
-            onMouseEnter={e => (e.currentTarget.style.background = "#162035")}
-            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+            onClick={() => { window.open(googleUrl, '_blank'); setCalOpen(false); }}
+            style={optionStyle}
+            onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'none')}
           >
-            <Download className="h-4 w-4 text-muted-foreground" /> Apple / Other (.ics)
+            <ExternalLink size={14} /> Google Calendar
+          </button>
+          <button
+            onClick={() => { window.open(outlookUrl, '_blank'); setCalOpen(false); }}
+            style={optionStyle}
+            onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+          >
+            <ExternalLink size={14} /> Microsoft Outlook
+          </button>
+          <button
+            onClick={handleICS}
+            style={optionStyle}
+            onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+          >
+            <Download size={14} /> Apple / Other (.ics)
           </button>
         </div>
       )}
