@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import { MapPin, Calendar, Flame, Trophy, Pencil, Globe, ExternalLink } from "lucide-react";
+import { MapPin, Calendar, Flame, Trophy, Pencil, Globe, ExternalLink, Camera, X, Check } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
 import { useProfileData } from "@/hooks/useProfileData";
-import { ProfileEditModal } from "@/components/profile/ProfileEditModal";
 import { ShareProfilePopover } from "@/components/profile/ShareProfilePopover";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 const projects = [
   { name: "Azure APIM Landing Zone", desc: "Production-grade Azure API Management landing zone with Terraform following security best practices.", tags: ["Azure", "Terraform"], color: "hsl(var(--crystal-cyan))" },
@@ -33,7 +35,7 @@ const defaultBannerGradient = "linear-gradient(135deg, hsl(260 70% 30%) 0%, hsl(
 const Profile = () => {
   const { username: urlUsername } = useParams<{ username: string }>();
   const { user, isLoaded } = useUser();
-  const [editOpen, setEditOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   const handle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
   const isOwner = !urlUsername || urlUsername === handle;
@@ -41,16 +43,72 @@ const Profile = () => {
 
   const { profileData, saveProfile } = useProfileData(user?.id);
 
-  const fullName = profileData.displayName || user?.fullName || user?.firstName || "Your Name";
+  // Draft state for inline editing
+  const [draft, setDraft] = useState({
+    displayName: "",
+    bio: "",
+    location: "",
+    website: "",
+    bannerUrl: null as string | null,
+    customAvatarUrl: null as string | null,
+  });
+
+  const bannerRef = useRef<HTMLInputElement>(null);
+  const avatarRef = useRef<HTMLInputElement>(null);
+
+  const startEditing = () => {
+    setDraft({
+      displayName: profileData.displayName || user?.fullName || user?.firstName || "",
+      bio: profileData.bio,
+      location: profileData.location,
+      website: profileData.website,
+      bannerUrl: profileData.bannerUrl,
+      customAvatarUrl: profileData.customAvatarUrl,
+    });
+    setEditing(true);
+  };
+
+  const cancelEditing = () => {
+    setEditing(false);
+  };
+
+  const handleSave = () => {
+    saveProfile({
+      displayName: draft.displayName.trim(),
+      bio: draft.bio.trim(),
+      location: draft.location.trim(),
+      website: draft.website.trim(),
+      bannerUrl: draft.bannerUrl,
+      customAvatarUrl: draft.customAvatarUrl,
+    });
+    setEditing(false);
+  };
+
+  const handleFile = (file: File, field: "bannerUrl" | "customAvatarUrl") => {
+    if (file.size > 2 * 1024 * 1024) return;
+    const reader = new FileReader();
+    reader.onload = () => setDraft(d => ({ ...d, [field]: reader.result as string }));
+    reader.readAsDataURL(file);
+  };
+
+  // Resolved display values — use draft when editing, profileData when not
+  const displayName = editing
+    ? draft.displayName
+    : profileData.displayName || user?.fullName || user?.firstName || "Your Name";
+  const bio = editing ? draft.bio : profileData.bio;
+  const location = editing ? draft.location : profileData.location;
+  const website = editing ? draft.website : profileData.website;
+  const bannerUrl = editing ? draft.bannerUrl : profileData.bannerUrl;
+  const customAvatarUrl = editing ? draft.customAvatarUrl : profileData.customAvatarUrl;
+  const avatarUrl = customAvatarUrl || user?.imageUrl;
+
   const initials = user?.firstName && user?.lastName
     ? `${user.firstName[0]}${user.lastName[0]}`
     : user?.firstName?.[0] || "YO";
-  const avatarUrl = profileData.customAvatarUrl || user?.imageUrl;
   const joinedDate = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })
     : "Feb 2026";
 
-  // If viewing someone else's profile and not the current user, show not found
   if (isLoaded && urlUsername && !isOwner && !user) {
     return (
       <AppLayout>
@@ -66,72 +124,180 @@ const Profile = () => {
     <AppLayout>
       <div className="max-w-5xl mx-auto pb-12">
         {/* Banner */}
-        <div className="h-48 rounded-b-2xl relative overflow-hidden">
-          {profileData.bannerUrl ? (
-            <img src={profileData.bannerUrl} alt="" className="w-full h-full object-cover" />
+        <div
+          className={`h-48 rounded-b-2xl relative overflow-hidden group ${editing ? "cursor-pointer ring-2 ring-primary/20" : ""}`}
+          onClick={() => editing && bannerRef.current?.click()}
+        >
+          {bannerUrl ? (
+            <img src={bannerUrl} alt="" className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full" style={{ background: defaultBannerGradient }} />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+          {editing && (
+            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+              <Camera className="h-5 w-5 text-white" />
+              <span className="text-white text-sm font-medium">Change cover</span>
+            </div>
+          )}
+          <input
+            ref={bannerRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={e => {
+              const f = e.target.files?.[0];
+              if (f) handleFile(f, "bannerUrl");
+            }}
+          />
         </div>
 
         {/* Avatar + Info */}
         <div className="px-6 lg:px-8 -mt-16 relative z-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5">
-            {avatarUrl ? (
-              <img src={avatarUrl} alt={fullName} className="h-28 w-28 rounded-full border-4 border-background object-cover shrink-0" />
-            ) : (
-              <div className="h-28 w-28 rounded-full border-4 border-background bg-card flex items-center justify-center text-3xl font-mono font-bold text-foreground shrink-0">
-                {initials}
-              </div>
-            )}
-            <div className="flex-1 pb-2">
-              <h1 className="text-2xl font-bold">{fullName}</h1>
-              <p className="text-sm text-muted-foreground">@{viewedHandle}</p>
+            {/* Avatar */}
+            <div
+              className={`relative shrink-0 group ${editing ? "cursor-pointer" : ""}`}
+              onClick={() => editing && avatarRef.current?.click()}
+            >
+              {avatarUrl ? (
+                <img src={avatarUrl} alt={displayName} className="h-28 w-28 rounded-full border-4 border-background object-cover" />
+              ) : (
+                <div className="h-28 w-28 rounded-full border-4 border-background bg-card flex items-center justify-center text-3xl font-mono font-bold text-foreground">
+                  {initials}
+                </div>
+              )}
+              {editing && (
+                <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
+                  <Camera className="h-4 w-4 text-white" />
+                  <span className="text-white text-[10px] font-medium mt-0.5">Change photo</span>
+                </div>
+              )}
+              <input
+                ref={avatarRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={e => {
+                  const f = e.target.files?.[0];
+                  if (f) handleFile(f, "customAvatarUrl");
+                }}
+              />
             </div>
+
+            {/* Name + handle */}
+            <div className="flex-1 pb-2">
+              {editing ? (
+                <Input
+                  value={draft.displayName}
+                  onChange={e => setDraft(d => ({ ...d, displayName: e.target.value }))}
+                  placeholder="Your name"
+                  maxLength={80}
+                  className="text-2xl font-bold h-auto py-1 px-2 bg-transparent border-border/50 focus:border-primary/40 max-w-xs"
+                />
+              ) : (
+                <h1 className="text-2xl font-bold">{displayName}</h1>
+              )}
+              <p className="text-sm text-muted-foreground mt-0.5">@{viewedHandle}</p>
+            </div>
+
+            {/* Actions */}
             <div className="flex items-center gap-2 pb-2">
-              {isOwner ? (
+              {isOwner && !editing && (
                 <button
-                  onClick={() => setEditOpen(true)}
+                  onClick={startEditing}
                   className="rounded-lg border border-border px-4 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors flex items-center gap-1.5 active:scale-[0.97]"
                 >
                   <Pencil className="h-3.5 w-3.5" /> Edit profile
                 </button>
-              ) : (
-                <ShareProfilePopover username={viewedHandle} />
               )}
-              {isOwner && <ShareProfilePopover username={viewedHandle} />}
+              {isOwner && editing && (
+                <>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={cancelEditing}
+                    className="rounded-lg px-4 h-9 text-xs font-medium"
+                  >
+                    <X className="h-3.5 w-3.5 mr-1.5" /> Cancel
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={handleSave}
+                    className="rounded-lg px-5 h-9 text-xs font-medium"
+                  >
+                    <Check className="h-3.5 w-3.5 mr-1.5" /> Save
+                  </Button>
+                </>
+              )}
+              {!editing && isOwner && <ShareProfilePopover username={viewedHandle} />}
+              {!isOwner && <ShareProfilePopover username={viewedHandle} />}
             </div>
           </div>
 
-          {/* Bio row */}
+          {/* Meta row */}
           <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-            {profileData.location && (
-              <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> {profileData.location}</span>
-            )}
-            {!profileData.location && (
-              <span className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" /> Infrastructure Engineer</span>
+            {editing ? (
+              <span className="flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5 shrink-0" />
+                <Input
+                  value={draft.location}
+                  onChange={e => setDraft(d => ({ ...d, location: e.target.value }))}
+                  placeholder="Location, e.g. San Francisco"
+                  maxLength={100}
+                  className="h-7 text-sm py-0 px-2 bg-transparent border-border/50 focus:border-primary/40 w-48"
+                />
+              </span>
+            ) : (
+              <span className="flex items-center gap-1">
+                <MapPin className="h-3.5 w-3.5" /> {location || "Infrastructure Engineer"}
+              </span>
             )}
             <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Joined {joinedDate}</span>
             <span className="flex items-center gap-1"><Flame className="h-3.5 w-3.5 text-crystal-orange" /> 12 day streak</span>
             <span className="flex items-center gap-1"><Trophy className="h-3.5 w-3.5 text-crystal-yellow" /> Silver League</span>
-            {profileData.website && (
-              <a
-                href={profileData.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-primary hover:underline"
-              >
-                <Globe className="h-3.5 w-3.5" />
-                {profileData.website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
-                <ExternalLink className="h-3 w-3" />
-              </a>
+            {editing ? (
+              <span className="flex items-center gap-1.5">
+                <Globe className="h-3.5 w-3.5 shrink-0" />
+                <Input
+                  value={draft.website}
+                  onChange={e => setDraft(d => ({ ...d, website: e.target.value }))}
+                  placeholder="https://yoursite.com"
+                  maxLength={200}
+                  className="h-7 text-sm py-0 px-2 bg-transparent border-border/50 focus:border-primary/40 w-56"
+                />
+              </span>
+            ) : (
+              website && (
+                <a
+                  href={website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-primary hover:underline"
+                >
+                  <Globe className="h-3.5 w-3.5" />
+                  {website.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+                  <ExternalLink className="h-3 w-3" />
+                </a>
+              )
             )}
           </div>
 
           {/* Bio */}
-          {profileData.bio && (
-            <p className="mt-3 text-sm text-foreground leading-relaxed max-w-xl">{profileData.bio}</p>
+          {editing ? (
+            <div className="mt-3 max-w-xl">
+              <Textarea
+                value={draft.bio}
+                onChange={e => setDraft(d => ({ ...d, bio: e.target.value }))}
+                placeholder="Write a short bio about yourself..."
+                maxLength={300}
+                rows={3}
+                className="text-sm bg-transparent border-border/50 focus:border-primary/40 resize-none"
+              />
+              <p className="text-[10px] text-muted-foreground mt-1 text-right">{draft.bio.length}/300</p>
+            </div>
+          ) : (
+            bio && <p className="mt-3 text-sm text-foreground leading-relaxed max-w-xl">{bio}</p>
           )}
 
           {/* Follower stats */}
@@ -145,7 +311,7 @@ const Profile = () => {
           {/* Main column */}
           <div className="space-y-8">
             {/* Engineer Profile */}
-            {!profileData.bio && (
+            {!bio && !editing && (
               <div>
                 <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-5">Engineer Profile</h2>
                 <div className="space-y-3 max-w-xl">
@@ -298,18 +464,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
-      {/* Edit Modal — only rendered for owner */}
-      {isOwner && (
-        <ProfileEditModal
-          open={editOpen}
-          onOpenChange={setEditOpen}
-          data={profileData}
-          clerkAvatarUrl={user?.imageUrl}
-          clerkName={user?.fullName || user?.firstName}
-          onSave={saveProfile}
-        />
-      )}
     </AppLayout>
   );
 };
