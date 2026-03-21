@@ -622,8 +622,8 @@ export default function OfficeHours() {
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-10 space-y-10">
 
         {/* ── SECTION 1 — HERO ── */}
-        <section className="rounded-xl border border-border/50 overflow-hidden relative" style={{ background: "#0d0d0d" }}>
-          <div className="h-1" style={{ background: SPECTRUM_GRADIENT }} />
+        <section style={{ position: 'relative', borderRadius: '14px', border: '1px solid #25405f', background: '#0d0d0d' }}>
+          <div style={{ height: '4px', background: SPECTRUM_GRADIENT, borderRadius: '14px 14px 0 0' }} />
 
           {/* Edit button */}
           <button
