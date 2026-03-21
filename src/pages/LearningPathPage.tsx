@@ -145,7 +145,8 @@ function ProgressSidebar({
   const matchingHandsOn = handsOnTracks.find(t => t.curriculumTrackId === currentTrackId);
   const upNext = upNextContent[currentTrackId];
   const isLastTrack = currentTrackId === "advanced-architecture";
-  const isOnboarding = currentTrackId === "welcome-orientation";
+  const isPrereq = currentTrackId === "cloud-infrastructure-intro";
+  const isOnboarding = currentTrackId === "welcome-orientation" || isPrereq;
 
   return (
     <div className="space-y-5">
