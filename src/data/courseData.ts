@@ -14,6 +14,11 @@ export interface KnowledgeCheck {
   correctAnswer: number;
 }
 
+export interface ComparisonTable {
+  headers: string[];
+  rows: string[][];
+}
+
 export interface Lesson {
   id: string;
   title: string;
@@ -29,6 +34,7 @@ export interface Lesson {
   modificationExercise?: string;
   engineeringReflection?: string;
   knowledgeCheck?: KnowledgeCheck;
+  comparisonTables?: ComparisonTable[];
 }
 
 export interface Course {
@@ -50,6 +56,7 @@ export interface LearningPath {
   courses: Course[];
   order: number;
   color: string;
+  accentColor?: string;
 }
 
 export const learningPaths: LearningPath[] = [
