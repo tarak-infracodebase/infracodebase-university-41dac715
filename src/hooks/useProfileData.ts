@@ -17,6 +17,7 @@ const defaults: ProfileData = {
   website: "",
   bannerUrl: null,
   customAvatarUrl: null,
+  customHandle: "",
 };
 
 function getStorageKey(userId: string) {
