@@ -562,7 +562,7 @@ function GetYourCardModal({ onClose }: { onClose: () => void }) {
   }, [onClose]);
 
   return (
-    <div className="gcf-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+    <div className="gcf-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }} style={{ position:'fixed', top:0, left:0, width:'100vw', height:'100vh', zIndex:99999, background:'rgba(0,0,0,0.88)', display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
       <div className="gcf-modal">
         <button className="gcf-close" onClick={onClose}>✕</button>
         <div style={{ height:3, background:"#1a1a1a", borderRadius:"24px 24px 0 0", overflow:"hidden" }}>
