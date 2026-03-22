@@ -291,174 +291,116 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
     setTimeout(() => {
       try {
         const canvas = document.createElement('canvas');
-        canvas.width = 1200; canvas.height = 1200;
+        canvas.width = 1400; canvas.height = 900;
         const ctx = canvas.getContext('2d')!;
-        const W = 1200, H = 1200;
+        const W = 1400, H = 900;
 
-        // ── BACKGROUND: dark moody fabric-like texture ──
-        ctx.fillStyle = '#0a0a0f';
+        // Background
+        ctx.fillStyle = '#080808';
         ctx.fillRect(0, 0, W, H);
 
-        // Subtle vignette smoke/fabric effect
-        const smokeColors = (v.front.match(/#[0-9a-fA-F]{6}/g) || ['#333']);
-        const sc0 = smokeColors[0];
-        const sr = parseInt(sc0.slice(1,3),16);
-        const sg = parseInt(sc0.slice(3,5),16);
-        const sb = parseInt(sc0.slice(5,7),16);
+        // Ambient glow from selected card
+        const hexMatch = v.front.match(/#[0-9a-fA-F]{6}/g) || ['#444'];
+        const h0 = hexMatch[0];
+        const ar2 = parseInt(h0.slice(1,3),16), ag2 = parseInt(h0.slice(3,5),16), ab2 = parseInt(h0.slice(5,7),16);
+        const glowG = ctx.createRadialGradient(W*0.55, H*0.52, 0, W*0.55, H*0.52, 500);
+        glowG.addColorStop(0, `rgba(${ar2},${ag2},${ab2},0.2)`);
+        glowG.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glowG; ctx.fillRect(0,0,W,H);
 
-        // Multiple overlapping radial smoke layers
-        [[W*0.3,H*0.35,350,0.22],[W*0.7,H*0.55,280,0.14],[W*0.5,H*0.45,500,0.1]].forEach(([x,y,r,a])=>{
-          const g = ctx.createRadialGradient(x,y,0,x,y,r);
-          g.addColorStop(0,`rgba(${sr},${sg},${sb},${a})`);
-          g.addColorStop(0.5,`rgba(${sr},${sg},${sb},${(a as number)*0.4})`);
-          g.addColorStop(1,'rgba(0,0,0,0)');
-          ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+        const allVariants = [
+          { front: 'linear-gradient(145deg,#141414,#2e2e2e)' },
+          { front: 'linear-gradient(145deg,#3D2208,#C17B3A)' },
+          { front: 'linear-gradient(145deg,#1A3A2A,#4A8060)' },
+          { front: 'linear-gradient(145deg,#0D1B35,#2E5490)' },
+          { front: 'linear-gradient(135deg,#C1410B,#FB923C)' },
+          { front: 'linear-gradient(135deg,#7C3AED,#F43F5E)' },
+          { front: 'linear-gradient(135deg,#0891B2,#FACC15)' },
+          { front: 'linear-gradient(135deg,#E63946,#F4831F,#F9C02A,#2DC653,#1BB8CC,#4F46E5,#9333EA)', spectrum: true },
+        ];
+
+        const drawCard = (ctx2: CanvasRenderingContext2D, vari: any, cx: number, cy: number, cw: number, ch: number, rot: number, alpha: number, isTop: boolean, topName: string, topNumber: string, topMember: string) => {
+          ctx2.save();
+          ctx2.globalAlpha = alpha;
+          ctx2.translate(cx, cy);
+          ctx2.rotate(rot);
+
+          ctx2.shadowColor = 'rgba(0,0,0,0.7)';
+          ctx2.shadowBlur = isTop ? 40 : 20;
+          ctx2.shadowOffsetY = isTop ? 18 : 8;
+
+          const r = cw * 0.07;
+          ctx2.beginPath();
+          ctx2.roundRect(-cw/2, -ch/2, cw, ch, r);
+
+          if ((vari as any).spectrum) {
+            const sg2 = ctx2.createLinearGradient(-cw/2, 0, cw/2, 0);
+            ['#E63946','#F4831F','#F9C02A','#2DC653','#1BB8CC','#4F46E5','#9333EA']
+              .forEach((c,i,a) => sg2.addColorStop(i/(a.length-1), c));
+            ctx2.fillStyle = sg2;
+          } else {
+            const cols = vari.front.match(/#[0-9a-fA-F]{6}/g) || ['#141414','#2e2e2e'];
+            const cg = ctx2.createLinearGradient(-cw/2,-ch/2,cw/2,ch/2);
+            cg.addColorStop(0, cols[0]); cg.addColorStop(1, cols[cols.length-1]);
+            ctx2.fillStyle = cg;
+          }
+          ctx2.fill();
+          ctx2.shadowColor = 'transparent'; ctx2.shadowBlur = 0; ctx2.shadowOffsetY = 0;
+
+          ctx2.beginPath(); ctx2.roundRect(-cw/2,-ch/2,cw,ch,r); ctx2.clip();
+          const sh = ctx2.createRadialGradient(-cw*0.15,-ch*0.2,0,-cw*0.15,-ch*0.2,cw*0.55);
+          sh.addColorStop(0,'rgba(255,255,255,0.18)'); sh.addColorStop(1,'rgba(255,255,255,0)');
+          ctx2.fillStyle=sh; ctx2.fillRect(-cw/2,-ch/2,cw,ch);
+
+          if (isTop) {
+            ctx2.font = `500 ${cw*0.028}px monospace`; ctx2.fillStyle='rgba(255,255,255,0.45)';
+            ctx2.textAlign='right'; ctx2.fillText('CARD', cw/2-cw*0.05, -ch/2+ch*0.12);
+            ctx2.font = `bold ${cw*0.055}px monospace`; ctx2.fillStyle='rgba(255,255,255,0.88)';
+            ctx2.textAlign='right'; ctx2.fillText(topName, cw/2-cw*0.05, -ch/2+ch*0.24);
+            ctx2.font = `bold ${cw*0.058}px monospace`; ctx2.fillStyle='rgba(255,255,255,0.9)';
+            ctx2.textAlign='left'; ctx2.fillText(topNumber, -cw/2+cw*0.07, ch/2-ch*0.28);
+            ctx2.font = `500 ${cw*0.024}px monospace`; ctx2.fillStyle='rgba(255,255,255,0.38)';
+            ctx2.textAlign='left'; ctx2.fillText('MEMBER SINCE', -cw/2+cw*0.07, ch/2-ch*0.18);
+            ctx2.font = `bold ${cw*0.034}px monospace`; ctx2.fillStyle='rgba(255,255,255,0.7)';
+            ctx2.fillText('03 / 26', -cw/2+cw*0.07, ch/2-ch*0.1);
+            ctx2.font = `bold ${cw*0.048}px monospace`; ctx2.fillStyle='#fff';
+            ctx2.textAlign='right'; ctx2.fillText(topMember, cw/2-cw*0.05, ch/2-ch*0.1);
+            ctx2.font = `400 ${cw*0.022}px monospace`; ctx2.fillStyle='rgba(255,255,255,0.28)';
+            ctx2.textAlign='right'; ctx2.fillText('infracodebase university', cw/2-cw*0.05, ch/2-ch*0.03);
+          }
+
+          ctx2.beginPath(); ctx2.roundRect(-cw/2,-ch/2,cw,ch,r);
+          ctx2.strokeStyle='rgba(255,255,255,0.13)'; ctx2.lineWidth=1.5; ctx2.stroke();
+          ctx2.restore();
+        };
+
+        const CX = W * 0.52, CY = H * 0.5;
+        const CW = 460, CH = 290;
+        const totalCards = allVariants.length;
+        const spreadAngle = 0.52;
+        const startAngle = -spreadAngle / 2;
+
+        const backOrder = allVariants.map((_,i)=>i).filter(i=>i!==cardIndex);
+        backOrder.forEach((i, idx) => {
+          const t = idx / (totalCards - 2);
+          const rot = startAngle + t * spreadAngle * 0.85 - 0.04;
+          const ox = (t - 0.5) * 180;
+          const oy = Math.abs(t - 0.5) * 40;
+          drawCard(ctx, allVariants[i], CX + ox - 30, CY + oy + 20, CW * 0.88, CH * 0.88, rot, 0.75, false, '','','');
         });
 
-        // Dark vignette edges
-        const vig = ctx.createRadialGradient(W/2,H/2,200,W/2,H/2,W*0.75);
-        vig.addColorStop(0,'rgba(0,0,0,0)');
-        vig.addColorStop(1,'rgba(0,0,0,0.7)');
-        ctx.fillStyle=vig; ctx.fillRect(0,0,W,H);
+        drawCard(ctx, allVariants[cardIndex], CX + 60, CY - 10, CW, CH, 0.06, 1, true, v.name, number, nm);
 
-        // Noise texture simulation (fine grain)
-        ctx.save();
-        ctx.globalAlpha=0.03;
-        for(let i=0;i<8000;i++){
-          ctx.fillStyle=`rgba(255,255,255,${Math.random()*0.8})`;
-          ctx.fillRect(Math.random()*W, Math.random()*H, 1, 1);
-        }
-        ctx.restore();
+        ctx.save(); ctx.font='400 13px monospace'; ctx.fillStyle='rgba(255,255,255,0.1)';
+        ctx.textAlign='center'; ctx.fillText('Your Infracodebase University Membership Card', W/2, H-22); ctx.restore();
 
-        // ── CARD: tilted ~-12deg horizontal, slight vertical tilt ──
-        const TL = {x: 155, y: 295};
-        const TR = {x: 1045, y: 195};
-        const BR = {x: 1045, y: 745};
-        const BL = {x: 155, y: 855};
-
-        // Edge vectors
-        const edX = 18, edY = 28;
-
-        // ── CAST SHADOW (diffuse, large) ──
-        for(let s=35;s>=1;s--){
-          ctx.beginPath();
-          ctx.moveTo(TL.x+s*2,TL.y+s*3); ctx.lineTo(TR.x+s*2,TR.y+s*3);
-          ctx.lineTo(BR.x+s*2,BR.y+s*3); ctx.lineTo(BL.x+s*2,BL.y+s*3);
-          ctx.closePath();
-          ctx.fillStyle=`rgba(0,0,0,${0.007*(36-s)})`; ctx.fill();
-        }
-
-        // ── BOTTOM EDGE ──
-        const ec = smokeColors[smokeColors.length-1];
-        const er=Math.max(0,parseInt(ec.slice(1,3),16)-80);
-        const eg2=Math.max(0,parseInt(ec.slice(3,5),16)-80);
-        const eb2=Math.max(0,parseInt(ec.slice(5,7),16)-80);
-        ctx.beginPath();
-        ctx.moveTo(BL.x,BL.y); ctx.lineTo(BR.x,BR.y);
-        ctx.lineTo(BR.x+edX*0.4,BR.y+edY); ctx.lineTo(BL.x-edX,BL.y+edY);
-        ctx.closePath();
-        ctx.fillStyle=`rgb(${er},${eg2},${eb2})`; ctx.fill();
-
-        // ── RIGHT EDGE ──
-        ctx.beginPath();
-        ctx.moveTo(TR.x,TR.y); ctx.lineTo(BR.x,BR.y);
-        ctx.lineTo(BR.x+edX*0.4,BR.y+edY); ctx.lineTo(TR.x+edX*0.4,TR.y+edY*0.4);
-        ctx.closePath();
-        ctx.fillStyle=`rgba(${er},${eg2},${eb2},0.6)`; ctx.fill();
-
-        // ── CARD FACE ──
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(TL.x,TL.y); ctx.lineTo(TR.x,TR.y);
-        ctx.lineTo(BR.x,BR.y); ctx.lineTo(BL.x,BL.y);
-        ctx.closePath(); ctx.clip();
-
-        // Gradient fill
-        if(v.name==='Spectrum'){
-          const sg2=ctx.createLinearGradient(TL.x,0,TR.x,0);
-          ['#E63946','#F4831F','#F9C02A','#2DC653','#1BB8CC','#4F46E5','#9333EA']
-            .forEach((c,i,a)=>sg2.addColorStop(i/(a.length-1),c));
-          ctx.fillStyle=sg2;
-        } else {
-          const cols=v.front.match(/#[0-9a-fA-F]{6}/g)||['#141414','#2e2e2e'];
-          const cg=ctx.createLinearGradient(TL.x,TL.y,BR.x,BR.y);
-          cg.addColorStop(0,cols[0]); cg.addColorStop(1,cols[cols.length-1]);
-          ctx.fillStyle=cg;
-        }
-        ctx.fillRect(TL.x-5,TL.y-5,TR.x-TL.x+10,BL.y-TL.y+10);
-
-        // Primary specular — bright streak upper-left
-        const spec1=ctx.createRadialGradient(
-          TL.x+(TR.x-TL.x)*0.25, TL.y+(BL.y-TL.y)*0.18, 0,
-          TL.x+(TR.x-TL.x)*0.25, TL.y+(BL.y-TL.y)*0.18, 320
-        );
-        spec1.addColorStop(0,'rgba(255,255,255,0.35)');
-        spec1.addColorStop(0.3,'rgba(255,255,255,0.08)');
-        spec1.addColorStop(1,'rgba(255,255,255,0)');
-        ctx.fillStyle=spec1; ctx.fillRect(TL.x-5,TL.y-5,TR.x-TL.x+10,BL.y-TL.y+10);
-
-        // Secondary specular — soft mid-card shimmer
-        const spec2=ctx.createRadialGradient(
-          TL.x+(TR.x-TL.x)*0.65, TL.y+(BL.y-TL.y)*0.55, 0,
-          TL.x+(TR.x-TL.x)*0.65, TL.y+(BL.y-TL.y)*0.55, 200
-        );
-        spec2.addColorStop(0,'rgba(255,255,255,0.07)');
-        spec2.addColorStop(1,'rgba(255,255,255,0)');
-        ctx.fillStyle=spec2; ctx.fillRect(TL.x-5,TL.y-5,TR.x-TL.x+10,BL.y-TL.y+10);
-
-        // Bottom-right darkening
-        const dark2=ctx.createRadialGradient(BR.x,BR.y,0,BR.x,BR.y,380);
-        dark2.addColorStop(0,'rgba(0,0,0,0.35)'); dark2.addColorStop(1,'rgba(0,0,0,0)');
-        ctx.fillStyle=dark2; ctx.fillRect(TL.x-5,TL.y-5,TR.x-TL.x+10,BL.y-TL.y+10);
-
-        ctx.restore();
-
-        // Card border — thin bright rim light
-        ctx.beginPath();
-        ctx.moveTo(TL.x,TL.y); ctx.lineTo(TR.x,TR.y);
-        ctx.lineTo(BR.x,BR.y); ctx.lineTo(BL.x,BL.y); ctx.closePath();
-        ctx.strokeStyle='rgba(255,255,255,0.18)'; ctx.lineWidth=1.5; ctx.stroke();
-
-        // Chip
-        const chipX=TL.x+(TR.x-TL.x)*0.08+14;
-        const chipY=TL.y+(BL.y-TL.y)*0.12+18;
-        ctx.save();
-        ctx.fillStyle='rgba(210,185,120,0.82)';
-        ctx.beginPath(); ctx.roundRect(chipX,chipY,54,42,6); ctx.fill();
-        ctx.strokeStyle='rgba(150,120,60,0.5)'; ctx.lineWidth=0.8;
-        [chipY+14,chipY+28].forEach(y=>{ctx.beginPath();ctx.moveTo(chipX,y);ctx.lineTo(chipX+54,y);ctx.stroke();});
-        [chipX+18,chipX+36].forEach(x=>{ctx.beginPath();ctx.moveTo(x,chipY);ctx.lineTo(x,chipY+42);ctx.stroke();});
-        ctx.restore();
-
-        // Text helpers
-        const pY=(f:number)=>TL.y+(BL.y-TL.y)*f;
-        const pL=(f:number)=>TL.x+(BL.x-TL.x)*f+52;
-        const pR=(f:number)=>TR.x+(BR.x-TR.x)*f-44;
-
-        ctx.save(); ctx.font='500 13px monospace'; ctx.fillStyle='rgba(255,255,255,0.45)';
-        ctx.textAlign='right'; ctx.fillText('CARD',pR(0.08),pY(0.1)); ctx.restore();
-        ctx.save(); ctx.font='bold 26px monospace'; ctx.fillStyle='rgba(255,255,255,0.9)';
-        ctx.textAlign='right'; ctx.fillText(v.name.toUpperCase(),pR(0.19),pY(0.21)); ctx.restore();
-        ctx.save(); ctx.font='bold 30px monospace'; ctx.fillStyle='rgba(255,255,255,0.92)';
-        ctx.textAlign='left'; ctx.fillText(number,pL(0.64),pY(0.67)); ctx.restore();
-        ctx.save(); ctx.font='500 11px monospace'; ctx.fillStyle='rgba(255,255,255,0.38)';
-        ctx.textAlign='left'; ctx.fillText('MEMBER SINCE',pL(0.75),pY(0.77)); ctx.restore();
-        ctx.save(); ctx.font='bold 16px monospace'; ctx.fillStyle='rgba(255,255,255,0.75)';
-        ctx.textAlign='left'; ctx.fillText('03 / 26',pL(0.84),pY(0.85)); ctx.restore();
-        ctx.save(); ctx.font='bold 24px monospace'; ctx.fillStyle='rgba(255,255,255,0.92)';
-        ctx.textAlign='right'; ctx.fillText(nm,pR(0.87),pY(0.89)); ctx.restore();
-        ctx.save(); ctx.font='400 11px monospace'; ctx.fillStyle='rgba(255,255,255,0.25)';
-        ctx.textAlign='right'; ctx.fillText('infracodebase university',pR(0.95),pY(0.96)); ctx.restore();
-        ctx.save(); ctx.font='400 11px monospace'; ctx.fillStyle='rgba(255,255,255,0.08)';
-        ctx.textAlign='center'; ctx.fillText('Your Infracodebase University Membership Card',W/2,H-22); ctx.restore();
-
-        const imgData=canvas.toDataURL('image/png');
-        const doc=new jsPDF({orientation:'portrait',unit:'px',format:[W,H]});
+        const imgData = canvas.toDataURL('image/png');
+        const doc = new jsPDF({ orientation:'landscape', unit:'px', format:[W,H] });
         doc.addImage(imgData,'PNG',0,0,W,H);
         doc.save(`infracodebase-${v.name.toLowerCase()}-card.pdf`);
         setDownloading(false); setDownloaded(true);
-      } catch(e){setDownloading(false);}
-    },1200);
+      } catch(e) { setDownloading(false); }
+    }, 1200);
   };
 
   const handleLinkedIn = () => {
