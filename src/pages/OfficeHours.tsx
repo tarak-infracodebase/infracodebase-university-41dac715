@@ -592,6 +592,114 @@ function SessionModal({
   );
 }
 
+/* ── Horizontal Session Card ── */
+function HorizontalSessionCard({
+  editing, onClick, sessionTitle, setSessionTitle, sessionDesc, setSessionDesc, sessionDate, setSessionDate,
+}: {
+  editing: boolean; onClick: () => void;
+  sessionTitle: string; setSessionTitle: (v: string) => void;
+  sessionDesc: string; setSessionDesc: (v: string) => void;
+  sessionDate: string; setSessionDate: (v: string) => void;
+}) {
+  const [hov, setHov] = useState(false);
+
+  return (
+    <div
+      onClick={() => !editing && onClick()}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        background: hov && !editing ? '#162035' : '#101929',
+        border: `1px solid ${hov && !editing ? '#25405f' : '#1c2e47'}`,
+        borderRadius: '12px',
+        overflow: 'hidden',
+        cursor: editing ? 'default' : 'pointer',
+        transition: 'all 0.2s',
+        transform: hov && !editing ? 'translateY(-2px)' : 'none',
+        boxShadow: hov && !editing ? '0 8px 32px rgba(0,0,0,0.3)' : 'none',
+        minHeight: '160px',
+      }}
+    >
+      {/* LEFT — Thumbnail */}
+      <div style={{
+        width: '280px',
+        minWidth: '280px',
+        position: 'relative',
+        overflow: 'hidden',
+        flexShrink: 0,
+      }}>
+        <img
+          src="/office-hours-thumbnail.png"
+          alt={sessionTitle}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center top',
+            display: 'block',
+          }}
+        />
+        {!editing && hov && (
+          <div style={{
+            position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'opacity 0.2s',
+          }}>
+            <div style={{
+              width: '48px', height: '48px', borderRadius: '50%',
+              background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <Play className="h-5 w-5 text-white" style={{ marginLeft: '2px' }} />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* RIGHT — Content */}
+      <div style={{
+        flex: 1,
+        padding: '20px 24px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <span style={{
+              borderRadius: '9999px', padding: '2px 10px',
+              fontSize: '11px', fontWeight: 600,
+              background: 'rgba(167,139,250,0.15)', color: '#a78bfa',
+            }}>
+              Real Infrastructure
+            </span>
+            <span style={{ fontSize: '12px', color: '#94a3b8' }}>49 min</span>
+          </div>
+          <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#f1f5f9', marginBottom: '6px' }}>
+            <InlineField value={sessionTitle} onChange={setSessionTitle} editing={editing} className="text-base font-semibold text-foreground" />
+          </h3>
+          <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: '1.6' }}>
+            <InlineField value={sessionDesc} onChange={setSessionDesc} editing={editing} multiline className="text-sm text-muted-foreground leading-relaxed" />
+          </p>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '16px' }}>
+          <span style={{ fontSize: '12px', color: '#94a3b8' }}>
+            <InlineField value={sessionDate} onChange={setSessionDate} editing={editing} className="text-xs text-muted-foreground" />
+          </span>
+          {!editing && (
+            <span style={{ fontSize: '12px', fontWeight: 500, color: '#22d3ee' }}>View session →</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Main Page ── */
 export default function OfficeHours() {
   const [question, setQuestion] = useState("");
