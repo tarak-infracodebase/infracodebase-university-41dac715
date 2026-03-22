@@ -278,6 +278,11 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
   const [downloaded, setDownloaded] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  useEffect(() => {
+    const t = setTimeout(() => launchConfetti(), 80);
+    return () => clearTimeout(t);
+  }, []);
+
   const handleDownload = () => {
     setDownloading(true);
     setTimeout(() => {
