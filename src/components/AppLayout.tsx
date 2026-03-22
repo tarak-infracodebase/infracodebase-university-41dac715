@@ -13,6 +13,7 @@ import { LogIn } from "lucide-react";
 const navItems = [
   { path: "/", label: "Home", icon: Home },
   { path: "/manifesto", label: "Manifesto", icon: BookOpen },
+  { path: "/cards", label: "Your membership card", icon: User },
   { path: "/curriculum", label: "Curriculum", icon: BookOpen },
   { path: "/hands-on", label: "Hands-On", icon: Hammer },
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
