@@ -798,11 +798,6 @@ export default function OfficeHours() {
                       </div>
                     </div>
                   )}
-                  {/* Instructor avatars */}
-                  <div className="absolute bottom-2 left-2 flex -space-x-2">
-                    <img src="/Justin.jpeg" alt="Justin" className="h-7 w-7 rounded-full object-cover" style={{ border: "2px solid #0d0d0d" }} />
-                    <img src="/Tarak.jpeg" alt="Tarak" className="h-7 w-7 rounded-full object-cover" style={{ border: "2px solid #0d0d0d" }} />
-                  </div>
                 </div>
 
                 {/* Info */}
