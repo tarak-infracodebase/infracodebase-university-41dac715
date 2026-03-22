@@ -225,7 +225,7 @@ function Nav() {
           <span key={l} className="nav-link">{l}</span>
         ))}
       </div>
-      <button className="cta-btn" style={{ padding:"10px 22px", fontSize:10 }} onClick={() => document.getElementById("picker")?.scrollIntoView({ behavior:"smooth" })}>Get your card</button>
+      <GetYourCardButton label="Get your card" />
     </nav>
   );
 }
