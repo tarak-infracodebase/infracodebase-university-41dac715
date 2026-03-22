@@ -28,6 +28,7 @@ import HandsOnModule from "./pages/HandsOnModule";
 import SignInPage from "./pages/SignIn";
 import SignUpPage from "./pages/SignUp";
 import OfficeHours from "./pages/OfficeHours";
+import CommunityCards from "./pages/CommunityCards";
 
 const CLERK_PUBLISHABLE_KEY = "pk_test_ZGVsaWNhdGUta29pLTkyLmNsZXJrLmFjY291bnRzLmRldiQ";
 
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/sign-in/*" element={<SignInPage />} />
               <Route path="/sign-up/*" element={<SignUpPage />} />
               <Route path="/manifesto" element={<AppLayout><Manifesto /></AppLayout>} />
+              <Route path="/cards" element={<CommunityCards />} />
 
               {/* Protected routes */}
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
