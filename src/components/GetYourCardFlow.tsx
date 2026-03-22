@@ -287,46 +287,139 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
     setDownloading(true);
     setTimeout(() => {
       try {
-        const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: [86, 54] });
-        const hexToRgb = (hex: string): [number, number, number] => {
-          hex = hex.replace("#", "");
-          if (hex.length === 3) hex = hex.split("").map(c => c+c).join("");
-          const n = parseInt(hex, 16);
-          return [(n>>16)&255, (n>>8)&255, n&255];
-        };
-        const spectrumCols = ["#E63946","#F4831F","#F9C02A","#2DC653","#1BB8CC","#4F46E5","#9333EA"];
-        for (let i = 0; i < 40; i++) {
-          const t = i / 40;
-          if (v.name === "Spectrum") {
-            const ci = Math.floor(t*(spectrumCols.length-1));
-            const ci2 = Math.min(ci+1, spectrumCols.length-1);
-            const ct = t*(spectrumCols.length-1)-ci;
-            const r1 = hexToRgb(spectrumCols[ci]); const r2 = hexToRgb(spectrumCols[ci2]);
-            doc.setFillColor(Math.round(r1[0]+(r2[0]-r1[0])*ct),Math.round(r1[1]+(r2[1]-r1[1])*ct),Math.round(r1[2]+(r2[2]-r1[2])*ct));
-          } else {
-            const c1Parts = v.front.match(/#[0-9a-fA-F]{6}/g) || ["#141414","#2e2e2e"];
-            const r1 = hexToRgb(c1Parts[0]); const r2 = hexToRgb(c1Parts[1]||c1Parts[0]);
-            doc.setFillColor(Math.round(r1[0]+(r2[0]-r1[0])*t),Math.round(r1[1]+(r2[1]-r1[1])*t),Math.round(r1[2]+(r2[2]-r1[2])*t));
-          }
-          doc.rect(i*(86/40), 0, 86/40+0.5, 54, "F");
+        const doc = new jsPDF({ orientation: 'landscape', unit: 'px', format: [800, 500] });
+        const W = 800, H = 500;
+        // Background
+        doc.setFillColor(10, 10, 10);
+        doc.rect(0, 0, W, H, 'F');
+
+        const cw = 480, ch = 300;
+        const cx = (W - cw) / 2, cy = (H - ch) / 2;
+
+        // Drop shadow layers
+        for (let s = 12; s >= 1; s--) {
+          const alpha = 0.03 + (12 - s) * 0.015;
+          doc.setFillColor(0, 0, 0);
+          doc.setGState(doc.GState({ opacity: alpha }));
+          doc.roundedRect(cx + s * 2, cy + s * 3, cw, ch, 18, 18, 'F');
         }
-        doc.setFontSize(6); doc.setFont("helvetica","normal");
-        doc.setTextColor(200,200,200); doc.text("CARD",72,8,{align:"right"});
-        doc.setFontSize(8); doc.setFont("helvetica","bold");
-        doc.setTextColor(255,255,255); doc.text(v.name.toUpperCase(),72,12,{align:"right"});
-        doc.setFontSize(11); doc.setFont("courier","bold");
-        doc.setTextColor(255,255,255); doc.text(number,8,36);
-        doc.setFontSize(5); doc.setFont("helvetica","normal");
-        doc.setTextColor(180,180,180); doc.text("MEMBER SINCE",8,42);
-        doc.setFontSize(7); doc.setFont("helvetica","normal");
-        doc.setTextColor(220,220,220); doc.text("03 / 26",8,46);
-        doc.setFontSize(8); doc.setFont("helvetica","bold");
-        doc.setTextColor(255,255,255); doc.text(name,72,46,{align:"right"});
-        doc.setFontSize(4.5); doc.setFont("helvetica","normal");
-        doc.setTextColor(160,160,160); doc.text("infracodebase university",72,50,{align:"right"});
+        doc.setGState(doc.GState({ opacity: 1 }));
+
+        const hexToRgb = (hex: string): [number, number, number] => {
+          hex = hex.replace('#', '');
+          if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+          const n = parseInt(hex, 16);
+          return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+        };
+
+        const spectrumColors = ['#E63946', '#F4831F', '#F9C02A', '#2DC653', '#1BB8CC', '#4F46E5', '#9333EA'];
+        const steps = 60;
+        for (let i = 0; i < steps; i++) {
+          const t = i / steps;
+          let r: number, g: number, b: number;
+          if (v.name === 'Spectrum') {
+            const ci = Math.floor(t * (spectrumColors.length - 1));
+            const ci2 = Math.min(ci + 1, spectrumColors.length - 1);
+            const ct = t * (spectrumColors.length - 1) - ci;
+            const c1 = hexToRgb(spectrumColors[ci]);
+            const c2 = hexToRgb(spectrumColors[ci2]);
+            r = Math.round(c1[0] + (c2[0] - c1[0]) * ct);
+            g = Math.round(c1[1] + (c2[1] - c1[1]) * ct);
+            b = Math.round(c1[2] + (c2[2] - c1[2]) * ct);
+          } else {
+            const colors = v.front.match(/#[0-9a-fA-F]{6}/g) || ['#141414', '#2e2e2e'];
+            const c1 = hexToRgb(colors[0]);
+            const c2 = hexToRgb(colors[colors.length - 1]);
+            r = Math.round(c1[0] + (c2[0] - c1[0]) * t);
+            g = Math.round(c1[1] + (c2[1] - c1[1]) * t);
+            b = Math.round(c1[2] + (c2[2] - c1[2]) * t);
+          }
+          doc.setFillColor(r, g, b);
+          doc.rect(cx + i * (cw / steps), cy, cw / steps + 0.5, ch, 'F');
+        }
+
+        // Shimmer highlight
+        for (let s = 0; s < 8; s++) {
+          const alpha = 0.06 - s * 0.007;
+          doc.setFillColor(255, 255, 255);
+          doc.setGState(doc.GState({ opacity: alpha }));
+          doc.ellipse(cx + cw * 0.3 + s * 4, cy + ch * 0.25 + s * 3, cw * 0.35 - s * 6, ch * 0.28 - s * 4, 'F');
+        }
+        doc.setGState(doc.GState({ opacity: 1 }));
+
+        // Card border
+        doc.setDrawColor(255, 255, 255);
+        doc.setLineWidth(0.5);
+        doc.setGState(doc.GState({ opacity: 0.15 }));
+        doc.roundedRect(cx, cy, cw, ch, 18, 18, 'S');
+        doc.setGState(doc.GState({ opacity: 1 }));
+
+        // CARD label
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(200, 200, 200);
+        doc.text('CARD', cx + cw - 28, cy + 36, { align: 'right' });
+
+        // Card name
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(255, 255, 255);
+        doc.text(v.name.toUpperCase(), cx + cw - 28, cy + 56, { align: 'right' });
+
+        // Chip rectangle
+        doc.setFillColor(200, 180, 120);
+        doc.setGState(doc.GState({ opacity: 0.7 }));
+        doc.roundedRect(cx + 32, cy + 90, 44, 34, 4, 4, 'F');
+        doc.setGState(doc.GState({ opacity: 0.4 }));
+        doc.setDrawColor(150, 130, 80);
+        doc.setLineWidth(0.5);
+        doc.line(cx + 32, cy + 100, cx + 76, cy + 100);
+        doc.line(cx + 32, cy + 112, cx + 76, cy + 112);
+        doc.line(cx + 47, cy + 90, cx + 47, cy + 124);
+        doc.line(cx + 61, cy + 90, cx + 61, cy + 124);
+        doc.setGState(doc.GState({ opacity: 1 }));
+
+        // Member number
+        doc.setFontSize(22);
+        doc.setFont('courier', 'bold');
+        doc.setTextColor(255, 255, 255);
+        doc.text(number, cx + 32, cy + ch - 88);
+
+        // Member since
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(180, 180, 180);
+        doc.text('MEMBER SINCE', cx + 32, cy + ch - 64);
+        doc.setFontSize(13);
+        doc.setTextColor(240, 240, 240);
+        doc.text('03 / 26', cx + 32, cy + ch - 48);
+
+        // Member name
+        doc.setFontSize(18);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(255, 255, 255);
+        doc.text(name, cx + cw - 28, cy + ch - 48, { align: 'right' });
+
+        // infracodebase university
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(200, 200, 200);
+        doc.setGState(doc.GState({ opacity: 0.6 }));
+        doc.text('infracodebase university', cx + cw - 28, cy + ch - 26, { align: 'right' });
+        doc.setGState(doc.GState({ opacity: 1 }));
+
+        // Bottom label
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(80, 80, 80);
+        doc.text('Your Infracodebase University Membership Card', W / 2, H - 18, { align: 'center' });
+
         doc.save(`infracodebase-${v.name.toLowerCase()}-card.pdf`);
-        setDownloading(false); setDownloaded(true);
-      } catch { setDownloading(false); }
+        setDownloading(false);
+        setDownloaded(true);
+      } catch (e) {
+        setDownloading(false);
+      }
     }, 1200);
   };
 
