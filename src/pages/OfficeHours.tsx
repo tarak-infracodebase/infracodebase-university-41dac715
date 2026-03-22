@@ -467,11 +467,11 @@ function SessionModal({
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`px-4 py-2 text-sm font-medium capitalize transition-colors border-b-2 -mb-px ${
+                  className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px ${
                     tab === t ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  {t}
+                  {t === "recording" ? "Recording" : t === "screenshots" ? `Our Moments (${shots.length})` : "Notes"}
                 </button>
               ))}
             </div>
@@ -767,7 +767,7 @@ export default function OfficeHours() {
         {/* ── SECTION 3 — PAST SESSIONS ── */}
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-1">Past Sessions</h2>
-          <p className="text-sm text-muted-foreground mb-6">Click any session to watch the recording, view screenshots, and read the notes.</p>
+          <p className="text-sm text-muted-foreground mb-6">Click any session to watch the recording, relive our moments, and read the notes.</p>
 
           <div className="relative">
             {/* Edit button */}
@@ -798,11 +798,6 @@ export default function OfficeHours() {
                       </div>
                     </div>
                   )}
-                  {/* Instructor avatars */}
-                  <div className="absolute bottom-2 left-2 flex -space-x-2">
-                    <img src="/Justin.jpeg" alt="Justin" className="h-7 w-7 rounded-full object-cover" style={{ border: "2px solid #0d0d0d" }} />
-                    <img src="/Tarak.jpeg" alt="Tarak" className="h-7 w-7 rounded-full object-cover" style={{ border: "2px solid #0d0d0d" }} />
-                  </div>
                 </div>
 
                 {/* Info */}
