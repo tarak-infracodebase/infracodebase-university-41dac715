@@ -375,7 +375,7 @@ function HowItWorks() {
           ))}
         </div>
         <div style={{ marginTop:56 }}>
-          <button className="cta-btn" onClick={() => document.getElementById("picker")?.scrollIntoView({ behavior:"smooth" })}>Get your card</button>
+          <GetYourCardButton />
         </div>
       </div>
     </section>
