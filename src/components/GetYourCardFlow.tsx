@@ -285,141 +285,191 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
 
   const handleDownload = () => {
     setDownloading(true);
+
     setTimeout(() => {
       try {
-        const doc = new jsPDF({ orientation: 'landscape', unit: 'px', format: [800, 500] });
-        const W = 800, H = 500;
+        const canvas = document.createElement('canvas');
+        canvas.width = 1200; canvas.height = 900;
+        const ctx = canvas.getContext('2d')!;
+        const W = 1200, H = 900;
+
         // Background
-        doc.setFillColor(10, 10, 10);
-        doc.rect(0, 0, W, H, 'F');
+        ctx.fillStyle = '#080808';
+        ctx.fillRect(0, 0, W, H);
 
-        const cw = 480, ch = 300;
-        const cx = (W - cw) / 2, cy = (H - ch) / 2;
+        // Ambient glow
+        const glowMatch = v.front.match(/#[0-9a-fA-F]{6}/g);
+        const glowHex = glowMatch ? glowMatch[0] : '#444444';
+        const gr = parseInt(glowHex.slice(1,3),16);
+        const gg = parseInt(glowHex.slice(3,5),16);
+        const gb = parseInt(glowHex.slice(5,7),16);
+        const glow = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, 500);
+        glow.addColorStop(0, `rgba(${gr},${gg},${gb},0.25)`);
+        glow.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, W, H);
 
-        // Drop shadow layers
-        for (let s = 12; s >= 1; s--) {
-          const alpha = 0.03 + (12 - s) * 0.015;
-          doc.setFillColor(0, 0, 0);
-          doc.setGState(doc.GState({ opacity: alpha }));
-          doc.roundedRect(cx + s * 2, cy + s * 3, cw, ch, 18, 18, 'F');
+        // 3D card — perspective transform points
+        const tl = { x: 210, y: 140 };
+        const tr = { x: 870, y: 200 };
+        const br = { x: 870, y: 680 };
+        const bl = { x: 210, y: 740 };
+
+        // Edge thickness vectors
+        const ex = 12, ey = 22;
+
+        // Shadow
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,0.85)';
+        ctx.shadowBlur = 80;
+        ctx.shadowOffsetX = 20;
+        ctx.shadowOffsetY = 40;
+        ctx.beginPath();
+        ctx.moveTo(tl.x, tl.y); ctx.lineTo(tr.x, tr.y);
+        ctx.lineTo(br.x, br.y); ctx.lineTo(bl.x, bl.y);
+        ctx.closePath();
+        ctx.fillStyle = '#000';
+        ctx.fill();
+        ctx.restore();
+
+        // Bottom edge
+        const specColors = v.front.match(/#[0-9a-fA-F]{6}/g) || ['#111'];
+        const edgeHex = specColors[specColors.length - 1];
+        const er = Math.max(0, parseInt(edgeHex.slice(1,3),16) - 50);
+        const eg = Math.max(0, parseInt(edgeHex.slice(3,5),16) - 50);
+        const eb2 = Math.max(0, parseInt(edgeHex.slice(5,7),16) - 50);
+        ctx.beginPath();
+        ctx.moveTo(bl.x, bl.y); ctx.lineTo(br.x, br.y);
+        ctx.lineTo(br.x + ex, br.y + ey); ctx.lineTo(bl.x + ex, bl.y + ey);
+        ctx.closePath();
+        ctx.fillStyle = `rgb(${er},${eg},${eb2})`;
+        ctx.fill();
+
+        // Right edge
+        ctx.beginPath();
+        ctx.moveTo(tr.x, tr.y); ctx.lineTo(br.x, br.y);
+        ctx.lineTo(br.x + ex, br.y + ey); ctx.lineTo(tr.x + ex, tr.y + ey);
+        ctx.closePath();
+        ctx.fillStyle = `rgba(${er},${eg},${eb2},0.7)`;
+        ctx.fill();
+
+        // Card face — gradient fill using perspective clip
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(tl.x, tl.y); ctx.lineTo(tr.x, tr.y);
+        ctx.lineTo(br.x, br.y); ctx.lineTo(bl.x, bl.y);
+        ctx.closePath();
+        ctx.clip();
+
+        if (v.name === 'Spectrum') {
+          const specG = ctx.createLinearGradient(tl.x, (tl.y+bl.y)/2, tr.x, (tr.y+br.y)/2);
+          const sc = ['#E63946','#F4831F','#F9C02A','#2DC653','#1BB8CC','#4F46E5','#9333EA'];
+          sc.forEach((c, i) => specG.addColorStop(i/(sc.length-1), c));
+          ctx.fillStyle = specG;
+        } else {
+          const colors = v.front.match(/#[0-9a-fA-F]{6}/g) || ['#141414','#2e2e2e'];
+          const cardG = ctx.createLinearGradient(tl.x, tl.y, br.x, br.y);
+          cardG.addColorStop(0, colors[0]);
+          cardG.addColorStop(1, colors[colors.length-1]);
+          ctx.fillStyle = cardG;
         }
-        doc.setGState(doc.GState({ opacity: 1 }));
+        ctx.fillRect(tl.x - 10, tl.y - 10, tr.x - tl.x + 20, bl.y - tl.y + 20);
 
-        const hexToRgb = (hex: string): [number, number, number] => {
-          hex = hex.replace('#', '');
-          if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
-          const n = parseInt(hex, 16);
-          return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-        };
+        // Specular light streak
+        const streak = ctx.createRadialGradient(
+          tl.x + (tr.x-tl.x)*0.35, tl.y + (bl.y-tl.y)*0.28, 0,
+          tl.x + (tr.x-tl.x)*0.35, tl.y + (bl.y-tl.y)*0.28, 320
+        );
+        streak.addColorStop(0, 'rgba(255,255,255,0.22)');
+        streak.addColorStop(0.4, 'rgba(255,255,255,0.06)');
+        streak.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = streak;
+        ctx.fillRect(tl.x - 10, tl.y - 10, tr.x - tl.x + 20, bl.y - tl.y + 20);
 
-        const spectrumColors = ['#E63946', '#F4831F', '#F9C02A', '#2DC653', '#1BB8CC', '#4F46E5', '#9333EA'];
-        const steps = 60;
-        for (let i = 0; i < steps; i++) {
-          const t = i / steps;
-          let r: number, g: number, b: number;
-          if (v.name === 'Spectrum') {
-            const ci = Math.floor(t * (spectrumColors.length - 1));
-            const ci2 = Math.min(ci + 1, spectrumColors.length - 1);
-            const ct = t * (spectrumColors.length - 1) - ci;
-            const c1 = hexToRgb(spectrumColors[ci]);
-            const c2 = hexToRgb(spectrumColors[ci2]);
-            r = Math.round(c1[0] + (c2[0] - c1[0]) * ct);
-            g = Math.round(c1[1] + (c2[1] - c1[1]) * ct);
-            b = Math.round(c1[2] + (c2[2] - c1[2]) * ct);
-          } else {
-            const colors = v.front.match(/#[0-9a-fA-F]{6}/g) || ['#141414', '#2e2e2e'];
-            const c1 = hexToRgb(colors[0]);
-            const c2 = hexToRgb(colors[colors.length - 1]);
-            r = Math.round(c1[0] + (c2[0] - c1[0]) * t);
-            g = Math.round(c1[1] + (c2[1] - c1[1]) * t);
-            b = Math.round(c1[2] + (c2[2] - c1[2]) * t);
-          }
-          doc.setFillColor(r, g, b);
-          doc.rect(cx + i * (cw / steps), cy, cw / steps + 0.5, ch, 'F');
-        }
-
-        // Shimmer highlight
-        for (let s = 0; s < 8; s++) {
-          const alpha = 0.06 - s * 0.007;
-          doc.setFillColor(255, 255, 255);
-          doc.setGState(doc.GState({ opacity: alpha }));
-          doc.ellipse(cx + cw * 0.3 + s * 4, cy + ch * 0.25 + s * 3, cw * 0.35 - s * 6, ch * 0.28 - s * 4, 'F');
-        }
-        doc.setGState(doc.GState({ opacity: 1 }));
+        ctx.restore();
 
         // Card border
-        doc.setDrawColor(255, 255, 255);
-        doc.setLineWidth(0.5);
-        doc.setGState(doc.GState({ opacity: 0.15 }));
-        doc.roundedRect(cx, cy, cw, ch, 18, 18, 'S');
-        doc.setGState(doc.GState({ opacity: 1 }));
+        ctx.beginPath();
+        ctx.moveTo(tl.x, tl.y); ctx.lineTo(tr.x, tr.y);
+        ctx.lineTo(br.x, br.y); ctx.lineTo(bl.x, bl.y);
+        ctx.closePath();
+        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Text positioning helpers
+        const cardLeft = (yFrac: number) => tl.x + (bl.x - tl.x) * yFrac + 48;
+        const cardRight = (yFrac: number) => tr.x + (br.x - tr.x) * yFrac - 40;
+        const cardY = (yFrac: number) => tl.y + (bl.y - tl.y) * yFrac;
 
         // CARD label
-        doc.setFontSize(9);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(200, 200, 200);
-        doc.text('CARD', cx + cw - 28, cy + 36, { align: 'right' });
+        ctx.save();
+        ctx.font = '500 15px "Space Mono", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.55)';
+        ctx.textAlign = 'right';
+        ctx.fillText('CARD', cardRight(0.08), cardY(0.08));
+        ctx.restore();
 
         // Card name
-        doc.setFontSize(16);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(255, 255, 255);
-        doc.text(v.name.toUpperCase(), cx + cw - 28, cy + 56, { align: 'right' });
-
-        // Chip rectangle
-        doc.setFillColor(200, 180, 120);
-        doc.setGState(doc.GState({ opacity: 0.7 }));
-        doc.roundedRect(cx + 32, cy + 90, 44, 34, 4, 4, 'F');
-        doc.setGState(doc.GState({ opacity: 0.4 }));
-        doc.setDrawColor(150, 130, 80);
-        doc.setLineWidth(0.5);
-        doc.line(cx + 32, cy + 100, cx + 76, cy + 100);
-        doc.line(cx + 32, cy + 112, cx + 76, cy + 112);
-        doc.line(cx + 47, cy + 90, cx + 47, cy + 124);
-        doc.line(cx + 61, cy + 90, cx + 61, cy + 124);
-        doc.setGState(doc.GState({ opacity: 1 }));
+        ctx.save();
+        ctx.font = 'bold 28px "Space Mono", monospace';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'right';
+        ctx.fillText(v.name.toUpperCase(), cardRight(0.17), cardY(0.17));
+        ctx.restore();
 
         // Member number
-        doc.setFontSize(22);
-        doc.setFont('courier', 'bold');
-        doc.setTextColor(255, 255, 255);
-        doc.text(number, cx + 32, cy + ch - 88);
+        ctx.save();
+        ctx.font = 'bold 32px "Courier New", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.92)';
+        ctx.textAlign = 'left';
+        ctx.fillText(number, cardLeft(0.68), cardY(0.68));
+        ctx.restore();
 
         // Member since
-        doc.setFontSize(8);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(180, 180, 180);
-        doc.text('MEMBER SINCE', cx + 32, cy + ch - 64);
-        doc.setFontSize(13);
-        doc.setTextColor(240, 240, 240);
-        doc.text('03 / 26', cx + 32, cy + ch - 48);
+        ctx.save();
+        ctx.font = '500 12px "Space Mono", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.45)';
+        ctx.textAlign = 'left';
+        ctx.fillText('MEMBER SINCE', cardLeft(0.76), cardY(0.76));
+        ctx.font = 'bold 18px "Space Mono", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.fillText('03 / 26', cardLeft(0.84), cardY(0.84));
+        ctx.restore();
 
-        // Member name
-        doc.setFontSize(18);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(255, 255, 255);
-        doc.text(name, cx + cw - 28, cy + ch - 48, { align: 'right' });
+        // Name
+        ctx.save();
+        ctx.font = 'bold 26px "Space Mono", monospace';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'right';
+        ctx.fillText(name, cardRight(0.88), cardY(0.88));
+        ctx.restore();
 
         // infracodebase university
-        doc.setFontSize(9);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(200, 200, 200);
-        doc.setGState(doc.GState({ opacity: 0.6 }));
-        doc.text('infracodebase university', cx + cw - 28, cy + ch - 26, { align: 'right' });
-        doc.setGState(doc.GState({ opacity: 1 }));
+        ctx.save();
+        ctx.font = '400 13px "Space Mono", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.35)';
+        ctx.textAlign = 'right';
+        ctx.fillText('infracodebase university', cardRight(0.95), cardY(0.95));
+        ctx.restore();
 
-        // Bottom label
-        doc.setFontSize(11);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(80, 80, 80);
-        doc.text('Your Infracodebase University Membership Card', W / 2, H - 18, { align: 'center' });
+        // Bottom caption
+        ctx.save();
+        ctx.font = '400 13px "Space Mono", monospace';
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.textAlign = 'center';
+        ctx.fillText('Your Infracodebase University Membership Card', W/2, H - 28);
+        ctx.restore();
 
+        // Convert canvas to PDF
+        const imgData = canvas.toDataURL('image/jpeg', 0.97);
+        const doc = new jsPDF({ orientation: 'landscape', unit: 'px', format: [W, H] });
+        doc.addImage(imgData, 'JPEG', 0, 0, W, H);
         doc.save(`infracodebase-${v.name.toLowerCase()}-card.pdf`);
+
         setDownloading(false);
         setDownloaded(true);
-      } catch (e) {
-        setDownloading(false);
-      }
+      } catch(e) { setDownloading(false); }
     }, 1200);
   };
 
