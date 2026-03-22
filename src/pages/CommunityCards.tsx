@@ -1,4 +1,5 @@
 import { useState } from "react";
+import GetYourCardButton from "@/components/GetYourCardFlow";
 
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Space+Mono:wght@400;700&display=swap');
