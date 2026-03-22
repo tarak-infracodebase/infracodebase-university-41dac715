@@ -738,6 +738,89 @@ function SessionModal({
                     </button>
                   ))}
                 </div>
+
+                {/* ── Comments Section ── */}
+                <div style={{ marginTop: '40px', borderTop: '1px solid #1c2e47', paddingTop: '28px' }}>
+                  <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#f1f5f9', marginBottom: '20px' }}>What our community said</h3>
+
+                  {/* Comment input */}
+                  <div style={{ display: 'flex', gap: '12px', marginBottom: '28px', alignItems: 'flex-start' }}>
+                    <div style={{
+                      width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
+                      background: 'linear-gradient(135deg, #c2410c, #d97706, #16a34a, #0891b2)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '14px', fontWeight: 800, color: '#fff',
+                    }}>Y</div>
+                    <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
+                      <input
+                        type="text"
+                        value={commentInput}
+                        onChange={e => setCommentInput(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter' && commentInput.trim()) {
+                            setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim() }, ...c]);
+                            setCommentInput('');
+                          }
+                        }}
+                        placeholder="Share your experience from this session..."
+                        style={{
+                          flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid #1c2e47',
+                          borderRadius: '10px', padding: '10px 14px', fontSize: '13px', color: '#f1f5f9',
+                          outline: 'none',
+                        }}
+                      />
+                      <button
+                        onClick={() => {
+                          if (!commentInput.trim()) return;
+                          setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim() }, ...c]);
+                          setCommentInput('');
+                        }}
+                        disabled={!commentInput.trim()}
+                        style={{
+                          background: SPECTRUM_GRADIENT, color: '#fff', border: 'none',
+                          borderRadius: '10px', padding: '10px 18px', fontSize: '13px', fontWeight: 600,
+                          cursor: commentInput.trim() ? 'pointer' : 'default', opacity: commentInput.trim() ? 1 : 0.4,
+                        }}
+                      >Post</button>
+                    </div>
+                  </div>
+
+                  {/* Comments grid */}
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
+                    {(showAllComments ? comments : comments.slice(0, 4)).map((c, i) => (
+                      <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                        <div style={{
+                          width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
+                          background: 'linear-gradient(135deg, #c2410c, #d97706, #16a34a, #0891b2)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontSize: '14px', fontWeight: 800, color: '#fff',
+                        }}>{c.name.charAt(0)}</div>
+                        <div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                            <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '14px' }}>{c.name}</span>
+                            <span style={{ color: '#64748b', fontSize: '12px' }}>{c.date}</span>
+                          </div>
+                          <p style={{ color: '#cbd5e1', fontSize: '13px', lineHeight: 1.7, margin: 0 }}>{c.text}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {comments.length > 4 && !showAllComments && (
+                    <button
+                      onClick={() => setShowAllComments(true)}
+                      style={{
+                        marginTop: '20px', background: 'none', border: '1px solid #1c2e47',
+                        borderRadius: '8px', padding: '10px 20px', color: '#f1f5f9',
+                        fontSize: '13px', fontWeight: 600, cursor: 'pointer', width: '100%',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+                    >
+                      Show all {comments.length} comments
+                    </button>
+                  )}
+                </div>
               </div>
             )}
 
