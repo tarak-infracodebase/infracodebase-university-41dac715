@@ -246,7 +246,7 @@ function Hero() {
         A card that's more than access — it's identity.<br />Join a community of infrastructure builders.
       </p>
       <div className="fade-up delay-3" style={{ display:"flex", gap:14, flexWrap:"wrap", justifyContent:"center" }}>
-        <button className="cta-btn" onClick={() => document.getElementById("picker")?.scrollIntoView({ behavior:"smooth" })}>Get your card</button>
+        <GetYourCardButton />
         <button className="cta-btn-outline" onClick={() => document.getElementById("benefits")?.scrollIntoView({ behavior:"smooth" })}>Explore benefits</button>
       </div>
     </section>
