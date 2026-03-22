@@ -285,192 +285,197 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
 
   const handleDownload = () => {
     setDownloading(true);
+    const nm = name;
 
     setTimeout(() => {
       try {
         const canvas = document.createElement('canvas');
-        canvas.width = 1200; canvas.height = 900;
+        canvas.width = 900; canvas.height = 1200;
         const ctx = canvas.getContext('2d')!;
-        const W = 1200, H = 900;
+        const W = 900, H = 1200;
 
-        // Background
-        ctx.fillStyle = '#080808';
+        // ── BACKGROUND: blurred bokeh environment ──
+        ctx.fillStyle = '#1a1a2e';
         ctx.fillRect(0, 0, W, H);
 
-        // Ambient glow
-        const glowMatch = v.front.match(/#[0-9a-fA-F]{6}/g);
-        const glowHex = glowMatch ? glowMatch[0] : '#444444';
-        const gr = parseInt(glowHex.slice(1,3),16);
-        const gg = parseInt(glowHex.slice(3,5),16);
-        const gb = parseInt(glowHex.slice(5,7),16);
-        const glow = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, 500);
-        glow.addColorStop(0, `rgba(${gr},${gg},${gb},0.25)`);
-        glow.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = glow;
-        ctx.fillRect(0, 0, W, H);
+        // Bokeh circles
+        const bokeh = [
+          {x:120,y:200,r:90,a:0.08},{x:750,y:150,r:120,a:0.06},
+          {x:80,y:500,r:70,a:0.07},{x:800,y:450,r:100,a:0.05},
+          {x:450,y:100,r:140,a:0.04},{x:300,y:350,r:60,a:0.06},
+          {x:650,y:300,r:80,a:0.07},{x:200,y:700,r:110,a:0.05},
+        ];
+        bokeh.forEach(b => {
+          const g = ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+          g.addColorStop(0,`rgba(255,255,255,${b.a})`);
+          g.addColorStop(1,'rgba(255,255,255,0)');
+          ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+        });
 
-        // 3D card — perspective transform points
-        const tl = { x: 210, y: 140 };
-        const tr = { x: 870, y: 200 };
-        const br = { x: 870, y: 680 };
-        const bl = { x: 210, y: 740 };
+        // Colored light leaks from card color
+        const hexMatch = v.front.match(/#[0-9a-fA-F]{6}/g) || ['#555'];
+        const h0 = hexMatch[0];
+        const cr = parseInt(h0.slice(1,3),16), cg = parseInt(h0.slice(3,5),16), cb = parseInt(h0.slice(5,7),16);
+        const leak = ctx.createRadialGradient(W/2,H*0.45,0,W/2,H*0.45,420);
+        leak.addColorStop(0,`rgba(${cr},${cg},${cb},0.18)`);
+        leak.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.fillStyle=leak; ctx.fillRect(0,0,W,H);
 
-        // Edge thickness vectors
-        const ex = 12, ey = 22;
+        // ── HAND: simple thumb + fingers holding card from bottom ──
+        const skinColor = '#e8c9a0';
+        const skinDark = '#d4a574';
 
-        // Shadow
+        // Palm base
         ctx.save();
-        ctx.shadowColor = 'rgba(0,0,0,0.85)';
-        ctx.shadowBlur = 80;
-        ctx.shadowOffsetX = 20;
-        ctx.shadowOffsetY = 40;
+        const palmGrad = ctx.createLinearGradient(320, 950, 580, 1200);
+        palmGrad.addColorStop(0, skinColor);
+        palmGrad.addColorStop(1, skinDark);
+        ctx.fillStyle = palmGrad;
         ctx.beginPath();
-        ctx.moveTo(tl.x, tl.y); ctx.lineTo(tr.x, tr.y);
-        ctx.lineTo(br.x, br.y); ctx.lineTo(bl.x, bl.y);
-        ctx.closePath();
-        ctx.fillStyle = '#000';
+        ctx.ellipse(W/2, 1080, 200, 140, 0, 0, Math.PI*2);
         ctx.fill();
         ctx.restore();
 
+        // Fingers (4 fingers gripping the card bottom)
+        const fingers = [
+          {x:310, w:52, h:160, tilt:-0.08},
+          {x:390, w:54, h:175, tilt:-0.03},
+          {x:468, w:54, h:172, tilt:0.02},
+          {x:546, w:50, h:155, tilt:0.07},
+        ];
+        fingers.forEach(f => {
+          ctx.save();
+          ctx.translate(f.x + f.w/2, 1020);
+          ctx.rotate(f.tilt);
+          const fg = ctx.createLinearGradient(-f.w/2, -f.h, f.w/2, 0);
+          fg.addColorStop(0, skinColor);
+          fg.addColorStop(1, skinDark);
+          ctx.fillStyle = fg;
+          ctx.beginPath();
+          ctx.roundRect(-f.w/2, -f.h, f.w, f.h + 60, [f.w/2, f.w/2, 10, 10]);
+          ctx.fill();
+          // Knuckle line
+          ctx.strokeStyle = 'rgba(0,0,0,0.08)';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(-f.w/2+4, -f.h*0.45);
+          ctx.quadraticCurveTo(0, -f.h*0.42, f.w/2-4, -f.h*0.45);
+          ctx.stroke();
+          ctx.restore();
+        });
+
+        // Thumb (left side)
+        ctx.save();
+        ctx.translate(250, 920);
+        ctx.rotate(-0.4);
+        const tg = ctx.createLinearGradient(-28, -120, 28, 0);
+        tg.addColorStop(0, skinColor); tg.addColorStop(1, skinDark);
+        ctx.fillStyle = tg;
+        ctx.beginPath();
+        ctx.roundRect(-28, -120, 56, 150, [28, 28, 8, 8]);
+        ctx.fill();
+        ctx.restore();
+
+        // ── CARD: landscape, tilted slightly, floating above hand ──
+        const TL = {x:148, y:310};
+        const TR = {x:756, y:278};
+        const BR = {x:756, y:730};
+        const BL = {x:148, y:762};
+
+        // Card shadow
+        for (let s=20;s>=1;s--) {
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(TL.x+s*1.5,TL.y+s*2.5); ctx.lineTo(TR.x+s*1.5,TR.y+s*2.5);
+          ctx.lineTo(BR.x+s*1.5,BR.y+s*2.5); ctx.lineTo(BL.x+s*1.5,BL.y+s*2.5);
+          ctx.closePath();
+          ctx.fillStyle=`rgba(0,0,0,${0.012*(21-s)})`; ctx.fill(); ctx.restore();
+        }
+
+        // Left edge
+        const ec = hexMatch[hexMatch.length-1];
+        const er=Math.max(0,parseInt(ec.slice(1,3),16)-65);
+        const eg2=Math.max(0,parseInt(ec.slice(3,5),16)-65);
+        const eb2=Math.max(0,parseInt(ec.slice(5,7),16)-65);
+        const edX=-14, edY=20;
+        ctx.beginPath();
+        ctx.moveTo(TL.x,TL.y); ctx.lineTo(BL.x,BL.y);
+        ctx.lineTo(BL.x+edX,BL.y+edY); ctx.lineTo(TL.x+edX,TL.y+edY);
+        ctx.closePath(); ctx.fillStyle=`rgb(${er},${eg2},${eb2})`; ctx.fill();
+
         // Bottom edge
-        const specColors = v.front.match(/#[0-9a-fA-F]{6}/g) || ['#111'];
-        const edgeHex = specColors[specColors.length - 1];
-        const er = Math.max(0, parseInt(edgeHex.slice(1,3),16) - 50);
-        const eg = Math.max(0, parseInt(edgeHex.slice(3,5),16) - 50);
-        const eb2 = Math.max(0, parseInt(edgeHex.slice(5,7),16) - 50);
         ctx.beginPath();
-        ctx.moveTo(bl.x, bl.y); ctx.lineTo(br.x, br.y);
-        ctx.lineTo(br.x + ex, br.y + ey); ctx.lineTo(bl.x + ex, bl.y + ey);
-        ctx.closePath();
-        ctx.fillStyle = `rgb(${er},${eg},${eb2})`;
-        ctx.fill();
+        ctx.moveTo(BL.x,BL.y); ctx.lineTo(BR.x,BR.y);
+        ctx.lineTo(BR.x,BR.y+edY*0.6); ctx.lineTo(BL.x+edX,BL.y+edY);
+        ctx.closePath(); ctx.fillStyle=`rgba(${er},${eg2},${eb2},0.7)`; ctx.fill();
 
-        // Right edge
-        ctx.beginPath();
-        ctx.moveTo(tr.x, tr.y); ctx.lineTo(br.x, br.y);
-        ctx.lineTo(br.x + ex, br.y + ey); ctx.lineTo(tr.x + ex, tr.y + ey);
-        ctx.closePath();
-        ctx.fillStyle = `rgba(${er},${eg},${eb2},0.7)`;
-        ctx.fill();
-
-        // Card face — gradient fill using perspective clip
+        // Card face
         ctx.save();
         ctx.beginPath();
-        ctx.moveTo(tl.x, tl.y); ctx.lineTo(tr.x, tr.y);
-        ctx.lineTo(br.x, br.y); ctx.lineTo(bl.x, bl.y);
-        ctx.closePath();
-        ctx.clip();
+        ctx.moveTo(TL.x,TL.y); ctx.lineTo(TR.x,TR.y);
+        ctx.lineTo(BR.x,BR.y); ctx.lineTo(BL.x,BL.y); ctx.closePath(); ctx.clip();
 
-        if (v.name === 'Spectrum') {
-          const specG = ctx.createLinearGradient(tl.x, (tl.y+bl.y)/2, tr.x, (tr.y+br.y)/2);
-          const sc = ['#E63946','#F4831F','#F9C02A','#2DC653','#1BB8CC','#4F46E5','#9333EA'];
-          sc.forEach((c, i) => specG.addColorStop(i/(sc.length-1), c));
-          ctx.fillStyle = specG;
+        if (v.name==='Spectrum') {
+          const sg=ctx.createLinearGradient(TL.x,0,TR.x,0);
+          ['#E63946','#F4831F','#F9C02A','#2DC653','#1BB8CC','#4F46E5','#9333EA']
+            .forEach((c,i,a)=>sg.addColorStop(i/(a.length-1),c));
+          ctx.fillStyle=sg;
         } else {
-          const colors = v.front.match(/#[0-9a-fA-F]{6}/g) || ['#141414','#2e2e2e'];
-          const cardG = ctx.createLinearGradient(tl.x, tl.y, br.x, br.y);
-          cardG.addColorStop(0, colors[0]);
-          cardG.addColorStop(1, colors[colors.length-1]);
-          ctx.fillStyle = cardG;
+          const cols=v.front.match(/#[0-9a-fA-F]{6}/g)||['#141414','#2e2e2e'];
+          const cg2=ctx.createLinearGradient(TL.x,TL.y,BR.x,BR.y);
+          cg2.addColorStop(0,cols[0]); cg2.addColorStop(1,cols[cols.length-1]);
+          ctx.fillStyle=cg2;
         }
-        ctx.fillRect(tl.x - 10, tl.y - 10, tr.x - tl.x + 20, bl.y - tl.y + 20);
+        ctx.fillRect(TL.x-5,TL.y-5,TR.x-TL.x+10,BL.y-TL.y+10);
 
-        // Specular light streak
-        const streak = ctx.createRadialGradient(
-          tl.x + (tr.x-tl.x)*0.35, tl.y + (bl.y-tl.y)*0.28, 0,
-          tl.x + (tr.x-tl.x)*0.35, tl.y + (bl.y-tl.y)*0.28, 320
+        // Specular highlight
+        const sp=ctx.createRadialGradient(
+          TL.x+(TR.x-TL.x)*0.28,TL.y+(BL.y-TL.y)*0.2,0,
+          TL.x+(TR.x-TL.x)*0.28,TL.y+(BL.y-TL.y)*0.2,260
         );
-        streak.addColorStop(0, 'rgba(255,255,255,0.22)');
-        streak.addColorStop(0.4, 'rgba(255,255,255,0.06)');
-        streak.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle = streak;
-        ctx.fillRect(tl.x - 10, tl.y - 10, tr.x - tl.x + 20, bl.y - tl.y + 20);
-
+        sp.addColorStop(0,'rgba(255,255,255,0.3)');
+        sp.addColorStop(0.4,'rgba(255,255,255,0.06)');
+        sp.addColorStop(1,'rgba(255,255,255,0)');
+        ctx.fillStyle=sp; ctx.fillRect(TL.x-5,TL.y-5,TR.x-TL.x+10,BL.y-TL.y+10);
         ctx.restore();
 
         // Card border
         ctx.beginPath();
-        ctx.moveTo(tl.x, tl.y); ctx.lineTo(tr.x, tr.y);
-        ctx.lineTo(br.x, br.y); ctx.lineTo(bl.x, bl.y);
-        ctx.closePath();
-        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
+        ctx.moveTo(TL.x,TL.y); ctx.lineTo(TR.x,TR.y);
+        ctx.lineTo(BR.x,BR.y); ctx.lineTo(BL.x,BL.y); ctx.closePath();
+        ctx.strokeStyle='rgba(255,255,255,0.15)'; ctx.lineWidth=1.5; ctx.stroke();
 
-        // Text positioning helpers
-        const cardLeft = (yFrac: number) => tl.x + (bl.x - tl.x) * yFrac + 48;
-        const cardRight = (yFrac: number) => tr.x + (br.x - tr.x) * yFrac - 40;
-        const cardY = (yFrac: number) => tl.y + (bl.y - tl.y) * yFrac;
+        // Text helpers
+        const pY=(f:number)=>TL.y+(BL.y-TL.y)*f;
+        const pL=(f:number)=>TL.x+(BL.x-TL.x)*f+42;
+        const pR=(f:number)=>TR.x+(BR.x-TR.x)*f-34;
 
-        // CARD label
-        ctx.save();
-        ctx.font = '500 15px "Space Mono", monospace';
-        ctx.fillStyle = 'rgba(255,255,255,0.55)';
-        ctx.textAlign = 'right';
-        ctx.fillText('CARD', cardRight(0.08), cardY(0.08));
-        ctx.restore();
+        ctx.save(); ctx.font='500 12px monospace'; ctx.fillStyle='rgba(255,255,255,0.5)';
+        ctx.textAlign='right'; ctx.fillText('CARD',pR(0.09),pY(0.1)); ctx.restore();
+        ctx.save(); ctx.font='bold 24px monospace'; ctx.fillStyle='#fff';
+        ctx.textAlign='right'; ctx.fillText(v.name.toUpperCase(),pR(0.2),pY(0.21)); ctx.restore();
+        ctx.save(); ctx.font='bold 28px monospace'; ctx.fillStyle='rgba(255,255,255,0.92)';
+        ctx.textAlign='left'; ctx.fillText(number,pL(0.65),pY(0.67)); ctx.restore();
+        ctx.save(); ctx.font='500 10px monospace'; ctx.fillStyle='rgba(255,255,255,0.4)';
+        ctx.textAlign='left'; ctx.fillText('MEMBER SINCE',pL(0.76),pY(0.77)); ctx.restore();
+        ctx.save(); ctx.font='bold 15px monospace'; ctx.fillStyle='rgba(255,255,255,0.78)';
+        ctx.textAlign='left'; ctx.fillText('03 / 26',pL(0.84),pY(0.85)); ctx.restore();
+        ctx.save(); ctx.font='bold 22px monospace'; ctx.fillStyle='#fff';
+        ctx.textAlign='right'; ctx.fillText(nm,pR(0.87),pY(0.88)); ctx.restore();
+        ctx.save(); ctx.font='400 10px monospace'; ctx.fillStyle='rgba(255,255,255,0.3)';
+        ctx.textAlign='right'; ctx.fillText('infracodebase university',pR(0.95),pY(0.96)); ctx.restore();
 
-        // Card name
-        ctx.save();
-        ctx.font = 'bold 28px "Space Mono", monospace';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'right';
-        ctx.fillText(v.name.toUpperCase(), cardRight(0.17), cardY(0.17));
-        ctx.restore();
+        // Caption
+        ctx.save(); ctx.font='400 11px monospace'; ctx.fillStyle='rgba(255,255,255,0.1)';
+        ctx.textAlign='center'; ctx.fillText('Your Infracodebase University Membership Card',W/2,H-20); ctx.restore();
 
-        // Member number
-        ctx.save();
-        ctx.font = 'bold 32px "Courier New", monospace';
-        ctx.fillStyle = 'rgba(255,255,255,0.92)';
-        ctx.textAlign = 'left';
-        ctx.fillText(number, cardLeft(0.68), cardY(0.68));
-        ctx.restore();
-
-        // Member since
-        ctx.save();
-        ctx.font = '500 12px "Space Mono", monospace';
-        ctx.fillStyle = 'rgba(255,255,255,0.45)';
-        ctx.textAlign = 'left';
-        ctx.fillText('MEMBER SINCE', cardLeft(0.76), cardY(0.76));
-        ctx.font = 'bold 18px "Space Mono", monospace';
-        ctx.fillStyle = 'rgba(255,255,255,0.8)';
-        ctx.fillText('03 / 26', cardLeft(0.84), cardY(0.84));
-        ctx.restore();
-
-        // Name
-        ctx.save();
-        ctx.font = 'bold 26px "Space Mono", monospace';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'right';
-        ctx.fillText(name, cardRight(0.88), cardY(0.88));
-        ctx.restore();
-
-        // infracodebase university
-        ctx.save();
-        ctx.font = '400 13px "Space Mono", monospace';
-        ctx.fillStyle = 'rgba(255,255,255,0.35)';
-        ctx.textAlign = 'right';
-        ctx.fillText('infracodebase university', cardRight(0.95), cardY(0.95));
-        ctx.restore();
-
-        // Bottom caption
-        ctx.save();
-        ctx.font = '400 13px "Space Mono", monospace';
-        ctx.fillStyle = 'rgba(255,255,255,0.15)';
-        ctx.textAlign = 'center';
-        ctx.fillText('Your Infracodebase University Membership Card', W/2, H - 28);
-        ctx.restore();
-
-        // Convert canvas to PDF
-        const imgData = canvas.toDataURL('image/jpeg', 0.97);
-        const doc = new jsPDF({ orientation: 'landscape', unit: 'px', format: [W, H] });
-        doc.addImage(imgData, 'JPEG', 0, 0, W, H);
+        const imgData=canvas.toDataURL('image/png');
+        const doc=new jsPDF({orientation:'portrait',unit:'px',format:[W,H]});
+        doc.addImage(imgData,'PNG',0,0,W,H);
         doc.save(`infracodebase-${v.name.toLowerCase()}-card.pdf`);
-
-        setDownloading(false);
-        setDownloaded(true);
-      } catch(e) { setDownloading(false); }
-    }, 1200);
+        setDownloading(false); setDownloaded(true);
+      } catch(e){setDownloading(false);}
+    },1200);
   };
 
   const handleLinkedIn = () => {
@@ -562,7 +567,7 @@ function GetYourCardModal({ onClose }: { onClose: () => void }) {
   }, [onClose]);
 
   return (
-    <div className="gcf-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+    <div className="gcf-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }} style={{ position:'fixed', top:0, left:0, width:'100vw', height:'100vh', zIndex:99999, background:'rgba(0,0,0,0.88)', display:'flex', alignItems:'center', justifyContent:'center', padding:'20px' }}>
       <div className="gcf-modal">
         <button className="gcf-close" onClick={onClose}>✕</button>
         <div style={{ height:3, background:"#1a1a1a", borderRadius:"24px 24px 0 0", overflow:"hidden" }}>
