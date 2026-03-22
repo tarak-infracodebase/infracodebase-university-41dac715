@@ -100,10 +100,6 @@ const css = `
 
 @keyframes gcf-spin { to { transform: rotate(360deg); } }
 
-#gcf-hearts-canvas {
-  position: fixed; inset: 0;
-  pointer-events: none; z-index: 99999;
-}
 `;
 
 const variants = [
@@ -166,76 +162,62 @@ function MemberCard({ v, name, number, className = "" }: { v: Variant; name: str
   );
 }
 
-// — HEARTS CANVAS
-let heartsRAF: number | null = null;
-
-function launchHearts() {
-  stopHearts();
-  let canvas = document.getElementById("gcf-hearts-canvas") as HTMLCanvasElement | null;
+// — CONFETTI CANVAS
+function launchConfetti() {
+  stopConfetti();
+  let canvas = document.getElementById('gcf-confetti-canvas') as HTMLCanvasElement;
   if (!canvas) {
-    canvas = document.createElement("canvas");
-    canvas.id = "gcf-hearts-canvas";
-    canvas.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:99999;";
+    canvas = document.createElement('canvas');
+    canvas.id = 'gcf-confetti-canvas';
+    canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:99999;';
     document.body.appendChild(canvas);
   }
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  const ctx = canvas.getContext("2d")!;
-  const colors = ["#FF0040","#FF1A6B","#FF3399","#FF69B4","#FF85C2","#E63946","#FF006E","#C9184A","#FF4D6D","#FF9EBC"];
-
-  function drawHeart(c: CanvasRenderingContext2D, x: number, y: number, size: number) {
-    c.save(); c.translate(x, y); c.scale(size / 30, size / 30);
-    c.beginPath(); c.moveTo(0, -8);
-    c.bezierCurveTo(10, -20, 24, -12, 24, 0);
-    c.bezierCurveTo(24, 12, 12, 22, 0, 32);
-    c.bezierCurveTo(-12, 22, -24, 12, -24, 0);
-    c.bezierCurveTo(-24, -12, -10, -20, 0, -8);
-    c.closePath(); c.restore();
-  }
-
-  const pieces = Array.from({ length: 90 }, () => ({
-    x: Math.random() * canvas!.width,
-    y: -40 - Math.random() * canvas!.height * 0.4,
-    size: 14 + Math.random() * 28,
+  const ctx = canvas.getContext('2d')!;
+  const colors = ['#E63946','#F9C02A','#2DC653','#1BB8CC','#A855F7','#F97316','#3B82F6','#EC4899','#10B981','#FACC15','#06B6D4','#EF4444'];
+  const shapes = ['square','circle','diamond'];
+  const pieces = Array.from({ length: 140 }, () => ({
+    x: Math.random() * canvas.width,
+    y: -20 - Math.random() * canvas.height * 0.5,
+    size: 8 + Math.random() * 22,
     color: colors[Math.floor(Math.random() * colors.length)],
+    shape: shapes[Math.floor(Math.random() * shapes.length)],
     rotation: Math.random() * Math.PI * 2,
-    vx: (Math.random() - 0.5) * 3.5,
-    vy: 2.5 + Math.random() * 4,
-    vr: (Math.random() - 0.5) * 0.12,
-    alpha: 0.85 + Math.random() * 0.15,
+    vx: (Math.random() - 0.5) * 4,
+    vy: 1.5 + Math.random() * 3.5,
+    vr: (Math.random() - 0.5) * 0.1,
+    alpha: 0.95,
     wobble: Math.random() * Math.PI * 2,
-    wobbleSpeed: 0.04 + Math.random() * 0.04,
+    ws: 0.03 + Math.random() * 0.04,
   }));
-
+  let raf: number;
   function draw() {
-    ctx.clearRect(0, 0, canvas!.width, canvas!.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     let alive = false;
     for (const p of pieces) {
-      if (p.y > canvas!.height + 60) continue;
+      if (p.y > canvas.height + 40) continue;
       alive = true;
-      p.y += p.vy; p.x += p.vx + Math.sin(p.wobble) * 0.8;
-      p.wobble += p.wobbleSpeed; p.rotation += p.vr; p.vy += 0.06;
+      p.y += p.vy; p.x += p.vx + Math.sin(p.wobble) * 0.7;
+      p.wobble += p.ws; p.rotation += p.vr; p.vy += 0.06;
       p.alpha = Math.max(0, p.alpha - 0.003);
       ctx.save(); ctx.globalAlpha = p.alpha;
       ctx.translate(p.x, p.y); ctx.rotate(p.rotation);
-      drawHeart(ctx, 0, 0, p.size);
-      ctx.fillStyle = p.color; ctx.fill();
-      ctx.fillStyle = "rgba(255,255,255,0.15)";
-      ctx.beginPath(); ctx.ellipse(-p.size * 0.15, -p.size * 0.25, p.size * 0.18, p.size * 0.12, -0.3, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = p.color;
+      if (p.shape === 'circle') { ctx.beginPath(); ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2); ctx.fill(); }
+      else if (p.shape === 'square') { ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size); }
+      else { ctx.beginPath(); ctx.moveTo(0, -p.size / 1.6); ctx.lineTo(p.size / 1.6, 0); ctx.lineTo(0, p.size / 1.6); ctx.lineTo(-p.size / 1.6, 0); ctx.closePath(); ctx.fill(); }
       ctx.restore();
     }
-    if (alive) { heartsRAF = requestAnimationFrame(draw); }
-    else { ctx.clearRect(0, 0, canvas!.width, canvas!.height); }
+    if (alive) { raf = requestAnimationFrame(draw); }
+    else { ctx.clearRect(0, 0, canvas.width, canvas.height); }
   }
-
-  heartsRAF = requestAnimationFrame(draw);
-  setTimeout(stopHearts, 5000);
+  raf = requestAnimationFrame(draw);
+  setTimeout(() => { cancelAnimationFrame(raf); ctx.clearRect(0, 0, canvas.width, canvas.height); }, 6000);
 }
-
-function stopHearts() {
-  if (heartsRAF) { cancelAnimationFrame(heartsRAF); heartsRAF = null; }
-  const c = document.getElementById("gcf-hearts-canvas") as HTMLCanvasElement | null;
-  if (c) { const ctx = c.getContext("2d"); ctx?.clearRect(0, 0, c.width, c.height); }
+function stopConfetti() {
+  const c = document.getElementById('gcf-confetti-canvas') as HTMLCanvasElement;
+  if (c) { const ctx = c.getContext('2d'); ctx?.clearRect(0, 0, c.width, c.height); }
 }
 
 // — STEP 1: Choose color
@@ -295,6 +277,11 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
   const [downloading, setDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => launchConfetti(), 80);
+    return () => clearTimeout(t);
+  }, []);
 
   const handleDownload = () => {
     setDownloading(true);
@@ -358,7 +345,6 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
       document.body.removeChild(ta);
     }
     setCopied(true);
-    launchHearts();
     setTimeout(() => setCopied(false), 3500);
   };
 
@@ -408,9 +394,9 @@ function StepCelebration({ cardIndex, name }: { cardIndex: number; name: string 
       </div>
 
       <div style={{ background:"rgba(255,255,255,0.02)", border:"1px solid rgba(255,255,255,0.05)", borderRadius:12, padding:"13px 15px", textAlign:"center" }}>
-        <div style={{ fontFamily:"'Space Mono',monospace", fontSize:10, color:"#555", lineHeight:1.8 }}>
+        <div style={{ fontFamily:"'Space Mono',monospace", fontSize:13, color:"#fff", lineHeight:1.8 }}>
           A community built around <span style={{ color:"#22C55E" }}>we</span>, not just me.<br/>
-          <span style={{ color:"#2a2a2a" }}>Spread the word — grow this community together.</span>
+          <span style={{ color:"#fff" }}>Spread the word — grow this community together.</span>
         </div>
       </div>
     </div>
@@ -472,7 +458,7 @@ export default function GetYourCardButton({ label = "Get your card" }: { label?:
       >
         {label}
       </button>
-      {open && <GetYourCardModal onClose={() => { setOpen(false); stopHearts(); }} />}
+      {open && <GetYourCardModal onClose={() => { setOpen(false); stopConfetti(); }} />}
     </>
   );
 }
