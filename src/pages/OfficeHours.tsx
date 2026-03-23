@@ -894,7 +894,7 @@ function HorizontalSessionCard({
         flexShrink: 0,
       }}>
         <img
-          src="/office-hours-thumbnail.png"
+          src="/workshop-thumbnail.png"
           alt={sessionTitle}
           style={{
             position: 'absolute',
