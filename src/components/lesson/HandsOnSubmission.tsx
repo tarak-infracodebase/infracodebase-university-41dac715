@@ -142,12 +142,17 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   return (
     <div className="mt-5 rounded-xl border border-border/30 bg-card/30 p-5">
       {type === "writing" && (
-        <Textarea
-          value={answer}
-          onChange={e => setAnswer(e.target.value)}
-          placeholder="Write your answer here..."
-          className="min-h-[120px] bg-background/50 border-border/50 text-sm resize-y"
-        />
+        <div className="space-y-3">
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Write your response below. Your answer is saved automatically and is only visible to you — use it to track your own thinking as you progress through the curriculum.
+          </p>
+          <Textarea
+            value={answer}
+            onChange={e => setAnswer(e.target.value)}
+            placeholder="Write your answer here..."
+            className="min-h-[140px] bg-background/50 border-border/50 text-sm resize-y"
+          />
+        </div>
       )}
 
       {type === "build-external" && (
