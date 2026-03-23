@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Upload, FileText, X } from "lucide-react";
+import { useAuthGate } from "@/hooks/useAuthGate";
 
 type ExerciseType = "writing" | "build-external" | "build-platform";
 
@@ -60,6 +61,7 @@ function isImageFile(fileType: string): boolean {
 const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exerciseTitle, onSave }: HandsOnSubmissionProps) => {
   const type = inferType(exerciseDescription, exerciseType, exerciseTitle);
   const storageKey = getStorageKey(type, exerciseId);
+  const { requireAuth } = useAuthGate();
 
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
@@ -103,6 +105,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   }, [answer, type, storageKey]);
 
   const handleSave = () => {
+    if (!requireAuth()) return;
     try {
       const payload =
         type === "writing" ? { answer } :

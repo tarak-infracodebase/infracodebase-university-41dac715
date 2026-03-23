@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
+import { useAuthGate } from "@/hooks/useAuthGate";
 
 interface KCQuestion {
   question: string;
@@ -15,6 +16,7 @@ interface KnowledgeCheckMultiProps {
 
 const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) => {
   const storageKey = `icbu_kc_${moduleId}`;
+  const { requireAuth } = useAuthGate();
 
   const [answers, setAnswers] = useState<(number | null)[]>(() => new Array(questions.length).fill(null));
   const [submitted, setSubmitted] = useState(false);
@@ -40,6 +42,7 @@ const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) 
   );
 
   const handleSubmit = () => {
+    if (!requireAuth()) return;
     setSubmitted(true);
     const newBest = bestScore === null ? score : Math.max(bestScore, score);
     setBestScore(newBest);

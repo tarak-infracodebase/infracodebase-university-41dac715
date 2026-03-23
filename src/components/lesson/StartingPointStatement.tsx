@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuthGate } from "@/hooks/useAuthGate";
 
 interface StartingPointStatementProps {
   lessonId: string;
@@ -7,6 +8,7 @@ interface StartingPointStatementProps {
 
 const StartingPointStatement = ({ lessonId }: StartingPointStatementProps) => {
   const storageKey = `icbu_artifact_${lessonId}`;
+  const { requireAuth } = useAuthGate();
 
   const [value, setValue] = useState(() => {
     try {
@@ -34,7 +36,10 @@ const StartingPointStatement = ({ lessonId }: StartingPointStatementProps) => {
       </p>
       <Textarea
         value={value}
-        onChange={e => setValue(e.target.value)}
+        onChange={e => {
+          if (!requireAuth()) return;
+          setValue(e.target.value);
+        }}
         placeholder="e.g. I have basic experience with AWS EC2 and S3. I want to understand networking and infrastructure as code well enough to design systems confidently."
         className="min-h-[100px] bg-background/50 border-border/50 text-sm resize-y"
       />

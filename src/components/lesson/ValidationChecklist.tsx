@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useAuthGate } from "@/hooks/useAuthGate";
 
 interface ValidationChecklistProps {
   items: string[];
@@ -10,6 +11,7 @@ interface ValidationChecklistProps {
 
 const ValidationChecklist = ({ items, lessonId, onAllChecked }: ValidationChecklistProps) => {
   const storageKey = `icbu_checklist_${lessonId}`;
+  const { requireAuth } = useAuthGate();
 
   const [checked, setChecked] = useState<boolean[]>(() => {
     try {
@@ -28,6 +30,7 @@ const ValidationChecklist = ({ items, lessonId, onAllChecked }: ValidationCheckl
   }, [checked, storageKey, onAllChecked]);
 
   const toggle = (index: number) => {
+    if (!requireAuth()) return;
     setChecked(prev => prev.map((v, i) => (i === index ? !v : v)));
   };
 
