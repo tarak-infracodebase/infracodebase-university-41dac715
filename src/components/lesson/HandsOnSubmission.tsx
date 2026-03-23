@@ -55,9 +55,6 @@ function isImageFile(fileType: string): boolean {
   return IMAGE_TYPES.includes(fileType);
 }
 
-function getFileName(dataUrl: string, fallback: string): string {
-  return fallback;
-}
 
 const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exerciseTitle }: HandsOnSubmissionProps) => {
   const type = inferType(exerciseDescription, exerciseType, exerciseTitle);
