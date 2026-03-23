@@ -11,6 +11,7 @@ interface ValidationChecklistProps {
 
 const ValidationChecklist = ({ items, lessonId, onAllChecked }: ValidationChecklistProps) => {
   const storageKey = `icbu_checklist_${lessonId}`;
+  const { requireAuth } = useAuthGate();
 
   const [checked, setChecked] = useState<boolean[]>(() => {
     try {
