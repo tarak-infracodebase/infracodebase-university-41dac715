@@ -11,6 +11,7 @@ interface HandsOnSubmissionProps {
   exerciseType?: ExerciseType;
   exerciseDescription?: string;
   exerciseTitle?: string;
+  onSave?: () => void;
 }
 
 const SUBMISSION_TYPE_OVERRIDES: Record<string, ExerciseType> = {
