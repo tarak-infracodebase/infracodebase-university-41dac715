@@ -1,6 +1,7 @@
 export interface Exercise {
   title: string;
   description: string;
+  type?: "writing" | "build";
 }
 
 export interface Artifact {
