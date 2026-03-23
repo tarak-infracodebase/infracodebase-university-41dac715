@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Upload, FileText, X } from "lucide-react";
 import { useAuthGate } from "@/hooks/useAuthGate";
+import AuthGateModal from "@/components/AuthGateModal";
 
 type ExerciseType = "writing" | "build-external" | "build-platform";
 

@@ -9,7 +9,7 @@ interface StartingPointStatementProps {
 
 const StartingPointStatement = ({ lessonId }: StartingPointStatementProps) => {
   const storageKey = `icbu_artifact_${lessonId}`;
-  const { requireAuth } = useAuthGate();
+  const { requireAuth, showGate, dismissGate } = useAuthGate();
 
   const [value, setValue] = useState(() => {
     try {

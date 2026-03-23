@@ -17,7 +17,7 @@ interface KnowledgeCheckMultiProps {
 
 const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) => {
   const storageKey = `icbu_kc_${moduleId}`;
-  const { requireAuth } = useAuthGate();
+  const { requireAuth, showGate, dismissGate } = useAuthGate();
 
   const [answers, setAnswers] = useState<(number | null)[]>(() => new Array(questions.length).fill(null));
   const [submitted, setSubmitted] = useState(false);

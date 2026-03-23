@@ -40,6 +40,7 @@ const ValidationChecklist = ({ items, lessonId, onAllChecked }: ValidationCheckl
 
   return (
     <section className="mb-8">
+      <AuthGateModal open={showGate} onOpenChange={dismissGate} />
       <div className="flex items-center gap-2 mb-1">
         <CheckCircle2 className="h-4 w-4 text-[hsl(var(--crystal-green))]" style={{ color: "hsl(145, 60%, 45%)" }} />
         <h2 className="text-base font-bold">Validation Checklist</h2>
