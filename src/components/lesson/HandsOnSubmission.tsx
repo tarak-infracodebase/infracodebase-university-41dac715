@@ -234,12 +234,14 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
               <span className="text-xs text-muted-foreground/60">Supported formats: PNG, JPEG, PDF, DOCX</span>
             </div>
           )}
-          <Textarea
-            value={notes}
-            onChange={e => setNotes(e.target.value)}
-            placeholder="Add any notes about what you did (optional)"
-            className="mt-3 min-h-[80px] bg-background/50 border-border/50 text-sm resize-y"
-          />
+          {fileData && (
+            <Textarea
+              value={notes}
+              onChange={e => setNotes(e.target.value)}
+              placeholder="Add any notes about what you did (optional)"
+              className="mt-3 min-h-[80px] bg-background/50 border-border/50 text-sm resize-y"
+            />
+          )}
         </>
       )}
 
