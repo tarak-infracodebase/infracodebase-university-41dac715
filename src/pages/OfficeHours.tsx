@@ -243,7 +243,7 @@ function Lightbox({
       {/* Left arrow */}
       <button
         onClick={() => onNav((index - 1 + total) % total)}
-        style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', transition: 'background 0.15s' }}
+        style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', transition: 'background 0.15s' }}
         onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.25)')}
         onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
       >
@@ -253,7 +253,7 @@ function Lightbox({
       {/* Right arrow */}
       <button
         onClick={() => onNav((index + 1) % total)}
-        style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', transition: 'background 0.15s' }}
+        style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', transition: 'background 0.15s' }}
         onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.25)')}
         onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
       >
@@ -563,15 +563,8 @@ function SessionModal({
   const [captionEditing, setCaptionEditing] = useState(false);
 
   // Comments
-  const initialComments = [
-    { name: "Comfort Benton", date: "March 18, 2026", text: "This session completely changed how I think about cloud infrastructure. The ClickOps to IaC demo was eye-opening." },
-    { name: "Tawni", date: "March 18, 2026", text: "I appreciated that manual cloud knowledge still matters. Helps me know where to focus as a beginner." },
-    { name: "Reilly", date: "March 18, 2026", text: "The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works." },
-    { name: "Abby", date: "March 18, 2026", text: "Seeing the agent map existing ClickOps infra live was incredible. Can't wait to try it myself." },
-  ];
-  const [comments, setComments] = useState(initialComments);
+  const [comments, setComments] = useState<{name: string; date: string; text: string; avatar?: string; replies?: any[]}[]>([]);
   const [commentInput, setCommentInput] = useState("");
-  const [showAllComments, setShowAllComments] = useState(false);
 
   // Uploadable avatars from localStorage (same keys as hero)
   const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => localStorage.getItem('office-hours-photo-justin'));
@@ -740,87 +733,92 @@ function SessionModal({
                 </div>
 
                 {/* ── Comments Section ── */}
-                <div style={{ marginTop: '40px', borderTop: '1px solid #1c2e47', paddingTop: '28px' }}>
-                  <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#f1f5f9', marginBottom: '20px' }}>What our community said</h3>
+<div style={{ marginTop: '40px', borderTop: '1px solid #1c2e47', paddingTop: '28px' }}>
+  <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#f1f5f9', marginBottom: '20px', fontFamily: "'Courier New', monospace" }}>What our community said</h3>
 
-                  {/* Comment input */}
-                  <div style={{ display: 'flex', gap: '12px', marginBottom: '28px', alignItems: 'flex-start' }}>
-                    <div style={{
-                      width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
-                      background: 'linear-gradient(135deg, #c2410c, #d97706, #16a34a, #0891b2)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '14px', fontWeight: 800, color: '#fff',
-                    }}>Y</div>
-                    <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
-                      <input
-                        type="text"
-                        value={commentInput}
-                        onChange={e => setCommentInput(e.target.value)}
-                        onKeyDown={e => {
-                          if (e.key === 'Enter' && commentInput.trim()) {
-                            setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim() }, ...c]);
-                            setCommentInput('');
-                          }
-                        }}
-                        placeholder="Share your experience from this session..."
-                        style={{
-                          flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid #1c2e47',
-                          borderRadius: '10px', padding: '10px 14px', fontSize: '13px', color: '#f1f5f9',
-                          outline: 'none',
-                        }}
-                      />
-                      <button
-                        onClick={() => {
-                          if (!commentInput.trim()) return;
-                          setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim() }, ...c]);
-                          setCommentInput('');
-                        }}
-                        disabled={!commentInput.trim()}
-                        style={{
-                          background: SPECTRUM_GRADIENT, color: '#fff', border: 'none',
-                          borderRadius: '10px', padding: '10px 18px', fontSize: '13px', fontWeight: 600,
-                          cursor: commentInput.trim() ? 'pointer' : 'default', opacity: commentInput.trim() ? 1 : 0.4,
-                        }}
-                      >Post</button>
-                    </div>
+  {/* Compose */}
+  <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', marginBottom: '24px' }}>
+    <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg,#c2410c,#d97706,#16a34a,#0891b2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', fontWeight: 700, color: '#fff', flexShrink: 0 }}>Y</div>
+    <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
+      <input
+        type="text"
+        value={commentInput}
+        onChange={e => setCommentInput(e.target.value)}
+        onKeyDown={e => { if (e.key === 'Enter' && commentInput.trim()) { setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim(), avatar: 'Y', replies: [] }, ...c]); setCommentInput(''); } }}
+        placeholder="Share your experience from this session..."
+        style={{ flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid #1c2e47', borderRadius: '10px', padding: '10px 14px', fontSize: '13px', color: '#f1f5f9', outline: 'none' }}
+      />
+      <button
+        onClick={() => { if (!commentInput.trim()) return; setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim(), avatar: 'Y', replies: [] }, ...c]); setCommentInput(''); }}
+        disabled={!commentInput.trim()}
+        style={{ background: 'linear-gradient(90deg,#f5821f,#16a34a)', color: '#fff', border: 'none', borderRadius: '10px', padding: '10px 18px', fontSize: '13px', fontWeight: 600, cursor: commentInput.trim() ? 'pointer' : 'default', opacity: commentInput.trim() ? 1 : 0.4 }}
+      >Post</button>
+    </div>
+  </div>
+
+  {/* Comments */}
+  {[
+    {
+      name: 'Comfort Benton', date: 'March 18, 2026', avatar: '/Comfort_Benton.jpeg',
+      text: 'This session completely changed how I think about cloud infrastructure. The ClickOps to IaC demo was eye-opening.',
+      upvotes: 12,
+      reply: { name: 'Tarak', badge: 'Host', badgeColor: 'linear-gradient(90deg,#f5821f,#16a34a)', ring: '#f5821f', avatar: '/Tarak.jpeg', text: "Thanks Comfort! The live mapping of existing infra is one of my favourite moments to demo — glad it landed. Next session we'll go even deeper on the remediation side.", upvotes: 4 }
+    },
+    {
+      name: 'Tawni', date: 'March 18, 2026', avatar: '/Tawni.jpeg',
+      text: 'I appreciated that manual cloud knowledge still matters. Helps me know where to focus as a beginner.',
+      upvotes: 7, reply: null
+    },
+    {
+      name: 'Reilly', date: 'March 18, 2026', avatar: '/Reilly.jpeg',
+      text: 'The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works.',
+      upvotes: 9,
+      answered: '38:22',
+      reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: '/Justin.jpeg', text: "Glad it clicked! We covered compliance scoring at 38:22 in the recording — definitely rewatch that section, there's a lot of detail in there.", upvotes: 6 }
+    },
+    {
+      name: 'Abby', date: 'March 18, 2026', avatar: '/Abby.jpeg',
+      text: "Seeing the agent map existing ClickOps infra live was incredible. Can't wait to try it myself.",
+      upvotes: 5, reply: null
+    },
+  ].map((c, i) => (
+    <div key={i}>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+        <img src={c.avatar} alt={c.name} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '13px', fontWeight: 700, color: '#f1f5f9' }}>{c.name}</span>
+            <span style={{ fontSize: '11px', color: '#64748b' }}>{c.date}</span>
+          </div>
+          <p style={{ fontSize: '13px', color: '#cbd5e1', lineHeight: 1.7, margin: '0 0 8px' }}>{c.text}</p>
+          <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+            <button style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer' }}>▲ {c.upvotes}</button>
+            <button style={{ fontSize: '12px', color: '#64748b', background: 'none', border: 'none', cursor: 'pointer' }}>↩ Reply</button>
+          </div>
+          {c.answered && (
+            <div style={{ marginTop: '10px', display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '11px', padding: '3px 10px', borderRadius: '99px', background: '#e1f5ee', color: '#0f6e56', border: '0.5px solid #5dcaa5' }}>✓ Covered in session — {c.answered}</div>
+          )}
+          {c.reply && (
+            <div style={{ marginTop: '12px', paddingLeft: '12px', borderLeft: '2px solid #1c2e47' }}>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <img src={c.reply.avatar} alt={c.reply.name} style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0, boxShadow: `0 0 0 2px ${c.reply.ring}` }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px', flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#f1f5f9' }}>{c.reply.name}</span>
+                    <span style={{ fontSize: '10px', padding: '2px 7px', borderRadius: '99px', background: c.reply.badgeColor, color: '#fff', fontWeight: 600 }}>{c.reply.badge}</span>
                   </div>
-
-                  {/* Comments grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
-                    {(showAllComments ? comments : comments.slice(0, 4)).map((c, i) => (
-                      <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                        <div style={{
-                          width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
-                          background: 'linear-gradient(135deg, #c2410c, #d97706, #16a34a, #0891b2)',
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontSize: '14px', fontWeight: 800, color: '#fff',
-                        }}>{c.name.charAt(0)}</div>
-                        <div>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                            <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '14px' }}>{c.name}</span>
-                            <span style={{ color: '#64748b', fontSize: '12px' }}>{c.date}</span>
-                          </div>
-                          <p style={{ color: '#cbd5e1', fontSize: '13px', lineHeight: 1.7, margin: 0 }}>{c.text}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {comments.length > 4 && !showAllComments && (
-                    <button
-                      onClick={() => setShowAllComments(true)}
-                      style={{
-                        marginTop: '20px', background: 'none', border: '1px solid #1c2e47',
-                        borderRadius: '8px', padding: '10px 20px', color: '#f1f5f9',
-                        fontSize: '13px', fontWeight: 600, cursor: 'pointer', width: '100%',
-                      }}
-                      onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
-                      onMouseLeave={e => (e.currentTarget.style.background = 'none')}
-                    >
-                      Show all {comments.length} comments
-                    </button>
-                  )}
+                  <p style={{ fontSize: '13px', color: '#cbd5e1', lineHeight: 1.7, margin: '0 0 6px' }}>{c.reply.text}</p>
+                  <button style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: '#64748b', background: 'none', border: 'none', cursor: 'pointer' }}>▲ {c.reply.upvotes}</button>
                 </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      {i < 3 && <div style={{ borderTop: '1px solid #1c2e47', marginBottom: '20px' }} />}
+    </div>
+  ))}
+</div>
               </div>
             )}
 
