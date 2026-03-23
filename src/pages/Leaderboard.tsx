@@ -16,7 +16,7 @@ const leaderboardData = [
   { rank: 5, name: "Priya Sharma", country: "🇮🇳", xp: 8900, league: "Platinum", avatar: "PS" },
   { rank: 6, name: "Luis Garcia", country: "🇪🇸", xp: 7200, league: "Gold", avatar: "LG" },
   { rank: 7, name: "Emma Lindqvist", country: "🇸🇪", xp: 6800, league: "Gold", avatar: "EL" },
-  { rank: 8, name: "You", country: "🌍", xp: 2450, league: "Silver", avatar: "YO" },
+  
   { rank: 9, name: "Alex Kim", country: "🇰🇷", xp: 2100, league: "Silver", avatar: "AK" },
   { rank: 10, name: "Nina Petrova", country: "🇧🇬", xp: 1800, league: "Silver", avatar: "NP" },
 ];

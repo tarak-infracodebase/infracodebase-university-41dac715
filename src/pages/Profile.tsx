@@ -19,10 +19,10 @@ const heatmapData = Array.from({ length: 52 }, () =>
 );
 
 const stats = [
-  { label: "Daily Average", value: "1.8 hrs" },
-  { label: "Days Active", value: "47" },
-  { label: "Current Streak", value: "12 days" },
-  { label: "Total Edits", value: "342" },
+  { label: "Daily Average", value: "—" },
+  { label: "Days Active", value: "0" },
+  { label: "Current Streak", value: "0 days" },
+  { label: "Total Edits", value: "0" },
 ];
 
 const defaultBannerGradient = "linear-gradient(135deg, hsl(260 70% 30%) 0%, hsl(330 65% 25%) 40%, hsl(185 70% 20%) 70%, hsl(228 30% 10%) 100%)";

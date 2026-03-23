@@ -10,7 +10,6 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
 const tracks = learningPaths;
-const totalTracks = tracks.length;
 
 const crystalColors = [
   "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
@@ -18,31 +17,17 @@ const crystalColors = [
 ];
 
 const skills = [
-  { label: "Infrastructure Architecture", value: 72, color: crystalColors[0] },
-  { label: "Networking & Routing", value: 65, color: crystalColors[1] },
-  { label: "Identity & Access Management", value: 45, color: crystalColors[2] },
-  { label: "Configuration Automation", value: 58, color: crystalColors[3] },
-  { label: "Infrastructure Debugging", value: 40, color: crystalColors[4] },
-  { label: "Environment Management", value: 35, color: crystalColors[5] },
-  { label: "Governance & Rulesets", value: 25, color: crystalColors[6] },
-  { label: "Architecture Documentation", value: 30, color: crystalColors[0] },
-  { label: "Platform Engineering", value: 20, color: crystalColors[1] },
-  { label: "Resilience & Scaling", value: 15, color: crystalColors[2] },
-  { label: "Infrastructure Operations", value: 50, color: crystalColors[3] },
-];
-
-const monthlyData = [
-  { month: "Oct", xp: 200 }, { month: "Nov", xp: 450 }, { month: "Dec", xp: 380 },
-  { month: "Jan", xp: 520 }, { month: "Feb", xp: 680 }, { month: "Mar", xp: 220 },
-];
-
-const milestones = [
-  { name: "First Lesson", earned: true, xp: 50 },
-  { name: "Track Complete", earned: true, xp: 500 },
-  { name: "5-Day Streak", earned: true, xp: 100 },
-  { name: "10 Lessons", earned: true, xp: 200 },
-  { name: "Silver League", earned: false, xp: 300 },
-  { name: "All Tracks", earned: false, xp: 1000 },
+  { label: "Infrastructure Architecture", value: 0, color: crystalColors[0] },
+  { label: "Networking & Routing", value: 0, color: crystalColors[1] },
+  { label: "Identity & Access Management", value: 0, color: crystalColors[2] },
+  { label: "Configuration Automation", value: 0, color: crystalColors[3] },
+  { label: "Infrastructure Debugging", value: 0, color: crystalColors[4] },
+  { label: "Environment Management", value: 0, color: crystalColors[5] },
+  { label: "Governance & Rulesets", value: 0, color: crystalColors[6] },
+  { label: "Architecture Documentation", value: 0, color: crystalColors[0] },
+  { label: "Platform Engineering", value: 0, color: crystalColors[1] },
+  { label: "Resilience & Scaling", value: 0, color: crystalColors[2] },
+  { label: "Infrastructure Operations", value: 0, color: crystalColors[3] },
 ];
 
 function getIdentityTitle(level: number) {
@@ -56,20 +41,26 @@ const Dashboard = () => {
   const [totalXP, setTotalXP] = useState(0);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [trackProgress, setTrackProgress] = useState<Record<string, { completed: number; status: "in_progress" | "completed" | "not_started" }>>({});
+  const [monthlyData, setMonthlyData] = useState([
+    { month: "Oct", xp: 0 }, { month: "Nov", xp: 0 }, { month: "Dec", xp: 0 },
+    { month: "Jan", xp: 0 }, { month: "Feb", xp: 0 }, { month: "Mar", xp: 0 },
+  ]);
   const [searchParams] = useSearchParams();
   const highlightProgress = searchParams.get("tab") === "progress";
 
   useEffect(() => {
     try {
-      const storedXP = localStorage.getItem("icbu_xp");
-      const storedLevel = localStorage.getItem("icbu_level");
-      const storedProgress = localStorage.getItem("icbu_track_progress");
-      if (storedXP) setTotalXP(Number(storedXP) || 0);
-      if (storedLevel) setCurrentLevel(Number(storedLevel) || 1);
-      if (storedProgress) {
-        const parsed = JSON.parse(storedProgress);
-        if (parsed && typeof parsed === "object") setTrackProgress(parsed);
-      }
+      const xp = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
+      const level = parseInt(localStorage.getItem("icbu_level") || "1", 10);
+      const raw = localStorage.getItem("icbu_track_progress");
+      const progress = raw ? JSON.parse(raw) : {};
+      setTotalXP(xp);
+      setCurrentLevel(level);
+      setTrackProgress(progress);
+    } catch {}
+    try {
+      const raw = localStorage.getItem("icbu_monthly_xp");
+      if (raw) setMonthlyData(JSON.parse(raw));
     } catch {}
   }, []);
 
@@ -79,8 +70,9 @@ const Dashboard = () => {
     }
   }, [highlightProgress]);
 
+  const totalTracks = tracks.length;
   const tracksCompleted = Object.values(trackProgress).filter(t => t.status === "completed").length;
-  const xpToNext = Math.max((currentLevel * 500) - totalXP, 0);
+  const xpToNext = Math.max(0, (currentLevel * 500) - totalXP);
   const currentTrack = tracks.find(p => trackProgress[p.id]?.status === "in_progress");
   const allCurrentLessons = currentTrack?.courses.flatMap(c => c.lessons) || [];
   const completedLessons = trackProgress[currentTrack?.id || ""]?.completed || 0;
@@ -89,7 +81,16 @@ const Dashboard = () => {
   const progressPct = currentTrackLessons > 0 ? Math.round((completedLessons / currentTrackLessons) * 100) : 0;
   const overallProgress = Math.round((tracksCompleted / totalTracks) * 100);
   const identity = getIdentityTitle(currentLevel);
-  const maxMonthly = Math.max(...monthlyData.map(d => d.xp));
+  const maxMonthly = Math.max(...monthlyData.map(d => d.xp), 1);
+
+  const milestones = [
+    { name: "First Lesson", earned: totalXP >= 50, xp: 50 },
+    { name: "Track Complete", earned: tracksCompleted >= 1, xp: 500 },
+    { name: "5-Day Streak", earned: false, xp: 100 },
+    { name: "10 Lessons", earned: totalXP >= 500, xp: 200 },
+    { name: "Silver League", earned: false, xp: 300 },
+    { name: "All Tracks", earned: tracksCompleted >= totalTracks, xp: 1000 },
+  ];
 
   const inProgress = tracks.filter(t => trackProgress[t.id]?.status === "in_progress");
   const completed = tracks.filter(t => trackProgress[t.id]?.status === "completed");
