@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Upload, FileText, X } from "lucide-react";
+import { useAuthGate } from "@/hooks/useAuthGate";
 
 type ExerciseType = "writing" | "build-external" | "build-platform";
 
