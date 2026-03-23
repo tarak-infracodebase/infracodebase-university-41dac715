@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Upload } from "lucide-react";
+import { Upload, FileText, X } from "lucide-react";
 
 type ExerciseType = "writing" | "build-external" | "build-platform";
 
@@ -10,30 +10,65 @@ interface HandsOnSubmissionProps {
   exerciseId: string;
   exerciseType?: ExerciseType;
   exerciseDescription?: string;
+  exerciseTitle?: string;
 }
+
+const SUBMISSION_TYPE_OVERRIDES: Record<string, ExerciseType> = {
+  "Auto-Generate Diagrams": "build-platform",
+  "Reorganize Diagram": "build-platform",
+  "Create Architecture Documentation": "build-platform",
+  "Update Documentation": "build-platform",
+  "Create a Ruleset": "build-platform",
+  "Identify Your Starting Point": "writing",
+  "Map the Program": "writing",
+  "Choose Your Starting Tier": "writing",
+  "Tier Content Review": "writing",
+};
 
 const WRITING_SIGNALS = /\b(write|identify|think about|review|describe|explain|answer|choose|compare|list|map|define|reflect|assess)\b/i;
 const PLATFORM_SIGNALS = /\b(screenshot|auto-generate|generate diagram|create a ruleset|update documentation|inside infracodebase|in your workspace|open your workspace|in the platform)\b/i;
 
-function inferType(description?: string, explicit?: ExerciseType): ExerciseType {
+function inferType(description?: string, explicit?: ExerciseType, title?: string): ExerciseType {
   if (explicit) return explicit;
+  // Check title override first
+  if (title && SUBMISSION_TYPE_OVERRIDES[title]) return SUBMISSION_TYPE_OVERRIDES[title];
   if (!description) return "build-external";
   if (PLATFORM_SIGNALS.test(description)) return "build-platform";
   if (!WRITING_SIGNALS.test(description)) return "build-external";
-  // Check if it also has build signals
   const BUILD_SIGNALS = /\b(create|build|deploy|set up|configure|generate|provision|launch|implement|connect|install|ask the agent)\b/i;
   if (BUILD_SIGNALS.test(description) && !description.toLowerCase().startsWith("write")) return "build-external";
   return "writing";
 }
 
-const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription }: HandsOnSubmissionProps) => {
-  const storageKey = `icbu_submission_${exerciseId}`;
-  const type = inferType(exerciseDescription, exerciseType);
+function getStorageKey(type: ExerciseType, exerciseId: string): string {
+  switch (type) {
+    case "writing": return `icbu_writing_${exerciseId}`;
+    case "build-platform": return `icbu_build_platform_${exerciseId}`;
+    case "build-external": return `icbu_build_external_${exerciseId}`;
+  }
+}
+
+const IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
+const ACCEPTED_TYPES = "image/png,image/jpeg,image/webp,application/pdf,.docx,.doc";
+
+function isImageFile(fileType: string): boolean {
+  return IMAGE_TYPES.includes(fileType);
+}
+
+function getFileName(dataUrl: string, fallback: string): string {
+  return fallback;
+}
+
+const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exerciseTitle }: HandsOnSubmissionProps) => {
+  const type = inferType(exerciseDescription, exerciseType, exerciseTitle);
+  const storageKey = getStorageKey(type, exerciseId);
 
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [answer, setAnswer] = useState("");
-  const [screenshot, setScreenshot] = useState<string | null>(null);
+  const [fileData, setFileData] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string>("");
+  const [fileType, setFileType] = useState<string>("");
   const [notes, setNotes] = useState("");
   const [saved, setSaved] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -47,7 +82,9 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription }: Ha
         setUrl(parsed.url || "");
         setDescription(parsed.description || "");
         setAnswer(parsed.answer || "");
-        setScreenshot(parsed.screenshot || null);
+        setFileData(parsed.fileData || parsed.screenshot || null);
+        setFileName(parsed.fileName || "");
+        setFileType(parsed.fileType || (parsed.screenshot ? "image/png" : ""));
         setNotes(parsed.notes || "");
       }
     } catch {}
@@ -57,7 +94,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription }: Ha
     try {
       const payload =
         type === "writing" ? { answer } :
-        type === "build-platform" ? { screenshot, notes } :
+        type === "build-platform" ? { fileData, fileName, fileType, notes } :
         { url, description };
       localStorage.setItem(storageKey, JSON.stringify(payload));
       setSaved(true);
@@ -66,9 +103,18 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription }: Ha
   };
 
   const processFile = (file: File) => {
-    if (!file.type.startsWith("image/")) return;
+    const validTypes = [...IMAGE_TYPES, "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+    const validExtensions = [".png", ".jpg", ".jpeg", ".webp", ".pdf", ".doc", ".docx"];
+    const hasValidType = validTypes.includes(file.type);
+    const hasValidExt = validExtensions.some(ext => file.name.toLowerCase().endsWith(ext));
+    if (!hasValidType && !hasValidExt) return;
+
     const reader = new FileReader();
-    reader.onload = (e) => setScreenshot(e.target?.result as string);
+    reader.onload = (e) => {
+      setFileData(e.target?.result as string);
+      setFileName(file.name);
+      setFileType(file.type);
+    };
     reader.readAsDataURL(file);
   };
 
@@ -83,6 +129,15 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription }: Ha
     const file = e.target.files?.[0];
     if (file) processFile(file);
   };
+
+  const clearFile = () => {
+    setFileData(null);
+    setFileName("");
+    setFileType("");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const isImage = fileType && isImageFile(fileType);
 
   return (
     <div className="mt-5 rounded-xl border border-border/30 bg-card/30 p-5">
@@ -120,25 +175,42 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription }: Ha
 
       {type === "build-platform" && (
         <>
-          <h4 className="text-sm font-semibold mb-1">Upload a screenshot of your work</h4>
+          <h4 className="text-sm font-semibold mb-1">Submit Your Work</h4>
+          <p className="text-xs text-muted-foreground mb-4">
+            Upload a screenshot or exported file from your Infracodebase workspace. Supported formats: PNG, JPEG, PDF, DOCX.
+          </p>
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
+            accept={ACCEPTED_TYPES}
             onChange={handleFileSelect}
             className="hidden"
           />
-          {screenshot ? (
+          {fileData ? (
             <div className="mt-3 space-y-3">
-              <div className="relative rounded-lg overflow-hidden border border-border/30">
-                <img src={screenshot} alt="Screenshot" className="w-full max-h-[300px] object-contain bg-background/50" />
-                <button
-                  onClick={() => { setScreenshot(null); if (fileInputRef.current) fileInputRef.current.value = ""; }}
-                  className="absolute top-2 right-2 text-xs bg-background/80 backdrop-blur px-2 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Replace
-                </button>
-              </div>
+              {isImage ? (
+                <div className="relative rounded-lg overflow-hidden border border-border/30">
+                  <img src={fileData} alt="Screenshot" className="w-full max-h-[300px] object-contain bg-background/50" />
+                  <button
+                    onClick={clearFile}
+                    className="absolute top-2 right-2 text-xs bg-background/80 backdrop-blur px-2 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Replace
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 rounded-lg border border-border/30 bg-background/50 px-3 py-2.5">
+                  <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+                  <span className="text-sm text-foreground truncate flex-1">{fileName}</span>
+                  <button
+                    onClick={clearFile}
+                    className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                    aria-label="Remove file"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div
@@ -153,7 +225,8 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription }: Ha
               }`}
             >
               <Upload className="h-6 w-6 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">Drag and drop or click to upload</span>
+              <span className="text-xs text-muted-foreground">Drag and drop or click to upload your work</span>
+              <span className="text-xs text-muted-foreground/60">Supported formats: PNG, JPEG, PDF, DOCX</span>
             </div>
           )}
           <Textarea
