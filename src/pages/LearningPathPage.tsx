@@ -288,7 +288,7 @@ const LearningPathPage = () => {
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Learning Path Not Found</h1>
-            <Link to="/curriculum" className="text-primary hover:underline text-sm">← Back to Curriculum</Link>
+            <Link to="/curriculum" className="text-primary hover:underline text-sm"><Link to="/curriculum" className="text-primary hover:underline text-sm">← Back to Training</Link></Link>
           </div>
         </div>
       </AppLayout>

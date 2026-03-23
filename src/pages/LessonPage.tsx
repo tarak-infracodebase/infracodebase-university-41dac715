@@ -274,7 +274,7 @@ const LessonPage = () => {
                 </Link>
               ) : (
                 <Link to="/curriculum" className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 transition-colors">
-                  Back to Curriculum <ArrowRight className="h-3.5 w-3.5" />
+                  Back to Training <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               )}
             </div>
