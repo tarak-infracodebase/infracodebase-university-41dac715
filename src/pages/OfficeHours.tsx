@@ -358,7 +358,7 @@ function CalendarDropdown() {
       'BEGIN:VEVENT',
       'DTSTART:20260325T160000Z',
       'DTEND:20260325T170000Z',
-      'SUMMARY:Infracodebase University — Office Hours',
+      'SUMMARY:Infracodebase University — Workshops',
       'DESCRIPTION:Weekly live Q&A with Justin and Tarak.',
       'LOCATION:Online',
       'RRULE:FREQ=WEEKLY;BYDAY=WE',
