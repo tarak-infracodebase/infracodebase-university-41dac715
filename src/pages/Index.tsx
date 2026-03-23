@@ -320,7 +320,7 @@ const Index = () => {
               Learn. Build. <em className="font-light" style={{ color: ACCENTS.ember }}>Grow.</em>
             </h2>
             <p data-reveal className="mt-3 max-w-2xl" style={{ ...fontMono, fontSize: 14, color: MUTED, lineHeight: 1.7 }}>
-              Every week: live office hours, engineering walkthroughs, and community events so builders can learn from real systems and grow together.
+              Every week: live workshops, engineering walkthroughs, and community events so builders can learn from real systems and grow together.
             </p>
 
             <div data-reveal className="grid lg:grid-cols-2 gap-3 mt-10">
