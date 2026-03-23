@@ -563,15 +563,8 @@ function SessionModal({
   const [captionEditing, setCaptionEditing] = useState(false);
 
   // Comments
-  const initialComments = [
-    { name: "Comfort Benton", date: "March 18, 2026", text: "This session completely changed how I think about cloud infrastructure. The ClickOps to IaC demo was eye-opening." },
-    { name: "Tawni", date: "March 18, 2026", text: "I appreciated that manual cloud knowledge still matters. Helps me know where to focus as a beginner." },
-    { name: "Reilly", date: "March 18, 2026", text: "The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works." },
-    { name: "Abby", date: "March 18, 2026", text: "Seeing the agent map existing ClickOps infra live was incredible. Can't wait to try it myself." },
-  ];
-  const [comments, setComments] = useState(initialComments);
+  const [comments, setComments] = useState<{name: string; date: string; text: string; avatar?: string; replies?: any[]}[]>([]);
   const [commentInput, setCommentInput] = useState("");
-  const [showAllComments, setShowAllComments] = useState(false);
 
   // Uploadable avatars from localStorage (same keys as hero)
   const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => localStorage.getItem('office-hours-photo-justin'));
