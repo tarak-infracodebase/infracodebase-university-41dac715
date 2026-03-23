@@ -190,6 +190,7 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
