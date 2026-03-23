@@ -110,7 +110,7 @@ const communityCards = {
     bg: "linear-gradient(180deg,#0c0f14,#150c08)",
     accentColor: ACCENTS.ember,
     badge: "● NEXT SESSION",
-    eyebrow: "OFFICE HOURS",
+    eyebrow: "WORKSHOPS",
     title: "Live Demo — Migrating Azure Infrastructure to AWS and GCP",
     desc: "Live walkthrough migrating an existing Azure environment to both AWS and GCP using Infracodebase.",
     meta: "📅 Wed, March 25 · 5:00 PM CET",
@@ -320,11 +320,11 @@ const Index = () => {
               Learn. Build. <em className="font-light" style={{ color: ACCENTS.ember }}>Grow.</em>
             </h2>
             <p data-reveal className="mt-3 max-w-2xl" style={{ ...fontMono, fontSize: 14, color: MUTED, lineHeight: 1.7 }}>
-              Every week: live office hours, engineering walkthroughs, and community events so builders can learn from real systems and grow together.
+              Every week: live workshops, engineering walkthroughs, and community events so builders can learn from real systems and grow together.
             </p>
 
             <div data-reveal className="grid lg:grid-cols-2 gap-3 mt-10">
-              {/* Tall card — office hours */}
+              {/* Tall card — workshops */}
               <Link to={communityCards.tall.href} className={`${cardBase} ${cardHover} flex flex-col justify-between p-7 min-h-[420px] lg:row-span-2`}
                 style={{ background: communityCards.tall.bg, borderTop: `2px solid ${communityCards.tall.accentColor}` }}>
                 <div>

@@ -358,7 +358,7 @@ function CalendarDropdown() {
       'BEGIN:VEVENT',
       'DTSTART:20260325T160000Z',
       'DTEND:20260325T170000Z',
-      'SUMMARY:Infracodebase University — Office Hours',
+      'SUMMARY:Infracodebase University — Workshops',
       'DESCRIPTION:Weekly live Q&A with Justin and Tarak.',
       'LOCATION:Online',
       'RRULE:FREQ=WEEKLY;BYDAY=WE',
@@ -1020,7 +1020,7 @@ export default function OfficeHours() {
     <AppLayout>
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-10 space-y-10">
 
-        {/* What is Office Hours banner */}
+        {/* What is Workshops banner */}
         <div
           className="rounded-xl p-[1.5px]"
           style={{ background: "linear-gradient(135deg, #1a1a1a 0%, #c2410c 15%, #d97706 35%, #ca8a04 50%, #16a34a 68%, #0891b2 85%, #1a1a1a 100%)" }}
@@ -1030,9 +1030,9 @@ export default function OfficeHours() {
               <Clock className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-foreground">What is Office Hours?</p>
+              <p className="text-sm font-semibold text-foreground">What is Workshops?</p>
               <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-                Every Wednesday at 5:00 PM CET, Justin and Tarak run a live session — demos, walkthroughs, and Q&A on real infrastructure challenges. Sessions are recorded and available to all members. Submit your question below and we'll cover it live.
+                Every Wednesday at 5:00 PM CET, Justin and Tarak run a live workshop — demos, walkthroughs, and Q&A on real infrastructure challenges. Sessions are recorded and available to all members. Submit your question below and we'll cover it live.
               </p>
             </div>
           </div>
