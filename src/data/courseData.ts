@@ -1,7 +1,7 @@
 export interface Exercise {
   title: string;
   description: string;
-  type?: "writing" | "build";
+  type?: "writing" | "build-external" | "build-platform";
 }
 
 export interface Artifact {
