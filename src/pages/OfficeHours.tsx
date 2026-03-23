@@ -236,8 +236,8 @@ function Lightbox({
       </div>
 
       {/* Image area */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '70px 80px 120px' }}>
-        <img key={index} src={images[index].src} alt={images[index].caption} style={{ maxWidth: '90vw', maxHeight: '75vh', objectFit: 'contain', transition: 'opacity 0.2s' }} />
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '70px 80px 120px', pointerEvents: 'none' }}>
+        <img key={index} src={images[index].src} alt={images[index].caption} style={{ maxWidth: '90vw', maxHeight: '75vh', objectFit: 'contain', transition: 'opacity 0.2s', pointerEvents: 'auto' }} />
       </div>
 
       {/* Left arrow */}
