@@ -3,8 +3,8 @@ import { AppLayout } from "@/components/AppLayout";
 import {
   Calendar, Clock, ExternalLink, Play, ChevronLeft, ChevronRight,
   Download, X, Edit2, Check, Bold, Italic, Heading3, Pilcrow,
-  List, Minus, ChevronDown, Share2, Heart, Link, Linkedin, Instagram } from
-"lucide-react";
+  List, Minus, ChevronDown, Share2, Heart, Link, Linkedin, Instagram,
+} from "lucide-react";
 
 const SPECTRUM_GRADIENT = "linear-gradient(135deg, #c2410c, #d97706, #ca8a04, #16a34a, #0891b2)";
 
@@ -84,77 +84,77 @@ Infracodebase University is free and community-driven. Feedback encouraged on bo
 `;
 
 const initialScreenshots = [
-{ src: "/office-hours-thumbnail.png", caption: "Session thumbnail" },
-{ src: "/session-photo-1.png", caption: "Session participants" },
-{ src: "/session-photo-2.png", caption: "Session participants" },
-{ src: "/design.png", caption: "Azure architecture diagram — 92% layout quality" },
-{ src: "/code.png", caption: "Generated Terraform code — security.tf" },
-{ src: "/compliance.png", caption: "Compliance score — 58% · 28 pass · 21 fail · 1 overridden" }];
-
+  { src: "/workshop-thumbnail.png", caption: "Session thumbnail" },
+  { src: "/session-photo-1.png", caption: "Session participants" },
+  { src: "/session-photo-2.png", caption: "Session participants" },
+  { src: "/design.png", caption: "Azure architecture diagram — 92% layout quality" },
+  { src: "/code.png", caption: "Generated Terraform code — security.tf" },
+  { src: "/compliance.png", caption: "Compliance score — 58% · 28 pass · 21 fail · 1 overridden" },
+];
 
 
 /* ── Inline editable text ── */
 function InlineField({
-  value, onChange, editing, multiline, className
-
-
-}: {value: string;onChange: (v: string) => void;editing: boolean;multiline?: boolean;className?: string;}) {
+  value, onChange, editing, multiline, className,
+}: {
+  value: string; onChange: (v: string) => void; editing: boolean; multiline?: boolean; className?: string;
+}) {
   const [draft, setDraft] = useState(value);
   const [active, setActive] = useState(false);
 
-  useEffect(() => {setDraft(value);}, [value]);
+  useEffect(() => { setDraft(value); }, [value]);
 
   if (!editing) return <span className={className}>{value}</span>;
   if (!active) {
     return (
       <span
         className={`${className} cursor-pointer rounded px-1 -mx-1 transition-colors hover:bg-cyan-500/10`}
-        onClick={() => setActive(true)}>
-        {value}</span>);
-
+        onClick={() => setActive(true)}
+      >{value}</span>
+    );
   }
 
-  const confirm = () => {onChange(draft);setActive(false);};
-  const cancel = () => {setDraft(value);setActive(false);};
+  const confirm = () => { onChange(draft); setActive(false); };
+  const cancel = () => { setDraft(value); setActive(false); };
 
   if (multiline) {
     return (
       <span className="inline-flex flex-col gap-1 w-full">
         <textarea
           value={draft}
-          onChange={(e) => setDraft(e.target.value)}
+          onChange={e => setDraft(e.target.value)}
           className="w-full rounded border border-border/50 bg-white/[0.03] px-2 py-1 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-cyan-500/50 resize-y min-h-[60px]"
-          autoFocus />
-        
+          autoFocus
+        />
         <span className="flex gap-1">
           <button onClick={confirm} className="p-1 rounded hover:bg-cyan-500/20 text-cyan-400"><Check className="h-3.5 w-3.5" /></button>
           <button onClick={cancel} className="p-1 rounded hover:bg-red-500/20 text-red-400"><X className="h-3.5 w-3.5" /></button>
         </span>
-      </span>);
-
+      </span>
+    );
   }
 
   return (
     <span className="inline-flex items-center gap-1">
       <input
         value={draft}
-        onChange={(e) => setDraft(e.target.value)}
-        onKeyDown={(e) => {if (e.key === "Enter") confirm();if (e.key === "Escape") cancel();}}
+        onChange={e => setDraft(e.target.value)}
+        onKeyDown={e => { if (e.key === "Enter") confirm(); if (e.key === "Escape") cancel(); }}
         className="rounded border border-border/50 bg-white/[0.03] px-2 py-0.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
-        autoFocus />
-      
+        autoFocus
+      />
       <button onClick={confirm} className="p-1 rounded hover:bg-cyan-500/20 text-cyan-400"><Check className="h-3.5 w-3.5" /></button>
       <button onClick={cancel} className="p-1 rounded hover:bg-red-500/20 text-red-400"><X className="h-3.5 w-3.5" /></button>
-    </span>);
-
+    </span>
+  );
 }
 
 /* ── Photo Lightbox (Airbnb-style fullscreen) ── */
 function Lightbox({
-  images, index, onClose, onNav
-
-
-}: {images: {src: string;caption: string;}[];index: number;onClose: () => void;onNav: (i: number) => void;}) {
+  images, index, onClose, onNav,
+}: {
+  images: { src: string; caption: string }[]; index: number; onClose: () => void; onNav: (i: number) => void;
+}) {
   const total = images.length;
   const [likedPhotos, setLikedPhotos] = useState<Record<number, boolean>>({});
   const [likeCounts, setLikeCounts] = useState<Record<number, number>>({ 0: 12, 1: 8, 2: 5, 3: 7, 4: 4, 5: 3 });
@@ -183,8 +183,8 @@ function Lightbox({
 
   const toggleLike = () => {
     const wasLiked = likedPhotos[index];
-    setLikedPhotos((p) => ({ ...p, [index]: !wasLiked }));
-    setLikeCounts((c) => ({ ...c, [index]: (c[index] || 0) + (wasLiked ? -1 : 1) }));
+    setLikedPhotos(p => ({ ...p, [index]: !wasLiked }));
+    setLikeCounts(c => ({ ...c, [index]: (c[index] || 0) + (wasLiked ? -1 : 1) }));
   };
 
   const handleDownload = () => {
@@ -215,13 +215,13 @@ function Lightbox({
   const actionBtnStyle: React.CSSProperties = {
     background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)',
     fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px',
-    cursor: 'pointer', transition: 'all 0.15s', padding: '6px 10px', borderRadius: '6px'
+    cursor: 'pointer', transition: 'all 0.15s', padding: '6px 10px', borderRadius: '6px',
   };
 
   const shareOptionStyle: React.CSSProperties = {
     display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px',
     color: '#cbd5e1', fontSize: '13px', borderRadius: '7px', width: '100%',
-    background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' as const
+    background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' as const,
   };
 
   return (
@@ -244,9 +244,9 @@ function Lightbox({
       <button
         onClick={() => onNav((index - 1 + total) % total)}
         style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', transition: 'background 0.15s' }}
-        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.25)'}
-        onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}>
-        
+        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.25)')}
+        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
+      >
         <ChevronLeft className="h-5 w-5" />
       </button>
 
@@ -254,55 +254,55 @@ function Lightbox({
       <button
         onClick={() => onNav((index + 1) % total)}
         style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', transition: 'background 0.15s' }}
-        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.25)'}
-        onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}>
-        
+        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.25)')}
+        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
+      >
         <ChevronRight className="h-5 w-5" />
       </button>
 
       {/* Actions bar */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginBottom: '4px' }}>
         <button onClick={handleDownload} style={actionBtnStyle}
-        onMouseEnter={(e) => {e.currentTarget.style.opacity = '1';e.currentTarget.style.transform = 'scale(1.05)';}}
-        onMouseLeave={(e) => {e.currentTarget.style.opacity = '0.8';e.currentTarget.style.transform = 'scale(1)';}}>
-          
+          onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1.05)'; }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = '0.8'; e.currentTarget.style.transform = 'scale(1)'; }}
+        >
           <Download className="h-4 w-4" /> Download
         </button>
         <button onClick={toggleLike} style={{ ...actionBtnStyle, color: likedPhotos[index] ? '#fb7185' : 'rgba(255,255,255,0.8)' }}
-        onMouseEnter={(e) => {e.currentTarget.style.opacity = '1';e.currentTarget.style.transform = 'scale(1.05)';}}
-        onMouseLeave={(e) => {e.currentTarget.style.opacity = '0.8';e.currentTarget.style.transform = 'scale(1)';}}>
-          
+          onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1.05)'; }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = '0.8'; e.currentTarget.style.transform = 'scale(1)'; }}
+        >
           <Heart className="h-4 w-4" fill={likedPhotos[index] ? '#fb7185' : 'none'} /> {likeCounts[index] || 0}
         </button>
         <div ref={shareRef} style={{ position: 'relative' }}>
-          <button onClick={() => setShareOpen((o) => !o)} style={actionBtnStyle}
-          onMouseEnter={(e) => {e.currentTarget.style.opacity = '1';e.currentTarget.style.transform = 'scale(1.05)';}}
-          onMouseLeave={(e) => {e.currentTarget.style.opacity = '0.8';e.currentTarget.style.transform = 'scale(1)';}}>
-            
+          <button onClick={() => setShareOpen(o => !o)} style={actionBtnStyle}
+            onMouseEnter={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1.05)'; }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = '0.8'; e.currentTarget.style.transform = 'scale(1)'; }}
+          >
             <Share2 className="h-4 w-4" /> Share
           </button>
-          {shareOpen &&
-          <div style={{ position: 'absolute', bottom: 'calc(100% + 8px)', left: '50%', transform: 'translateX(-50%)', background: '#0b1220', border: '1px solid #25405f', borderRadius: '10px', padding: '6px', minWidth: '200px', zIndex: 1100 }}>
+          {shareOpen && (
+            <div style={{ position: 'absolute', bottom: 'calc(100% + 8px)', left: '50%', transform: 'translateX(-50%)', background: '#0b1220', border: '1px solid #25405f', borderRadius: '10px', padding: '6px', minWidth: '200px', zIndex: 1100 }}>
               <button onClick={handleCopyLink} style={shareOptionStyle}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#162035'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'none'}>
-              
+                onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+              >
                 <Link className="h-4 w-4" /> {copied ? 'Copied!' : 'Copy link'}
               </button>
               <button onClick={handleShareLinkedIn} style={shareOptionStyle}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#162035'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'none'}>
-              
+                onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+              >
                 <Linkedin className="h-4 w-4" /> Share on LinkedIn
               </button>
               <button onClick={handleShareInsta} style={shareOptionStyle}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#162035'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'none'}>
-              
+                onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+              >
                 <Instagram className="h-4 w-4" /> {instaCopied ? 'Link copied — paste in your story' : 'Share on Instagram'}
               </button>
             </div>
-          }
+          )}
         </div>
       </div>
 
@@ -311,25 +311,25 @@ function Lightbox({
 
       {/* Thumbnail strip */}
       <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '8px', zIndex: 10 }}>
-        {images.map((img, i) =>
-        <button
-          key={i}
-          onClick={() => onNav(i)}
-          style={{
-            width: '56px', height: '36px', borderRadius: '4px', overflow: 'hidden',
-            border: i === index ? '2px solid #22d3ee' : '2px solid transparent',
-            opacity: i === index ? 1 : 0.5, cursor: 'pointer', padding: 0, background: 'none',
-            transition: 'opacity 0.15s, border-color 0.15s'
-          }}
-          onMouseEnter={(e) => {if (i !== index) e.currentTarget.style.opacity = '0.8';}}
-          onMouseLeave={(e) => {if (i !== index) e.currentTarget.style.opacity = '0.5';}}>
-          
+        {images.map((img, i) => (
+          <button
+            key={i}
+            onClick={() => onNav(i)}
+            style={{
+              width: '56px', height: '36px', borderRadius: '4px', overflow: 'hidden',
+              border: i === index ? '2px solid #22d3ee' : '2px solid transparent',
+              opacity: i === index ? 1 : 0.5, cursor: 'pointer', padding: 0, background: 'none',
+              transition: 'opacity 0.15s, border-color 0.15s',
+            }}
+            onMouseEnter={e => { if (i !== index) e.currentTarget.style.opacity = '0.8'; }}
+            onMouseLeave={e => { if (i !== index) e.currentTarget.style.opacity = '0.5'; }}
+          >
             <img src={img.src} alt={img.caption} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
           </button>
-        )}
+        ))}
       </div>
-    </div>);
-
+    </div>
+  );
 }
 
 /* ── Calendar Dropdown ── */
@@ -352,19 +352,19 @@ function CalendarDropdown() {
 
   const handleICS = () => {
     const ics = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Infracodebase University//EN',
-    'BEGIN:VEVENT',
-    'DTSTART:20260325T160000Z',
-    'DTEND:20260325T170000Z',
-    'SUMMARY:Infracodebase University — Office Hours',
-    'DESCRIPTION:Weekly live Q&A with Justin and Tarak.',
-    'LOCATION:Online',
-    'RRULE:FREQ=WEEKLY;BYDAY=WE',
-    'END:VEVENT',
-    'END:VCALENDAR'].
-    join('\r\n');
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Infracodebase University//EN',
+      'BEGIN:VEVENT',
+      'DTSTART:20260325T160000Z',
+      'DTEND:20260325T170000Z',
+      'SUMMARY:Infracodebase University — Workshops',
+      'DESCRIPTION:Weekly live Q&A with Justin and Tarak.',
+      'LOCATION:Online',
+      'RRULE:FREQ=WEEKLY;BYDAY=WE',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
     const blob = new Blob([ics], { type: 'text/calendar' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -385,13 +385,13 @@ function CalendarDropdown() {
     color: '#cbd5e1',
     fontSize: '13px',
     borderRadius: '7px',
-    textAlign: 'left' as const
+    textAlign: 'left' as const,
   };
 
   return (
     <div ref={calRef} style={{ position: 'relative', zIndex: 50 }}>
       <button
-        onClick={() => setCalOpen((o) => !o)}
+        onClick={() => setCalOpen(o => !o)}
         style={{
           background: SPECTRUM_GRADIENT,
           color: 'white',
@@ -403,62 +403,62 @@ function CalendarDropdown() {
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px'
-        }}>
-        
+          gap: '8px',
+        }}
+      >
         <Calendar className="h-4 w-4" /> Add to calendar <ChevronDown className="h-3.5 w-3.5" />
       </button>
-      {calOpen &&
-      <div
-        style={{
-          position: 'absolute',
-          top: 'calc(100% + 8px)',
-          left: 0,
-          background: '#101929',
-          border: '1px solid #25405f',
-          borderRadius: '10px',
-          minWidth: '240px',
-          padding: '6px',
-          zIndex: 50,
-          boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
-        }}>
-        
+      {calOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: 'calc(100% + 8px)',
+            left: 0,
+            background: '#101929',
+            border: '1px solid #25405f',
+            borderRadius: '10px',
+            minWidth: '240px',
+            padding: '6px',
+            zIndex: 50,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+          }}
+        >
           <button
-          onClick={() => {window.open(googleUrl, '_blank');setCalOpen(false);}}
-          style={optionStyle}
-          onMouseEnter={(e) => e.currentTarget.style.background = '#162035'}
-          onMouseLeave={(e) => e.currentTarget.style.background = 'none'}>
-          
+            onClick={() => { window.open(googleUrl, '_blank'); setCalOpen(false); }}
+            style={optionStyle}
+            onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+          >
             <ExternalLink size={14} /> Google Calendar
           </button>
           <button
-          onClick={() => {window.open(outlookUrl, '_blank');setCalOpen(false);}}
-          style={optionStyle}
-          onMouseEnter={(e) => e.currentTarget.style.background = '#162035'}
-          onMouseLeave={(e) => e.currentTarget.style.background = 'none'}>
-          
+            onClick={() => { window.open(outlookUrl, '_blank'); setCalOpen(false); }}
+            style={optionStyle}
+            onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+          >
             <ExternalLink size={14} /> Microsoft Outlook
           </button>
           <button
-          onClick={handleICS}
-          style={optionStyle}
-          onMouseEnter={(e) => e.currentTarget.style.background = '#162035'}
-          onMouseLeave={(e) => e.currentTarget.style.background = 'none'}>
-          
+            onClick={handleICS}
+            style={optionStyle}
+            onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+          >
             <Download size={14} /> Apple / Other (.ics)
           </button>
         </div>
-      }
-    </div>);
-
+      )}
+    </div>
+  );
 }
 
 /* ── Rich Text Editor ── */
 function NotesEditor({
-  initialHTML, onDownload
-
-
-}: {initialHTML: string;onDownload: (text: string) => void;}) {
+  initialHTML, onDownload,
+}: {
+  initialHTML: string; onDownload: (text: string) => void;
+}) {
   const editorRef = useRef<HTMLDivElement>(null);
   const [saved, setSaved] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
@@ -514,11 +514,11 @@ function NotesEditor({
         <button onClick={() => exec("insertUnorderedList")} className={btnCls} title="Bullet List"><List className="h-4 w-4" /></button>
         <button onClick={() => exec("insertHorizontalRule")} className={btnCls} title="Divider"><Minus className="h-4 w-4" /></button>
         <div className="flex-1" />
-        {isDirty &&
-        <button onClick={handleDiscard} className="px-3 py-1 text-xs rounded border border-border/50 text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors">
+        {isDirty && (
+          <button onClick={handleDiscard} className="px-3 py-1 text-xs rounded border border-border/50 text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors">
             Discard
           </button>
-        }
+        )}
         <button onClick={handleSave} className="px-3 py-1 text-xs rounded font-medium text-white transition-opacity hover:opacity-90 ml-1" style={{ background: SPECTRUM_GRADIENT }}>
           Save
         </button>
@@ -533,42 +533,42 @@ function NotesEditor({
         onInput={() => setIsDirty(true)}
         className="border border-t-0 border-border/50 rounded-b-lg p-4 min-h-[300px] text-sm focus:outline-none"
         style={{ background: "#0a0e14" }}
-        dangerouslySetInnerHTML={{ __html: savedHTML }} />
-      
+        dangerouslySetInnerHTML={{ __html: savedHTML }}
+      />
 
       <div className="flex items-center justify-between mt-3">
         <p className="text-xs text-muted-foreground">Use the toolbar to format notes. Changes are saved locally.</p>
         <button
           onClick={handleDownloadNotes}
-          className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border border-border/50 text-foreground hover:bg-muted/50 transition-colors">
-          
+          className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border border-border/50 text-foreground hover:bg-muted/50 transition-colors"
+        >
           <Download className="h-4 w-4" /> Download notes (.md)
         </button>
       </div>
-    </div>);
-
+    </div>
+  );
 }
 
 /* ── Session Modal ── */
 function SessionModal({
-  open, onClose, screenshots: shots
-
-
-}: {open: boolean;onClose: () => void;screenshots: {src: string;caption: string;}[];}) {
+  open, onClose, screenshots: shots,
+}: {
+  open: boolean; onClose: () => void; screenshots: { src: string; caption: string }[];
+}) {
   const [tab, setTab] = useState<"recording" | "screenshots" | "notes">("recording");
   const [screenshotIdx, setScreenshotIdx] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [captions, setCaptions] = useState(shots.map((s) => s.caption));
+  const [captions, setCaptions] = useState(shots.map(s => s.caption));
   const [captionEditing, setCaptionEditing] = useState(false);
 
   // Comments
   const initialComments = [
-  { name: "Comfort Benton", date: "March 18, 2026", text: "This session completely changed how I think about cloud infrastructure. The ClickOps to IaC demo was eye-opening." },
-  { name: "Tawni", date: "March 18, 2026", text: "I appreciated that manual cloud knowledge still matters. Helps me know where to focus as a beginner." },
-  { name: "Reilly", date: "March 18, 2026", text: "The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works." },
-  { name: "Abby", date: "March 18, 2026", text: "Seeing the agent map existing ClickOps infra live was incredible. Can't wait to try it myself." }];
-
+    { name: "Comfort Benton", date: "March 18, 2026", text: "This session completely changed how I think about cloud infrastructure. The ClickOps to IaC demo was eye-opening." },
+    { name: "Tawni", date: "March 18, 2026", text: "I appreciated that manual cloud knowledge still matters. Helps me know where to focus as a beginner." },
+    { name: "Reilly", date: "March 18, 2026", text: "The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works." },
+    { name: "Abby", date: "March 18, 2026", text: "Seeing the agent map existing ClickOps infra live was incredible. Can't wait to try it myself." },
+  ];
   const [comments, setComments] = useState(initialComments);
   const [commentInput, setCommentInput] = useState("");
   const [showAllComments, setShowAllComments] = useState(false);
@@ -591,15 +591,15 @@ function SessionModal({
     reader.readAsDataURL(file);
   };
 
-  const openLightbox = (i: number) => {setLightboxIndex(i);setLightboxOpen(true);};
+  const openLightbox = (i: number) => { setLightboxIndex(i); setLightboxOpen(true); };
   const imagesWithCaptions = shots.map((s, i) => ({ src: s.src, caption: captions[i] }));
 
   if (!open) return null;
 
   const avatarData = [
-  { name: "Justin", initial: "J", photo: justinPhoto, setter: setJustinPhotoState, ref: justinRef, key: 'office-hours-photo-justin' },
-  { name: "Tarak", initial: "T", photo: tarakPhoto, setter: setTarakPhotoState, ref: tarakRef, key: 'office-hours-photo-tarak' }];
-
+    { name: "Justin", initial: "J", photo: justinPhoto, setter: setJustinPhotoState, ref: justinRef, key: 'office-hours-photo-justin' },
+    { name: "Tarak", initial: "T", photo: tarakPhoto, setter: setTarakPhotoState, ref: tarakRef, key: 'office-hours-photo-tarak' },
+  ];
 
   return (
     <>
@@ -614,27 +614,27 @@ function SessionModal({
             {/* Header with uploadable instructor photos */}
             <div className="flex items-center gap-3 mb-1">
               <div className="flex -space-x-2">
-                {avatarData.map((av) =>
-                <div key={av.name} style={{ position: 'relative', cursor: 'pointer' }} onClick={() => av.ref.current?.click()}>
-                    {av.photo ?
-                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
+                {avatarData.map(av => (
+                  <div key={av.name} style={{ position: 'relative', cursor: 'pointer' }} onClick={() => av.ref.current?.click()}>
+                    {av.photo ? (
+                      <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
                         <img src={av.photo} alt={av.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                      </div> :
-
-                  <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px solid #1c2e47' }}>
+                      </div>
+                    ) : (
+                      <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px solid #1c2e47' }}>
                         {av.initial}
                       </div>
-                  }
+                    )}
                     <div
-                    style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s' }}
-                    onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-                    onMouseLeave={(e) => e.currentTarget.style.opacity = '0'}>
-                    
+                      style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s' }}
+                      onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                      onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
+                    >
                       <span style={{ color: '#fff', fontSize: '8px', fontWeight: 700 }}>EDIT</span>
                     </div>
-                    <input ref={av.ref} type="file" accept="image/*" style={{ display: 'none' }} onChange={(e) => handleAvatarUpload(e, av.key, av.setter)} />
+                    <input ref={av.ref} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleAvatarUpload(e, av.key, av.setter)} />
                   </div>
-                )}
+                ))}
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-foreground">Build with Her — ClickOps to IaC: Azure Infrastructure Modernization</h2>
@@ -644,22 +644,22 @@ function SessionModal({
 
             {/* Tabs */}
             <div className="flex gap-1 border-b border-border/50 mb-6 mt-4">
-              {(["recording", "screenshots", "notes"] as const).map((t) =>
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px ${
-                tab === t ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`
-                }>
-                
+              {(["recording", "screenshots", "notes"] as const).map(t => (
+                <button
+                  key={t}
+                  onClick={() => setTab(t)}
+                  className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px ${
+                    tab === t ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
+                  }`}
+                >
                   {t === "recording" ? "Recording" : t === "screenshots" ? `Our Moments (${shots.length})` : "Notes"}
                 </button>
-              )}
+              ))}
             </div>
 
             {/* Recording */}
-            {tab === "recording" &&
-            <div>
+            {tab === "recording" && (
+              <div>
                 <div className="aspect-video rounded-lg bg-black/50 border border-border/30 flex items-center justify-center mb-4">
                   <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center cursor-pointer hover:bg-white/20 transition-colors">
                     <Play className="h-8 w-8 text-foreground ml-1" />
@@ -674,69 +674,69 @@ function SessionModal({
                   </button>
                 </div>
               </div>
-            }
+            )}
 
             {/* Screenshots */}
-            {tab === "screenshots" &&
-            <div>
+            {tab === "screenshots" && (
+              <div>
                 <div className="relative mb-4">
                   <img
-                  src={shots[screenshotIdx].src}
-                  alt={captions[screenshotIdx]}
-                  className="w-full rounded-lg border border-border/30 object-contain max-h-[50vh] cursor-pointer"
-                  onClick={() => openLightbox(screenshotIdx)} />
-                
-                  {screenshotIdx > 0 &&
-                <button
-                  onClick={() => setScreenshotIdx((i) => i - 1)}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white hover:bg-black/80">
-                  
+                    src={shots[screenshotIdx].src}
+                    alt={captions[screenshotIdx]}
+                    className="w-full rounded-lg border border-border/30 object-contain max-h-[50vh] cursor-pointer"
+                    onClick={() => openLightbox(screenshotIdx)}
+                  />
+                  {screenshotIdx > 0 && (
+                    <button
+                      onClick={() => setScreenshotIdx(i => i - 1)}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white hover:bg-black/80"
+                    >
                       <ChevronLeft className="h-4 w-4" />
                     </button>
-                }
-                  {screenshotIdx < shots.length - 1 &&
-                <button
-                  onClick={() => setScreenshotIdx((i) => i + 1)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white hover:bg-black/80">
-                  
+                  )}
+                  {screenshotIdx < shots.length - 1 && (
+                    <button
+                      onClick={() => setScreenshotIdx(i => i + 1)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 flex items-center justify-center text-white hover:bg-black/80"
+                    >
                       <ChevronRight className="h-4 w-4" />
                     </button>
-                }
+                  )}
                 </div>
 
                 {/* Editable caption */}
                 <div className="text-sm text-muted-foreground text-center mb-4 flex items-center justify-center gap-2">
-                  {captionEditing ?
-                <InlineField
-                  value={captions[screenshotIdx]}
-                  onChange={(v) => setCaptions((c) => c.map((cap, i) => i === screenshotIdx ? v : cap))}
-                  editing
-                  className="text-sm text-muted-foreground" /> :
-
-
-                <>
+                  {captionEditing ? (
+                    <InlineField
+                      value={captions[screenshotIdx]}
+                      onChange={v => setCaptions(c => c.map((cap, i) => i === screenshotIdx ? v : cap))}
+                      editing
+                      className="text-sm text-muted-foreground"
+                    />
+                  ) : (
+                    <>
                       <span>{captions[screenshotIdx]}</span>
                       <button onClick={() => setCaptionEditing(true)} className="p-1 rounded hover:bg-white/10 text-muted-foreground"><Edit2 className="h-3 w-3" /></button>
                     </>
-                }
-                  {captionEditing &&
-                <button onClick={() => setCaptionEditing(false)} className="p-1 rounded hover:bg-white/10 text-cyan-400"><Check className="h-3 w-3" /></button>
-                }
+                  )}
+                  {captionEditing && (
+                    <button onClick={() => setCaptionEditing(false)} className="p-1 rounded hover:bg-white/10 text-cyan-400"><Check className="h-3 w-3" /></button>
+                  )}
                 </div>
 
                 {/* Thumbnails */}
                 <div className="flex gap-2 justify-center">
-                  {shots.map((s, i) =>
-                <button
-                  key={i}
-                  onClick={() => {setScreenshotIdx(i);openLightbox(i);}}
-                  className={`w-16 h-10 rounded border-2 overflow-hidden transition-all ${
-                  i === screenshotIdx ? "border-primary" : "border-border/30 opacity-60 hover:opacity-100"}`
-                  }>
-                  
+                  {shots.map((s, i) => (
+                    <button
+                      key={i}
+                      onClick={() => { setScreenshotIdx(i); openLightbox(i); }}
+                      className={`w-16 h-10 rounded border-2 overflow-hidden transition-all ${
+                        i === screenshotIdx ? "border-primary" : "border-border/30 opacity-60 hover:opacity-100"
+                      }`}
+                    >
                       <img src={s.src} alt={captions[i]} className="w-full h-full object-cover" />
                     </button>
-                )}
+                  ))}
                 </div>
 
                 {/* ── Comments Section ── */}
@@ -746,55 +746,55 @@ function SessionModal({
                   {/* Comment input */}
                   <div style={{ display: 'flex', gap: '12px', marginBottom: '28px', alignItems: 'flex-start' }}>
                     <div style={{
-                    width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
-                    background: 'linear-gradient(135deg, #c2410c, #d97706, #16a34a, #0891b2)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '14px', fontWeight: 800, color: '#fff'
-                  }}>Y</div>
+                      width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
+                      background: 'linear-gradient(135deg, #c2410c, #d97706, #16a34a, #0891b2)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '14px', fontWeight: 800, color: '#fff',
+                    }}>Y</div>
                     <div style={{ flex: 1, display: 'flex', gap: '8px' }}>
                       <input
-                      type="text"
-                      value={commentInput}
-                      onChange={(e) => setCommentInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && commentInput.trim()) {
-                          setComments((c) => [{ name: 'You', date: 'Just now', text: commentInput.trim() }, ...c]);
-                          setCommentInput('');
-                        }
-                      }}
-                      placeholder="Share your experience from this session..."
-                      style={{
-                        flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid #1c2e47',
-                        borderRadius: '10px', padding: '10px 14px', fontSize: '13px', color: '#f1f5f9',
-                        outline: 'none'
-                      }} />
-                    
+                        type="text"
+                        value={commentInput}
+                        onChange={e => setCommentInput(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter' && commentInput.trim()) {
+                            setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim() }, ...c]);
+                            setCommentInput('');
+                          }
+                        }}
+                        placeholder="Share your experience from this session..."
+                        style={{
+                          flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid #1c2e47',
+                          borderRadius: '10px', padding: '10px 14px', fontSize: '13px', color: '#f1f5f9',
+                          outline: 'none',
+                        }}
+                      />
                       <button
-                      onClick={() => {
-                        if (!commentInput.trim()) return;
-                        setComments((c) => [{ name: 'You', date: 'Just now', text: commentInput.trim() }, ...c]);
-                        setCommentInput('');
-                      }}
-                      disabled={!commentInput.trim()}
-                      style={{
-                        background: SPECTRUM_GRADIENT, color: '#fff', border: 'none',
-                        borderRadius: '10px', padding: '10px 18px', fontSize: '13px', fontWeight: 600,
-                        cursor: commentInput.trim() ? 'pointer' : 'default', opacity: commentInput.trim() ? 1 : 0.4
-                      }}>
-                      Post</button>
+                        onClick={() => {
+                          if (!commentInput.trim()) return;
+                          setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim() }, ...c]);
+                          setCommentInput('');
+                        }}
+                        disabled={!commentInput.trim()}
+                        style={{
+                          background: SPECTRUM_GRADIENT, color: '#fff', border: 'none',
+                          borderRadius: '10px', padding: '10px 18px', fontSize: '13px', fontWeight: 600,
+                          cursor: commentInput.trim() ? 'pointer' : 'default', opacity: commentInput.trim() ? 1 : 0.4,
+                        }}
+                      >Post</button>
                     </div>
                   </div>
 
                   {/* Comments grid */}
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px' }}>
-                    {(showAllComments ? comments : comments.slice(0, 4)).map((c, i) =>
-                  <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                    {(showAllComments ? comments : comments.slice(0, 4)).map((c, i) => (
+                      <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                         <div style={{
-                      width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
-                      background: 'linear-gradient(135deg, #c2410c, #d97706, #16a34a, #0891b2)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '14px', fontWeight: 800, color: '#fff'
-                    }}>{c.name.charAt(0)}</div>
+                          width: '40px', height: '40px', borderRadius: '50%', flexShrink: 0,
+                          background: 'linear-gradient(135deg, #c2410c, #d97706, #16a34a, #0891b2)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontSize: '14px', fontWeight: 800, color: '#fff',
+                        }}>{c.name.charAt(0)}</div>
                         <div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                             <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '14px' }}>{c.name}</span>
@@ -803,67 +803,67 @@ function SessionModal({
                           <p style={{ color: '#cbd5e1', fontSize: '13px', lineHeight: 1.7, margin: 0 }}>{c.text}</p>
                         </div>
                       </div>
-                  )}
+                    ))}
                   </div>
 
-                  {comments.length > 4 && !showAllComments &&
-                <button
-                  onClick={() => setShowAllComments(true)}
-                  style={{
-                    marginTop: '20px', background: 'none', border: '1px solid #1c2e47',
-                    borderRadius: '8px', padding: '10px 20px', color: '#f1f5f9',
-                    fontSize: '13px', fontWeight: 600, cursor: 'pointer', width: '100%'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = '#162035'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'none'}>
-                  
+                  {comments.length > 4 && !showAllComments && (
+                    <button
+                      onClick={() => setShowAllComments(true)}
+                      style={{
+                        marginTop: '20px', background: 'none', border: '1px solid #1c2e47',
+                        borderRadius: '8px', padding: '10px 20px', color: '#f1f5f9',
+                        fontSize: '13px', fontWeight: 600, cursor: 'pointer', width: '100%',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+                    >
                       Show all {comments.length} comments
                     </button>
-                }
+                  )}
                 </div>
               </div>
-            }
+            )}
 
             {/* Notes */}
-            {tab === "notes" &&
-            <NotesEditor
-              initialHTML={INITIAL_SESSION_NOTES}
-              onDownload={() => {
-                const blob = new Blob([SESSION_NOTES_MD], { type: "text/markdown" });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "build-with-her-march-18-2026.md";
-                a.click();
-                URL.revokeObjectURL(url);
-              }} />
-
-            }
+            {tab === "notes" && (
+              <NotesEditor
+                initialHTML={INITIAL_SESSION_NOTES}
+                onDownload={() => {
+                  const blob = new Blob([SESSION_NOTES_MD], { type: "text/markdown" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "build-with-her-march-18-2026.md";
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
 
-      {lightboxOpen &&
-      <Lightbox
-        images={imagesWithCaptions}
-        index={lightboxIndex}
-        onClose={() => setLightboxOpen(false)}
-        onNav={setLightboxIndex} />
-
-      }
-    </>);
-
+      {lightboxOpen && (
+        <Lightbox
+          images={imagesWithCaptions}
+          index={lightboxIndex}
+          onClose={() => setLightboxOpen(false)}
+          onNav={setLightboxIndex}
+        />
+      )}
+    </>
+  );
 }
 
 /* ── Horizontal Session Card ── */
 function HorizontalSessionCard({
-  editing, onClick, sessionTitle, setSessionTitle, sessionDesc, setSessionDesc, sessionDate, setSessionDate
-
-
-
-
-
-}: {editing: boolean;onClick: () => void;sessionTitle: string;setSessionTitle: (v: string) => void;sessionDesc: string;setSessionDesc: (v: string) => void;sessionDate: string;setSessionDate: (v: string) => void;}) {
+  editing, onClick, sessionTitle, setSessionTitle, sessionDesc, setSessionDesc, sessionDate, setSessionDate,
+}: {
+  editing: boolean; onClick: () => void;
+  sessionTitle: string; setSessionTitle: (v: string) => void;
+  sessionDesc: string; setSessionDesc: (v: string) => void;
+  sessionDate: string; setSessionDate: (v: string) => void;
+}) {
   const [hov, setHov] = useState(false);
 
   return (
@@ -882,19 +882,19 @@ function HorizontalSessionCard({
         transition: 'all 0.2s',
         transform: hov && !editing ? 'translateY(-2px)' : 'none',
         boxShadow: hov && !editing ? '0 8px 32px rgba(0,0,0,0.3)' : 'none',
-        minHeight: '160px'
-      }}>
-      
+        minHeight: '160px',
+      }}
+    >
       {/* LEFT — Thumbnail */}
       <div style={{
         width: '360px',
         minWidth: '360px',
         position: 'relative',
         overflow: 'hidden',
-        flexShrink: 0
+        flexShrink: 0,
       }}>
         <img
-          src="/office-hours-thumbnail.png"
+          src="/workshop-thumbnail.png"
           alt={sessionTitle}
           style={{
             position: 'absolute',
@@ -904,24 +904,24 @@ function HorizontalSessionCard({
             height: '100%',
             objectFit: 'cover',
             objectPosition: 'center top',
-            display: 'block'
-          }} />
-        
-        {!editing && hov &&
-        <div style={{
-          position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          transition: 'opacity 0.2s'
-        }}>
-            <div style={{
-            width: '48px', height: '48px', borderRadius: '50%',
-            background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center'
+            display: 'block',
+          }}
+        />
+        {!editing && hov && (
+          <div style={{
+            position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'opacity 0.2s',
           }}>
+            <div style={{
+              width: '48px', height: '48px', borderRadius: '50%',
+              background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
               <Play className="h-5 w-5 text-white" style={{ marginLeft: '2px' }} />
             </div>
           </div>
-        }
+        )}
       </div>
 
       {/* RIGHT — Content */}
@@ -930,14 +930,14 @@ function HorizontalSessionCard({
         padding: '20px 24px',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
       }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
             <span style={{
               borderRadius: '9999px', padding: '2px 10px',
               fontSize: '11px', fontWeight: 600,
-              background: 'rgba(167,139,250,0.15)', color: '#a78bfa'
+              background: 'rgba(167,139,250,0.15)', color: '#a78bfa',
             }}>
               Real Infrastructure
             </span>
@@ -954,13 +954,13 @@ function HorizontalSessionCard({
           <span style={{ fontSize: '12px', color: '#94a3b8' }}>
             <InlineField value={sessionDate} onChange={setSessionDate} editing={editing} className="text-xs text-muted-foreground" />
           </span>
-          {!editing &&
-          <span style={{ fontSize: '12px', fontWeight: 500, color: '#22d3ee' }}>View session →</span>
-          }
+          {!editing && (
+            <span style={{ fontSize: '12px', fontWeight: 500, color: '#22d3ee' }}>View session →</span>
+          )}
         </div>
       </div>
-    </div>);
-
+    </div>
+  );
 }
 
 /* ── Main Page ── */
@@ -991,13 +991,13 @@ export default function OfficeHours() {
 
   const setJustinPhoto = (val: string | null) => {
     setJustinPhotoState(val);
-    if (val) localStorage.setItem('office-hours-photo-justin', val);else
-    localStorage.removeItem('office-hours-photo-justin');
+    if (val) localStorage.setItem('office-hours-photo-justin', val);
+    else localStorage.removeItem('office-hours-photo-justin');
   };
   const setTarakPhoto = (val: string | null) => {
     setTarakPhotoState(val);
-    if (val) localStorage.setItem('office-hours-photo-tarak', val);else
-    localStorage.removeItem('office-hours-photo-tarak');
+    if (val) localStorage.setItem('office-hours-photo-tarak', val);
+    else localStorage.removeItem('office-hours-photo-tarak');
   };
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>, setter: (v: string) => void) => {
@@ -1020,19 +1020,19 @@ export default function OfficeHours() {
     <AppLayout>
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-10 space-y-10">
 
-        {/* What is Office Hours banner */}
+        {/* What is Workshops banner */}
         <div
           className="rounded-xl p-[1.5px]"
-          style={{ background: "linear-gradient(135deg, #1a1a1a 0%, #c2410c 15%, #d97706 35%, #ca8a04 50%, #16a34a 68%, #0891b2 85%, #1a1a1a 100%)" }}>
-          
+          style={{ background: "linear-gradient(135deg, #1a1a1a 0%, #c2410c 15%, #d97706 35%, #ca8a04 50%, #16a34a 68%, #0891b2 85%, #1a1a1a 100%)" }}
+        >
           <div className="rounded-[11px] bg-[#141414] px-5 py-4 flex items-center gap-4">
             <div className="shrink-0 h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
               <Clock className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-foreground">What are Workshops?</p>
+              <p className="text-sm font-semibold text-foreground">What is Workshops?</p>
               <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-                Every Wednesday at 5:00 PM CET, Justin and Tarak run a live session — demos, walkthroughs, and Q&A on real infrastructure challenges. Sessions are recorded and available to all members. Submit your question below and we'll cover it live.
+                Every Wednesday at 5:00 PM CET, Justin and Tarak run a live workshop — demos, walkthroughs, and Q&A on real infrastructure challenges. Sessions are recorded and available to all members. Submit your question below and we'll cover it live.
               </p>
             </div>
           </div>
@@ -1044,11 +1044,11 @@ export default function OfficeHours() {
 
           {/* Edit button */}
           <button
-            onClick={() => setHeroEditing((e) => !e)}
+            onClick={() => setHeroEditing(e => !e)}
             className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-            heroEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"}`
-            }>
-            
+              heroEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            }`}
+          >
             <Edit2 className="h-4 w-4" />
           </button>
 
@@ -1090,38 +1090,38 @@ export default function OfficeHours() {
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hosted by</p>
               <div className="space-y-4">
                 {([
-                { name: "Justin", initial: "J", defaultPhoto: "/Justin.jpeg", title: "Founder, Infracodebase", photo: justinPhoto, setter: setJustinPhoto, uploadId: "upload-justin" },
-                { name: "Tarak", initial: "T", defaultPhoto: "/Tarak.jpeg", title: "Co-Founder, Infracodebase", photo: tarakPhoto, setter: setTarakPhoto, uploadId: "upload-tarak" }] as
-                const).map((host) =>
-                <div key={host.name} className="flex items-center gap-3">
+                  { name: "Justin", initial: "J", defaultPhoto: "/Justin.jpeg", title: "Founder, Infracodebase", photo: justinPhoto, setter: setJustinPhoto, uploadId: "upload-justin" },
+                  { name: "Tarak", initial: "T", defaultPhoto: "/Tarak.jpeg", title: "Co-Founder, Infracodebase", photo: tarakPhoto, setter: setTarakPhoto, uploadId: "upload-tarak" },
+                ] as const).map(host => (
+                  <div key={host.name} className="flex items-center gap-3">
                     <div
-                    style={{ position: 'relative', cursor: 'pointer' }}
-                    onClick={() => document.getElementById(host.uploadId)?.click()}>
-                    
-                      {host.photo || host.defaultPhoto ?
-                    <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
+                      style={{ position: 'relative', cursor: 'pointer' }}
+                      onClick={() => document.getElementById(host.uploadId)?.click()}
+                    >
+                      {(host.photo || host.defaultPhoto) ? (
+                        <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
                           <img src={host.photo || host.defaultPhoto} alt={host.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                        </div> :
-
-                    <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px dashed rgba(255,255,255,0.3)' }}>
+                        </div>
+                      ) : (
+                        <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px dashed rgba(255,255,255,0.3)' }}>
                           {host.initial}
                         </div>
-                    }
+                      )}
                       <div
-                      style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s' }}
-                      onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
-                      onMouseLeave={(e) => e.currentTarget.style.opacity = '0'}>
-                      
+                        style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s' }}
+                        onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                        onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
+                      >
                         <span style={{ color: '#fff', fontSize: '9px', fontWeight: 700 }}>EDIT</span>
                       </div>
-                      <input id={host.uploadId} type="file" accept="image/*" style={{ display: 'none' }} onChange={(e) => handlePhotoUpload(e, host.setter)} />
+                      <input id={host.uploadId} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handlePhotoUpload(e, host.setter)} />
                     </div>
                     <div>
                       <p className="text-sm font-medium text-foreground">{host.name}</p>
                       <p className="text-xs text-muted-foreground">{host.title}</p>
                     </div>
                   </div>
-                )}
+                ))}
               </div>
             </div>
           </div>
@@ -1135,23 +1135,23 @@ export default function OfficeHours() {
             <input
               type="text"
               value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSubmitQuestion()}
+              onChange={e => setQuestion(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && handleSubmitQuestion()}
               placeholder="Type your question..."
-              className="flex-1 rounded-lg border border-border/50 bg-white/[0.03] px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50" />
-            
+              className="flex-1 rounded-lg border border-border/50 bg-white/[0.03] px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
+            />
             <button
               onClick={handleSubmitQuestion}
               disabled={!question.trim()}
               className="rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
-              style={{ background: SPECTRUM_GRADIENT }}>
-              
+              style={{ background: SPECTRUM_GRADIENT }}
+            >
               Submit
             </button>
           </div>
-          {submitted &&
-          <p className="mt-3 text-sm text-emerald-400">Question submitted — we'll cover it on Wednesday.</p>
-          }
+          {submitted && (
+            <p className="mt-3 text-sm text-emerald-400">Question submitted — we'll cover it on Wednesday.</p>
+          )}
         </section>
 
         {/* ── SECTION 3 — PAST SESSIONS ── */}
@@ -1162,11 +1162,11 @@ export default function OfficeHours() {
           <div className="relative">
             {/* Edit button */}
             <button
-              onClick={(e) => {e.stopPropagation();setSessionEditing((ed) => !ed);}}
+              onClick={e => { e.stopPropagation(); setSessionEditing(ed => !ed); }}
               className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-              sessionEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"}`
-              }>
-              
+                sessionEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
               <Edit2 className="h-4 w-4" />
             </button>
 
@@ -1178,13 +1178,13 @@ export default function OfficeHours() {
               sessionDesc={sessionDesc}
               setSessionDesc={setSessionDesc}
               sessionDate={sessionDate}
-              setSessionDate={setSessionDate} />
-            
+              setSessionDate={setSessionDate}
+            />
           </div>
         </section>
       </div>
 
       <SessionModal open={modalOpen} onClose={() => setModalOpen(false)} screenshots={initialScreenshots} />
-    </AppLayout>);
-
+    </AppLayout>
+  );
 }
