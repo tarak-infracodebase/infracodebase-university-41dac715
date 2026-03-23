@@ -88,6 +88,19 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
     } catch {}
   }, [storageKey]);
 
+  // Auto-save for writing type
+  useEffect(() => {
+    if (type !== "writing") return;
+    setAutoSaving(true);
+    const timer = setTimeout(() => {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify({ answer }));
+      } catch {}
+      setAutoSaving(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [answer, type, storageKey]);
+
   const handleSave = () => {
     try {
       const payload =
