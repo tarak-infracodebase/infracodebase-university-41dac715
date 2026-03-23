@@ -53,7 +53,7 @@ const Manifesto = () => {
   return (
     <div className="min-h-screen bg-[hsl(0,0%,100%)] text-[hsl(228,20%,12%)] selection:bg-[hsl(260,70%,58%)/0.15]">
       {/* Hero */}
-      <section className="flex flex-col items-center justify-center px-6 pt-28 pb-10 md:pt-40 md:pb-12">
+      <section className="flex flex-col items-center justify-center px-6 pt-20 pb-6 md:pt-28 md:pb-8">
         {/* Rainbow wordmark */}
         <h2
           className="text-2xl md:text-3xl font-bold tracking-tight"
@@ -69,7 +69,7 @@ const Manifesto = () => {
         </h2>
 
         <h1
-          className="mt-10 md:mt-14 text-5xl md:text-7xl lg:text-8xl text-center leading-[1.15] tracking-tight text-[hsl(228,20%,10%)]"
+          className="mt-8 md:mt-10 text-5xl md:text-7xl lg:text-8xl text-center leading-[1.15] tracking-tight text-[hsl(228,20%,10%)]"
           style={{ fontFamily: "'Caveat', cursive" }}
         >
           Learn Infrastructure
@@ -77,7 +77,7 @@ const Manifesto = () => {
           Differently.
         </h1>
 
-        <p className="mt-10 max-w-lg text-center text-base md:text-lg leading-relaxed text-[hsl(220,10%,40%)] font-sans">
+        <p className="mt-6 max-w-lg text-center text-base md:text-lg leading-relaxed text-[hsl(220,10%,40%)] font-sans">
           Modern infrastructure isn't learned through tutorials.
           <br />
           You learn it by understanding systems.
@@ -85,14 +85,14 @@ const Manifesto = () => {
 
         <Link
           to="/curriculum"
-          className="mt-12 inline-flex items-center rounded-full bg-[hsl(228,20%,10%)] px-8 py-3.5 text-sm font-medium text-[hsl(0,0%,100%)] hover:bg-[hsl(228,20%,18%)] transition-colors"
+          className="mt-8 inline-flex items-center rounded-full bg-[hsl(228,20%,10%)] px-8 py-3.5 text-sm font-medium text-[hsl(0,0%,100%)] hover:bg-[hsl(228,20%,18%)] transition-colors"
         >
           Explore Infracodebase University
         </Link>
       </section>
 
       {/* Manifesto */}
-      <section className="px-6 pt-6 md:pt-8 pb-24 md:pb-36">
+      <section className="px-6 pt-4 md:pt-6 pb-12 md:pb-20">
         <div className="mx-auto max-w-[620px]">
           {manifestoParagraphs.map((p, i) => (
             <p
@@ -104,7 +104,7 @@ const Manifesto = () => {
           ))}
 
           {/* Signature */}
-          <div className="pt-16 md:pt-20">
+          <div className="pt-12 md:pt-16">
             <img
               src={signatureImg}
               alt="Founder's signature"
@@ -115,13 +115,13 @@ const Manifesto = () => {
       </section>
 
       {/* CTA */}
-      <section className="flex flex-col items-center px-6 pt-12 pb-32 md:pb-44">
+      <section className="flex flex-col items-center px-6 pt-6 pb-20 md:pb-28">
         <p className="text-base md:text-lg text-[hsl(220,10%,40%)] text-center font-sans">
           Ready to start building real systems?
         </p>
         <Link
           to="/dashboard"
-          className="mt-10 inline-flex items-center rounded-full bg-[hsl(228,20%,10%)] px-8 py-3.5 text-sm font-medium text-[hsl(0,0%,100%)] hover:bg-[hsl(228,20%,18%)] transition-colors"
+          className="mt-6 inline-flex items-center rounded-full bg-[hsl(228,20%,10%)] px-8 py-3.5 text-sm font-medium text-[hsl(0,0%,100%)] hover:bg-[hsl(228,20%,18%)] transition-colors"
         >
           Enter Infracodebase University
         </Link>
