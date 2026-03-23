@@ -70,6 +70,10 @@ const Profile = () => {
   const bannerRef = useRef<HTMLInputElement>(null);
   const avatarRef = useRef<HTMLInputElement>(null);
 
+  if (urlUsername && KNOWN_ROUTES.includes(urlUsername.toLowerCase())) {
+    return <NotFound />;
+  }
+
   const startEditing = () => {
     setDraft({
       displayName: profileData.displayName || user?.fullName || user?.firstName || "",
