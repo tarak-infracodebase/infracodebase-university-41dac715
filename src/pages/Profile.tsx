@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 const projects: { name: string; desc: string; tags: string[]; color: string }[] = [];
 
 const heatmapData = Array.from({ length: 52 }, () =>
-  Array.from({ length: 7 }, () => Math.random())
+  Array.from({ length: 7 }, () => 0)
 );
 
 const stats = [
