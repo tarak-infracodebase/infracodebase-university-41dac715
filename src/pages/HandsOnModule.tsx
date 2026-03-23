@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Lightbulb, BookOpen, PenTool, AlertTriangle, Ref
 import ValidationChecklist from "@/components/lesson/ValidationChecklist";
 import HandsOnSubmission from "@/components/lesson/HandsOnSubmission";
 import KnowledgeCheckMulti from "@/components/lesson/KnowledgeCheckMulti";
+import { toast } from "@/components/ui/use-toast";
 
 const SectionBlock = ({ icon: Icon, title, color, children }: { icon: React.ElementType; title: string; color: string; children: React.ReactNode }) => (
   <section className="mb-8">
