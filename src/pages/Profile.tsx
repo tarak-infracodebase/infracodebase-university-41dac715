@@ -36,6 +36,18 @@ const Profile = () => {
 
   const { profileData, saveProfile } = useProfileData(user?.id);
 
+  const [profileXP, setProfileXP] = useState(0);
+  const [profileLevel, setProfileLevel] = useState(1);
+
+  useEffect(() => {
+    try {
+      const xp = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
+      const level = parseInt(localStorage.getItem("icbu_level") || "1", 10);
+      setProfileXP(xp);
+      setProfileLevel(level);
+    } catch {}
+  }, []);
+
   // Guard: if the URL param matches a known static route segment, render NotFound
   const KNOWN_ROUTES = [
     "dashboard", "curriculum", "progress", "leaderboard", "profile", "events",

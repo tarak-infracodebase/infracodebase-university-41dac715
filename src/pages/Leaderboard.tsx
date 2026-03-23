@@ -75,6 +75,16 @@ const Leaderboard = () => {
           })}
         </div>
 
+        <div className="rounded-xl border border-border/40 bg-card/30 px-5 py-4 mb-6 flex items-start gap-3">
+          <span className="text-base mt-0.5">⏳</span>
+          <div>
+            <p className="text-sm font-semibold text-foreground">Leaderboard goes live with the first cohort</p>
+            <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
+              Rankings will be based on real XP earned through lessons and hands-on training. Your rank will be waiting when you complete your first track.
+            </p>
+          </div>
+        </div>
+
         {/* Table */}
         <div className="glass-panel rounded-xl overflow-hidden">
           <div className="grid grid-cols-[3rem_1fr_4rem_5rem_4rem] gap-2 px-4 py-2.5 border-b border-border/50 text-[10px] text-muted-foreground uppercase tracking-wider font-medium">
