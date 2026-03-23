@@ -38,6 +38,10 @@ const Profile = () => {
   const { username: urlUsername } = useParams<{ username: string }>();
   const { user, isLoaded } = useUser();
   const navigate = useNavigate();
+  const [editing, setEditing] = useState(false);
+  const [handleError, setHandleError] = useState("");
+
+  const { profileData, saveProfile } = useProfileData(user?.id);
 
   // Guard: if the URL param matches a known static route segment, render NotFound
   const KNOWN_ROUTES = [
@@ -45,14 +49,6 @@ const Profile = () => {
     "videos", "feedback", "resources", "appearance", "path", "hands-on",
     "office-hours", "cards", "manifesto", "sign-in", "sign-up"
   ];
-  if (urlUsername && KNOWN_ROUTES.includes(urlUsername.toLowerCase())) {
-    return <NotFound />;
-  }
-
-  const [editing, setEditing] = useState(false);
-  const [handleError, setHandleError] = useState("");
-
-  const { profileData, saveProfile } = useProfileData(user?.id);
 
   const clerkHandle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
   const resolvedHandle = profileData.customHandle || clerkHandle;
