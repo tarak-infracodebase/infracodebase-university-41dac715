@@ -7,29 +7,22 @@ import { MapPin, Calendar, Flame, Trophy, Pencil, Globe, ExternalLink, Camera, X
 import { useUser } from "@clerk/clerk-react";
 import { useProfileData, isHandleTaken } from "@/hooks/useProfileData";
 import { ShareProfilePopover } from "@/components/profile/ShareProfilePopover";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-const projects = [
-  { name: "Azure APIM Landing Zone", desc: "Production-grade Azure API Management landing zone with Terraform following security best practices.", tags: ["Azure", "Terraform"], color: "hsl(var(--crystal-cyan))" },
-  { name: "Production Web App over SQL on AWS", desc: "Production-grade web application with SQL database on AWS using Terraform — security-hardened, Well-Architected, and compliant.", tags: ["AWS", "Terraform"], color: "hsl(var(--crystal-magenta))" },
-  { name: "AWS-Security-Insights-Pipeline", desc: "Real-time AWS threat detection and auto-remediation system analysis.", tags: ["AWS", "Security"], color: "hsl(var(--crystal-green))" },
-  { name: "AWS Secure Web Application", desc: "Production-ready AWS web application using ALB, WAF, and security-by-design infrastructure.", tags: ["AWS", "Security"], color: "hsl(var(--crystal-orange))" },
-  { name: "Azure Active Directory Lab Environment", desc: "Terraform workspace for deploying a Windows Server Active Directory domain with domain controllers and enterprise configuration.", tags: ["Azure", "AD"], color: "hsl(var(--crystal-violet))" },
-  { name: "Azure AD DS Hybrid Architecture", desc: "Hybrid Active Directory Domain Services architecture extending on-premises AD to Azure using Terraform.", tags: ["Azure", "Hybrid"], color: "hsl(var(--crystal-yellow))" },
-];
+const projects: { name: string; desc: string; tags: string[]; color: string }[] = [];
 
 const heatmapData = Array.from({ length: 52 }, () =>
-  Array.from({ length: 7 }, () => Math.random())
+  Array.from({ length: 7 }, () => 0)
 );
 
 const stats = [
-  { label: "Daily Average", value: "1.8 hrs" },
-  { label: "Days Active", value: "47" },
-  { label: "Current Streak", value: "12 days" },
-  { label: "Total Edits", value: "342" },
+  { label: "Daily Average", value: "—" },
+  { label: "Days Active", value: "0" },
+  { label: "Current Streak", value: "0 days" },
+  { label: "Total Edits", value: "0" },
 ];
 
 const defaultBannerGradient = "linear-gradient(135deg, hsl(260 70% 30%) 0%, hsl(330 65% 25%) 40%, hsl(185 70% 20%) 70%, hsl(228 30% 10%) 100%)";
@@ -42,6 +35,18 @@ const Profile = () => {
   const [handleError, setHandleError] = useState("");
 
   const { profileData, saveProfile } = useProfileData(user?.id);
+
+  const [profileXP, setProfileXP] = useState(0);
+  const [profileLevel, setProfileLevel] = useState(1);
+
+  useEffect(() => {
+    try {
+      const xp = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
+      const level = parseInt(localStorage.getItem("icbu_level") || "1", 10);
+      setProfileXP(xp);
+      setProfileLevel(level);
+    } catch {}
+  }, []);
 
   // Guard: if the URL param matches a known static route segment, render NotFound
   const KNOWN_ROUTES = [
@@ -314,8 +319,8 @@ const Profile = () => {
               </span>
             )}
             <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Joined {joinedDate}</span>
-            <span className="flex items-center gap-1"><Flame className="h-3.5 w-3.5 text-crystal-orange" /> 12 day streak</span>
-            <span className="flex items-center gap-1"><Trophy className="h-3.5 w-3.5 text-crystal-yellow" /> Silver League</span>
+            <span className="flex items-center gap-1"><Flame className="h-3.5 w-3.5 text-crystal-orange" /> 0 day streak</span>
+            <span className="flex items-center gap-1"><Trophy className="h-3.5 w-3.5 text-crystal-yellow" /> Explorer</span>
             {editing ? (
               <span className="flex items-center gap-1.5">
                 <Globe className="h-3.5 w-3.5 shrink-0" />
@@ -362,8 +367,8 @@ const Profile = () => {
 
           {/* Follower stats */}
           <div className="mt-3 flex items-center gap-4 text-sm">
-            <span><strong className="text-foreground">24</strong> <span className="text-muted-foreground">following</span></span>
-            <span><strong className="text-foreground">18</strong> <span className="text-muted-foreground">followers</span></span>
+            <span><strong className="text-foreground">0</strong> <span className="text-muted-foreground">following</span></span>
+            <span><strong className="text-foreground">0</strong> <span className="text-muted-foreground">followers</span></span>
           </div>
         </div>
 
@@ -387,54 +392,6 @@ const Profile = () => {
                 </div>
               </div>
             )}
-
-            {/* Infrastructure Stack */}
-            <div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-5">Infrastructure Stack</h2>
-              <div className="space-y-6">
-                <div>
-                  <p className="text-[11px] text-muted-foreground mb-1">Primary Cloud: <span className="text-foreground font-medium">AWS</span></p>
-                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Cloud Infrastructure</h3>
-                  <div className="space-y-3">
-                    {[
-                      { name: "AWS", pct: 52, color: "hsl(var(--crystal-orange))" },
-                      { name: "Azure", pct: 37, color: "hsl(var(--crystal-cyan))" },
-                      { name: "GCP", pct: 7, color: "hsl(var(--crystal-green))" },
-                    ].map(c => (
-                      <div key={c.name}>
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-xs text-muted-foreground">{c.name}</span>
-                          <span className="text-xs font-mono text-foreground">{c.pct}%</span>
-                        </div>
-                        <div className="h-2.5 rounded-full bg-muted overflow-hidden">
-                          <div className="h-full rounded-full transition-all duration-700" style={{ width: `${c.pct}%`, backgroundColor: c.color, opacity: 0.7 }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <p className="text-[11px] text-muted-foreground mb-1">Primary IaC: <span className="text-foreground font-medium">Terraform</span></p>
-                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Infrastructure as Code</h3>
-                  <div className="space-y-3">
-                    {[
-                      { name: "Terraform", pct: 99, color: "hsl(var(--crystal-violet))" },
-                      { name: "Bicep", pct: 1, color: "hsl(var(--crystal-cyan))" },
-                    ].map(c => (
-                      <div key={c.name}>
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span className="text-xs text-muted-foreground">{c.name}</span>
-                          <span className="text-xs font-mono text-foreground">{c.pct}%</span>
-                        </div>
-                        <div className="h-2.5 rounded-full bg-muted overflow-hidden">
-                          <div className="h-full rounded-full transition-all duration-700" style={{ width: `${c.pct}%`, backgroundColor: c.color, opacity: 0.7 }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
 
             {/* Projects */}
             <div>
@@ -496,11 +453,11 @@ const Profile = () => {
           {/* Side stats */}
           <div className="space-y-4">
             <div className="glass-panel rounded-xl p-5 text-center">
-              <p className="text-3xl font-mono font-bold text-foreground">2,450</p>
+              <p className="text-3xl font-mono font-bold text-foreground">{profileXP.toLocaleString()}</p>
               <p className="text-xs text-muted-foreground mt-1">Total XP</p>
               <div className="mt-3 flex items-center justify-center gap-2">
                 <CrystalIcon color="hsl(var(--crystal-violet))" size={18} />
-                <span className="text-sm font-medium">Level 7</span>
+                <span className="text-sm font-medium">Level {profileLevel}</span>
               </div>
             </div>
 
