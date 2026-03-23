@@ -153,7 +153,7 @@ const HandsOnModulePage = () => {
               <div className="rounded-xl border border-accent/20 bg-accent/5 p-5">
                 <ContentBlock content={mod.sections.handsOnExercise} />
               </div>
-              <HandsOnSubmission exerciseId={`handsOn_${trackId}_${moduleId}`} exerciseType="build-platform" exerciseDescription={mod.sections.handsOnExercise} exerciseTitle={mod.title} />
+              <HandsOnSubmission exerciseId={`handsOn_${trackId}_${moduleId}`} exerciseType="build-platform" exerciseDescription={mod.sections.handsOnExercise} exerciseTitle={mod.title} onSave={() => toast({ title: "+50 XP", description: "Work saved. Keep going." })} />
             </SectionBlock>
 
             {/* Required Artifact */}
