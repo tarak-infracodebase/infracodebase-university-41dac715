@@ -253,7 +253,7 @@ function Lightbox({
       {/* Right arrow */}
       <button
         onClick={() => onNav((index + 1) % total)}
-        style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', transition: 'background 0.15s' }}
+        style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, width: '44px', height: '44px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', transition: 'background 0.15s' }}
         onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.25)')}
         onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.15)')}
       >
