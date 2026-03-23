@@ -12,14 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-const projects = [
-  { name: "Azure APIM Landing Zone", desc: "Production-grade Azure API Management landing zone with Terraform following security best practices.", tags: ["Azure", "Terraform"], color: "hsl(var(--crystal-cyan))" },
-  { name: "Production Web App over SQL on AWS", desc: "Production-grade web application with SQL database on AWS using Terraform — security-hardened, Well-Architected, and compliant.", tags: ["AWS", "Terraform"], color: "hsl(var(--crystal-magenta))" },
-  { name: "AWS-Security-Insights-Pipeline", desc: "Real-time AWS threat detection and auto-remediation system analysis.", tags: ["AWS", "Security"], color: "hsl(var(--crystal-green))" },
-  { name: "AWS Secure Web Application", desc: "Production-ready AWS web application using ALB, WAF, and security-by-design infrastructure.", tags: ["AWS", "Security"], color: "hsl(var(--crystal-orange))" },
-  { name: "Azure Active Directory Lab Environment", desc: "Terraform workspace for deploying a Windows Server Active Directory domain with domain controllers and enterprise configuration.", tags: ["Azure", "AD"], color: "hsl(var(--crystal-violet))" },
-  { name: "Azure AD DS Hybrid Architecture", desc: "Hybrid Active Directory Domain Services architecture extending on-premises AD to Azure using Terraform.", tags: ["Azure", "Hybrid"], color: "hsl(var(--crystal-yellow))" },
-];
+const projects: { name: string; desc: string; tags: string[]; color: string }[] = [];
 
 const heatmapData = Array.from({ length: 52 }, () =>
   Array.from({ length: 7 }, () => Math.random())
