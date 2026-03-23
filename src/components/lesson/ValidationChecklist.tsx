@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuthGate } from "@/hooks/useAuthGate";
+import AuthGateModal from "@/components/AuthGateModal";
 
 interface ValidationChecklistProps {
   items: string[];
@@ -11,7 +12,7 @@ interface ValidationChecklistProps {
 
 const ValidationChecklist = ({ items, lessonId, onAllChecked }: ValidationChecklistProps) => {
   const storageKey = `icbu_checklist_${lessonId}`;
-  const { requireAuth } = useAuthGate();
+  const { requireAuth, showGate, dismissGate } = useAuthGate();
 
   const [checked, setChecked] = useState<boolean[]>(() => {
     try {
@@ -39,6 +40,7 @@ const ValidationChecklist = ({ items, lessonId, onAllChecked }: ValidationCheckl
 
   return (
     <section className="mb-8">
+      <AuthGateModal open={showGate} onOpenChange={dismissGate} />
       <div className="flex items-center gap-2 mb-1">
         <CheckCircle2 className="h-4 w-4 text-[hsl(var(--crystal-green))]" style={{ color: "hsl(145, 60%, 45%)" }} />
         <h2 className="text-base font-bold">Validation Checklist</h2>

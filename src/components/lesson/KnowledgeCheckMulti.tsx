@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { useAuthGate } from "@/hooks/useAuthGate";
+import AuthGateModal from "@/components/AuthGateModal";
 
 interface KCQuestion {
   question: string;
@@ -16,7 +17,7 @@ interface KnowledgeCheckMultiProps {
 
 const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) => {
   const storageKey = `icbu_kc_${moduleId}`;
-  const { requireAuth } = useAuthGate();
+  const { requireAuth, showGate, dismissGate } = useAuthGate();
 
   const [answers, setAnswers] = useState<(number | null)[]>(() => new Array(questions.length).fill(null));
   const [submitted, setSubmitted] = useState(false);
@@ -63,6 +64,7 @@ const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) 
 
   return (
     <section className="mb-8">
+      <AuthGateModal open={showGate} onOpenChange={dismissGate} />
       <h2 className="text-base font-bold mb-1">Knowledge Check</h2>
       {bestScore !== null && !submitted && (
         <p className="text-[11px] text-muted-foreground mb-3 font-mono">

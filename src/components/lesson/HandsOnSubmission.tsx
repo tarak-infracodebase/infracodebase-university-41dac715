@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Upload, FileText, X } from "lucide-react";
 import { useAuthGate } from "@/hooks/useAuthGate";
+import AuthGateModal from "@/components/AuthGateModal";
 
 type ExerciseType = "writing" | "build-external" | "build-platform";
 
@@ -61,7 +62,7 @@ function isImageFile(fileType: string): boolean {
 const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exerciseTitle, onSave }: HandsOnSubmissionProps) => {
   const type = inferType(exerciseDescription, exerciseType, exerciseTitle);
   const storageKey = getStorageKey(type, exerciseId);
-  const { requireAuth } = useAuthGate();
+  const { requireAuth, showGate, dismissGate } = useAuthGate();
 
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
@@ -162,6 +163,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
 
   return (
     <div className="mt-5 rounded-xl border border-border/30 bg-card/30 p-5">
+      <AuthGateModal open={showGate} onOpenChange={dismissGate} />
       {type === "writing" && (
         <div className="space-y-3">
           <p className="text-xs text-muted-foreground leading-relaxed">
