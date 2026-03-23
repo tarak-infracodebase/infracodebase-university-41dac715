@@ -1,8 +1,10 @@
 import { useParams, Link } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import { getHandsOnModule, handsOnTracks } from "@/data/handsOnData";
-import { ArrowLeft, ArrowRight, Lightbulb, BookOpen, PenTool, CheckCircle2, AlertTriangle, RefreshCw, Zap } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft, ArrowRight, Lightbulb, BookOpen, PenTool, AlertTriangle, RefreshCw, Zap } from "lucide-react";
+import ValidationChecklist from "@/components/lesson/ValidationChecklist";
+import HandsOnSubmission from "@/components/lesson/HandsOnSubmission";
+import KnowledgeCheckMulti from "@/components/lesson/KnowledgeCheckMulti";
 
 const SectionBlock = ({ icon: Icon, title, color, children }: { icon: React.ElementType; title: string; color: string; children: React.ReactNode }) => (
   <section className="mb-8">
@@ -44,10 +46,9 @@ const ContentBlock = ({ content, className = "" }: { content: string; className?
   </div>
 );
 
-const HandsOnModule = () => {
+const HandsOnModulePage = () => {
   const { trackId, moduleId } = useParams<{ trackId: string; moduleId: string }>();
   const result = getHandsOnModule(trackId || "", moduleId || "");
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   if (!result) {
     return (
@@ -65,8 +66,7 @@ const HandsOnModule = () => {
   const { track, module: mod, moduleIndex } = result;
   const prevModule = moduleIndex > 0 ? track.modules[moduleIndex - 1] : null;
   const nextModule = moduleIndex < track.modules.length - 1 ? track.modules[moduleIndex + 1] : null;
-  
-  // Find next track
+
   const currentTrackIdx = handsOnTracks.findIndex(t => t.id === track.id);
   const nextTrack = currentTrackIdx < handsOnTracks.length - 1 ? handsOnTracks[currentTrackIdx + 1] : null;
 
@@ -152,6 +152,7 @@ const HandsOnModule = () => {
               <div className="rounded-xl border border-accent/20 bg-accent/5 p-5">
                 <ContentBlock content={mod.sections.handsOnExercise} />
               </div>
+              <HandsOnSubmission exerciseId={`handsOn_${trackId}_${moduleId}`} />
             </SectionBlock>
 
             {/* Required Artifact */}
@@ -163,16 +164,10 @@ const HandsOnModule = () => {
             </section>
 
             {/* Validation Checklist */}
-            <SectionBlock icon={CheckCircle2} title="Validation Checklist" color="hsl(145, 60%, 45%)">
-              <div className="space-y-1.5">
-                {mod.sections.validationChecklist.map((item, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className="h-3.5 w-3.5 rounded border border-border/50 shrink-0" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </SectionBlock>
+            <ValidationChecklist
+              items={mod.sections.validationChecklist}
+              lessonId={`handsOn_${trackId}_${moduleId}`}
+            />
 
             {/* Failure and Debugging */}
             <SectionBlock icon={AlertTriangle} title="Failure and Debugging" color="hsl(25, 85%, 55%)">
@@ -189,48 +184,17 @@ const HandsOnModule = () => {
             </SectionBlock>
 
             {/* Knowledge Check */}
-            <section className="mb-8">
-              <h2 className="text-base font-bold mb-3">Knowledge Check</h2>
-              <div className="rounded-xl border border-border/30 bg-card/30 p-5">
-                <p className="text-sm font-medium mb-4">{mod.sections.knowledgeCheck.question}</p>
-                <div className="space-y-2">
-                  {mod.sections.knowledgeCheck.options.map((opt, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setSelectedAnswer(i)}
-                      className={`w-full text-left rounded-lg border p-3 text-sm transition-all ${
-                        selectedAnswer === null
-                          ? "border-border/50 hover:border-primary/30 text-muted-foreground"
-                          : selectedAnswer === i
-                            ? i === mod.sections.knowledgeCheck.correctAnswer
-                              ? "border-green-500/50 bg-green-500/10 text-green-400"
-                              : "border-red-500/50 bg-red-500/10 text-red-400"
-                            : i === mod.sections.knowledgeCheck.correctAnswer && selectedAnswer !== null
-                              ? "border-green-500/50 bg-green-500/10 text-green-400"
-                              : "border-border/30 text-muted-foreground/50"
-                      }`}
-                    >
-                      <span className="font-mono text-xs mr-2">{String.fromCharCode(65 + i)}.</span>
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-                {selectedAnswer !== null && (
-                  <p className={`text-xs mt-3 ${selectedAnswer === mod.sections.knowledgeCheck.correctAnswer ? 'text-green-400' : 'text-red-400'}`}>
-                    {selectedAnswer === mod.sections.knowledgeCheck.correctAnswer
-                      ? '✓ Correct!'
-                      : `✗ The correct answer is ${String.fromCharCode(65 + mod.sections.knowledgeCheck.correctAnswer)}.`}
-                  </p>
-                )}
-              </div>
-            </section>
+            <KnowledgeCheckMulti
+              questions={[mod.sections.knowledgeCheck]}
+              moduleId={`handsOn_${trackId}_${moduleId}`}
+            />
 
             {/* Navigation */}
             <div className="flex items-center justify-between pt-8 border-t border-border/30">
               {prevModule ? (
                 <Link
                   to={`/hands-on/${track.id}/${prevModule.id}`}
-                  onClick={() => { setSelectedAnswer(null); window.scrollTo(0, 0); }}
+                  onClick={() => window.scrollTo(0, 0)}
                   className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" /> {prevModule.title}
@@ -239,7 +203,7 @@ const HandsOnModule = () => {
               {nextModule ? (
                 <Link
                   to={`/hands-on/${track.id}/${nextModule.id}`}
-                  onClick={() => { setSelectedAnswer(null); window.scrollTo(0, 0); }}
+                  onClick={() => window.scrollTo(0, 0)}
                   className="flex items-center gap-2 text-xs font-medium transition-colors"
                   style={{ color: track.color }}
                 >
@@ -271,4 +235,4 @@ const HandsOnModule = () => {
   );
 };
 
-export default HandsOnModule;
+export default HandsOnModulePage;

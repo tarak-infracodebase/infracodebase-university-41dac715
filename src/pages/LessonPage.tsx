@@ -2,9 +2,13 @@ import { useParams, Link } from "react-router-dom";
 import { getLessonById, learningPaths } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, AlertTriangle, Lightbulb, PenTool, ChevronRight, Zap, RefreshCw } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, AlertTriangle, Lightbulb, PenTool, ChevronRight, Zap, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import TierSelectionCards from "@/components/lesson/TierSelectionCards";
+import ValidationChecklist from "@/components/lesson/ValidationChecklist";
+import StartingPointStatement from "@/components/lesson/StartingPointStatement";
+import HandsOnSubmission from "@/components/lesson/HandsOnSubmission";
+import KnowledgeCheckMulti from "@/components/lesson/KnowledgeCheckMulti";
 
 const crystalColors = [
   "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
@@ -14,7 +18,6 @@ const crystalColors = [
 const LessonPage = () => {
   const { pathId, lessonId } = useParams<{ pathId: string; lessonId: string }>();
   const result = getLessonById(pathId || "", lessonId || "");
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   if (!result) {
     return (
@@ -36,6 +39,9 @@ const LessonPage = () => {
   const nextLesson = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
   const currentPathIndex = learningPaths.findIndex(p => p.id === path.id);
   const nextPath = currentPathIndex < learningPaths.length - 1 ? learningPaths[currentPathIndex + 1] : null;
+
+  // Check if this is the "Starting Point Statement" artifact
+  const isStartingPoint = lesson.artifact.title === "Starting Point Statement";
 
   return (
     <AppLayout>
@@ -199,6 +205,7 @@ const LessonPage = () => {
                 <h3 className="font-semibold text-sm mb-1.5">{lesson.exercise.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{lesson.exercise.description}</p>
               </div>
+              <HandsOnSubmission exerciseId={`${pathId}_${lessonId}`} />
             </section>
 
             {/* Artifact */}
@@ -208,23 +215,13 @@ const LessonPage = () => {
                 <h3 className="font-semibold text-sm mb-1">{lesson.artifact.title}</h3>
                 <p className="text-sm text-muted-foreground">{lesson.artifact.description}</p>
               </div>
+              {isStartingPoint && (
+                <StartingPointStatement lessonId={`${pathId}_${lessonId}`} />
+              )}
             </section>
 
             {/* Validation */}
-            <section className="mb-8">
-              <div className="flex items-center gap-2 mb-3">
-                <CheckCircle2 className="h-4 w-4 text-crystal-green" />
-                <h2 className="text-base font-bold">Validation Checklist</h2>
-              </div>
-              <div className="space-y-1.5">
-                {lesson.validationChecklist.map((item, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <div className="h-3.5 w-3.5 rounded border border-border/50 shrink-0" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </section>
+            <ValidationChecklist items={lesson.validationChecklist} lessonId={`${pathId}_${lessonId}`} />
 
             {/* Failure & Debugging */}
             {lesson.failureAndDebugging && (
@@ -241,48 +238,22 @@ const LessonPage = () => {
 
             {/* Knowledge Check */}
             {lesson.knowledgeCheck && (
-              <section className="mb-8">
-                <h2 className="text-base font-bold mb-3">Knowledge Check</h2>
-                <div className="glass-panel rounded-xl p-5">
-                  <p className="text-sm font-medium mb-4">{lesson.knowledgeCheck.question}</p>
-                  <div className="space-y-2">
-                    {lesson.knowledgeCheck.options.map((opt, i) => (
-                      <button key={i} onClick={() => setSelectedAnswer(i)}
-                        className={`w-full text-left rounded-lg border p-3 text-sm transition-all ${
-                          selectedAnswer === null
-                            ? "border-border/50 hover:border-primary/30 text-muted-foreground"
-                            : selectedAnswer === i
-                              ? i === lesson.knowledgeCheck!.correctAnswer
-                                ? "border-crystal-green/50 bg-crystal-green/10 text-crystal-green"
-                                : "border-crystal-red/50 bg-crystal-red/10 text-crystal-red"
-                              : i === lesson.knowledgeCheck!.correctAnswer && selectedAnswer !== null
-                                ? "border-crystal-green/50 bg-crystal-green/10 text-crystal-green"
-                                : "border-border/30 text-muted-foreground/50"
-                        }`}>
-                        <span className="font-mono text-xs mr-2">{String.fromCharCode(65 + i)}.</span>
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                  {selectedAnswer !== null && (
-                    <p className={`text-xs mt-3 ${selectedAnswer === lesson.knowledgeCheck.correctAnswer ? 'text-crystal-green' : 'text-crystal-red'}`}>
-                      {selectedAnswer === lesson.knowledgeCheck.correctAnswer ? '✓ Correct!' : `✗ The correct answer is ${String.fromCharCode(65 + lesson.knowledgeCheck.correctAnswer)}.`}
-                    </p>
-                  )}
-                </div>
-              </section>
+              <KnowledgeCheckMulti
+                questions={[lesson.knowledgeCheck]}
+                moduleId={`${pathId}_${lessonId}`}
+              />
             )}
 
             {/* Navigation */}
             <div className="flex items-center justify-between pt-8 border-t border-border/30">
               {prevLesson ? (
-                <Link to={`/path/${path.id}/lesson/${prevLesson.id}`} onClick={() => { setSelectedAnswer(null); window.scrollTo(0, 0); }}
+                <Link to={`/path/${path.id}/lesson/${prevLesson.id}`} onClick={() => window.scrollTo(0, 0)}
                   className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors">
                   <ArrowLeft className="h-3.5 w-3.5" /> {prevLesson.title}
                 </Link>
               ) : <div />}
               {nextLesson ? (
-                <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={() => { setSelectedAnswer(null); window.scrollTo(0, 0); }}
+                <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={() => window.scrollTo(0, 0)}
                   className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 transition-colors">
                   {nextLesson.title} <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
