@@ -152,7 +152,7 @@ const HandsOnModulePage = () => {
               <div className="rounded-xl border border-accent/20 bg-accent/5 p-5">
                 <ContentBlock content={mod.sections.handsOnExercise} />
               </div>
-              <HandsOnSubmission exerciseId={`handsOn_${trackId}_${moduleId}`} />
+              <HandsOnSubmission exerciseId={`handsOn_${trackId}_${moduleId}`} exerciseDescription={mod.sections.handsOnExercise} />
             </SectionBlock>
 
             {/* Required Artifact */}

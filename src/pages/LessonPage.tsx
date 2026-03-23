@@ -205,7 +205,7 @@ const LessonPage = () => {
                 <h3 className="font-semibold text-sm mb-1.5">{lesson.exercise.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{lesson.exercise.description}</p>
               </div>
-              <HandsOnSubmission exerciseId={`${pathId}_${lessonId}`} />
+              <HandsOnSubmission exerciseId={`${pathId}_${lessonId}`} exerciseType={lesson.exercise.type} exerciseDescription={lesson.exercise.description} />
             </section>
 
             {/* Artifact */}
