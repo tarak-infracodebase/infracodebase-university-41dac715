@@ -319,8 +319,8 @@ const Profile = () => {
               </span>
             )}
             <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Joined {joinedDate}</span>
-            <span className="flex items-center gap-1"><Flame className="h-3.5 w-3.5 text-crystal-orange" /> 12 day streak</span>
-            <span className="flex items-center gap-1"><Trophy className="h-3.5 w-3.5 text-crystal-yellow" /> Silver League</span>
+            <span className="flex items-center gap-1"><Flame className="h-3.5 w-3.5 text-crystal-orange" /> 0 day streak</span>
+            <span className="flex items-center gap-1"><Trophy className="h-3.5 w-3.5 text-crystal-yellow" /> Explorer</span>
             {editing ? (
               <span className="flex items-center gap-1.5">
                 <Globe className="h-3.5 w-3.5 shrink-0" />
