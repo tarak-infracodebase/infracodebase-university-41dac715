@@ -254,7 +254,17 @@ const LessonPage = () => {
                 </Link>
               ) : <div />}
               {nextLesson ? (
-                <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={() => window.scrollTo(0, 0)}
+                <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={() => {
+                  try {
+                    const raw = localStorage.getItem("icbu_track_progress");
+                    const progress = raw ? JSON.parse(raw) : {};
+                    const key = path.id;
+                    const current = progress[key] || { completed: 0, status: "in_progress" };
+                    progress[key] = { completed: current.completed + 1, status: "in_progress" };
+                    localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
+                  } catch {}
+                  window.scrollTo(0, 0);
+                }}
                   className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 transition-colors">
                   {nextLesson.title} <ArrowRight className="h-3.5 w-3.5" />
                 </Link>

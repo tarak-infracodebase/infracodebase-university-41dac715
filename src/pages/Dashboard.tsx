@@ -223,7 +223,7 @@ const Dashboard = () => {
         </div>
 
         {/* Learning State */}
-        <div className="space-y-6">
+        <div id="learning-state" className="space-y-6">
           {inProgress.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-3">

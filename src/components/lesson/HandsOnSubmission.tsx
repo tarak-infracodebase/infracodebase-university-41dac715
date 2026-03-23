@@ -109,8 +109,14 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
         type === "build-platform" ? { fileData, fileName, fileType, notes } :
         { url, description };
       localStorage.setItem(storageKey, JSON.stringify(payload));
+
+      // Award XP for saving work
+      const currentXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
+      localStorage.setItem("icbu_xp", String(currentXP + 50));
+
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
+      onSave?.();
     } catch {}
   };
 

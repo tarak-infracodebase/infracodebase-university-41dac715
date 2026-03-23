@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation, Navigate } from "react-router-dom";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -34,6 +34,46 @@ const CLERK_PUBLISHABLE_KEY = "pk_test_ZGVsaWNhdGUta29pLTkyLmNsZXJrLmFjY291bnRzL
 
 const queryClient = new QueryClient();
 
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <div key={location.pathname} className="animate-fade-in">
+      <Routes location={location}>
+        {/* Public routes */}
+        <Route path="/" element={<Index />} />
+        <Route path="/sign-in/*" element={<SignInPage />} />
+        <Route path="/sign-up/*" element={<SignUpPage />} />
+        <Route path="/manifesto" element={<AppLayout><Manifesto /></AppLayout>} />
+        <Route path="/cards" element={<AppLayout><CommunityCards /></AppLayout>} />
+
+        {/* Protected routes */}
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/curriculum" element={<ProtectedRoute><Curriculum /></ProtectedRoute>} />
+        <Route path="/progress" element={<Navigate to="/dashboard?tab=progress" replace />} />
+        <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
+        <Route path="/videos" element={<ProtectedRoute><VideoLibrary /></ProtectedRoute>} />
+        <Route path="/feedback" element={<ProtectedRoute><FeedbackPage /></ProtectedRoute>} />
+        <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
+        <Route path="/appearance" element={<ProtectedRoute><Appearance /></ProtectedRoute>} />
+        <Route path="/path/:pathId" element={<ProtectedRoute><LearningPathPage /></ProtectedRoute>} />
+        <Route path="/path/:pathId/lesson/:lessonId" element={<ProtectedRoute><LessonPage /></ProtectedRoute>} />
+        <Route path="/hands-on" element={<ProtectedRoute><HandsOnExercises /></ProtectedRoute>} />
+        <Route path="/hands-on/:trackId" element={<ProtectedRoute><HandsOnTrack /></ProtectedRoute>} />
+        <Route path="/hands-on/:trackId/:moduleId" element={<ProtectedRoute><HandsOnModule /></ProtectedRoute>} />
+        <Route path="/office-hours" element={<ProtectedRoute><OfficeHours /></ProtectedRoute>} />
+
+        {/* Public username profile route */}
+        <Route path="/:username" element={<Profile />} />
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
+  );
+};
+
 const App = () => (
   <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY}>
     <QueryClientProvider client={queryClient}>
@@ -43,37 +83,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
-            <Routes>
-              {/* Public routes */}
-              <Route path="/" element={<Index />} />
-              <Route path="/sign-in/*" element={<SignInPage />} />
-              <Route path="/sign-up/*" element={<SignUpPage />} />
-              <Route path="/manifesto" element={<AppLayout><Manifesto /></AppLayout>} />
-              <Route path="/cards" element={<AppLayout><CommunityCards /></AppLayout>} />
-
-              {/* Protected routes */}
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/curriculum" element={<ProtectedRoute><Curriculum /></ProtectedRoute>} />
-              <Route path="/progress" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
-              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-              <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
-              <Route path="/videos" element={<ProtectedRoute><VideoLibrary /></ProtectedRoute>} />
-              <Route path="/feedback" element={<ProtectedRoute><FeedbackPage /></ProtectedRoute>} />
-              <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
-              <Route path="/appearance" element={<ProtectedRoute><Appearance /></ProtectedRoute>} />
-              <Route path="/path/:pathId" element={<ProtectedRoute><LearningPathPage /></ProtectedRoute>} />
-              <Route path="/path/:pathId/lesson/:lessonId" element={<ProtectedRoute><LessonPage /></ProtectedRoute>} />
-              <Route path="/hands-on" element={<ProtectedRoute><HandsOnExercises /></ProtectedRoute>} />
-              <Route path="/hands-on/:trackId" element={<ProtectedRoute><HandsOnTrack /></ProtectedRoute>} />
-              <Route path="/hands-on/:trackId/:moduleId" element={<ProtectedRoute><HandsOnModule /></ProtectedRoute>} />
-              <Route path="/office-hours" element={<ProtectedRoute><OfficeHours /></ProtectedRoute>} />
-
-              {/* Public username profile route */}
-              <Route path="/:username" element={<Profile />} />
-
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AnimatedRoutes />
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>

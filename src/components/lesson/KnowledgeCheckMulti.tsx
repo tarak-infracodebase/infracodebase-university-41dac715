@@ -45,6 +45,9 @@ const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) 
     setBestScore(newBest);
     try {
       localStorage.setItem(storageKey, String(newBest));
+      // Award XP for knowledge check completion
+      const currentXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
+      localStorage.setItem("icbu_xp", String(currentXP + 100));
     } catch {}
   };
 

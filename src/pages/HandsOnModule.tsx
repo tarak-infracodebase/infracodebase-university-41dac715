@@ -204,7 +204,17 @@ const HandsOnModulePage = () => {
               {nextModule ? (
                 <Link
                   to={`/hands-on/${track.id}/${nextModule.id}`}
-                  onClick={() => window.scrollTo(0, 0)}
+                  onClick={() => {
+                    try {
+                      const raw = localStorage.getItem("icbu_track_progress");
+                      const progress = raw ? JSON.parse(raw) : {};
+                      const key = trackId || "";
+                      const current = progress[key] || { completed: 0, status: "in_progress" };
+                      progress[key] = { completed: current.completed + 1, status: "in_progress" };
+                      localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
+                    } catch {}
+                    window.scrollTo(0, 0);
+                  }}
                   className="flex items-center gap-2 text-xs font-medium transition-colors"
                   style={{ color: track.color }}
                 >
