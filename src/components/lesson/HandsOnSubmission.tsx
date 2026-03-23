@@ -105,6 +105,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   }, [answer, type, storageKey]);
 
   const handleSave = () => {
+    if (!requireAuth()) return;
     try {
       const payload =
         type === "writing" ? { answer } :

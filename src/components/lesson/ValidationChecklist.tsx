@@ -30,6 +30,7 @@ const ValidationChecklist = ({ items, lessonId, onAllChecked }: ValidationCheckl
   }, [checked, storageKey, onAllChecked]);
 
   const toggle = (index: number) => {
+    if (!requireAuth()) return;
     setChecked(prev => prev.map((v, i) => (i === index ? !v : v)));
   };
 

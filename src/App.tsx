@@ -47,23 +47,25 @@ const AnimatedRoutes = () => {
         <Route path="/manifesto" element={<AppLayout><Manifesto /></AppLayout>} />
         <Route path="/cards" element={<AppLayout><CommunityCards /></AppLayout>} />
 
-        {/* Protected routes */}
+        {/* Protected routes (personal data) */}
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/curriculum" element={<ProtectedRoute><Curriculum /></ProtectedRoute>} />
-        <Route path="/progress" element={<Navigate to="/dashboard?tab=progress" replace />} />
-        <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-        <Route path="/events" element={<ProtectedRoute><Events /></ProtectedRoute>} />
-        <Route path="/videos" element={<ProtectedRoute><VideoLibrary /></ProtectedRoute>} />
-        <Route path="/feedback" element={<ProtectedRoute><FeedbackPage /></ProtectedRoute>} />
-        <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
+        <Route path="/progress" element={<Navigate to="/dashboard?tab=progress" replace />} />
+
+        {/* Public browsable routes (actions gated inline) */}
+        <Route path="/curriculum" element={<AppLayout><Curriculum /></AppLayout>} />
+        <Route path="/leaderboard" element={<AppLayout><Leaderboard /></AppLayout>} />
+        <Route path="/events" element={<AppLayout><Events /></AppLayout>} />
+        <Route path="/videos" element={<AppLayout><VideoLibrary /></AppLayout>} />
+        <Route path="/feedback" element={<AppLayout><FeedbackPage /></AppLayout>} />
+        <Route path="/resources" element={<AppLayout><Resources /></AppLayout>} />
         <Route path="/appearance" element={<ProtectedRoute><Appearance /></ProtectedRoute>} />
-        <Route path="/path/:pathId" element={<ProtectedRoute><LearningPathPage /></ProtectedRoute>} />
-        <Route path="/path/:pathId/lesson/:lessonId" element={<ProtectedRoute><LessonPage /></ProtectedRoute>} />
-        <Route path="/hands-on" element={<ProtectedRoute><HandsOnExercises /></ProtectedRoute>} />
-        <Route path="/hands-on/:trackId" element={<ProtectedRoute><HandsOnTrack /></ProtectedRoute>} />
-        <Route path="/hands-on/:trackId/:moduleId" element={<ProtectedRoute><HandsOnModule /></ProtectedRoute>} />
-        <Route path="/office-hours" element={<ProtectedRoute><OfficeHours /></ProtectedRoute>} />
+        <Route path="/path/:pathId" element={<AppLayout><LearningPathPage /></AppLayout>} />
+        <Route path="/path/:pathId/lesson/:lessonId" element={<AppLayout><LessonPage /></AppLayout>} />
+        <Route path="/hands-on" element={<AppLayout><HandsOnExercises /></AppLayout>} />
+        <Route path="/hands-on/:trackId" element={<AppLayout><HandsOnTrack /></AppLayout>} />
+        <Route path="/hands-on/:trackId/:moduleId" element={<AppLayout><HandsOnModule /></AppLayout>} />
+        <Route path="/office-hours" element={<AppLayout><OfficeHours /></AppLayout>} />
 
         {/* Public username profile route */}
         <Route path="/:username" element={<Profile />} />

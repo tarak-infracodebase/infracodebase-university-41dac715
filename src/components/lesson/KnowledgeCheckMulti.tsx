@@ -42,6 +42,7 @@ const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) 
   );
 
   const handleSubmit = () => {
+    if (!requireAuth()) return;
     setSubmitted(true);
     const newBest = bestScore === null ? score : Math.max(bestScore, score);
     setBestScore(newBest);
