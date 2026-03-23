@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { AppLayout } from "@/components/AppLayout";
 import { ProgressRing, SkillBar, CrystalIcon } from "@/components/DashboardWidgets";
 import { learningPaths } from "@/data/courseData";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   ArrowRight, BookOpen, Play, ChevronRight, Zap, Target, Layers, Shield
 } from "lucide-react";
