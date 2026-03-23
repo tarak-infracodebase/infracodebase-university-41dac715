@@ -1020,6 +1020,24 @@ export default function OfficeHours() {
     <AppLayout>
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-10 space-y-10">
 
+        {/* What is Office Hours banner */}
+        <div
+          className="rounded-xl p-[1.5px]"
+          style={{ background: "linear-gradient(135deg, #1a1a1a 0%, #c2410c 15%, #d97706 35%, #ca8a04 50%, #16a34a 68%, #0891b2 85%, #1a1a1a 100%)" }}
+        >
+          <div className="rounded-[11px] bg-[#141414] px-5 py-4 flex items-center gap-4">
+            <div className="shrink-0 h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+              <Clock className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-foreground">What is Office Hours?</p>
+              <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
+                Every Wednesday at 5:00 PM CET, Justin and Tarak run a live session — demos, walkthroughs, and Q&A on real infrastructure challenges. Sessions are recorded and available to all members. Submit your question below and we'll cover it live.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* ── SECTION 1 — HERO ── */}
         <section style={{ position: 'relative', borderRadius: '14px', border: '1px solid #25405f', background: '#0d0d0d' }}>
           <div style={{ height: '4px', background: SPECTRUM_GRADIENT, borderRadius: '14px 14px 0 0' }} />
