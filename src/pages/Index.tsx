@@ -110,7 +110,7 @@ const communityCards = {
     bg: "linear-gradient(180deg,#0c0f14,#150c08)",
     accentColor: ACCENTS.ember,
     badge: "● NEXT SESSION",
-    eyebrow: "OFFICE HOURS",
+    eyebrow: "WORKSHOPS",
     title: "Live Demo — Migrating Azure Infrastructure to AWS and GCP",
     desc: "Live walkthrough migrating an existing Azure environment to both AWS and GCP using Infracodebase.",
     meta: "📅 Wed, March 25 · 5:00 PM CET",
