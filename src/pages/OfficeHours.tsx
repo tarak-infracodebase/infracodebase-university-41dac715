@@ -1020,7 +1020,7 @@ export default function OfficeHours() {
     <AppLayout>
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-10 space-y-10">
 
-        {/* What is Office Hours banner */}
+        {/* What is Workshops banner */}
         <div
           className="rounded-xl p-[1.5px]"
           style={{ background: "linear-gradient(135deg, #1a1a1a 0%, #c2410c 15%, #d97706 35%, #ca8a04 50%, #16a34a 68%, #0891b2 85%, #1a1a1a 100%)" }}
