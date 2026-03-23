@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Lightbulb, BookOpen, PenTool, AlertTriangle, Ref
 import ValidationChecklist from "@/components/lesson/ValidationChecklist";
 import HandsOnSubmission from "@/components/lesson/HandsOnSubmission";
 import KnowledgeCheckMulti from "@/components/lesson/KnowledgeCheckMulti";
+import { toast } from "@/components/ui/use-toast";
 
 const SectionBlock = ({ icon: Icon, title, color, children }: { icon: React.ElementType; title: string; color: string; children: React.ReactNode }) => (
   <section className="mb-8">
@@ -152,7 +153,7 @@ const HandsOnModulePage = () => {
               <div className="rounded-xl border border-accent/20 bg-accent/5 p-5">
                 <ContentBlock content={mod.sections.handsOnExercise} />
               </div>
-              <HandsOnSubmission exerciseId={`handsOn_${trackId}_${moduleId}`} exerciseType="build-platform" exerciseDescription={mod.sections.handsOnExercise} exerciseTitle={mod.title} />
+              <HandsOnSubmission exerciseId={`handsOn_${trackId}_${moduleId}`} exerciseType="build-platform" exerciseDescription={mod.sections.handsOnExercise} exerciseTitle={mod.title} onSave={() => toast({ title: "+50 XP", description: "Work saved. Keep going." })} />
             </SectionBlock>
 
             {/* Required Artifact */}
@@ -203,7 +204,17 @@ const HandsOnModulePage = () => {
               {nextModule ? (
                 <Link
                   to={`/hands-on/${track.id}/${nextModule.id}`}
-                  onClick={() => window.scrollTo(0, 0)}
+                  onClick={() => {
+                    try {
+                      const raw = localStorage.getItem("icbu_track_progress");
+                      const progress = raw ? JSON.parse(raw) : {};
+                      const key = trackId || "";
+                      const current = progress[key] || { completed: 0, status: "in_progress" };
+                      progress[key] = { completed: current.completed + 1, status: "in_progress" };
+                      localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
+                    } catch {}
+                    window.scrollTo(0, 0);
+                  }}
                   className="flex items-center gap-2 text-xs font-medium transition-colors"
                   style={{ color: track.color }}
                 >

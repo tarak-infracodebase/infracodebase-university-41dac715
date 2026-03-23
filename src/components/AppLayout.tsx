@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   Home, LayoutDashboard, BookOpen, Trophy, Calendar, 
   MessageSquare, Play, ChevronLeft, ChevronRight,
-  X, FolderOpen, Hammer, User, Radio
+  X, FolderOpen, Hammer, User, Radio, FileText, CreditCard, Compass
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -12,9 +12,9 @@ import { LogIn } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
-  { path: "/manifesto", label: "Manifesto", icon: BookOpen },
-  { path: "/cards", label: "Your membership card", icon: User },
-  { path: "/curriculum", label: "Curriculum", icon: BookOpen },
+  { path: "/manifesto", label: "Manifesto", icon: FileText },
+  { path: "/cards", label: "Your membership card", icon: CreditCard },
+  { path: "/curriculum", label: "Curriculum", icon: Compass },
   { path: "/hands-on", label: "Hands-On", icon: Hammer },
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/videos", label: "Video Library", icon: Play },
@@ -120,7 +120,19 @@ export function MobileNav() {
       <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-border/50 bg-background/80 backdrop-blur-xl flex items-center justify-between px-4 lg:hidden">
         <Link to="/" className="flex items-center gap-2">
           <CrystalIcon color="hsl(var(--crystal-violet))" size={24} />
-          <span className="font-mono font-bold text-sm">Infracodebase<span className="text-primary">U</span></span>
+          <span
+            className="text-[13px] leading-tight whitespace-nowrap tracking-wide"
+            style={{
+              background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              opacity: 0.88,
+              filter: "saturate(0.85)",
+            }}
+          >
+            <span className="font-medium">Infracodebase</span>{" "}
+            <span className="font-normal">University</span>
+          </span>
         </Link>
         <div className="flex items-center gap-2">
           <SignedIn>

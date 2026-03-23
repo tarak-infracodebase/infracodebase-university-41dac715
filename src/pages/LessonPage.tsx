@@ -9,6 +9,7 @@ import ValidationChecklist from "@/components/lesson/ValidationChecklist";
 import StartingPointStatement from "@/components/lesson/StartingPointStatement";
 import HandsOnSubmission from "@/components/lesson/HandsOnSubmission";
 import KnowledgeCheckMulti from "@/components/lesson/KnowledgeCheckMulti";
+import { toast } from "@/components/ui/use-toast";
 
 const crystalColors = [
   "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
@@ -205,7 +206,7 @@ const LessonPage = () => {
                 <h3 className="font-semibold text-sm mb-1.5">{lesson.exercise.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{lesson.exercise.description}</p>
               </div>
-              <HandsOnSubmission exerciseId={`${pathId}_${lessonId}`} exerciseType={lesson.exercise.type} exerciseDescription={lesson.exercise.description} exerciseTitle={lesson.exercise.title} />
+              <HandsOnSubmission exerciseId={`${pathId}_${lessonId}`} exerciseType={lesson.exercise.type} exerciseDescription={lesson.exercise.description} exerciseTitle={lesson.exercise.title} onSave={() => toast({ title: "+50 XP", description: "Work saved. Keep going." })} />
             </section>
 
             {/* Artifact */}
@@ -253,7 +254,17 @@ const LessonPage = () => {
                 </Link>
               ) : <div />}
               {nextLesson ? (
-                <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={() => window.scrollTo(0, 0)}
+                <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={() => {
+                  try {
+                    const raw = localStorage.getItem("icbu_track_progress");
+                    const progress = raw ? JSON.parse(raw) : {};
+                    const key = path.id;
+                    const current = progress[key] || { completed: 0, status: "in_progress" };
+                    progress[key] = { completed: current.completed + 1, status: "in_progress" };
+                    localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
+                  } catch {}
+                  window.scrollTo(0, 0);
+                }}
                   className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 transition-colors">
                   {nextLesson.title} <ArrowRight className="h-3.5 w-3.5" />
                 </Link>

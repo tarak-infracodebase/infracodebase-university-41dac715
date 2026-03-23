@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { AppLayout } from "@/components/AppLayout";
 import { ProgressRing, SkillBar, CrystalIcon } from "@/components/DashboardWidgets";
 import { learningPaths } from "@/data/courseData";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   ArrowRight, BookOpen, Play, ChevronRight, Zap, Target, Layers, Shield
 } from "lucide-react";
@@ -56,6 +56,8 @@ const Dashboard = () => {
   const [totalXP, setTotalXP] = useState(0);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [trackProgress, setTrackProgress] = useState<Record<string, { completed: number; status: "in_progress" | "completed" | "not_started" }>>({});
+  const [searchParams] = useSearchParams();
+  const highlightProgress = searchParams.get("tab") === "progress";
 
   useEffect(() => {
     try {
@@ -70,6 +72,12 @@ const Dashboard = () => {
       }
     } catch {}
   }, []);
+
+  useEffect(() => {
+    if (highlightProgress) {
+      document.getElementById("learning-state")?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [highlightProgress]);
 
   const tracksCompleted = Object.values(trackProgress).filter(t => t.status === "completed").length;
   const xpToNext = Math.max((currentLevel * 500) - totalXP, 0);
@@ -215,7 +223,7 @@ const Dashboard = () => {
         </div>
 
         {/* Learning State */}
-        <div className="space-y-6">
+        <div id="learning-state" className="space-y-6">
           {inProgress.length > 0 && (
             <div>
               <div className="flex items-center gap-2 mb-3">
