@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   Home, LayoutDashboard, BookOpen, Trophy, Calendar, 
   MessageSquare, Play, ChevronLeft, ChevronRight,
-  X, FolderOpen, Hammer, User, Radio
+  X, FolderOpen, Hammer, User, Radio, FileText, CreditCard, Compass
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -12,9 +12,9 @@ import { LogIn } from "lucide-react";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
-  { path: "/manifesto", label: "Manifesto", icon: BookOpen },
-  { path: "/cards", label: "Your membership card", icon: User },
-  { path: "/curriculum", label: "Curriculum", icon: BookOpen },
+  { path: "/manifesto", label: "Manifesto", icon: FileText },
+  { path: "/cards", label: "Your membership card", icon: CreditCard },
+  { path: "/curriculum", label: "Curriculum", icon: Compass },
   { path: "/hands-on", label: "Hands-On", icon: Hammer },
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/videos", label: "Video Library", icon: Play },
