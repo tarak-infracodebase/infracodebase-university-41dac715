@@ -265,6 +265,16 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
             Saved ✓
           </span>
         )}
+        {type === "writing" && !saved && autoSaving && (
+          <span className="text-xs text-muted-foreground animate-in fade-in">
+            Auto-saving...
+          </span>
+        )}
+        {type === "writing" && !saved && !autoSaving && answer && (
+          <span className="text-xs text-muted-foreground/60">
+            Auto-saved
+          </span>
+        )}
       </div>
     </div>
   );
