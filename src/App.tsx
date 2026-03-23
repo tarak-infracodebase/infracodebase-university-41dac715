@@ -53,19 +53,19 @@ const AnimatedRoutes = () => {
         <Route path="/progress" element={<Navigate to="/dashboard?tab=progress" replace />} />
 
         {/* Public browsable routes (actions gated inline) */}
-        <Route path="/curriculum" element={<AppLayout><Curriculum /></AppLayout>} />
-        <Route path="/leaderboard" element={<AppLayout><Leaderboard /></AppLayout>} />
-        <Route path="/events" element={<AppLayout><Events /></AppLayout>} />
-        <Route path="/videos" element={<AppLayout><VideoLibrary /></AppLayout>} />
-        <Route path="/feedback" element={<AppLayout><FeedbackPage /></AppLayout>} />
-        <Route path="/resources" element={<AppLayout><Resources /></AppLayout>} />
+        <Route path="/curriculum" element={<Curriculum />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/videos" element={<VideoLibrary />} />
+        <Route path="/feedback" element={<FeedbackPage />} />
+        <Route path="/resources" element={<Resources />} />
         <Route path="/appearance" element={<ProtectedRoute><Appearance /></ProtectedRoute>} />
-        <Route path="/path/:pathId" element={<AppLayout><LearningPathPage /></AppLayout>} />
-        <Route path="/path/:pathId/lesson/:lessonId" element={<AppLayout><LessonPage /></AppLayout>} />
-        <Route path="/hands-on" element={<AppLayout><HandsOnExercises /></AppLayout>} />
-        <Route path="/hands-on/:trackId" element={<AppLayout><HandsOnTrack /></AppLayout>} />
-        <Route path="/hands-on/:trackId/:moduleId" element={<AppLayout><HandsOnModule /></AppLayout>} />
-        <Route path="/office-hours" element={<AppLayout><OfficeHours /></AppLayout>} />
+        <Route path="/path/:pathId" element={<LearningPathPage />} />
+        <Route path="/path/:pathId/lesson/:lessonId" element={<LessonPage />} />
+        <Route path="/hands-on" element={<HandsOnExercises />} />
+        <Route path="/hands-on/:trackId" element={<HandsOnTrack />} />
+        <Route path="/hands-on/:trackId/:moduleId" element={<HandsOnModule />} />
+        <Route path="/office-hours" element={<OfficeHours />} />
 
         {/* Public username profile route */}
         <Route path="/:username" element={<Profile />} />

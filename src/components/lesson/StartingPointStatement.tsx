@@ -36,7 +36,10 @@ const StartingPointStatement = ({ lessonId }: StartingPointStatementProps) => {
       </p>
       <Textarea
         value={value}
-        onChange={e => setValue(e.target.value)}
+        onChange={e => {
+          if (!requireAuth()) return;
+          setValue(e.target.value);
+        }}
         placeholder="e.g. I have basic experience with AWS EC2 and S3. I want to understand networking and infrastructure as code well enough to design systems confidently."
         className="min-h-[100px] bg-background/50 border-border/50 text-sm resize-y"
       />
