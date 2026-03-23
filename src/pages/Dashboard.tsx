@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { AppLayout } from "@/components/AppLayout";
 import { ProgressRing, SkillBar, CrystalIcon } from "@/components/DashboardWidgets";
 import { learningPaths } from "@/data/courseData";
@@ -9,19 +10,6 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
 const tracks = learningPaths;
-
-// Simulated progress state
-const trackProgress: Record<string, { completed: number; status: "in_progress" | "completed" | "not_started" }> = {
-  "welcome-orientation": { completed: 3, status: "completed" },
-  "real-infrastructure": { completed: 2, status: "in_progress" },
-  "architecture-diagrams": { completed: 0, status: "not_started" },
-  "infrastructure-layers": { completed: 0, status: "not_started" },
-};
-
-const totalXP = 2450;
-const currentLevel = 7;
-const xpToNext = 550;
-const tracksCompleted = 1;
 const totalTracks = tracks.length;
 
 const crystalColors = [
