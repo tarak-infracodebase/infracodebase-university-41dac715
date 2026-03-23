@@ -68,6 +68,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   const [fileType, setFileType] = useState<string>("");
   const [notes, setNotes] = useState("");
   const [saved, setSaved] = useState(false);
+  const [autoSaving, setAutoSaving] = useState(false);
   const [dragging, setDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -86,6 +87,19 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
       }
     } catch {}
   }, [storageKey]);
+
+  // Auto-save for writing type
+  useEffect(() => {
+    if (type !== "writing") return;
+    setAutoSaving(true);
+    const timer = setTimeout(() => {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify({ answer }));
+      } catch {}
+      setAutoSaving(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [answer, type, storageKey]);
 
   const handleSave = () => {
     try {
@@ -249,6 +263,16 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
         {saved && (
           <span className="text-xs text-[hsl(145,60%,45%)] font-medium animate-in fade-in">
             Saved ✓
+          </span>
+        )}
+        {type === "writing" && !saved && autoSaving && (
+          <span className="text-xs text-muted-foreground animate-in fade-in">
+            Auto-saving...
+          </span>
+        )}
+        {type === "writing" && !saved && !autoSaving && answer && (
+          <span className="text-xs text-muted-foreground/60">
+            Auto-saved
           </span>
         )}
       </div>

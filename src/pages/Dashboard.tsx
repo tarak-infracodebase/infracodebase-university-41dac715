@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { AppLayout } from "@/components/AppLayout";
 import { ProgressRing, SkillBar, CrystalIcon } from "@/components/DashboardWidgets";
 import { learningPaths } from "@/data/courseData";
@@ -9,19 +10,6 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
 const tracks = learningPaths;
-
-// Simulated progress state
-const trackProgress: Record<string, { completed: number; status: "in_progress" | "completed" | "not_started" }> = {
-  "welcome-orientation": { completed: 3, status: "completed" },
-  "real-infrastructure": { completed: 2, status: "in_progress" },
-  "architecture-diagrams": { completed: 0, status: "not_started" },
-  "infrastructure-layers": { completed: 0, status: "not_started" },
-};
-
-const totalXP = 2450;
-const currentLevel = 7;
-const xpToNext = 550;
-const tracksCompleted = 1;
 const totalTracks = tracks.length;
 
 const crystalColors = [
@@ -65,6 +53,26 @@ function getIdentityTitle(level: number) {
 }
 
 const Dashboard = () => {
+  const [totalXP, setTotalXP] = useState(0);
+  const [currentLevel, setCurrentLevel] = useState(1);
+  const [trackProgress, setTrackProgress] = useState<Record<string, { completed: number; status: "in_progress" | "completed" | "not_started" }>>({});
+
+  useEffect(() => {
+    try {
+      const storedXP = localStorage.getItem("icbu_xp");
+      const storedLevel = localStorage.getItem("icbu_level");
+      const storedProgress = localStorage.getItem("icbu_track_progress");
+      if (storedXP) setTotalXP(Number(storedXP) || 0);
+      if (storedLevel) setCurrentLevel(Number(storedLevel) || 1);
+      if (storedProgress) {
+        const parsed = JSON.parse(storedProgress);
+        if (parsed && typeof parsed === "object") setTrackProgress(parsed);
+      }
+    } catch {}
+  }, []);
+
+  const tracksCompleted = Object.values(trackProgress).filter(t => t.status === "completed").length;
+  const xpToNext = Math.max((currentLevel * 500) - totalXP, 0);
   const currentTrack = tracks.find(p => trackProgress[p.id]?.status === "in_progress");
   const allCurrentLessons = currentTrack?.courses.flatMap(c => c.lessons) || [];
   const completedLessons = trackProgress[currentTrack?.id || ""]?.completed || 0;

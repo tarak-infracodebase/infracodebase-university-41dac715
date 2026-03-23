@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import NotFound from "@/pages/NotFound";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import CertificateSection from "@/components/CertificateSection";
@@ -42,6 +43,13 @@ const Profile = () => {
 
   const { profileData, saveProfile } = useProfileData(user?.id);
 
+  // Guard: if the URL param matches a known static route segment, render NotFound
+  const KNOWN_ROUTES = [
+    "dashboard", "curriculum", "progress", "leaderboard", "profile", "events",
+    "videos", "feedback", "resources", "appearance", "path", "hands-on",
+    "office-hours", "cards", "manifesto", "sign-in", "sign-up"
+  ];
+
   const clerkHandle = user?.username || user?.primaryEmailAddress?.emailAddress?.split("@")[0] || "yourhandle";
   const resolvedHandle = profileData.customHandle || clerkHandle;
   const isOwner = !urlUsername || urlUsername === resolvedHandle || urlUsername === clerkHandle;
@@ -61,6 +69,10 @@ const Profile = () => {
 
   const bannerRef = useRef<HTMLInputElement>(null);
   const avatarRef = useRef<HTMLInputElement>(null);
+
+  if (urlUsername && KNOWN_ROUTES.includes(urlUsername.toLowerCase())) {
+    return <NotFound />;
+  }
 
   const startEditing = () => {
     setDraft({
