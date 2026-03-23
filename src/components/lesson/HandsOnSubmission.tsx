@@ -61,6 +61,7 @@ function isImageFile(fileType: string): boolean {
 const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exerciseTitle, onSave }: HandsOnSubmissionProps) => {
   const type = inferType(exerciseDescription, exerciseType, exerciseTitle);
   const storageKey = getStorageKey(type, exerciseId);
+  const { requireAuth } = useAuthGate();
 
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
