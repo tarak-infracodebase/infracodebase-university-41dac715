@@ -227,17 +227,17 @@ function Lightbox({
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.97)', zIndex: 1000, display: 'flex', flexDirection: 'column' }}>
       {/* Top bar */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 10 }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', zIndex: 20 }}>
         <button onClick={onClose} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', fontSize: '14px', cursor: 'pointer' }}>
-          <X className="h-5 w-5" /> Fermer
+          <X className="h-5 w-5" /> Close
         </button>
         <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', fontWeight: 500 }}>{index + 1} / {total}</span>
         <Share2 className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.5)' }} />
       </div>
 
       {/* Image area */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '70px 80px 120px' }}>
-        <img key={index} src={images[index].src} alt={images[index].caption} style={{ maxWidth: '90vw', maxHeight: '75vh', objectFit: 'contain', transition: 'opacity 0.2s' }} />
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '70px 80px 120px', pointerEvents: 'none' }}>
+        <img key={index} src={images[index].src} alt={images[index].caption} style={{ maxWidth: '90vw', maxHeight: '75vh', objectFit: 'contain', transition: 'opacity 0.2s', pointerEvents: 'auto' }} />
       </div>
 
       {/* Left arrow */}
