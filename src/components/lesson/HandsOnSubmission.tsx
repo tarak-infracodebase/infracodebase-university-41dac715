@@ -162,6 +162,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
 
   return (
     <div className="mt-5 rounded-xl border border-border/30 bg-card/30 p-5">
+      <AuthGateModal open={showGate} onOpenChange={dismissGate} />
       {type === "writing" && (
         <div className="space-y-3">
           <p className="text-xs text-muted-foreground leading-relaxed">
