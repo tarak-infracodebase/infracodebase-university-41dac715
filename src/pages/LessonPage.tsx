@@ -9,6 +9,7 @@ import ValidationChecklist from "@/components/lesson/ValidationChecklist";
 import StartingPointStatement from "@/components/lesson/StartingPointStatement";
 import HandsOnSubmission from "@/components/lesson/HandsOnSubmission";
 import KnowledgeCheckMulti from "@/components/lesson/KnowledgeCheckMulti";
+import { toast } from "@/components/ui/use-toast";
 
 const crystalColors = [
   "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
