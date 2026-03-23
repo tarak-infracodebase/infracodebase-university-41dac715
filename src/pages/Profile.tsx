@@ -7,7 +7,7 @@ import { MapPin, Calendar, Flame, Trophy, Pencil, Globe, ExternalLink, Camera, X
 import { useUser } from "@clerk/clerk-react";
 import { useProfileData, isHandleTaken } from "@/hooks/useProfileData";
 import { ShareProfilePopover } from "@/components/profile/ShareProfilePopover";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
