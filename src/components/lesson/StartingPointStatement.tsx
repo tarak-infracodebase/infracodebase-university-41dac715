@@ -32,6 +32,7 @@ const StartingPointStatement = ({ lessonId }: StartingPointStatementProps) => {
 
   return (
     <div className="rounded-xl border border-border/30 bg-card/30 p-5 mt-3">
+      <AuthGateModal open={showGate} onOpenChange={dismissGate} />
       <p className="text-sm text-muted-foreground leading-relaxed mb-4">
         Before you begin, write two sentences below — your current experience level, and what you want to get out of this track. This is saved for you and helps you reflect on your progress later.
       </p>
