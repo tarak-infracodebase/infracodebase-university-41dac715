@@ -16,13 +16,13 @@ const navItems = [
   { path: "/cards", label: "Your membership card", icon: CreditCard },
   { path: "/curriculum", label: "Training", icon: Compass },
   { path: "/hands-on", label: "Hands-On", icon: Hammer },
-  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/videos", label: "Video Library", icon: Play },
-  { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { path: "/office-hours", label: "Office Hours", icon: Radio },
   { path: "/events", label: "Events", icon: Calendar },
-  { path: "/resources", label: "Resources", icon: FolderOpen },
+  { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/profile", label: "Profile", icon: User },
+  { path: "/resources", label: "Resources", icon: FolderOpen },
 ];
 
 export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
