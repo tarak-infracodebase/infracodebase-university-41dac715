@@ -55,9 +55,6 @@ function isImageFile(fileType: string): boolean {
   return IMAGE_TYPES.includes(fileType);
 }
 
-function getFileName(dataUrl: string, fallback: string): string {
-  return fallback;
-}
 
 const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exerciseTitle }: HandsOnSubmissionProps) => {
   const type = inferType(exerciseDescription, exerciseType, exerciseTitle);
@@ -142,12 +139,17 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   return (
     <div className="mt-5 rounded-xl border border-border/30 bg-card/30 p-5">
       {type === "writing" && (
-        <Textarea
-          value={answer}
-          onChange={e => setAnswer(e.target.value)}
-          placeholder="Write your answer here..."
-          className="min-h-[120px] bg-background/50 border-border/50 text-sm resize-y"
-        />
+        <div className="space-y-3">
+          <p className="text-xs text-muted-foreground leading-relaxed">
+            Write your response below. Your answer is saved automatically and is only visible to you — use it to track your own thinking as you progress through the curriculum.
+          </p>
+          <Textarea
+            value={answer}
+            onChange={e => setAnswer(e.target.value)}
+            placeholder="Write your answer here..."
+            className="min-h-[140px] bg-background/50 border-border/50 text-sm resize-y"
+          />
+        </div>
       )}
 
       {type === "build-external" && (
@@ -229,12 +231,14 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
               <span className="text-xs text-muted-foreground/60">Supported formats: PNG, JPEG, PDF, DOCX</span>
             </div>
           )}
-          <Textarea
-            value={notes}
-            onChange={e => setNotes(e.target.value)}
-            placeholder="Add any notes about what you did (optional)"
-            className="mt-3 min-h-[80px] bg-background/50 border-border/50 text-sm resize-y"
-          />
+          {fileData && (
+            <Textarea
+              value={notes}
+              onChange={e => setNotes(e.target.value)}
+              placeholder="Add any notes about what you did (optional)"
+              className="mt-3 min-h-[80px] bg-background/50 border-border/50 text-sm resize-y"
+            />
+          )}
         </>
       )}
 
