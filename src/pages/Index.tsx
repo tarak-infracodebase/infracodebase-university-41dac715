@@ -324,7 +324,7 @@ const Index = () => {
             </p>
 
             <div data-reveal className="grid lg:grid-cols-2 gap-3 mt-10">
-              {/* Tall card — office hours */}
+              {/* Tall card — workshops */}
               <Link to={communityCards.tall.href} className={`${cardBase} ${cardHover} flex flex-col justify-between p-7 min-h-[420px] lg:row-span-2`}
                 style={{ background: communityCards.tall.bg, borderTop: `2px solid ${communityCards.tall.accentColor}` }}>
                 <div>

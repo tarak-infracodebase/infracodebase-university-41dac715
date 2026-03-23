@@ -1030,9 +1030,9 @@ export default function OfficeHours() {
               <Clock className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-foreground">What is Office Hours?</p>
+              <p className="text-sm font-semibold text-foreground">What is Workshops?</p>
               <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-                Every Wednesday at 5:00 PM CET, Justin and Tarak run a live session — demos, walkthroughs, and Q&A on real infrastructure challenges. Sessions are recorded and available to all members. Submit your question below and we'll cover it live.
+                Every Wednesday at 5:00 PM CET, Justin and Tarak run a live workshop — demos, walkthroughs, and Q&A on real infrastructure challenges. Sessions are recorded and available to all members. Submit your question below and we'll cover it live.
               </p>
             </div>
           </div>

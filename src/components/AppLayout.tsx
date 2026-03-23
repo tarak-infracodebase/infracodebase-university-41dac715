@@ -17,7 +17,7 @@ const navItems = [
   { path: "/curriculum", label: "Training", icon: Compass },
   { path: "/hands-on", label: "Hands-On", icon: Hammer },
   { path: "/videos", label: "Video Library", icon: Play },
-  { path: "/office-hours", label: "Office Hours", icon: Radio },
+  { path: "/office-hours", label: "Workshops", icon: Radio },
   { path: "/events", label: "Events", icon: Calendar },
   { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
