@@ -56,6 +56,8 @@ const Dashboard = () => {
   const [totalXP, setTotalXP] = useState(0);
   const [currentLevel, setCurrentLevel] = useState(1);
   const [trackProgress, setTrackProgress] = useState<Record<string, { completed: number; status: "in_progress" | "completed" | "not_started" }>>({});
+  const [searchParams] = useSearchParams();
+  const highlightProgress = searchParams.get("tab") === "progress";
 
   useEffect(() => {
     try {
@@ -70,6 +72,12 @@ const Dashboard = () => {
       }
     } catch {}
   }, []);
+
+  useEffect(() => {
+    if (highlightProgress) {
+      document.getElementById("learning-state")?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [highlightProgress]);
 
   const tracksCompleted = Object.values(trackProgress).filter(t => t.status === "completed").length;
   const xpToNext = Math.max((currentLevel * 500) - totalXP, 0);
