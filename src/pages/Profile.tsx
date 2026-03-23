@@ -367,8 +367,8 @@ const Profile = () => {
 
           {/* Follower stats */}
           <div className="mt-3 flex items-center gap-4 text-sm">
-            <span><strong className="text-foreground">24</strong> <span className="text-muted-foreground">following</span></span>
-            <span><strong className="text-foreground">18</strong> <span className="text-muted-foreground">followers</span></span>
+            <span><strong className="text-foreground">0</strong> <span className="text-muted-foreground">following</span></span>
+            <span><strong className="text-foreground">0</strong> <span className="text-muted-foreground">followers</span></span>
           </div>
         </div>
 
