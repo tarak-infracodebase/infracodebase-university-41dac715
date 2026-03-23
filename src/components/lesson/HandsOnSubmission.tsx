@@ -68,6 +68,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   const [fileType, setFileType] = useState<string>("");
   const [notes, setNotes] = useState("");
   const [saved, setSaved] = useState(false);
+  const [autoSaving, setAutoSaving] = useState(false);
   const [dragging, setDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
