@@ -1,25 +1,21 @@
 import { useAuth } from "@clerk/clerk-react";
-import { toast } from "@/components/ui/use-toast";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 /**
  * Returns a guard function that checks if the user is signed in.
- * If not, shows a toast and returns false.
- * Usage: const { requireAuth } = useAuthGate();
- *        if (!requireAuth()) return;
+ * If not, opens a sign-in modal and returns false.
  */
 export function useAuthGate() {
   const { isSignedIn } = useAuth();
+  const [showGate, setShowGate] = useState(false);
 
   const requireAuth = useCallback((): boolean => {
     if (isSignedIn) return true;
-    toast({
-      title: "Sign in required",
-      description: "Create a free account to save your progress and submit work.",
-      action: undefined,
-    });
+    setShowGate(true);
     return false;
   }, [isSignedIn]);
 
-  return { requireAuth, isSignedIn: !!isSignedIn };
+  const dismissGate = useCallback(() => setShowGate(false), []);
+
+  return { requireAuth, isSignedIn: !!isSignedIn, showGate, dismissGate };
 }
