@@ -453,11 +453,11 @@ const Profile = () => {
           {/* Side stats */}
           <div className="space-y-4">
             <div className="glass-panel rounded-xl p-5 text-center">
-              <p className="text-3xl font-mono font-bold text-foreground">2,450</p>
+              <p className="text-3xl font-mono font-bold text-foreground">{profileXP.toLocaleString()}</p>
               <p className="text-xs text-muted-foreground mt-1">Total XP</p>
               <div className="mt-3 flex items-center justify-center gap-2">
                 <CrystalIcon color="hsl(var(--crystal-violet))" size={18} />
-                <span className="text-sm font-medium">Level 7</span>
+                <span className="text-sm font-medium">Level {profileLevel}</span>
               </div>
             </div>
 
