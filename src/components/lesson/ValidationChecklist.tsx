@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useAuthGate } from "@/hooks/useAuthGate";
 
 interface ValidationChecklistProps {
   items: string[];
