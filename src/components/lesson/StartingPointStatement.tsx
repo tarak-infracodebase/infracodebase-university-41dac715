@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthGate } from "@/hooks/useAuthGate";
+import AuthGateModal from "@/components/AuthGateModal";
 
 interface StartingPointStatementProps {
   lessonId: string;
