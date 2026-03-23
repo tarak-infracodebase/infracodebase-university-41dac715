@@ -38,6 +38,17 @@ const Profile = () => {
   const { username: urlUsername } = useParams<{ username: string }>();
   const { user, isLoaded } = useUser();
   const navigate = useNavigate();
+
+  // Guard: if the URL param matches a known static route segment, render NotFound
+  const KNOWN_ROUTES = [
+    "dashboard", "curriculum", "progress", "leaderboard", "profile", "events",
+    "videos", "feedback", "resources", "appearance", "path", "hands-on",
+    "office-hours", "cards", "manifesto", "sign-in", "sign-up"
+  ];
+  if (urlUsername && KNOWN_ROUTES.includes(urlUsername.toLowerCase())) {
+    return <NotFound />;
+  }
+
   const [editing, setEditing] = useState(false);
   const [handleError, setHandleError] = useState("");
 
