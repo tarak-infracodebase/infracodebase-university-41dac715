@@ -232,7 +232,23 @@ function Lightbox({
           <X className="h-5 w-5" /> Close
         </button>
         <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', fontWeight: 500 }}>{index + 1} / {total}</span>
-        <Share2 className="h-5 w-5" style={{ color: 'rgba(255,255,255,0.5)' }} />
+        <button
+          onClick={async () => {
+            const url = `https://university.infracodebase.com/office-hours?photo=${index}`;
+            const title = images[index].caption || 'Infracodebase Workshop';
+            if (navigator.share) {
+              try {
+                await navigator.share({ title, text: title, url });
+              } catch {}
+            } else {
+              await navigator.clipboard.writeText(url);
+              alert('Link copied to clipboard!');
+            }
+          }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px' }}
+        >
+          <Share2 className="h-5 w-5" />
+        </button>
       </div>
 
       {/* Image area */}
