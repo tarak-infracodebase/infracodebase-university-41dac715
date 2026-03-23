@@ -106,7 +106,7 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
         className="absolute inset-0 z-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative z-10 w-full max-w-lg rounded-xl border border-[#222] bg-[#141414] p-6 shadow-2xl">
+      <div className="relative z-10 w-full max-w-lg mx-4 rounded-xl border border-[#222] bg-[#141414] p-4 sm:p-6 shadow-2xl">
         <button onClick={onClose} className="absolute top-4 right-4 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors">
           <X className="h-4 w-4" />
         </button>

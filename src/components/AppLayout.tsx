@@ -14,7 +14,7 @@ const navItems = [
   { path: "/", label: "Home", icon: Home },
   { path: "/manifesto", label: "Manifesto", icon: FileText },
   { path: "/cards", label: "Your membership card", icon: CreditCard },
-  { path: "/curriculum", label: "Curriculum", icon: Compass },
+  { path: "/curriculum", label: "Training", icon: Compass },
   { path: "/hands-on", label: "Hands-On", icon: Hammer },
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/videos", label: "Video Library", icon: Play },

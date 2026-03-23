@@ -177,7 +177,7 @@ const Index = () => {
             {/* CTAs */}
             <div data-reveal className="flex flex-wrap gap-4 justify-center mt-10" style={{ animationDelay: "0.3s" }}>
               <Link to="/curriculum" className={pill} style={{ background: "#fff", color: "#000" }}>
-                <span style={fontMono}>Start learning →</span>
+                <span style={fontMono}>Begin training →</span>
               </Link>
               <Link to="/manifesto" className={pill} style={{ border: "1px solid rgba(255,255,255,0.15)", color: MUTED }}>
                 <span style={fontMono}>Read our Manifesto</span>

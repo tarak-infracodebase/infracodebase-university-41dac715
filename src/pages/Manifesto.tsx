@@ -87,7 +87,7 @@ const Manifesto = () => {
           to="/curriculum"
           className="mt-8 inline-flex items-center rounded-full bg-[hsl(228,20%,10%)] px-8 py-3.5 text-sm font-medium text-[hsl(0,0%,100%)] hover:bg-[hsl(228,20%,18%)] transition-colors"
         >
-          Explore Infracodebase University
+          Begin training →
         </Link>
       </section>
 
@@ -123,7 +123,7 @@ const Manifesto = () => {
           to="/dashboard"
           className="mt-6 inline-flex items-center rounded-full bg-[hsl(228,20%,10%)] px-8 py-3.5 text-sm font-medium text-[hsl(0,0%,100%)] hover:bg-[hsl(228,20%,18%)] transition-colors"
         >
-          Enter Infracodebase University
+          Begin training →
         </Link>
       </section>
     </div>
