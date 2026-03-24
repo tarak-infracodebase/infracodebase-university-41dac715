@@ -225,6 +225,16 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </SignedOut>
       </div>
       <main className={cn(
+        "transition-all duration-300 min-h-screen",
+        "pt-14 lg:pt-0",
+        collapsed ? "lg:pl-16" : "lg:pl-56"
+      )}>
+        {children}
+      </main>
+    </div>
+  );
+}
+
 function ThemeToggleButton() {
   const { theme, setTheme } = useTheme();
   return (
@@ -236,14 +246,5 @@ function ThemeToggleButton() {
     >
       {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </button>
-  );
-}
-        "transition-all duration-300 min-h-screen",
-        "pt-14 lg:pt-0",
-        collapsed ? "lg:pl-16" : "lg:pl-56"
-      )}>
-        {children}
-      </main>
-    </div>
   );
 }
