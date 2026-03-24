@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
+import { useUser } from "@clerk/clerk-react";
 import { AppLayout } from "@/components/AppLayout";
 import {
   Calendar, Clock, ExternalLink, Play, ChevronLeft, ChevronRight,
   Download, X, Edit2, Check, Bold, Italic, Heading3, Pilcrow,
-  List, Minus, ChevronDown, Share2, Heart, Link, Linkedin, Instagram,
+  List, Minus, ChevronDown, Share2, Heart, Link, Linkedin, Instagram, Video,
 } from "lucide-react";
 
 const SPECTRUM_GRADIENT = "linear-gradient(135deg, #c2410c, #d97706, #ca8a04, #16a34a, #0891b2)";
