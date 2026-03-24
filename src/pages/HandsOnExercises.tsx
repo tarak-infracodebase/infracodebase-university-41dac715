@@ -135,7 +135,7 @@ const HandsOnExercises = () => {
              >
                Your Learning Path
              </span>
-            <h2 className="text-2xl lg:text-3xl font-bold mb-2" style={{ color: featuredTrack.color }}>
+            <h2 className="text-2xl lg:text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
               {featuredTrack.title}
             </h2>
              <p className="text-sm mb-5 max-w-xl" style={{ color: '#94a3b8' }}>
