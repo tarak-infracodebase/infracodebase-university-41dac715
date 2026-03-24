@@ -1,8 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Home, LayoutDashboard, BookOpen, Trophy, Calendar,
+  Home, LayoutDashboard, Calendar,
   MessageSquare, Play, ChevronLeft, ChevronRight,
-  X, FolderOpen, Hammer, User, Radio, FileText, CreditCard, Compass,
+  X, FolderOpen, Hammer, User, Radio, Compass,
   Sun, Moon, Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
