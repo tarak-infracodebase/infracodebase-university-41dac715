@@ -48,9 +48,9 @@ const HandsOnTrack = () => {
               {track.level}
             </span>
           </div>
-          <h1 className="text-3xl lg:text-4xl font-bold mb-3">{track.title}</h1>
-          <p className="text-muted-foreground text-sm max-w-xl">{track.description}</p>
-          <div className="flex items-center gap-6 mt-4 text-xs text-muted-foreground">
+          <h1 className="text-3xl lg:text-4xl font-bold mb-3" style={{ color: '#f8fafc' }}>{track.title}</h1>
+          <p className="text-sm max-w-xl" style={{ color: '#94a3b8' }}>{track.description}</p>
+          <div className="flex items-center gap-6 mt-4 text-xs" style={{ color: '#64748b' }}>
             <span className="flex items-center gap-1.5">
               <BookOpen className="h-3.5 w-3.5" />
               {track.moduleCount} Modules
@@ -73,28 +73,29 @@ const HandsOnTrack = () => {
             <Link
               key={mod.id}
               to={`/hands-on/${track.id}/${mod.id}`}
-              className="group block rounded-xl border border-border/50 bg-card/30 hover:bg-card/60 p-6 transition-all hover:shadow-md hover:border-border"
+              className="group block rounded-xl p-6 transition-all hover:shadow-md"
+              style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}
             >
               <div className="flex items-start gap-5">
                 <div
                   className="h-10 w-10 rounded-xl flex items-center justify-center text-sm font-bold shrink-0 mt-0.5"
-                  style={{ background: track.accentColor, color: track.color }}
+                  style={{ background: '#1e3a5f', color: '#7dd3fc', border: '1px solid #2a5080' }}
                 >
                   {i + 1}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-mono text-muted-foreground">
+                    <span className="text-[10px] font-mono" style={{ color: '#64748b' }}>
                       Module {i + 1} / {track.moduleCount}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-base mb-2 group-hover:text-foreground transition-colors">
+                  <h3 className="font-semibold text-base mb-2 transition-colors" style={{ color: '#f8fafc' }}>
                     {mod.title}
                   </h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  <p className="text-xs leading-relaxed line-clamp-2" style={{ color: '#94a3b8' }}>
                     {mod.sections.whyThisMatters.split('\n')[0]}
                   </p>
-                  <div className="flex items-center gap-4 mt-3 text-[11px] text-muted-foreground">
+                  <div className="flex items-center gap-4 mt-3 text-[11px]" style={{ color: '#64748b' }}>
                     <span className="flex items-center gap-1">
                       <CheckCircle2 className="h-3 w-3" />
                       {mod.sections.validationChecklist.length} Checkpoints
