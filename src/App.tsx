@@ -66,7 +66,8 @@ const AnimatedRoutes = () => {
         <Route path="/hands-on" element={<HandsOnExercises />} />
         <Route path="/hands-on/:trackId" element={<HandsOnTrack />} />
         <Route path="/hands-on/:trackId/:moduleId" element={<HandsOnModule />} />
-        <Route path="/office-hours" element={<OfficeHours />} />
+        <Route path="/workshops" element={<OfficeHours />} />
+        <Route path="/office-hours" element={<Navigate to="/workshops" replace />} />
 
         {/* Public username profile route */}
         <Route path="/:username" element={<Profile />} />

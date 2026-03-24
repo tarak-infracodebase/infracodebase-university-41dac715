@@ -3,7 +3,7 @@ import {
   Home, LayoutDashboard, Calendar,
   MessageSquare, Play, ChevronLeft, ChevronRight,
   X, FolderOpen, Hammer, User, Radio, Compass,
-  Sun, Moon, Zap,
+  Sun, Moon, Zap, FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -26,7 +26,7 @@ const navGroups = [
   {
     label: "Live",
     items: [
-      { path: "/office-hours", label: "Workshops", icon: Radio },
+      { path: "/workshops", label: "Workshops", icon: Radio },
       { path: "/events", label: "Events", icon: Calendar },
     ],
   },
@@ -181,6 +181,22 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
             </div>
           </div>
         ))}
+
+        {/* Manifesto — standalone at bottom */}
+        <div style={{ marginTop: 16, borderTop: "1px solid #1c2e47", paddingTop: 8 }}>
+          <Link
+            to="/manifesto"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+              location.pathname === "/manifesto"
+                ? "bg-primary/10 text-primary font-medium"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            )}
+          >
+            <FileText className="h-4 w-4 shrink-0" />
+            {!collapsed && <span className="truncate">Manifesto</span>}
+          </Link>
+        </div>
       </nav>
 
       {/* Bottom actions */}
