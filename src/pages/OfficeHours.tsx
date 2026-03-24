@@ -1213,14 +1213,16 @@ export default function OfficeHours() {
 
           <div className="relative">
             {/* Edit button */}
-            <button
-              onClick={e => { e.stopPropagation(); setSessionEditing(ed => !ed); }}
-              className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-                sessionEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              }`}
-            >
-              <Edit2 className="h-4 w-4" />
-            </button>
+            {isTarak && (
+              <button
+                onClick={e => { e.stopPropagation(); setSessionEditing(ed => !ed); }}
+                className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
+                  sessionEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                }`}
+              >
+                <Edit2 className="h-4 w-4" />
+              </button>
+            )}
 
             <HorizontalSessionCard
               editing={sessionEditing}
