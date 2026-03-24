@@ -1014,7 +1014,7 @@ function HorizontalSessionCard({
 /* ── Main Page ── */
 export default function OfficeHours() {
   const { user } = useUser();
-  const isTarak = user?.id === 'user_2xTarak';
+  const isTarak = user?.emailAddresses?.some(e => e.emailAddress === 'tarak@infracodebase.com');
   const [question, setQuestion] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
