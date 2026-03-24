@@ -12,9 +12,14 @@ import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { LogIn } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
-const homeItem = { path: "/", label: "Home", icon: Home };
-
 const navGroups = [
+  {
+    label: "Discover",
+    items: [
+      { path: "/", label: "Home", icon: Home },
+      { path: "/manifesto", label: "Manifesto", icon: FileText },
+    ],
+  },
   {
     label: "Learn",
     items: [
@@ -41,7 +46,7 @@ const navGroups = [
 ];
 
 // Flat list for mobile nav
-const allNavItems = [homeItem, ...navGroups.flatMap(g => g.items)];
+const allNavItems = navGroups.flatMap(g => g.items);
 
 function SidebarGroupLabel({ label, first }: { label: string; first?: boolean }) {
   return (
