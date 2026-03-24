@@ -1146,27 +1146,29 @@ export default function OfficeHours() {
                   { name: "Tarak", initial: "T", defaultPhoto: "/Tarak.jpeg", title: "Co-Founder, Infracodebase", photo: tarakPhoto, setter: setTarakPhoto, uploadId: "upload-tarak" },
                 ] as const).map(host => (
                   <div key={host.name} className="flex items-center gap-3">
-                    <div
-                      style={{ position: 'relative', cursor: 'pointer' }}
-                      onClick={() => document.getElementById(host.uploadId)?.click()}
-                    >
+                    <div style={{ position: 'relative' }}>
                       {(host.photo || host.defaultPhoto) ? (
                         <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
-                          <img src={host.photo || host.defaultPhoto} alt={host.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} onError={(e) => { const target = e.target as HTMLImageElement; target.style.display = 'none'; target.parentElement!.style.background = 'linear-gradient(135deg,#c2410c,#16a34a)'; target.parentElement!.style.display = 'flex'; target.parentElement!.style.alignItems = 'center'; target.parentElement!.style.justifyContent = 'center'; target.parentElement!.innerHTML = `<span style="color:#fff;font-weight:700;font-size:14px">${target.alt.charAt(0)}</span>`; }} />
+                          <img src={host.photo || host.defaultPhoto} alt={host.name} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', display: 'block' }} onError={(e) => { const target = e.target as HTMLImageElement; target.style.display = 'none'; target.parentElement!.style.background = 'linear-gradient(135deg,#c2410c,#16a34a)'; target.parentElement!.style.display = 'flex'; target.parentElement!.style.alignItems = 'center'; target.parentElement!.style.justifyContent = 'center'; target.parentElement!.innerHTML = `<span style="color:#fff;font-weight:700;font-size:14px">${target.alt.charAt(0)}</span>`; }} />
                         </div>
                       ) : (
                         <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px dashed rgba(255,255,255,0.3)' }}>
                           {host.initial}
                         </div>
                       )}
-                      <div
-                        style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s' }}
-                        onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-                        onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
-                      >
-                        <span style={{ color: '#fff', fontSize: '9px', fontWeight: 700 }}>EDIT</span>
-                      </div>
-                      <input id={host.uploadId} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handlePhotoUpload(e, host.setter)} />
+                      {isTarak && (
+                        <>
+                          <div
+                            style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s', cursor: 'pointer' }}
+                            onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                            onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
+                            onClick={() => document.getElementById(host.uploadId)?.click()}
+                          >
+                            <span style={{ color: '#fff', fontSize: '9px', fontWeight: 700 }}>EDIT</span>
+                          </div>
+                          <input id={host.uploadId} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handlePhotoUpload(e, host.setter)} />
+                        </>
+                      )}
                     </div>
                     <div>
                       <p className="text-sm font-medium text-foreground">{host.name}</p>
