@@ -253,12 +253,12 @@ function Lightbox({
                   {
                     icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>,
                     label: 'Share on X',
-                    action: () => { window.open(`https://twitter.com/intent/tweet?url=https://university.infracodebase.com/office-hours&text=Check out this Infracodebase Workshop`); setShareOpen(false); }
+                    action: () => { window.open('https://twitter.com/intent/tweet?url=https%3A%2F%2Funiversity.infracodebase.com%2Foffice-hours&text=Check%20out%20this%20Infracodebase%20Workshop', '_blank'); setShareOpen(false); }
                   },
                   {
                     icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>,
                     label: 'Share on LinkedIn',
-                    action: () => { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=https://university.infracodebase.com/office-hours`); setShareOpen(false); }
+                    action: () => { window.open('https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Funiversity.infracodebase.com%2Foffice-hours', '_blank'); setShareOpen(false); }
                   },
                 ].map(({ icon, label, action }) => (
                   <button
