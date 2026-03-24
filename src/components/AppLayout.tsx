@@ -3,7 +3,7 @@ import {
   Home, LayoutDashboard, Calendar,
   MessageSquare, Play, ChevronLeft, ChevronRight,
   X, FolderOpen, Hammer, User, Radio, Compass,
-  Sun, Moon, Zap,
+  Sun, Moon, Zap, FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
