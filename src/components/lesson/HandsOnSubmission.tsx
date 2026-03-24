@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Upload, FileText, X } from "lucide-react";
+import { Upload, FileText, X, ExternalLink, Plus } from "lucide-react";
 import { useAuthGate } from "@/hooks/useAuthGate";
 import AuthGateModal from "@/components/AuthGateModal";
 
@@ -33,7 +33,6 @@ const PLATFORM_SIGNALS = /\b(screenshot|auto-generate|generate diagram|create a 
 
 function inferType(description?: string, explicit?: ExerciseType, title?: string): ExerciseType {
   if (explicit) return explicit;
-  // Check title override first
   if (title && SUBMISSION_TYPE_OVERRIDES[title]) return SUBMISSION_TYPE_OVERRIDES[title];
   if (!description) return "build-external";
   if (PLATFORM_SIGNALS.test(description)) return "build-platform";
@@ -53,19 +52,51 @@ function getStorageKey(type: ExerciseType, exerciseId: string): string {
 
 const IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp", "image/gif"];
 const ACCEPTED_TYPES = "image/png,image/jpeg,image/webp,application/pdf,.docx,.doc";
+const IMAGE_URL_RE = /\.(png|jpe?g|gif|webp)(\?.*)?$/i;
+const URL_RE = /^https?:\/\//i;
 
 function isImageFile(fileType: string): boolean {
   return IMAGE_TYPES.includes(fileType);
 }
 
+function isImageUrl(value: string): boolean {
+  return URL_RE.test(value) && IMAGE_URL_RE.test(value);
+}
+
+function isUrl(value: string): boolean {
+  return URL_RE.test(value);
+}
+
+/** Renders a single entry with smart type detection */
+function EntryDisplay({ value }: { value: string }) {
+  if (isImageUrl(value)) {
+    return <img src={value} alt="Submission" className="max-w-full rounded-lg mt-2" />;
+  }
+  if (isUrl(value)) {
+    return (
+      <a
+        href={value}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 underline underline-offset-2 transition-colors break-all"
+      >
+        {value}
+        <ExternalLink className="h-3 w-3 shrink-0" />
+      </a>
+    );
+  }
+  return <span className="text-sm text-foreground break-all">{value}</span>;
+}
 
 const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exerciseTitle, onSave }: HandsOnSubmissionProps) => {
   const type = inferType(exerciseDescription, exerciseType, exerciseTitle);
   const storageKey = getStorageKey(type, exerciseId);
   const { requireAuth, showGate, dismissGate } = useAuthGate();
 
-  const [url, setUrl] = useState("");
-  const [description, setDescription] = useState("");
+  // Multi-entry state for build-external
+  const [entries, setEntries] = useState<string[]>([]);
+  const [newEntry, setNewEntry] = useState("");
+
   const [answer, setAnswer] = useState("");
   const [fileData, setFileData] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>("");
@@ -81,16 +112,26 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
       const data = localStorage.getItem(storageKey);
       if (data) {
         const parsed = JSON.parse(data);
-        setUrl(parsed.url || "");
-        setDescription(parsed.description || "");
-        setAnswer(parsed.answer || "");
-        setFileData(parsed.fileData || parsed.screenshot || null);
-        setFileName(parsed.fileName || "");
-        setFileType(parsed.fileType || (parsed.screenshot ? "image/png" : ""));
-        setNotes(parsed.notes || "");
+        // Migrate old single-entry format to multi-entry
+        if (type === "build-external") {
+          if (parsed.entries) {
+            setEntries(parsed.entries);
+          } else {
+            const migrated: string[] = [];
+            if (parsed.url) migrated.push(parsed.url);
+            if (parsed.description) migrated.push(parsed.description);
+            setEntries(migrated);
+          }
+        } else {
+          setAnswer(parsed.answer || "");
+          setFileData(parsed.fileData || parsed.screenshot || null);
+          setFileName(parsed.fileName || "");
+          setFileType(parsed.fileType || (parsed.screenshot ? "image/png" : ""));
+          setNotes(parsed.notes || "");
+        }
       }
     } catch {}
-  }, [storageKey]);
+  }, [storageKey, type]);
 
   // Auto-save for writing type
   useEffect(() => {
@@ -111,10 +152,9 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
       const payload =
         type === "writing" ? { answer } :
         type === "build-platform" ? { fileData, fileName, fileType, notes } :
-        { url, description };
+        { entries };
       localStorage.setItem(storageKey, JSON.stringify(payload));
 
-      // Award XP for saving work
       const currentXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
       localStorage.setItem("icbu_xp", String(currentXP + 50));
 
@@ -122,6 +162,17 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
       setTimeout(() => setSaved(false), 2500);
       onSave?.();
     } catch {}
+  };
+
+  const addEntry = () => {
+    const trimmed = newEntry.trim();
+    if (!trimmed) return;
+    setEntries(prev => [...prev, trimmed]);
+    setNewEntry("");
+  };
+
+  const removeEntry = (index: number) => {
+    setEntries(prev => prev.filter((_, i) => i !== index));
   };
 
   const processFile = (file: File) => {
@@ -182,21 +233,52 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
         <>
           <h4 className="text-sm font-semibold mb-1">Submit Your Work</h4>
           <p className="text-xs text-muted-foreground mb-4">
-            Paste a link to your repo, workspace, or screenshot — or describe what you built. This is for your own record.
+            Add links to repos, screenshots, or describe what you built. This is for your own record.
           </p>
-          <div className="space-y-3">
+
+          {/* Existing entries list */}
+          {entries.length > 0 && (
+            <div className="space-y-1.5 mb-4">
+              {entries.map((entry, i) => (
+                <div
+                  key={i}
+                  className="relative group"
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid #1c2e47",
+                    borderRadius: "8px",
+                    padding: "10px 12px",
+                    marginBottom: "6px",
+                  }}
+                >
+                  <button
+                    onClick={() => removeEntry(i)}
+                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{ color: "#64748b" }}
+                    onMouseEnter={e => (e.currentTarget.style.color = "#ef4444")}
+                    onMouseLeave={e => (e.currentTarget.style.color = "#64748b")}
+                    aria-label="Remove entry"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                  <EntryDisplay value={entry} />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Add new entry */}
+          <div className="flex gap-2">
             <Input
-              value={url}
-              onChange={e => setUrl(e.target.value)}
-              placeholder="Link to repo, workspace, or screenshot"
-              className="bg-background/50 border-border/50 text-sm"
+              value={newEntry}
+              onChange={e => setNewEntry(e.target.value)}
+              onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); addEntry(); } }}
+              placeholder="Add screenshot or link"
+              className="bg-background/50 border-border/50 text-sm flex-1"
             />
-            <Textarea
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-              placeholder="Describe what you built (optional)"
-              className="min-h-[80px] bg-background/50 border-border/50 text-sm resize-y"
-            />
+            <Button onClick={addEntry} size="sm" variant="outline" className="text-xs shrink-0 gap-1">
+              <Plus className="h-3 w-3" /> Add
+            </Button>
           </div>
         </>
       )}

@@ -26,7 +26,7 @@ const LessonPage = () => {
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Lesson Not Found</h1>
-            <Link to="/curriculum" className="text-primary hover:underline text-sm"><Link to="/curriculum" className="text-primary hover:underline text-sm">← Back to Training</Link></Link>
+            <Link to="/training" className="text-primary hover:underline text-sm">← Back to Training</Link>
           </div>
         </div>
       </AppLayout>
@@ -273,7 +273,7 @@ const LessonPage = () => {
                   Next: {nextPath.shortTitle} <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               ) : (
-                <Link to="/curriculum" className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 transition-colors">
+                <Link to="/training" className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 transition-colors">
                   Back to Training <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               )}

@@ -84,7 +84,7 @@ const Manifesto = () => {
         </p>
 
         <Link
-          to="/curriculum"
+          to="/training"
           className="mt-8 inline-flex items-center rounded-full bg-[hsl(228,20%,10%)] px-8 py-3.5 text-sm font-medium text-[hsl(0,0%,100%)] hover:bg-[hsl(228,20%,18%)] transition-colors"
         >
           Begin training →
@@ -120,7 +120,7 @@ const Manifesto = () => {
           Ready to start building real systems?
         </p>
         <Link
-          to="/curriculum"
+          to="/training"
           className="mt-6 inline-flex items-center rounded-full bg-[hsl(228,20%,10%)] px-8 py-3.5 text-sm font-medium text-[hsl(0,0%,100%)] hover:bg-[hsl(228,20%,18%)] transition-colors"
         >
           Begin training →

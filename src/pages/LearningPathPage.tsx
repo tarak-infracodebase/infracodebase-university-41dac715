@@ -288,7 +288,7 @@ const LearningPathPage = () => {
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Learning Path Not Found</h1>
-            <Link to="/curriculum" className="text-primary hover:underline text-sm"><Link to="/curriculum" className="text-primary hover:underline text-sm">← Back to Training</Link></Link>
+            <Link to="/training" className="text-primary hover:underline text-sm">← Back to Training</Link>
           </div>
         </div>
       </AppLayout>
@@ -303,7 +303,7 @@ const LearningPathPage = () => {
     <AppLayout>
       {/* Track Header */}
       <section className="gradient-hero py-12 lg:py-16 px-6 lg:px-12 border-b border-border/30">
-        <Link to="/curriculum" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
+        <Link to="/training" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
           <ArrowLeft className="h-3 w-3" /> All Learning Paths
         </Link>
         <div className="flex items-start gap-4">

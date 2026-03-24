@@ -53,7 +53,8 @@ const AnimatedRoutes = () => {
         <Route path="/progress" element={<Navigate to="/dashboard?tab=progress" replace />} />
 
         {/* Public browsable routes (actions gated inline) */}
-        <Route path="/curriculum" element={<Curriculum />} />
+        <Route path="/training" element={<Curriculum />} />
+        <Route path="/curriculum" element={<Navigate to="/training" replace />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/events" element={<Events />} />
         <Route path="/videos" element={<VideoLibrary />} />

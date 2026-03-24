@@ -18,7 +18,7 @@ const navGroups = [
   {
     label: "Learn",
     items: [
-      { path: "/curriculum", label: "Curriculum", icon: Compass },
+      { path: "/training", label: "Training", icon: Compass },
       { path: "/hands-on", label: "Hands-On Training", icon: Hammer },
       { path: "/videos", label: "Video Library", icon: Play },
     ],
