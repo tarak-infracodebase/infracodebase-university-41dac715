@@ -137,6 +137,7 @@ export function MobileNav() {
           </span>
         </Link>
         <div className="flex items-center gap-2">
+          <ThemeToggleButton />
           <SignedIn>
             <UserButton
               afterSignOutUrl="/"
