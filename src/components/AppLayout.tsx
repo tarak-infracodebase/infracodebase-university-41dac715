@@ -144,29 +144,15 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
 
       {/* Nav */}
       <nav className="flex-1 py-3 px-2 overflow-y-auto custom-scrollbar">
-        {/* Home — standalone above groups */}
-        <div style={{ marginBottom: 16 }}>
-          <Link
-            to={homeItem.path}
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-              location.pathname === homeItem.path
-                ? "bg-primary/10 text-primary font-medium"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-            )}
-          >
-            <homeItem.icon className="h-4 w-4 shrink-0" />
-            {!collapsed && <span className="truncate">{homeItem.label}</span>}
-          </Link>
-        </div>
         {navGroups.map((group, gi) => (
           <div key={group.label}>
             {!collapsed && <SidebarGroupLabel label={group.label} first={gi === 0} />}
             {collapsed && gi > 0 && <div className="my-2 mx-2 border-t border-border/30" />}
             <div className="space-y-0.5">
               {group.items.map(item => {
-                const isActive = location.pathname === item.path ||
-                  (item.path !== "/" && location.pathname.startsWith(item.path));
+                const isActive = item.path === "/"
+                  ? location.pathname === "/"
+                  : location.pathname === item.path || location.pathname.startsWith(item.path);
                 return (
                   <Link
                     key={item.path}
@@ -186,22 +172,6 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
             </div>
           </div>
         ))}
-
-        {/* Manifesto — standalone at bottom */}
-        <div style={{ marginTop: 16, borderTop: "1px solid #1c2e47", paddingTop: 8 }}>
-          <Link
-            to="/manifesto"
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-              location.pathname === "/manifesto"
-                ? "bg-primary/10 text-primary font-medium"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-            )}
-          >
-            <FileText className="h-4 w-4 shrink-0" />
-            {!collapsed && <span className="truncate">Manifesto</span>}
-          </Link>
-        </div>
       </nav>
 
       {/* Bottom actions */}
