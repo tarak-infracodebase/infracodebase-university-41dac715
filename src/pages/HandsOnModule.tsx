@@ -73,14 +73,14 @@ const HandsOnModulePage = () => {
 
   return (
     <AppLayout>
-      <div className="flex" style={{ background: '#0f1724' }}>
+      <div className="flex" style={{ background: 'var(--bg-secondary)' }}>
         {/* Sidebar */}
-        <aside className="hidden xl:block w-64 shrink-0 border-r min-h-screen sticky top-0 overflow-y-auto custom-scrollbar" style={{ background: '#141f2e', borderColor: '#1e3a5f' }}>
+        <aside className="hidden xl:block w-64 shrink-0 border-r min-h-screen sticky top-0 overflow-y-auto custom-scrollbar" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-themed)' }}>
           <div className="p-4">
             <Link to={`/hands-on/${track.id}`} className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-foreground mb-4">
               <ArrowLeft className="h-3 w-3" /> {track.title}
             </Link>
-            <h3 className="font-mono text-[10px] mb-3 uppercase tracking-wider" style={{ color: '#94a3b8' }}>Modules</h3>
+            <h3 className="font-mono text-[10px] mb-3 uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>Modules</h3>
             <nav className="space-y-0.5">
               {track.modules.map((m, i) => (
                 <Link
@@ -92,7 +92,7 @@ const HandsOnModulePage = () => {
                 >
                   <span
                     className="font-mono text-[9px] w-5 h-5 rounded flex items-center justify-center shrink-0"
-                    style={{ background: '#1e3a5f', color: '#7dd3fc', border: '1px solid #2a5080' }}
+                    style={{ background: 'var(--border-themed)', color: 'var(--text-link)', border: '1px solid var(--border-themed)' }}
                   >
                     {i + 1}
                   </span>
@@ -113,17 +113,17 @@ const HandsOnModulePage = () => {
             {/* Header */}
             <div className="mb-10">
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-[10px] font-mono" style={{ color: '#7dd3fc' }}>
+                <span className="text-[10px] font-mono" style={{ color: 'var(--text-link)' }}>
                   Module {moduleIndex + 1} of {track.modules.length}
                 </span>
               </div>
-              <h1 className="text-2xl lg:text-3xl font-bold mb-3 font-mono" style={{ color: '#5eead4' }}>{mod.title}</h1>
+              <h1 className="text-2xl lg:text-3xl font-bold mb-3 font-mono" style={{ color: 'var(--text-accent)' }}>{mod.title}</h1>
               <div className="h-1 w-12 rounded-full" style={{ background: track.color }} />
             </div>
 
             {/* Why This Matters */}
             <SectionBlock icon={Lightbulb} title="Why This Matters" color="hsl(45, 85%, 55%)">
-              <div className="rounded-xl p-5" style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}>
+              <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-themed)' }}>
                 <ContentBlock content={mod.sections.whyThisMatters} />
               </div>
             </SectionBlock>
@@ -136,21 +136,21 @@ const HandsOnModulePage = () => {
             {/* Engineering Reflection */}
             <section className="mb-8">
               <h2 className="text-base font-bold mb-3">Engineering Reflection</h2>
-              <div className="rounded-xl border-l-4 border-secondary/50 p-5" style={{ background: '#141f2e' }}>
+              <div className="rounded-xl border-l-4 border-secondary/50 p-5" style={{ background: 'var(--bg-card)' }}>
                 <ContentBlock content={mod.sections.engineeringReflection} />
               </div>
             </section>
 
             {/* Step-by-Step Walkthrough */}
             <SectionBlock icon={Zap} title="Step-by-Step Walkthrough" color="hsl(25, 85%, 55%)">
-              <div className="rounded-xl p-5" style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}>
+              <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-themed)' }}>
                 <ContentBlock content={mod.sections.stepByStep} />
               </div>
             </SectionBlock>
 
             {/* Hands-On Exercise */}
             <SectionBlock icon={PenTool} title="Hands-On Exercise" color="hsl(185, 70%, 48%)">
-              <div className="rounded-xl p-5" style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}>
+              <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-themed)' }}>
                 <ContentBlock content={mod.sections.handsOnExercise} />
               </div>
               <HandsOnSubmission exerciseId={`handsOn_${trackId}_${moduleId}`} exerciseType="build-platform" exerciseDescription={mod.sections.handsOnExercise} exerciseTitle={mod.title} onSave={() => toast({ title: "+50 XP", description: "Work saved. Keep going." })} />
@@ -159,7 +159,7 @@ const HandsOnModulePage = () => {
             {/* Required Artifact */}
             <section className="mb-8">
               <h2 className="text-base font-bold mb-3">Required Artifact</h2>
-              <div className="rounded-xl p-5" style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}>
+              <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-themed)' }}>
                 <ContentBlock content={mod.sections.requiredArtifact} />
               </div>
             </section>
@@ -172,14 +172,14 @@ const HandsOnModulePage = () => {
 
             {/* Failure and Debugging */}
             <SectionBlock icon={AlertTriangle} title="Failure and Debugging" color="hsl(25, 85%, 55%)">
-              <div className="rounded-xl p-5" style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}>
+              <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-themed)' }}>
                 <ContentBlock content={mod.sections.failureAndDebugging} />
               </div>
             </SectionBlock>
 
             {/* Modification Exercise */}
             <SectionBlock icon={RefreshCw} title="Modification Exercise" color="hsl(330, 65%, 55%)">
-              <div className="rounded-xl p-5" style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}>
+              <div className="rounded-xl p-5" style={{ background: 'var(--bg-card)', border: '1px solid var(--border-themed)' }}>
                 <ContentBlock content={mod.sections.modificationExercise} />
               </div>
             </SectionBlock>
@@ -216,7 +216,7 @@ const HandsOnModulePage = () => {
                     window.scrollTo(0, 0);
                   }}
                   className="flex items-center gap-2 text-xs font-medium transition-colors"
-                  style={{ color: '#5eead4' }}
+                  style={{ color: 'var(--text-accent)' }}
                 >
                   Continue my training <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
@@ -225,7 +225,7 @@ const HandsOnModulePage = () => {
                   to={`/hands-on/${nextTrack.id}`}
                   onClick={() => window.scrollTo(0, 0)}
                   className="flex items-center gap-2 text-xs font-medium transition-colors"
-                  style={{ color: '#5eead4' }}
+                  style={{ color: 'var(--text-accent)' }}
                 >
                   Continue my training → {nextTrack.title} <ArrowRight className="h-3.5 w-3.5" />
                 </Link>

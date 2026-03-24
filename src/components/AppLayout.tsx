@@ -1,14 +1,16 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { 
-  Home, LayoutDashboard, BookOpen, Trophy, Calendar, 
+import {
+  Home, LayoutDashboard, BookOpen, Trophy, Calendar,
   MessageSquare, Play, ChevronLeft, ChevronRight,
-  X, FolderOpen, Hammer, User, Radio, FileText, CreditCard, Compass
+  X, FolderOpen, Hammer, User, Radio, FileText, CreditCard, Compass,
+  Sun, Moon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { LogIn } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const navItems = [
   { path: "/", label: "Home", icon: Home },
@@ -135,6 +137,7 @@ export function MobileNav() {
           </span>
         </Link>
         <div className="flex items-center gap-2">
+          <ThemeToggleButton />
           <SignedIn>
             <UserButton
               afterSignOutUrl="/"
@@ -199,7 +202,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       </div>
       <MobileNav />
       {/* Desktop User Button / Sign In */}
-      <div className="hidden lg:block fixed top-4 right-6 z-50">
+      <div className="hidden lg:flex items-center gap-2 fixed top-4 right-6 z-50">
+        <ThemeToggleButton />
         <SignedIn>
           <UserButton
             afterSignOutUrl="/"
@@ -229,5 +233,19 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         {children}
       </main>
     </div>
+  );
+}
+
+function ThemeToggleButton() {
+  const { theme, setTheme } = useTheme();
+  return (
+    <button
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="flex items-center justify-center rounded-full border border-border/50 bg-card text-foreground hover:bg-muted/50 transition-colors"
+      style={{ width: 36, height: 36 }}
+      aria-label="Toggle theme"
+    >
+      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+    </button>
   );
 }
