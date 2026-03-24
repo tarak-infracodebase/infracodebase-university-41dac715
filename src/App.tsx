@@ -30,7 +30,7 @@ import SignUpPage from "./pages/SignUp";
 import OfficeHours from "./pages/OfficeHours";
 import CommunityCards from "./pages/CommunityCards";
 
-const CLERK_PUBLISHABLE_KEY = "pk_test_ZGVsaWNhdGUta29pLTkyLmNsZXJrLmFjY291bnRzLmRldiQ";
+const CLERK_PUBLISHABLE_KEY = "pk_live_Y2xlcmsuaW5mcmFjb2RlYmFzZS5jb20k";
 
 const queryClient = new QueryClient();
 
@@ -44,12 +44,40 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<Index />} />
         <Route path="/sign-in/*" element={<SignInPage />} />
         <Route path="/sign-up/*" element={<SignUpPage />} />
-        <Route path="/manifesto" element={<AppLayout><Manifesto /></AppLayout>} />
-        <Route path="/cards" element={<AppLayout><CommunityCards /></AppLayout>} />
+        <Route
+          path="/manifesto"
+          element={
+            <AppLayout>
+              <Manifesto />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/cards"
+          element={
+            <AppLayout>
+              <CommunityCards />
+            </AppLayout>
+          }
+        />
 
         {/* Protected routes (personal data) */}
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/progress" element={<Navigate to="/dashboard?tab=progress" replace />} />
 
         {/* Public browsable routes (actions gated inline) */}
@@ -60,7 +88,14 @@ const AnimatedRoutes = () => {
         <Route path="/videos" element={<VideoLibrary />} />
         <Route path="/feedback" element={<FeedbackPage />} />
         <Route path="/resources" element={<Resources />} />
-        <Route path="/appearance" element={<ProtectedRoute><Appearance /></ProtectedRoute>} />
+        <Route
+          path="/appearance"
+          element={
+            <ProtectedRoute>
+              <Appearance />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/path/:pathId" element={<LearningPathPage />} />
         <Route path="/path/:pathId/lesson/:lessonId" element={<LessonPage />} />
         <Route path="/hands-on" element={<HandsOnExercises />} />
