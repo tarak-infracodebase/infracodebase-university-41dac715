@@ -232,23 +232,48 @@ function Lightbox({
           <X className="h-5 w-5" /> Close
         </button>
         <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', fontWeight: 500 }}>{index + 1} / {total}</span>
-        <button
-          onClick={async () => {
-            const url = `https://university.infracodebase.com/office-hours?photo=${index}`;
-            const title = images[index].caption || 'Infracodebase Workshop';
-            if (navigator.share) {
-              try {
-                await navigator.share({ title, text: title, url });
-              } catch {}
-            } else {
-              await navigator.clipboard.writeText(url);
-              alert('Link copied to clipboard!');
-            }
-          }}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.8)', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '14px' }}
-        >
-          <Share2 className="h-5 w-5" />
-        </button>
+        <div style={{ position: 'relative' }}>
+          <button
+            onClick={() => setShareOpen(v => !v)}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', background: shareOpen ? '#2d3748' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '10px', padding: '8px 14px', cursor: 'pointer', color: '#fff', fontSize: '14px', fontWeight: 500 }}
+          >
+            <Share2 className="h-4 w-4" /> Share
+          </button>
+          {shareOpen && (
+            <>
+              <div onClick={() => setShareOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 1999 }} />
+              <div style={{ position: 'absolute', top: '110%', right: 0, background: '#1e2a3a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '14px', padding: '8px', minWidth: '200px', zIndex: 2000, boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
+                {[
+                  {
+                    icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>,
+                    label: 'Copy link',
+                    action: () => { navigator.clipboard.writeText('https://university.infracodebase.com/office-hours'); setShareOpen(false); }
+                  },
+                  {
+                    icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>,
+                    label: 'Share on X',
+                    action: () => { window.open(`https://twitter.com/intent/tweet?url=https://university.infracodebase.com/office-hours&text=Check out this Infracodebase Workshop`); setShareOpen(false); }
+                  },
+                  {
+                    icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>,
+                    label: 'Share on LinkedIn',
+                    action: () => { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=https://university.infracodebase.com/office-hours`); setShareOpen(false); }
+                  },
+                ].map(({ icon, label, action }) => (
+                  <button
+                    key={label}
+                    onClick={action}
+                    style={{ display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '10px 14px', background: 'none', border: 'none', borderRadius: '8px', cursor: 'pointer', color: '#e2e8f0', fontSize: '14px', fontWeight: 500, textAlign: 'left' }}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+                  >
+                    {icon}{label}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {/* Image area */}
