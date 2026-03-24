@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
+import { useUser } from "@clerk/clerk-react";
 import { AppLayout } from "@/components/AppLayout";
 import {
   Calendar, Clock, ExternalLink, Play, ChevronLeft, ChevronRight,
   Download, X, Edit2, Check, Bold, Italic, Heading3, Pilcrow,
-  List, Minus, ChevronDown, Share2, Heart, Link, Linkedin, Instagram,
+  List, Minus, ChevronDown, Share2, Heart, Link, Linkedin, Instagram, Video,
 } from "lucide-react";
 
 const SPECTRUM_GRADIENT = "linear-gradient(135deg, #c2410c, #d97706, #ca8a04, #16a34a, #0891b2)";
@@ -232,13 +233,21 @@ function Lightbox({
           <X className="h-5 w-5" /> Close
         </button>
         <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', fontWeight: 500 }}>{index + 1} / {total}</span>
-        <div style={{ position: 'relative' }}>
-          <button
-            onClick={() => setShareOpen(v => !v)}
-            style={{ display: 'flex', alignItems: 'center', gap: '8px', background: shareOpen ? '#2d3748' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '10px', padding: '8px 14px', cursor: 'pointer', color: '#fff', fontSize: '14px', fontWeight: 500 }}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <a
+            href={images[index].src}
+            download={`infracodebase-workshop-${index + 1}.jpg`}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '10px', padding: '8px 14px', cursor: 'pointer', color: '#fff', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}
           >
-            <Share2 className="h-4 w-4" /> Share
-          </button>
+            <Download className="h-4 w-4" /> Download
+          </a>
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setShareOpen(v => !v)}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', background: shareOpen ? '#2d3748' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '10px', padding: '8px 14px', cursor: 'pointer', color: '#fff', fontSize: '14px', fontWeight: 500 }}
+            >
+              <Share2 className="h-4 w-4" /> Share
+            </button>
           {shareOpen && (
             <>
               <div onClick={() => setShareOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 1999 }} />
@@ -252,12 +261,12 @@ function Lightbox({
                   {
                     icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>,
                     label: 'Share on X',
-                    action: () => { window.open(`https://twitter.com/intent/tweet?url=https://university.infracodebase.com/office-hours&text=Check out this Infracodebase Workshop`); setShareOpen(false); }
+                    action: () => { window.open('https://twitter.com/intent/tweet?url=https%3A%2F%2Funiversity.infracodebase.com%2Foffice-hours&text=Check%20out%20this%20Infracodebase%20Workshop', '_blank'); setShareOpen(false); }
                   },
                   {
                     icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>,
                     label: 'Share on LinkedIn',
-                    action: () => { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=https://university.infracodebase.com/office-hours`); setShareOpen(false); }
+                    action: () => { window.open('https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Funiversity.infracodebase.com%2Foffice-hours', '_blank'); setShareOpen(false); }
                   },
                 ].map(({ icon, label, action }) => (
                   <button
@@ -273,6 +282,7 @@ function Lightbox({
               </div>
             </>
           )}
+          </div>
         </div>
       </div>
 
@@ -694,15 +704,14 @@ function SessionModal({
             {/* Recording */}
             {tab === "recording" && (
               <div>
-                <div className="aspect-video rounded-lg bg-black/50 border border-border/30 flex items-center justify-center mb-4">
-                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center cursor-pointer hover:bg-white/20 transition-colors">
-                    <Play className="h-8 w-8 text-foreground ml-1" />
+                <div style={{ background: '#0a1628', border: '1px solid #1c2e47', borderRadius: '12px', padding: '60px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', minHeight: '300px' }}>
+                  <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#1c2e47', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Video className="h-6 w-6" style={{ color: '#64748b' }} />
                   </div>
+                  <p style={{ fontSize: '16px', fontWeight: 600, color: '#f1f5f9', margin: 0 }}>Recording coming soon</p>
+                  <p style={{ fontSize: '13px', color: '#64748b', margin: 0, textAlign: 'center', maxWidth: '320px' }}>This session wasn't recorded. Future sessions will be available here within 24 hours.</p>
                 </div>
-                <div className="flex gap-3">
-                  <a href="#" className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border border-border/50 text-foreground hover:bg-muted/50 transition-colors">
-                    <ExternalLink className="h-4 w-4" /> Open recording
-                  </a>
+                <div className="flex gap-3 mt-4">
                   <button onClick={() => setTab("notes")} className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border border-border/50 text-foreground hover:bg-muted/50 transition-colors">
                     View notes
                   </button>
@@ -1004,6 +1013,8 @@ function HorizontalSessionCard({
 
 /* ── Main Page ── */
 export default function OfficeHours() {
+  const { user } = useUser();
+  const isTarak = user?.id === 'user_2xTarak';
   const [question, setQuestion] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -1082,14 +1093,16 @@ export default function OfficeHours() {
           <div style={{ height: '4px', background: SPECTRUM_GRADIENT, borderRadius: '14px 14px 0 0' }} />
 
           {/* Edit button */}
-          <button
-            onClick={() => setHeroEditing(e => !e)}
-            className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-              heroEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-            }`}
-          >
-            <Edit2 className="h-4 w-4" />
-          </button>
+          {isTarak && (
+            <button
+              onClick={() => setHeroEditing(e => !e)}
+              className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
+                heroEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              <Edit2 className="h-4 w-4" />
+            </button>
+          )}
 
           <div className="p-6 lg:p-8 flex flex-col lg:flex-row gap-8">
             <div className="flex-1 space-y-4">
@@ -1139,7 +1152,7 @@ export default function OfficeHours() {
                     >
                       {(host.photo || host.defaultPhoto) ? (
                         <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
-                          <img src={host.photo || host.defaultPhoto} alt={host.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                          <img src={host.photo || host.defaultPhoto} alt={host.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} onError={(e) => { const target = e.target as HTMLImageElement; target.style.display = 'none'; target.parentElement!.style.background = 'linear-gradient(135deg,#c2410c,#16a34a)'; target.parentElement!.style.display = 'flex'; target.parentElement!.style.alignItems = 'center'; target.parentElement!.style.justifyContent = 'center'; target.parentElement!.innerHTML = `<span style="color:#fff;font-weight:700;font-size:14px">${target.alt.charAt(0)}</span>`; }} />
                         </div>
                       ) : (
                         <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px dashed rgba(255,255,255,0.3)' }}>
@@ -1200,14 +1213,16 @@ export default function OfficeHours() {
 
           <div className="relative">
             {/* Edit button */}
-            <button
-              onClick={e => { e.stopPropagation(); setSessionEditing(ed => !ed); }}
-              className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-                sessionEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              }`}
-            >
-              <Edit2 className="h-4 w-4" />
-            </button>
+            {isTarak && (
+              <button
+                onClick={e => { e.stopPropagation(); setSessionEditing(ed => !ed); }}
+                className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
+                  sessionEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                }`}
+              >
+                <Edit2 className="h-4 w-4" />
+              </button>
+            )}
 
             <HorizontalSessionCard
               editing={sessionEditing}
