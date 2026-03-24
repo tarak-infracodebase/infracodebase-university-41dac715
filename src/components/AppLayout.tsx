@@ -1,28 +1,99 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  Home, LayoutDashboard, BookOpen, Trophy, Calendar,
+  Home, LayoutDashboard, Calendar,
   MessageSquare, Play, ChevronLeft, ChevronRight,
-  X, FolderOpen, Hammer, User, Radio, FileText, CreditCard, Compass,
-  Sun, Moon,
+  X, FolderOpen, Hammer, User, Radio, Compass,
+  Sun, Moon, Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { LogIn } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
-const navItems = [
-  { path: "/", label: "Home", icon: Home },
-  { path: "/manifesto", label: "Manifesto", icon: FileText },
-  { path: "/curriculum", label: "Training", icon: Compass },
-  { path: "/hands-on", label: "Hands-On", icon: Hammer },
-  { path: "/videos", label: "Video Library", icon: Play },
-  { path: "/office-hours", label: "Workshops", icon: Radio },
-  { path: "/events", label: "Events", icon: Calendar },
-  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/resources", label: "Resources", icon: FolderOpen },
+const navGroups = [
+  {
+    label: "Learn",
+    items: [
+      { path: "/", label: "Home", icon: Home },
+      { path: "/curriculum", label: "Curriculum", icon: Compass },
+      { path: "/hands-on", label: "Hands-On Training", icon: Hammer },
+      { path: "/videos", label: "Video Library", icon: Play },
+    ],
+  },
+  {
+    label: "Live",
+    items: [
+      { path: "/office-hours", label: "Workshops", icon: Radio },
+      { path: "/events", label: "Events", icon: Calendar },
+    ],
+  },
+  {
+    label: "Me",
+    items: [
+      { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { path: "/profile", label: "Profile", icon: User },
+      { path: "/resources", label: "Resources", icon: FolderOpen },
+    ],
+  },
 ];
+
+// Flat list for mobile nav
+const allNavItems = navGroups.flatMap(g => g.items);
+
+function SidebarGroupLabel({ label, first }: { label: string; first?: boolean }) {
+  return (
+    <div
+      style={{
+        fontSize: "9px",
+        fontWeight: 700,
+        letterSpacing: "0.12em",
+        textTransform: "uppercase" as const,
+        color: "#64748b",
+        padding: "0 8px",
+        marginBottom: "6px",
+        marginTop: first ? "0px" : "16px",
+      }}
+    >
+      {label}
+    </div>
+  );
+}
+
+function SidebarUserRow({ collapsed }: { collapsed: boolean }) {
+  const { user } = useUser();
+  if (!user) return null;
+
+  const initials = (user.firstName?.[0] || user.emailAddresses?.[0]?.emailAddress?.[0] || "U").toUpperCase();
+  const displayName = user.firstName || user.emailAddresses?.[0]?.emailAddress?.split("@")[0] || "User";
+
+  return (
+    <div
+      className="mx-2 mb-2 flex items-center gap-2.5"
+      style={{
+        background: "rgba(255,255,255,0.03)",
+        borderRadius: "8px",
+        padding: collapsed ? "8px 6px" : "8px 10px",
+      }}
+    >
+      <div className="h-7 w-7 shrink-0 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[11px] font-bold">
+        {initials}
+      </div>
+      {!collapsed && (
+        <div className="flex-1 min-w-0">
+          <p className="text-xs font-medium text-foreground truncate">{displayName}</p>
+          <div className="flex items-center gap-1.5">
+            <Zap className="h-2.5 w-2.5 text-crystal-yellow" />
+            <span className="text-[10px] text-muted-foreground">0 XP</span>
+            <span className="text-[10px] text-muted-foreground/50 mx-0.5">·</span>
+            <span className="text-[10px] text-muted-foreground">Learner</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const location = useLocation();
@@ -66,26 +137,34 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto custom-scrollbar">
-        {navItems.map(item => {
-          const isActive = location.pathname === item.path || 
-            (item.path !== "/" && location.pathname.startsWith(item.path));
-          return (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                isActive 
-                  ? "bg-primary/10 text-primary font-medium" 
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              )}
-            >
-              <item.icon className="h-4 w-4 shrink-0" />
-              {!collapsed && <span className="truncate">{item.label}</span>}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 py-3 px-2 overflow-y-auto custom-scrollbar">
+        {navGroups.map((group, gi) => (
+          <div key={group.label}>
+            {!collapsed && <SidebarGroupLabel label={group.label} first={gi === 0} />}
+            {collapsed && gi > 0 && <div className="my-2 mx-2 border-t border-border/30" />}
+            <div className="space-y-0.5">
+              {group.items.map(item => {
+                const isActive = location.pathname === item.path ||
+                  (item.path !== "/" && location.pathname.startsWith(item.path));
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                      isActive
+                        ? "bg-primary/10 text-primary font-medium"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    )}
+                  >
+                    <item.icon className="h-4 w-4 shrink-0" />
+                    {!collapsed && <span className="truncate">{item.label}</span>}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </nav>
 
       {/* Bottom actions */}
@@ -104,6 +183,13 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
           {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
           {!collapsed && <span>Collapse</span>}
         </button>
+      </div>
+
+      {/* Pinned user row */}
+      <div style={{ borderTop: "1px solid #1c2e47" }} className="py-2">
+        <SignedIn>
+          <SidebarUserRow collapsed={collapsed} />
+        </SignedIn>
       </div>
     </aside>
   );
@@ -134,6 +220,7 @@ export function MobileNav() {
           </span>
         </Link>
         <div className="flex items-center gap-2">
+          <XpPill />
           <ThemeToggleButton />
           <SignedIn>
             <UserButton
@@ -166,7 +253,7 @@ export function MobileNav() {
           <div className="absolute right-0 top-0 bottom-0 w-64 bg-card border-l border-border/50 p-4">
             <button onClick={() => setOpen(false)} className="absolute top-4 right-4 text-muted-foreground"><X className="h-5 w-5" /></button>
             <nav className="mt-12 space-y-1">
-              {navItems.map(item => (
+              {allNavItems.map(item => (
                 <Link
                   key={item.path}
                   to={item.path}
@@ -188,6 +275,31 @@ export function MobileNav() {
   );
 }
 
+function XpPill() {
+  return (
+    <SignedIn>
+      <div
+        className="flex items-center gap-1.5"
+        style={{
+          background: "rgba(34,211,238,0.08)",
+          border: "1px solid rgba(34,211,238,0.2)",
+          padding: "4px 10px",
+          borderRadius: "9999px",
+          fontSize: "11px",
+          fontWeight: 600,
+          color: "#22d3ee",
+        }}
+      >
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-400" />
+        </span>
+        0 XP
+      </div>
+    </SignedIn>
+  );
+}
+
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
@@ -200,6 +312,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       <MobileNav />
       {/* Desktop User Button / Sign In */}
       <div className="hidden lg:flex items-center gap-2 fixed top-4 right-6 z-50">
+        <XpPill />
         <ThemeToggleButton />
         <SignedIn>
           <UserButton

@@ -111,13 +111,13 @@ const LessonPage = () => {
               </section>
             )}
 
-            {/* Core Concepts */}
+          {/* Core Concepts */}
             <section className="mb-8">
               <div className="flex items-center gap-2 mb-3">
                 <BookOpen className="h-4 w-4 text-primary" />
                 <h2 className="text-base font-bold">Core Concepts</h2>
               </div>
-              <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+              <div className="prose-lecture whitespace-pre-line">
                 {lesson.coreConcepts.split('\n').map((para, i) => {
                   if (para.startsWith('**') && para.endsWith('**')) {
                     return <h3 key={i} className="text-foreground font-semibold mt-4 mb-1 font-mono text-xs">{para.replace(/\*\*/g, '')}</h3>;
