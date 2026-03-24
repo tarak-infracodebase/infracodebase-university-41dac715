@@ -108,26 +108,23 @@ const Curriculum = () => {
         {/* Guidance Banner */}
         {!bannerDismissed && (
           <div
-            className="mb-8 rounded-xl p-[1.5px]"
-            style={{ background: BANNER_GRADIENT }}
+            className="mb-8 rounded-xl border border-border bg-muted/60 px-5 py-4 flex items-center gap-4"
           >
-            <div className="rounded-[11px] bg-[#141414] px-5 py-4 flex items-center gap-4">
-              <HelpCircle className="h-5 w-5 shrink-0 text-[hsl(var(--muted-foreground))]" />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-[hsl(var(--foreground))]">Want help getting started?</p>
-                <p className="text-xs text-[hsl(var(--muted-foreground))] mt-0.5">Answer 3 quick questions and we'll frame the curriculum around where you are right now.</p>
-              </div>
-              <button
-                onClick={() => setQuizOpen(true)}
-                className="shrink-0 flex items-center gap-1.5 text-xs font-medium px-3 py-2 rounded-lg border border-[#333] text-[hsl(var(--foreground))] hover:border-[#555] transition-colors"
-              >
-                Get personalised guidance
-                <ArrowRight className="h-3.5 w-3.5" />
-              </button>
-              <button onClick={dismissBanner} className="shrink-0 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors">
-                <X className="h-4 w-4" />
-              </button>
+            <HelpCircle className="h-5 w-5 shrink-0 text-muted-foreground" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-foreground">Want help getting started?</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Answer 3 quick questions and we'll frame the curriculum around where you are right now.</p>
             </div>
+            <button
+              onClick={() => setQuizOpen(true)}
+              className="shrink-0 flex items-center gap-1.5 text-[13px] font-semibold px-4 py-2 rounded-lg bg-foreground text-background hover:opacity-90 transition-opacity"
+            >
+              Get personalised guidance
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+            <button onClick={dismissBanner} className="shrink-0 text-muted-foreground hover:text-foreground transition-colors">
+              <X className="h-4 w-4" />
+            </button>
           </div>
         )}
 
