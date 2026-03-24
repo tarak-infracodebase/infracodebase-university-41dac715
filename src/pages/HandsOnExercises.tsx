@@ -174,11 +174,11 @@ const HandsOnExercises = () => {
               <div
                 key={step.label}
                 className="rounded-xl p-4 text-center"
-                style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}
+                style={{ background: 'var(--bg-card)', border: '1px solid var(--border-themed)' }}
               >
-                <div className="text-[10px] font-mono mb-1" style={{ color: '#64748b' }}>Step {i + 1}</div>
-                <div className="text-sm font-semibold mb-1" style={{ color: '#f8fafc' }}>{step.label}</div>
-                <div className="text-[11px] leading-snug" style={{ color: '#94a3b8' }}>{step.description}</div>
+                <div className="text-[10px] font-mono mb-1" style={{ color: 'var(--text-muted)' }}>Step {i + 1}</div>
+                <div className="text-sm font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>{step.label}</div>
+                <div className="text-[11px] leading-snug" style={{ color: 'var(--text-secondary)' }}>{step.description}</div>
               </div>
             ))}
           </div>
@@ -188,7 +188,7 @@ const HandsOnExercises = () => {
         {prereqTracks.length > 0 && (
           <>
             <div className="flex items-center gap-3 mb-5">
-              <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: '#64748b' }}>Cloud & Infrastructure Prerequisites</span>
+              <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Cloud & Infrastructure Prerequisites</span>
               <div className="flex-1 h-px bg-border/50" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-10">
@@ -201,7 +201,7 @@ const HandsOnExercises = () => {
 
         {/* Divider */}
         <div className="flex items-center gap-3 mb-5">
-          <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: '#64748b' }}>Infracodebase Hands-On Training — begin after completing prerequisites</span>
+          <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Infracodebase Hands-On Training — begin after completing prerequisites</span>
           <div className="flex-1 h-px bg-border/50" />
         </div>
 
