@@ -1093,14 +1093,16 @@ export default function OfficeHours() {
           <div style={{ height: '4px', background: SPECTRUM_GRADIENT, borderRadius: '14px 14px 0 0' }} />
 
           {/* Edit button */}
-          <button
-            onClick={() => setHeroEditing(e => !e)}
-            className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-              heroEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-            }`}
-          >
-            <Edit2 className="h-4 w-4" />
-          </button>
+          {isTarak && (
+            <button
+              onClick={() => setHeroEditing(e => !e)}
+              className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
+                heroEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              <Edit2 className="h-4 w-4" />
+            </button>
+          )}
 
           <div className="p-6 lg:p-8 flex flex-col lg:flex-row gap-8">
             <div className="flex-1 space-y-4">
