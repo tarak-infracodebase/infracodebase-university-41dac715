@@ -1142,7 +1142,7 @@ export default function OfficeHours() {
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hosted by</p>
               <div className="space-y-4">
                 {([
-                  { name: "Justin", initial: "J", defaultPhoto: "/Justin.jpeg", title: "Founder, Infracodebase", photo: justinPhoto, setter: setJustinPhoto, uploadId: "upload-justin" },
+                  { name: "Justin", initial: "J", defaultPhoto: "/justin.jpeg", title: "Founder, Infracodebase", photo: justinPhoto, setter: setJustinPhoto, uploadId: "upload-justin" },
                   { name: "Tarak", initial: "T", defaultPhoto: "/Tarak.jpeg", title: "Co-Founder, Infracodebase", photo: tarakPhoto, setter: setTarakPhoto, uploadId: "upload-tarak" },
                 ] as const).map(host => (
                   <div key={host.name} className="flex items-center gap-3">
