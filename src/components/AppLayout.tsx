@@ -15,15 +15,12 @@ import { useTheme } from "@/contexts/ThemeContext";
 const navItems = [
   { path: "/", label: "Home", icon: Home },
   { path: "/manifesto", label: "Manifesto", icon: FileText },
-  { path: "/cards", label: "Your membership card", icon: CreditCard },
   { path: "/curriculum", label: "Training", icon: Compass },
   { path: "/hands-on", label: "Hands-On", icon: Hammer },
   { path: "/videos", label: "Video Library", icon: Play },
   { path: "/office-hours", label: "Workshops", icon: Radio },
   { path: "/events", label: "Events", icon: Calendar },
-  { path: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/profile", label: "Profile", icon: User },
   { path: "/resources", label: "Resources", icon: FolderOpen },
 ];
 
