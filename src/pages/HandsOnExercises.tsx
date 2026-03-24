@@ -52,7 +52,8 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
     <Link
       key={track.id}
       to={`/hands-on/${track.id}`}
-      className="group rounded-xl border border-border/50 bg-card/30 hover:bg-card/60 p-6 transition-all hover:shadow-md hover:border-border"
+      className="group rounded-xl p-6 transition-all hover:shadow-md"
+      style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}
     >
       <div className="flex items-center gap-2 mb-4">
         <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
@@ -63,11 +64,11 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
           {track.level}
         </span>
       </div>
-      <h3 className="font-bold text-base mb-2">{track.title}</h3>
-      <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-2">
+      <h3 className="font-bold text-base mb-2" style={{ color: '#f8fafc' }}>{track.title}</h3>
+      <p className="text-xs leading-relaxed mb-4 line-clamp-2" style={{ color: '#94a3b8' }}>
         {track.description}
       </p>
-      <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+      <div className="flex items-center justify-between text-[11px]" style={{ color: '#64748b' }}>
         <span className="flex items-center gap-1">
           <BookOpen className="h-3 w-3" />
           {track.moduleCount} Modules
@@ -81,8 +82,8 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
         {track.modules.map((_, i) => (
           <div
             key={i}
-            className="h-5 w-5 rounded-full border-2 border-background flex items-center justify-center text-[8px] font-bold"
-            style={{ background: track.accentColor, color: track.color }}
+            className="h-5 w-5 rounded-full flex items-center justify-center text-[8px] font-bold"
+            style={{ background: '#1e3a5f', color: '#7dd3fc', border: '1px solid #2a5080' }}
           >
             {i + 1}
           </div>
@@ -130,17 +131,17 @@ const HandsOnExercises = () => {
              </div>
              <span
                className="text-[10px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full inline-block mb-2"
-               style={{ background: featuredTrack.accentColor, color: featuredTrack.color }}
+               style={{ color: '#94a3b8', border: '1px solid #94a3b8', background: 'transparent' }}
              >
                Your Learning Path
              </span>
             <h2 className="text-2xl lg:text-3xl font-bold mb-2" style={{ color: featuredTrack.color }}>
               {featuredTrack.title}
             </h2>
-            <p className="text-muted-foreground text-sm mb-5 max-w-xl">
+             <p className="text-sm mb-5 max-w-xl" style={{ color: '#94a3b8' }}>
               {featuredTrack.description}
             </p>
-            <div className="flex items-center gap-6 text-xs text-muted-foreground mb-6">
+             <div className="flex items-center gap-6 text-xs mb-6" style={{ color: '#64748b' }}>
               <span className="flex items-center gap-1.5">
                 <Layers className="h-3.5 w-3.5" />
                 Module 1 / {featuredTrack.moduleCount} — {featuredTrack.modules[0]?.title}
@@ -151,8 +152,8 @@ const HandsOnExercises = () => {
                 {featuredTrack.modules.map((_, i) => (
                   <div
                     key={i}
-                    className="h-6 w-6 rounded-full border-2 border-background flex items-center justify-center text-[9px] font-bold"
-                    style={{ background: featuredTrack.accentColor, color: featuredTrack.color }}
+                    className="h-6 w-6 rounded-full flex items-center justify-center text-[9px] font-bold"
+                    style={{ background: '#1e3a5f', color: '#7dd3fc', border: '1px solid #2a5080' }}
                   >
                     {i + 1}
                   </div>
@@ -172,11 +173,12 @@ const HandsOnExercises = () => {
             {methodSteps.map((step, i) => (
               <div
                 key={step.label}
-                className="rounded-xl border border-border/50 bg-card/50 p-4 text-center"
+                className="rounded-xl p-4 text-center"
+                style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}
               >
-                <div className="text-[10px] font-mono text-muted-foreground mb-1">Step {i + 1}</div>
-                <div className="text-sm font-semibold mb-1">{step.label}</div>
-                <div className="text-[11px] text-muted-foreground leading-snug">{step.description}</div>
+                <div className="text-[10px] font-mono mb-1" style={{ color: '#64748b' }}>Step {i + 1}</div>
+                <div className="text-sm font-semibold mb-1" style={{ color: '#f8fafc' }}>{step.label}</div>
+                <div className="text-[11px] leading-snug" style={{ color: '#94a3b8' }}>{step.description}</div>
               </div>
             ))}
           </div>
@@ -186,7 +188,7 @@ const HandsOnExercises = () => {
         {prereqTracks.length > 0 && (
           <>
             <div className="flex items-center gap-3 mb-5">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Cloud & Infrastructure Prerequisites</span>
+              <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: '#64748b' }}>Cloud & Infrastructure Prerequisites</span>
               <div className="flex-1 h-px bg-border/50" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-10">
@@ -199,7 +201,7 @@ const HandsOnExercises = () => {
 
         {/* Divider */}
         <div className="flex items-center gap-3 mb-5">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Infracodebase Hands-On Training — begin after completing prerequisites</span>
+          <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: '#64748b' }}>Infracodebase Hands-On Training — begin after completing prerequisites</span>
           <div className="flex-1 h-px bg-border/50" />
         </div>
 
