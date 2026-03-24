@@ -233,13 +233,21 @@ function Lightbox({
           <X className="h-5 w-5" /> Close
         </button>
         <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '14px', fontWeight: 500 }}>{index + 1} / {total}</span>
-        <div style={{ position: 'relative' }}>
-          <button
-            onClick={() => setShareOpen(v => !v)}
-            style={{ display: 'flex', alignItems: 'center', gap: '8px', background: shareOpen ? '#2d3748' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '10px', padding: '8px 14px', cursor: 'pointer', color: '#fff', fontSize: '14px', fontWeight: 500 }}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <a
+            href={images[index].src}
+            download={`infracodebase-workshop-${index + 1}.jpg`}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '10px', padding: '8px 14px', cursor: 'pointer', color: '#fff', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}
           >
-            <Share2 className="h-4 w-4" /> Share
-          </button>
+            <Download className="h-4 w-4" /> Download
+          </a>
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setShareOpen(v => !v)}
+              style={{ display: 'flex', alignItems: 'center', gap: '8px', background: shareOpen ? '#2d3748' : 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '10px', padding: '8px 14px', cursor: 'pointer', color: '#fff', fontSize: '14px', fontWeight: 500 }}
+            >
+              <Share2 className="h-4 w-4" /> Share
+            </button>
           {shareOpen && (
             <>
               <div onClick={() => setShareOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 1999 }} />
