@@ -204,6 +204,27 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
     );
   }
 
+  /* Lecture / reading typography */
+  .prose-lecture {
+    font-size: 16px;
+    line-height: 1.85;
+    color: #dde4ef;
+  }
+
+  .prose-lecture pre,
+  .prose-lecture code {
+    background: #0a0e14;
+    border: 1px solid #1c2e47;
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .prose-lecture code {
+    padding: 2px 6px;
+  }
+
   /* Scrollbar styling */
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
