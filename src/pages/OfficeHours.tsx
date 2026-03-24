@@ -824,7 +824,7 @@ function SessionModal({
       text: 'The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works.',
       upvotes: 9,
       answered: '38:22',
-      reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: '/Justin.jpeg', text: "Glad it clicked! We covered compliance scoring at 38:22 in the recording — definitely rewatch that section, there's a lot of detail in there.", upvotes: 6 }
+      reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: '/justin.jpeg', text: "Glad it clicked! We covered compliance scoring at 38:22 in the recording — definitely rewatch that section, there's a lot of detail in there.", upvotes: 6 }
     },
     {
       name: 'Abby', date: 'March 18, 2026', avatar: '/Abby.jpeg',
@@ -1014,7 +1014,7 @@ function HorizontalSessionCard({
 /* ── Main Page ── */
 export default function OfficeHours() {
   const { user } = useUser();
-  const isTarak = user?.id === 'user_2xTarak';
+  const isTarak = user?.emailAddresses?.some(e => e.emailAddress === 'tarak@infracodebase.com');
   const [question, setQuestion] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -1142,7 +1142,7 @@ export default function OfficeHours() {
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hosted by</p>
               <div className="space-y-4">
                 {([
-                  { name: "Justin", initial: "J", defaultPhoto: "/Justin.jpeg", title: "Founder, Infracodebase", photo: justinPhoto, setter: setJustinPhoto, uploadId: "upload-justin" },
+                  { name: "Justin", initial: "J", defaultPhoto: "/justin.jpeg", title: "Founder, Infracodebase", photo: justinPhoto, setter: setJustinPhoto, uploadId: "upload-justin" },
                   { name: "Tarak", initial: "T", defaultPhoto: "/Tarak.jpeg", title: "Co-Founder, Infracodebase", photo: tarakPhoto, setter: setTarakPhoto, uploadId: "upload-tarak" },
                 ] as const).map(host => (
                   <div key={host.name} className="flex items-center gap-3">
