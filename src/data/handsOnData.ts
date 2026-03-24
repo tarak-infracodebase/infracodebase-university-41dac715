@@ -44,7 +44,7 @@ export const handsOnTracks: HandsOnTrack[] = [
     description: "Learn how to set up your environment, interact with the agent, and build the habits that separate casual users from real engineers.",
     level: "Beginner",
     curriculumTrackId: "foundations",
-    color: "hsl(145, 60%, 45%)",
+    color: "#5eead4",
     accentColor: "hsl(145, 60%, 92%)",
     moduleCount: 2,
     estimatedHours: 2.5,
