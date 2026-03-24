@@ -282,6 +282,7 @@ function Lightbox({
               </div>
             </>
           )}
+          </div>
         </div>
       </div>
 
