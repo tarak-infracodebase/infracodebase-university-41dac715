@@ -6,6 +6,11 @@ html, body, #root {
   color-scheme: dark;
 }
 
+html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"] #root {
+  background-color: #f8fafc !important;
+  color-scheme: light;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -16,6 +21,16 @@ html, body, #root {
   :root {
     --background: 228 30% 6%;
     --foreground: 210 20% 96%;
+
+    --bg-primary: #0a0f1a;
+    --bg-secondary: #0f1724;
+    --bg-card: #141f2e;
+    --border-themed: #1e3a5f;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --text-accent: #5eead4;
+    --text-link: #7dd3fc;
 
     --card: 228 24% 10%;
     --card-foreground: 210 20% 96%;
@@ -65,7 +80,7 @@ html, body, #root {
     --crystal-red: 0 72% 55%;
   }
 
-  .light {
+  .light, [data-theme="light"] {
     --background: 0 0% 98%;
     --foreground: 228 20% 12%;
 
@@ -104,6 +119,16 @@ html, body, #root {
     --sidebar-ring: 260 70% 58%;
 
     --surface: 0 0% 100%;
+
+    --bg-primary: #f8fafc;
+    --bg-secondary: #f1f5f9;
+    --bg-card: #ffffff;
+    --border-themed: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-accent: #0f766e;
+    --text-link: #0369a1;
   }
 }
 
