@@ -12,11 +12,12 @@ import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { LogIn } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 
+const homeItem = { path: "/", label: "Home", icon: Home };
+
 const navGroups = [
   {
     label: "Learn",
     items: [
-      { path: "/", label: "Home", icon: Home },
       { path: "/curriculum", label: "Curriculum", icon: Compass },
       { path: "/hands-on", label: "Hands-On Training", icon: Hammer },
       { path: "/videos", label: "Video Library", icon: Play },
@@ -40,7 +41,7 @@ const navGroups = [
 ];
 
 // Flat list for mobile nav
-const allNavItems = navGroups.flatMap(g => g.items);
+const allNavItems = [homeItem, ...navGroups.flatMap(g => g.items)];
 
 function SidebarGroupLabel({ label, first }: { label: string; first?: boolean }) {
   return (
@@ -138,6 +139,21 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
 
       {/* Nav */}
       <nav className="flex-1 py-3 px-2 overflow-y-auto custom-scrollbar">
+        {/* Home — standalone above groups */}
+        <div style={{ marginBottom: 16 }}>
+          <Link
+            to={homeItem.path}
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+              location.pathname === homeItem.path
+                ? "bg-primary/10 text-primary font-medium"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            )}
+          >
+            <homeItem.icon className="h-4 w-4 shrink-0" />
+            {!collapsed && <span className="truncate">{homeItem.label}</span>}
+          </Link>
+        </div>
         {navGroups.map((group, gi) => (
           <div key={group.label}>
             {!collapsed && <SidebarGroupLabel label={group.label} first={gi === 0} />}
