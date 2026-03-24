@@ -9,6 +9,40 @@ import {
 
 const SPECTRUM_GRADIENT = "linear-gradient(135deg, #c2410c, #d97706, #ca8a04, #16a34a, #0891b2)";
 
+const JUSTIN_AVATAR = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4OCIgaGVpZ2h0PSI4OCIgdmlld0JveD0iMCAwIDg4IDg4IiBmaWxsPSJub25lIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSI4IiB5MT0iNiIgeDI9IjgwIiB5Mj0iODIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBzdG9wLWNvbG9yPSIjMGY3NjZlIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMTU1ZTc1Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9Ijg4IiBoZWlnaHQ9Ijg4IiByeD0iNDQiIGZpbGw9InVybCgjZykiLz48Y2lyY2xlIGN4PSI0NCIgY3k9IjM0IiByPSIxNiIgZmlsbD0iI0UyRjhGNyIgZmlsbC1vcGFjaXR5PSIwLjk1Ii8+PHBhdGggZD0iTTIwIDc2YzQtMTQgMTYtMjIgMjQtMjJzMjAgOCAyNCAyMiIgZmlsbD0iI0UyRjhGNyIgZmlsbC1vcGFjaXR5PSIwLjk1Ii8+PHRleHQgeD0iNDQiIHk9IjgyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iOSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZmZmZiIgbGV0dGVyLXNwYWNpbmc9IjEuMiI+SlVTVElOPC90ZXh0Pjwvc3ZnPg==";
+const TARAK_AVATAR = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4OCIgaGVpZ2h0PSI4OCIgdmlld0JveD0iMCAwIDg4IDg4IiBmaWxsPSJub25lIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIxMCIgeTE9IjgiIHgyPSI3OCIgeTI9IjgwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iIzlhMzQxMiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzE2NjUzNCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHdpZHRoPSI4OCIgaGVpZ2h0PSI4OCIgcng9IjQ0IiBmaWxsPSJ1cmwoI2cpIi8+PGNpcmNsZSBjeD0iNDQiIGN5PSIzMiIgcj0iMTUiIGZpbGw9IiNGRkYxRTgiIGZpbGwtb3BhY2l0eT0iMC45NiIvPjxwYXRoIGQ9Ik0xOCA3NmM1LTE1IDE3LTIzIDI2LTIzczIxIDggMjYgMjMiIGZpbGw9IiNGRkYxRTgiIGZpbGwtb3BhY2l0eT0iMC45NiIvPjx0ZXh0IHg9IjQ0IiB5PSI4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmZmZmIiBsZXR0ZXItc3BhY2luZz0iMS4zIj5UQVJBSzwvdGV4dD48L3N2Zz4=";
+
+const HOSTS = [
+  { name: "Justin", initial: "J", role: "Founder, Infracodebase", avatar: JUSTIN_AVATAR },
+  { name: "Tarak", initial: "T", role: "Co-Founder, Infracodebase", avatar: TARAK_AVATAR },
+] as const;
+
+function applyAvatarFallback(target: HTMLImageElement, name: string, size: number, border?: string) {
+  target.style.display = "none";
+
+  const parent = target.parentElement;
+  if (!parent || parent.querySelector('[data-avatar-fallback="true"]')) return;
+
+  parent.style.width = `${size}px`;
+  parent.style.height = `${size}px`;
+  parent.style.borderRadius = "50%";
+  parent.style.overflow = "hidden";
+  parent.style.background = "linear-gradient(135deg,#c2410c,#16a34a)";
+  parent.style.display = "flex";
+  parent.style.alignItems = "center";
+  parent.style.justifyContent = "center";
+
+  if (border) {
+    parent.style.border = border;
+  }
+
+  const span = document.createElement("span");
+  span.setAttribute("data-avatar-fallback", "true");
+  span.style.cssText = `color:#fff;font-weight:700;font-size:${Math.max(12, Math.round(size * 0.36))}px;`;
+  span.textContent = name.charAt(0);
+  parent.appendChild(span);
+}
+
 const INITIAL_SESSION_NOTES = `<h2>Build with Her — March 18, 2026 — 49m 36s</h2>
 <h3>Facilitators</h3>
 <p>Justin O'Connor, Tarak</p>
@@ -602,9 +636,9 @@ function NotesEditor({
 
 /* ── Session Modal ── */
 function SessionModal({
-  open, onClose, screenshots: shots,
+  open, onClose, screenshots: shots, isTarak,
 }: {
-  open: boolean; onClose: () => void; screenshots: { src: string; caption: string }[];
+  open: boolean; onClose: () => void; screenshots: { src: string; caption: string }[]; isTarak: boolean;
 }) {
   const [tab, setTab] = useState<"recording" | "screenshots" | "notes">("recording");
   const [screenshotIdx, setScreenshotIdx] = useState(0);
@@ -641,8 +675,8 @@ function SessionModal({
   if (!open) return null;
 
   const avatarData = [
-    { name: "Justin", initial: "J", photo: justinPhoto, setter: setJustinPhotoState, ref: justinRef, key: 'office-hours-photo-justin' },
-    { name: "Tarak", initial: "T", photo: tarakPhoto, setter: setTarakPhotoState, ref: tarakRef, key: 'office-hours-photo-tarak' },
+    { ...HOSTS[0], photo: justinPhoto, setter: setJustinPhotoState, ref: justinRef, key: 'office-hours-photo-justin' },
+    { ...HOSTS[1], photo: tarakPhoto, setter: setTarakPhotoState, ref: tarakRef, key: 'office-hours-photo-tarak' },
   ];
 
   return (
@@ -659,24 +693,27 @@ function SessionModal({
             <div className="flex items-center gap-3 mb-1">
               <div className="flex -space-x-2">
                 {avatarData.map(av => (
-                  <div key={av.name} style={{ position: 'relative', cursor: 'pointer' }} onClick={() => av.ref.current?.click()}>
-                    {av.photo ? (
-                      <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
-                        <img src={av.photo} alt={av.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                      </div>
-                    ) : (
-                      <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px solid #1c2e47' }}>
-                        {av.initial}
-                      </div>
-                    )}
-                    <div
-                      style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s' }}
-                      onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-                      onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
-                    >
-                      <span style={{ color: '#fff', fontSize: '8px', fontWeight: 700 }}>EDIT</span>
+                  <div key={av.name} style={{ position: 'relative', cursor: isTarak ? 'pointer' : 'default' }} onClick={() => isTarak && av.ref.current?.click()}>
+                    <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
+                      <img
+                        src={av.photo || av.avatar}
+                        alt={av.name}
+                        style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', display: 'block' }}
+                        onError={(e) => applyAvatarFallback(e.currentTarget, av.name, 36, '2px solid #1c2e47')}
+                      />
                     </div>
-                    <input ref={av.ref} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleAvatarUpload(e, av.key, av.setter)} />
+                    {isTarak && (
+                      <>
+                        <div
+                          style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s' }}
+                          onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                          onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
+                        >
+                          <span style={{ color: '#fff', fontSize: '8px', fontWeight: 700 }}>EDIT</span>
+                        </div>
+                        <input ref={av.ref} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleAvatarUpload(e, av.key, av.setter)} />
+                      </>
+                    )}
                   </div>
                 ))}
               </div>
@@ -759,10 +796,10 @@ function SessionModal({
                   ) : (
                     <>
                       <span>{captions[screenshotIdx]}</span>
-                      <button onClick={() => setCaptionEditing(true)} className="p-1 rounded hover:bg-white/10 text-muted-foreground"><Edit2 className="h-3 w-3" /></button>
+                      {isTarak && <button onClick={() => setCaptionEditing(true)} className="p-1 rounded hover:bg-white/10 text-muted-foreground"><Edit2 className="h-3 w-3" /></button>}
                     </>
                   )}
-                  {captionEditing && (
+                  {captionEditing && isTarak && (
                     <button onClick={() => setCaptionEditing(false)} className="p-1 rounded hover:bg-white/10 text-cyan-400"><Check className="h-3 w-3" /></button>
                   )}
                 </div>
@@ -812,7 +849,7 @@ function SessionModal({
       name: 'Comfort Benton', date: 'March 18, 2026', avatar: '/Comfort_Benton.jpeg',
       text: 'This session completely changed how I think about cloud infrastructure. The ClickOps to IaC demo was eye-opening.',
       upvotes: 12,
-      reply: { name: 'Tarak', badge: 'Host', badgeColor: 'linear-gradient(90deg,#f5821f,#16a34a)', ring: '#f5821f', avatar: '/Tarak.jpeg', text: "Thanks Comfort! The live mapping of existing infra is one of my favourite moments to demo — glad it landed. Next session we'll go even deeper on the remediation side.", upvotes: 4 }
+      reply: { name: 'Tarak', badge: 'Host', badgeColor: 'linear-gradient(90deg,#f5821f,#16a34a)', ring: '#f5821f', avatar: TARAK_AVATAR, text: "Thanks Comfort! The live mapping of existing infra is one of my favourite moments to demo — glad it landed. Next session we'll go even deeper on the remediation side.", upvotes: 4 }
     },
     {
       name: 'Tawni', date: 'March 18, 2026', avatar: '/Tawni.jpeg',
@@ -824,7 +861,7 @@ function SessionModal({
       text: 'The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works.',
       upvotes: 9,
       answered: '38:22',
-      reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: '/justin.jpeg', text: "Glad it clicked! We covered compliance scoring at 38:22 in the recording — definitely rewatch that section, there's a lot of detail in there.", upvotes: 6 }
+      reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: JUSTIN_AVATAR, text: "Glad it clicked! We covered compliance scoring at 38:22 in the recording — definitely rewatch that section, there's a lot of detail in there.", upvotes: 6 }
     },
     {
       name: 'Abby', date: 'March 18, 2026', avatar: '/Abby.jpeg',
@@ -851,7 +888,9 @@ function SessionModal({
           {c.reply && (
             <div style={{ marginTop: '12px', paddingLeft: '12px', borderLeft: '2px solid #1c2e47' }}>
               <div style={{ display: 'flex', gap: '10px' }}>
-                <img src={c.reply.avatar} alt={c.reply.name} style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0, boxShadow: `0 0 0 2px ${c.reply.ring}` }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, boxShadow: `0 0 0 2px ${c.reply.ring}` }}>
+                  <img src={c.reply.avatar} alt={c.reply.name} style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover', display: 'block' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.reply.name, 28)} />
+                </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px', flexWrap: 'wrap' }}>
                     <span style={{ fontSize: '13px', fontWeight: 700, color: '#f1f5f9' }}>{c.reply.name}</span>
@@ -1066,6 +1105,11 @@ export default function OfficeHours() {
     setTimeout(() => setSubmitted(false), 4000);
   };
 
+  const hostedByData = [
+    { ...HOSTS[0], photo: justinPhoto, setter: setJustinPhoto, uploadId: "upload-justin" },
+    { ...HOSTS[1], photo: tarakPhoto, setter: setTarakPhoto, uploadId: "upload-tarak" },
+  ] as const;
+
   return (
     <AppLayout>
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-10 space-y-10">
@@ -1141,21 +1185,12 @@ export default function OfficeHours() {
             <div className="shrink-0 rounded-lg border border-border/30 bg-white/[0.03] p-5 space-y-4" style={{ minWidth: '300px' }}>
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hosted by</p>
               <div className="space-y-4">
-                {([
-                  { name: "Justin", initial: "J", defaultPhoto: "/justin.jpeg", title: "Founder, Infracodebase", photo: justinPhoto, setter: setJustinPhoto, uploadId: "upload-justin" },
-                  { name: "Tarak", initial: "T", defaultPhoto: "/Tarak.jpeg", title: "Co-Founder, Infracodebase", photo: tarakPhoto, setter: setTarakPhoto, uploadId: "upload-tarak" },
-                ] as const).map(host => (
+                {hostedByData.map(host => (
                   <div key={host.name} className="flex items-center gap-3">
                     <div style={{ position: 'relative' }}>
-                      {(host.photo || host.defaultPhoto) ? (
-                        <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
-                          <img src={host.photo || host.defaultPhoto} alt={host.name} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', display: 'block' }} onError={(e) => { const target = e.target as HTMLImageElement; target.style.display = 'none'; target.parentElement!.style.background = 'linear-gradient(135deg,#c2410c,#16a34a)'; target.parentElement!.style.display = 'flex'; target.parentElement!.style.alignItems = 'center'; target.parentElement!.style.justifyContent = 'center'; target.parentElement!.innerHTML = `<span style="color:#fff;font-weight:700;font-size:14px">${target.alt.charAt(0)}</span>`; }} />
-                        </div>
-                      ) : (
-                        <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px dashed rgba(255,255,255,0.3)' }}>
-                          {host.initial}
-                        </div>
-                      )}
+                      <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
+                        <img src={host.photo || host.avatar} alt={host.name} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', display: 'block' }} onError={(e) => applyAvatarFallback(e.currentTarget, host.name, 44, '2px solid #1c2e47')} />
+                      </div>
                       {isTarak && (
                         <>
                           <div
@@ -1172,7 +1207,7 @@ export default function OfficeHours() {
                     </div>
                     <div>
                       <p className="text-sm font-medium text-foreground">{host.name}</p>
-                      <p className="text-xs text-muted-foreground">{host.title}</p>
+                      <p className="text-xs text-muted-foreground">{host.role}</p>
                     </div>
                   </div>
                 ))}
@@ -1240,7 +1275,7 @@ export default function OfficeHours() {
         </section>
       </div>
 
-      <SessionModal open={modalOpen} onClose={() => setModalOpen(false)} screenshots={initialScreenshots} />
+      <SessionModal open={modalOpen} onClose={() => setModalOpen(false)} screenshots={initialScreenshots} isTarak={Boolean(isTarak)} />
     </AppLayout>
   );
 }
