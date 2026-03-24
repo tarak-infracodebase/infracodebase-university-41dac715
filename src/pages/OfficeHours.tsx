@@ -824,7 +824,7 @@ function SessionModal({
       text: 'The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works.',
       upvotes: 9,
       answered: '38:22',
-      reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: '/Justin.jpeg', text: "Glad it clicked! We covered compliance scoring at 38:22 in the recording — definitely rewatch that section, there's a lot of detail in there.", upvotes: 6 }
+      reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: '/justin.jpeg', text: "Glad it clicked! We covered compliance scoring at 38:22 in the recording — definitely rewatch that section, there's a lot of detail in there.", upvotes: 6 }
     },
     {
       name: 'Abby', date: 'March 18, 2026', avatar: '/Abby.jpeg',
