@@ -1148,7 +1148,7 @@ export default function OfficeHours() {
                     >
                       {(host.photo || host.defaultPhoto) ? (
                         <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
-                          <img src={host.photo || host.defaultPhoto} alt={host.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                          <img src={host.photo || host.defaultPhoto} alt={host.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} onError={(e) => { const target = e.target as HTMLImageElement; target.style.display = 'none'; target.parentElement!.style.background = 'linear-gradient(135deg,#c2410c,#16a34a)'; target.parentElement!.style.display = 'flex'; target.parentElement!.style.alignItems = 'center'; target.parentElement!.style.justifyContent = 'center'; target.parentElement!.innerHTML = `<span style="color:#fff;font-weight:700;font-size:14px">${target.alt.charAt(0)}</span>`; }} />
                         </div>
                       ) : (
                         <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: SPECTRUM_GRADIENT, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px', fontWeight: 800, color: '#fff', flexShrink: 0, border: '2px dashed rgba(255,255,255,0.3)' }}>
