@@ -8,7 +8,7 @@ const SignUpPage = () => {
         routing="path"
         path="/sign-up"
         signInUrl="/sign-in"
-        afterSignUpUrl="/curriculum"
+        afterSignUpUrl="/training"
         appearance={{
           baseTheme: dark,
           variables: {

@@ -103,6 +103,7 @@ const Curriculum = () => {
         <div className="mb-8">
           <h1 className="text-2xl font-bold mb-1">Training</h1>
           <p className="text-sm text-muted-foreground">Browse the complete Infracodebase learning program</p>
+          <title>Training | Infracodebase University</title>
         </div>
 
         {/* Guidance Banner */}
