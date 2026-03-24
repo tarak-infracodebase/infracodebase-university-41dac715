@@ -216,7 +216,7 @@ const HandsOnModulePage = () => {
                     window.scrollTo(0, 0);
                   }}
                   className="flex items-center gap-2 text-xs font-medium transition-colors"
-                  style={{ color: track.color }}
+                  style={{ color: '#5eead4' }}
                 >
                   Continue my training <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
@@ -225,7 +225,7 @@ const HandsOnModulePage = () => {
                   to={`/hands-on/${nextTrack.id}`}
                   onClick={() => window.scrollTo(0, 0)}
                   className="flex items-center gap-2 text-xs font-medium transition-colors"
-                  style={{ color: nextTrack.color }}
+                  style={{ color: '#5eead4' }}
                 >
                   Continue my training → {nextTrack.title} <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
