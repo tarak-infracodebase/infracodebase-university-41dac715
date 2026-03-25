@@ -1429,74 +1429,32 @@ export default function OfficeHours() {
           <h2 className="text-2xl font-bold text-foreground mb-1">Past Sessions</h2>
           <p className="text-sm text-muted-foreground mb-6">Click any session to watch the recording, relive our moments, and read the notes.</p>
 
-          <div className="space-y-4">
-            {/* Workshop 2 — March 25, 2026 (newest first) */}
-            <div className="relative">
-              {isTarak && (
-                <button
-                  onClick={e => { e.stopPropagation(); setSession2Editing(ed => !ed); }}
-                  className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-                    session2Editing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                  }`}
-                >
-                  <Edit2 className="h-4 w-4" />
-                </button>
-              )}
-              <HorizontalSessionCard
-                editing={session2Editing}
-                onClick={() => setModal2Open(true)}
-                sessionTitle={session2Title}
-                setSessionTitle={setSession2Title}
-                sessionDesc={session2Desc}
-                setSessionDesc={setSession2Desc}
-                sessionDate={session2Date}
-                setSessionDate={setSession2Date}
-                tagLabel="Cross-cloud"
-                tagColor="rgba(96,165,250,0.15)"
-                tagTextColor="#60a5fa"
-                duration="56m 46s"
-                customThumbnail={
-                  <WorkshopThumbnailPanel
-                    title={"Weekly Workshop —\nMigrating Azure Infrastructure\nto AWS and GCP"}
-                    date="March 25, 2026"
-                  />
-                }
-              />
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'stretch' }}>
+            {/* Workshop 2 — March 25, 2026 (newest first / left) */}
+            <WorkshopCard
+              gradient="linear-gradient(135deg, #1d4ed8 0%, #7c3aed 55%, #16653a 100%)"
+              thumbTitle="Migrating Azure Infrastructure to AWS and GCP"
+              date="March 25, 2026"
+              duration="56m 46s"
+              detailTitle="Build with Her — Migrating Azure to AWS and GCP"
+              facilitators="Tarak & Justin O'Connor"
+              tagLabel="Cross-cloud"
+              tagStyle={{ background: 'rgba(91,106,245,0.15)', color: '#8b9cff', border: '0.5px solid rgba(91,106,245,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '10px', fontWeight: 500 }}
+              onClick={() => setModal2Open(true)}
+            />
 
-            {/* Workshop 1 — March 18, 2026 */}
-            <div className="relative">
-              {isTarak && (
-                <button
-                  onClick={e => { e.stopPropagation(); setSessionEditing(ed => !ed); }}
-                  className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-                    sessionEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                  }`}
-                >
-                  <Edit2 className="h-4 w-4" />
-                </button>
-              )}
-              <HorizontalSessionCard
-                editing={sessionEditing}
-                onClick={() => setModalOpen(true)}
-                sessionTitle={sessionTitle}
-                setSessionTitle={setSessionTitle}
-                sessionDesc={sessionDesc}
-                setSessionDesc={setSessionDesc}
-                sessionDate={sessionDate}
-                setSessionDate={setSessionDate}
-                tagLabel="Azure"
-                tagColor="rgba(0, 120, 212, 0.15)"
-                tagTextColor="#60a9ff"
-                tagBorder="0.5px solid rgba(0, 120, 212, 0.3)"
-                customThumbnail={
-                  <WorkshopThumbnailPanel
-                    title={"Weekly Workshop —\nClickOps to IaC:\nAzure Infrastructure"}
-                    date="March 18, 2026"
-                  />
-                }
-              />
-            </div>
+            {/* Workshop 1 — March 18, 2026 (older / right) */}
+            <WorkshopCard
+              gradient="linear-gradient(135deg, #7c3aed 0%, #db2877 55%, #ea580c 100%)"
+              thumbTitle="ClickOps to IaC: Azure Infrastructure"
+              date="March 18, 2026"
+              duration="49 min"
+              detailTitle="Build with Her — ClickOps to IaC: Azure Infrastructure Modernization"
+              facilitators="Tarak & Justin O'Connor"
+              tagLabel="Azure"
+              tagStyle={{ background: 'rgba(0,120,212,0.15)', color: '#60a9ff', border: '0.5px solid rgba(0,120,212,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '10px', fontWeight: 500 }}
+              onClick={() => setModalOpen(true)}
+            />
           </div>
         </section>
       </div>
