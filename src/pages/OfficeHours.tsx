@@ -1403,32 +1403,6 @@ export default function OfficeHours() {
           </div>
         </section>
 
-        {/* ── SECTION 2 — QUESTION SUBMISSION ── */}
-        <section className="rounded-xl border border-border/50 p-6" style={{ background: "#0d0d0d" }}>
-          <h2 className="text-lg font-semibold text-foreground mb-1">Submit a question</h2>
-          <p className="text-sm text-muted-foreground mb-4">Ask anything — we'll cover it during the next live session.</p>
-          <div className="flex gap-3">
-            <input
-              type="text"
-              value={question}
-              onChange={e => setQuestion(e.target.value)}
-              onKeyDown={e => e.key === "Enter" && handleSubmitQuestion()}
-              placeholder="Type your question..."
-              className="flex-1 rounded-lg border border-border/50 bg-white/[0.03] px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
-            />
-            <button
-              onClick={handleSubmitQuestion}
-              disabled={!question.trim()}
-              className="rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
-              style={{ background: SPECTRUM_GRADIENT }}
-            >
-              Submit
-            </button>
-          </div>
-          {submitted && (
-            <p className="mt-3 text-sm text-emerald-400">Question submitted — we'll cover it on Wednesday.</p>
-          )}
-        </section>
 
         {/* ── SECTION 3 — PAST SESSIONS ── */}
         <section>
