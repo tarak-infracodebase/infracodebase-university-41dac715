@@ -323,7 +323,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
           <input
             ref={externalFileRef}
             type="file"
-            accept="image/*,application/pdf,.docx,.doc,.txt,.md,.zip"
+            accept="*/*"
             onChange={handleExternalFileSelect}
             className="hidden"
           />
@@ -348,21 +348,17 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
             </Button>
           </div>
 
-          {/* Attached file preview */}
+          {/* Attached file chip (pending save) */}
           {attachedFile && (
-            <div className="mt-3 flex items-center gap-2 rounded-lg border border-border/30 bg-background/50 px-3 py-2.5">
-              {attachedFile.type.startsWith("image/") ? (
-                <img src={attachedFile.data} alt={attachedFile.name} className="h-10 w-10 rounded object-cover shrink-0" />
-              ) : (
-                <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
-              )}
-              <span className="text-sm text-foreground truncate flex-1">{attachedFile.name}</span>
+            <div className="flex items-center gap-1.5 mt-3 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs text-foreground w-fit max-w-[280px]">
+              <FileText className="h-3 w-3 text-primary shrink-0" />
+              <span className="truncate">{attachedFile.name}</span>
               <button
                 onClick={clearAttachedFile}
-                className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                className="text-muted-foreground hover:text-destructive transition-colors shrink-0 ml-0.5"
                 aria-label="Remove file"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-3 w-3" />
               </button>
             </div>
           )}
