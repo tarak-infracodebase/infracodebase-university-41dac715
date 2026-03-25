@@ -69,6 +69,26 @@ function isUrl(value: string): boolean {
 
 /** Renders a single entry with smart type detection */
 function EntryDisplay({ value }: { value: string }) {
+  // File entry format: [file:filename]dataUrl
+  const fileMatch = value.match(/^\[file:(.+?)\](.+)$/s);
+  if (fileMatch) {
+    const [, fName, fData] = fileMatch;
+    const isImg = fData.startsWith("data:image/");
+    if (isImg) {
+      return (
+        <div className="space-y-1">
+          <img src={fData} alt={fName} className="max-w-full max-h-[200px] rounded-lg object-contain" />
+          <span className="text-[10px] text-muted-foreground">{fName}</span>
+        </div>
+      );
+    }
+    return (
+      <div className="flex items-center gap-2">
+        <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+        <span className="text-sm text-foreground truncate">{fName}</span>
+      </div>
+    );
+  }
   if (isImageUrl(value)) {
     return <img src={value} alt="Submission" className="max-w-full rounded-lg mt-2" />;
   }
@@ -97,6 +117,10 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   const [entries, setEntries] = useState<string[]>([]);
   const [newEntry, setNewEntry] = useState("");
 
+  // File attachment state for build-external
+  const [attachedFile, setAttachedFile] = useState<{ data: string; name: string; type: string } | null>(null);
+  const externalFileRef = useRef<HTMLInputElement>(null);
+
   const [answer, setAnswer] = useState("");
   const [fileData, setFileData] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>("");
@@ -112,7 +136,6 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
       const data = localStorage.getItem(storageKey);
       if (data) {
         const parsed = JSON.parse(data);
-        // Migrate old single-entry format to multi-entry
         if (type === "build-external") {
           if (parsed.entries) {
             setEntries(parsed.entries);
@@ -149,11 +172,26 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   const handleSave = () => {
     if (!requireAuth()) return;
     try {
-      const payload =
-        type === "writing" ? { answer } :
-        type === "build-platform" ? { fileData, fileName, fileType, notes } :
-        { entries };
-      localStorage.setItem(storageKey, JSON.stringify(payload));
+      // If there's an attached file for build-external, add it as an entry before saving
+      if (type === "build-external" && attachedFile) {
+        const fileEntry = `[file:${attachedFile.name}]${attachedFile.data}`;
+        const allEntries = [...entries, ...(newEntry.trim() ? [newEntry.trim()] : []), fileEntry];
+        localStorage.setItem(storageKey, JSON.stringify({ entries: allEntries }));
+        setEntries(allEntries);
+        setNewEntry("");
+        setAttachedFile(null);
+        if (externalFileRef.current) externalFileRef.current.value = "";
+      } else {
+        const payload =
+          type === "writing" ? { answer } :
+          type === "build-platform" ? { fileData, fileName, fileType, notes } :
+          { entries: [...entries, ...(newEntry.trim() ? [newEntry.trim()] : [])] };
+        if (type === "build-external" && newEntry.trim()) {
+          setEntries(prev => [...prev, newEntry.trim()]);
+          setNewEntry("");
+        }
+        localStorage.setItem(storageKey, JSON.stringify(payload));
+      }
 
       const currentXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
       localStorage.setItem("icbu_xp", String(currentXP + 50));
@@ -173,6 +211,25 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
 
   const removeEntry = (index: number) => {
     setEntries(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleExternalFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setAttachedFile({
+        data: ev.target?.result as string,
+        name: file.name,
+        type: file.type,
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const clearAttachedFile = () => {
+    setAttachedFile(null);
+    if (externalFileRef.current) externalFileRef.current.value = "";
   };
 
   const processFile = (file: File) => {
@@ -268,18 +325,52 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
           )}
 
           {/* Add new entry */}
+          <input
+            ref={externalFileRef}
+            type="file"
+            accept="image/*,application/pdf,.docx,.doc,.txt,.md,.zip"
+            onChange={handleExternalFileSelect}
+            className="hidden"
+          />
           <div className="flex gap-2">
             <Input
               value={newEntry}
               onChange={e => setNewEntry(e.target.value)}
               onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); addEntry(); } }}
-              placeholder="Add screenshot or link"
+              placeholder="Paste a link or type a description"
               className="bg-background/50 border-border/50 text-sm flex-1"
             />
             <Button onClick={addEntry} size="sm" variant="outline" className="text-xs shrink-0 gap-1">
               <Plus className="h-3 w-3" /> Add
             </Button>
+            <Button
+              onClick={() => externalFileRef.current?.click()}
+              size="sm"
+              variant="outline"
+              className="text-xs shrink-0 gap-1"
+            >
+              <Upload className="h-3 w-3" /> File
+            </Button>
           </div>
+
+          {/* Attached file preview */}
+          {attachedFile && (
+            <div className="mt-3 flex items-center gap-2 rounded-lg border border-border/30 bg-background/50 px-3 py-2.5">
+              {attachedFile.type.startsWith("image/") ? (
+                <img src={attachedFile.data} alt={attachedFile.name} className="h-10 w-10 rounded object-cover shrink-0" />
+              ) : (
+                <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+              )}
+              <span className="text-sm text-foreground truncate flex-1">{attachedFile.name}</span>
+              <button
+                onClick={clearAttachedFile}
+                className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                aria-label="Remove file"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          )}
         </>
       )}
 
