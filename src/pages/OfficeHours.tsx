@@ -1154,8 +1154,8 @@ function HexSpeaker({ src, name, role, size = 52 }: { src: string; name: string;
           <img src={src} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       </div>
-      <span style={{ color: '#fff', fontSize: '10px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>{name}</span>
-      <span style={{ color: '#ffffff', opacity: 0.85, fontSize: '8px', fontFamily: 'JetBrains Mono, monospace', marginTop: '-2px' }}>{role}</span>
+      <span style={{ color: '#fff', fontSize: '13px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>{name}</span>
+      <span style={{ color: '#ffffff', opacity: 0.85, fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', marginTop: '-2px' }}>{role}</span>
     </div>
   );
 }
@@ -1165,7 +1165,7 @@ function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title
   return (
     <div style={{
       position: 'absolute', inset: 0,
-      background: 'linear-gradient(135deg, #1a6b3c 0%, #2d7a4a 30%, #b87333 70%, #c2410c 100%)',
+      background: 'radial-gradient(ellipse at 15% 50%, #7a2510 0%, transparent 55%), radial-gradient(ellipse at 80% 30%, #1a5c1a 0%, transparent 50%), radial-gradient(ellipse at 50% 90%, #5a3010 0%, transparent 45%), #1a1208',
       display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
       padding: '12px 16px 8px',
     }}>
@@ -1182,7 +1182,7 @@ function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title
       {/* Center title */}
       <div style={{ textAlign: 'center', padding: '0 8px' }}>
         <h4 style={{
-          color: '#fff', fontSize: '13px', fontWeight: 700,
+          color: '#fff', fontSize: '20px', fontWeight: 700,
           fontFamily: 'Fraunces, Georgia, serif',
           lineHeight: 1.35,
           textShadow: '0 1px 4px rgba(0,0,0,0.4)',
@@ -1200,7 +1200,7 @@ function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title
 
       {/* Bottom URL */}
       <div style={{ textAlign: 'center' }}>
-        <span style={{ color: '#ffffff', opacity: 0.6, fontSize: '8px', fontFamily: 'JetBrains Mono, monospace' }}>
+        <span style={{ color: '#ffffff', opacity: 0.6, fontSize: '10px', fontFamily: 'JetBrains Mono, monospace' }}>
           university.infracodebase.com
         </span>
       </div>
@@ -1211,14 +1211,14 @@ function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title
 /* ── Horizontal Session Card ── */
 function HorizontalSessionCard({
   editing, onClick, sessionTitle, setSessionTitle, sessionDesc, setSessionDesc, sessionDate, setSessionDate,
-  thumbnail = "/workshop-thumbnail.png", tagLabel = "Real Infrastructure", tagColor = "rgba(167,139,250,0.15)", tagTextColor = "#a78bfa", duration = "49 min",
+  thumbnail = "/workshop-thumbnail.png", tagLabel = "Real Infrastructure", tagColor = "rgba(167,139,250,0.15)", tagTextColor = "#a78bfa", tagBorder, duration = "49 min",
   customThumbnail,
 }: {
   editing: boolean; onClick: () => void;
   sessionTitle: string; setSessionTitle: (v: string) => void;
   sessionDesc: string; setSessionDesc: (v: string) => void;
   sessionDate: string; setSessionDate: (v: string) => void;
-  thumbnail?: string; tagLabel?: string; tagColor?: string; tagTextColor?: string; duration?: string;
+  thumbnail?: string; tagLabel?: string; tagColor?: string; tagTextColor?: string; tagBorder?: string; duration?: string;
   customThumbnail?: React.ReactNode;
 }) {
   const [hov, setHov] = useState(false);
@@ -1294,9 +1294,10 @@ function HorizontalSessionCard({
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
             <span style={{
-              borderRadius: '9999px', padding: '2px 10px',
-              fontSize: '11px', fontWeight: 600,
+              borderRadius: '20px', padding: '3px 9px',
+              fontSize: '11px', fontWeight: 500,
               background: tagColor, color: tagTextColor,
+              ...(tagBorder ? { border: tagBorder } : {}),
             }}>
               {tagLabel}
             </span>
@@ -1583,6 +1584,10 @@ export default function OfficeHours() {
                 setSessionDesc={setSessionDesc}
                 sessionDate={sessionDate}
                 setSessionDate={setSessionDate}
+                tagLabel="Azure"
+                tagColor="rgba(0, 120, 212, 0.15)"
+                tagTextColor="#60a9ff"
+                tagBorder="0.5px solid rgba(0, 120, 212, 0.3)"
                 customThumbnail={
                   <WorkshopThumbnailPanel
                     title={"Weekly Workshop —\nClickOps to IaC:\nAzure Infrastructure"}
