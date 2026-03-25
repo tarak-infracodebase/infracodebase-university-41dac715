@@ -158,13 +158,13 @@ const session1Comments = [
 
 const session2Screenshots = [
   { src: "/workshop2-thumbnail.png", caption: "Session thumbnail" },
-  { src: "/workshop2-thumbnail.png", caption: "Teams call — full group (15 attendees)" },
-  { src: "/workshop2-thumbnail.png", caption: "Teams call — second view" },
-  { src: "/workshop2-thumbnail.png", caption: "CLOUD_COMPARISON.md — Multi-Cloud API Gateway Architecture Comparison" },
-  { src: "/workshop2-thumbnail.png", caption: "PROGRESS.md — Azure APIM Secure Baseline Build Progress" },
-  { src: "/workshop2-thumbnail.png", caption: "Azure API Management diagram — 80% layout quality" },
-  { src: "/workshop2-thumbnail.png", caption: "AWS API Gateway diagram — 96% layout quality" },
-  { src: "/workshop2-thumbnail.png", caption: "GCP API Gateway diagram — 89% layout quality" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_00_48.png", caption: "Teams call — full group (15 attendees)" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_06_50.png", caption: "CLOUD_COMPARISON.md — Multi-Cloud API Gateway Architecture Comparison" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_07_30.png", caption: "PROGRESS.md — Azure APIM Secure Baseline Build Progress" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_07_45.png", caption: "Azure API Management diagram — 80% layout quality" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_07_59.png", caption: "AWS API Gateway diagram — 96% layout quality" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_08_43.png", caption: "GCP API Gateway diagram — 89% layout quality" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_00_48.png", caption: "Teams call — second group view" },
 ];
 
 const SESSION2_NOTES_HTML = `<h2>Build with Her — March 25, 2026 — 56m 46s</h2>
@@ -323,18 +323,18 @@ const session2Comments = [
     upvotes: 9, reply: null
   },
   {
-    name: 'Divine Odazie', date: 'March 25, 2026', avatar: '/Comfort_Benton.jpeg',
+    name: 'Divine Odazie', date: 'March 25, 2026', avatar: '/workshops/workshop-2/avatars/Divine.jpeg',
     text: "I'm pumped to do a community session in April. Already thinking about what use case to bring.",
     upvotes: 8,
     reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: JUSTIN_AVATAR, text: "Can't wait Divine — reach out beforehand and we'll make sure you have everything you need.", upvotes: 4 }
   },
   {
-    name: 'Bhavika', date: 'March 25, 2026', avatar: '/Comfort_Benton.jpeg',
+    name: 'Bhavika', date: 'March 25, 2026', avatar: '/workshops/workshop-2/avatars/Bhavika.jpeg',
     text: 'I asked about how best practices are chosen and the answer really helped — knowing it pulls from authoritative docs plus enterprise rule sets makes it feel much more trustworthy.',
     upvotes: 7, reply: null
   },
   {
-    name: 'Ria Choi', date: 'March 25, 2026', avatar: '/Comfort_Benton.jpeg',
+    name: 'Ria Choi', date: 'March 25, 2026', avatar: '/workshops/workshop-2/avatars/Ria_Choi.jpeg',
     text: 'The prototype vs production distinction was something I hadn\'t thought about before. Really useful framing for how to approach learning projects.',
     upvotes: 6,
     answered: '41:15',
@@ -1134,16 +1134,92 @@ function SessionModal({
   );
 }
 
+/* ── Hexagonal Speaker Avatar ── */
+function HexSpeaker({ src, name, role, size = 52 }: { src: string; name: string; role: string; size?: number }) {
+  const hexClip = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)';
+  const outer = size + 6;
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px' }}>
+      <div style={{
+        width: outer, height: outer,
+        clipPath: hexClip,
+        background: 'linear-gradient(135deg, #f97316, #ec4899, #8b5cf6)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <div style={{
+          width: size, height: size,
+          clipPath: hexClip,
+          overflow: 'hidden',
+        }}>
+          <img src={src} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+      </div>
+      <span style={{ color: '#fff', fontSize: '10px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>{name}</span>
+      <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: '8px', fontFamily: 'JetBrains Mono, monospace', marginTop: '-2px' }}>{role}</span>
+    </div>
+  );
+}
+
+/* ── Workshop Thumbnail Panel (JSX-rendered, matches Workshop 1 design) ── */
+function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title: string; date: string; dateLabel?: string }) {
+  return (
+    <div style={{
+      position: 'absolute', inset: 0,
+      background: 'linear-gradient(135deg, #1a6b3c 0%, #2d7a4a 30%, #b87333 70%, #c2410c 100%)',
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+      padding: '12px 16px 8px',
+    }}>
+      {/* Top row */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <span style={{ color: '#fff', fontSize: '11px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>
+          Infracodebase<span style={{ fontWeight: 400 }}>.com</span>
+        </span>
+        <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '9px', fontFamily: 'JetBrains Mono, monospace' }}>
+          {dateLabel} · {date}
+        </span>
+      </div>
+
+      {/* Center title */}
+      <div style={{ textAlign: 'center', padding: '0 8px' }}>
+        <h4 style={{
+          color: '#fff', fontSize: '13px', fontWeight: 700,
+          fontFamily: 'Fraunces, Georgia, serif',
+          lineHeight: 1.35,
+          textShadow: '0 1px 4px rgba(0,0,0,0.4)',
+          whiteSpace: 'pre-line',
+        }}>
+          {title}
+        </h4>
+      </div>
+
+      {/* Speakers */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '24px' }}>
+        <HexSpeaker src={TARAK_AVATAR} name="Tarak" role="Co-Founder, Infracodebase" />
+        <HexSpeaker src={JUSTIN_AVATAR} name="Justin" role="Founder, Infracodebase" />
+      </div>
+
+      {/* Bottom URL */}
+      <div style={{ textAlign: 'center' }}>
+        <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '8px', fontFamily: 'JetBrains Mono, monospace' }}>
+          university.infracodebase.com
+        </span>
+      </div>
+    </div>
+  );
+}
+
 /* ── Horizontal Session Card ── */
 function HorizontalSessionCard({
   editing, onClick, sessionTitle, setSessionTitle, sessionDesc, setSessionDesc, sessionDate, setSessionDate,
   thumbnail = "/workshop-thumbnail.png", tagLabel = "Real Infrastructure", tagColor = "rgba(167,139,250,0.15)", tagTextColor = "#a78bfa", duration = "49 min",
+  customThumbnail,
 }: {
   editing: boolean; onClick: () => void;
   sessionTitle: string; setSessionTitle: (v: string) => void;
   sessionDesc: string; setSessionDesc: (v: string) => void;
   sessionDate: string; setSessionDate: (v: string) => void;
   thumbnail?: string; tagLabel?: string; tagColor?: string; tagTextColor?: string; duration?: string;
+  customThumbnail?: React.ReactNode;
 }) {
   const [hov, setHov] = useState(false);
 
@@ -1163,7 +1239,7 @@ function HorizontalSessionCard({
         transition: 'all 0.2s',
         transform: hov && !editing ? 'translateY(-2px)' : 'none',
         boxShadow: hov && !editing ? '0 8px 32px rgba(0,0,0,0.3)' : 'none',
-        minHeight: '160px',
+        minHeight: customThumbnail ? '260px' : '160px',
       }}
     >
       {/* LEFT — Thumbnail */}
@@ -1174,20 +1250,22 @@ function HorizontalSessionCard({
         overflow: 'hidden',
         flexShrink: 0,
       }}>
-        <img
-          src={thumbnail}
-          alt={sessionTitle}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center top',
-            display: 'block',
-          }}
-        />
+        {customThumbnail ? customThumbnail : (
+          <img
+            src={thumbnail}
+            alt={sessionTitle}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center top',
+              display: 'block',
+            }}
+          />
+        )}
         {!editing && hov && (
           <div style={{
             position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)',
@@ -1471,11 +1549,16 @@ export default function OfficeHours() {
                 setSessionDesc={setSession2Desc}
                 sessionDate={session2Date}
                 setSessionDate={setSession2Date}
-                thumbnail="/workshop2-thumbnail.png"
                 tagLabel="Cross-cloud"
                 tagColor="rgba(96,165,250,0.15)"
                 tagTextColor="#60a5fa"
                 duration="56m 46s"
+                customThumbnail={
+                  <WorkshopThumbnailPanel
+                    title={"Weekly Workshop —\nMigrating Azure Infrastructure\nto AWS and GCP"}
+                    date="March 25, 2026"
+                  />
+                }
               />
             </div>
 
