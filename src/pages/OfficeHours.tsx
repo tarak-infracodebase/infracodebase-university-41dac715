@@ -130,6 +130,218 @@ const initialScreenshots = [
   { src: "/compliance.png", caption: "Compliance score — 58% · 28 pass · 21 fail · 1 overridden" },
 ];
 
+const session1Comments = [
+  {
+    name: 'Comfort Benton', date: 'March 18, 2026', avatar: '/Comfort_Benton.jpeg',
+    text: 'This session completely changed how I think about cloud infrastructure. The ClickOps to IaC demo was eye-opening.',
+    upvotes: 12,
+    reply: { name: 'Tarak', badge: 'Host', badgeColor: 'linear-gradient(90deg,#f5821f,#16a34a)', ring: '#f5821f', avatar: TARAK_AVATAR, text: "Thanks Comfort! The live mapping of existing infra is one of my favourite moments to demo — glad it landed. Next session we'll go even deeper on the remediation side.", upvotes: 4 }
+  },
+  {
+    name: 'Tawni', date: 'March 18, 2026', avatar: '/Tawni.jpeg',
+    text: 'I appreciated that manual cloud knowledge still matters. Helps me know where to focus as a beginner.',
+    upvotes: 7, reply: null
+  },
+  {
+    name: 'Reilly', date: 'March 18, 2026', avatar: '/Reilly.jpeg',
+    text: 'The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works.',
+    upvotes: 9,
+    answered: '38:22',
+    reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: JUSTIN_AVATAR, text: "Glad it clicked! We covered compliance scoring at 38:22 in the recording — definitely rewatch that section, there's a lot of detail in there.", upvotes: 6 }
+  },
+  {
+    name: 'Abby', date: 'March 18, 2026', avatar: '/Abby.jpeg',
+    text: "Seeing the agent map existing ClickOps infra live was incredible. Can't wait to try it myself.",
+    upvotes: 5, reply: null
+  },
+];
+
+const session2Screenshots = [
+  { src: "/workshop2-thumbnail.png", caption: "Session thumbnail" },
+  { src: "/workshop2-thumbnail.png", caption: "Teams call — full group (15 attendees)" },
+  { src: "/workshop2-thumbnail.png", caption: "Teams call — second view" },
+  { src: "/workshop2-thumbnail.png", caption: "CLOUD_COMPARISON.md — Multi-Cloud API Gateway Architecture Comparison" },
+  { src: "/workshop2-thumbnail.png", caption: "PROGRESS.md — Azure APIM Secure Baseline Build Progress" },
+  { src: "/workshop2-thumbnail.png", caption: "Azure API Management diagram — 80% layout quality" },
+  { src: "/workshop2-thumbnail.png", caption: "AWS API Gateway diagram — 96% layout quality" },
+  { src: "/workshop2-thumbnail.png", caption: "GCP API Gateway diagram — 89% layout quality" },
+];
+
+const SESSION2_NOTES_HTML = `<h2>Build with Her — March 25, 2026 — 56m 46s</h2>
+<h3>Facilitators</h3>
+<p>Justin O'Connor, Tarak</p>
+<h3>Purpose</h3>
+<ul>
+<li>Continue Build with Her learning series</li>
+<li>Share updates on Infracodebase University</li>
+<li>Demonstrate a cross-cloud learning use case</li>
+<li>Help community members understand how to translate architecture across Azure, AWS, and GCP</li>
+<li>Encourage more community-led participation</li>
+</ul>
+<h3>Main Themes</h3>
+<ul>
+<li>Cross-cloud architecture translation</li>
+<li>Azure to AWS to GCP mapping</li>
+<li>Terraform as a multi-cloud learning language</li>
+<li>Best practices and enterprise rule sets</li>
+<li>Learning with AI while still building foundations</li>
+<li>Trust, validation, and compliance</li>
+<li>Community-led learning</li>
+</ul>
+<h3>University Update</h3>
+<p>Tarak shared the latest version of Infracodebase University, including:</p>
+<ul>
+<li>Light and dark mode</li>
+<li>Structured trainings with videos, assessments, and hands-on work</li>
+<li>Workshop pages with notes and recordings</li>
+<li>Dashboard, profile, feedback tab, and resources section</li>
+</ul>
+<h3>Demo</h3>
+<p>Tarak created a new workspace from an uploaded architecture image and selected Terraform. The session focused on translating an Azure architecture into AWS and GCP equivalents.</p>
+<h3>What Infracodebase Generated</h3>
+<ul>
+<li>Structured workspace prompt based on the uploaded architecture</li>
+<li>Architecture explanation describing traffic flow, security layers, and design intent</li>
+<li>Terraform code for the Azure implementation</li>
+<li>AWS translation of the architecture</li>
+<li>Partial GCP translation, with some behaviour Tarak noted needed further testing</li>
+<li>Cross-cloud comparison documentation in progress</li>
+</ul>
+<h3>Key Point — Prototyping vs Production</h3>
+<ul>
+<li>Prototype mode is lighter and cheaper.</li>
+<li>Production mode includes stronger defaults for security, redundancy, monitoring, and complexity.</li>
+<li>For learners, Justin recommended being explicit that the goal is learning or prototyping.</li>
+</ul>
+<h3>Key Point — Learning with AI</h3>
+<ul>
+<li>AI makes building faster, but it does not remove the need for cloud literacy.</li>
+<li>Tarak emphasised testing generated code for quality, security, compliance, and secrets before pushing it further.</li>
+<li>Justin emphasised that learners still need enough vocabulary and understanding to guide the AI well and learn while building.</li>
+</ul>
+<h3>Key Point — Can We Trust the Output?</h3>
+<ul>
+<li>Tarak said no output should be trusted blindly and should always be validated with tools such as Terraform validate, Terraform plan, tfsec, and checkov.</li>
+<li>Justin reframed this at enterprise level as verifiable trust: standards, rule sets, compliance scoring, and observability help reduce reliance on a few manual reviewers.</li>
+</ul>
+<h3>Questions</h3>
+<ul>
+<li><strong>Bhavika</strong> asked how best practices are chosen — the platform uses authoritative documentation plus enterprise and workspace rule sets.</li>
+<li><strong>Comfort</strong> asked whether users can trust the output — answer: validate it, and use compliance to create verifiable trust.</li>
+<li><strong>Tawni</strong> asked where to draw the line between learning and relying on AI — answer: AI should support learning, not replace understanding.</li>
+<li><strong>Ria</strong> asked whether learners will receive certificates — Tarak said yes, the team is working on that.</li>
+</ul>
+<h3>Community Discussion</h3>
+<ul>
+<li>Justin invited community members to build a small use case and present it in a future session.</li>
+<li>Divine volunteered to do this later in April.</li>
+<li>Tawni also expressed interest, with some collaboration beforehand.</li>
+<li>The group discussed creating a Discord space, and Tawni volunteered to create it.</li>
+</ul>
+<h3>Closing</h3>
+<p>Tarak said he would share the notes, video, and workspace. Infracodebase University remains free and community-driven. Certificates and LinkedIn-ready brand assets are being developed. Feedback on the university, the product, and future session topics was encouraged.</p>`;
+
+const SESSION2_NOTES_MD = `# Build with Her — March 25, 2026 — 56m 46s
+
+## Facilitators
+Justin O'Connor, Tarak
+
+## Purpose
+- Continue Build with Her learning series
+- Share updates on Infracodebase University
+- Demonstrate a cross-cloud learning use case
+- Help community members understand how to translate architecture across Azure, AWS, and GCP
+- Encourage more community-led participation
+
+## Main Themes
+- Cross-cloud architecture translation
+- Azure to AWS to GCP mapping
+- Terraform as a multi-cloud learning language
+- Best practices and enterprise rule sets
+- Learning with AI while still building foundations
+- Trust, validation, and compliance
+- Community-led learning
+
+## University Update
+Tarak shared the latest version of Infracodebase University, including:
+- Light and dark mode
+- Structured trainings with videos, assessments, and hands-on work
+- Workshop pages with notes and recordings
+- Dashboard, profile, feedback tab, and resources section
+
+## Demo
+Tarak created a new workspace from an uploaded architecture image and selected Terraform. The session focused on translating an Azure architecture into AWS and GCP equivalents.
+
+## What Infracodebase Generated
+- Structured workspace prompt based on the uploaded architecture
+- Architecture explanation describing traffic flow, security layers, and design intent
+- Terraform code for the Azure implementation
+- AWS translation of the architecture
+- Partial GCP translation, with some behaviour Tarak noted needed further testing
+- Cross-cloud comparison documentation in progress
+
+## Key Point — Prototyping vs Production
+- Prototype mode is lighter and cheaper.
+- Production mode includes stronger defaults for security, redundancy, monitoring, and complexity.
+- For learners, Justin recommended being explicit that the goal is learning or prototyping.
+
+## Key Point — Learning with AI
+- AI makes building faster, but it does not remove the need for cloud literacy.
+- Tarak emphasised testing generated code for quality, security, compliance, and secrets before pushing it further.
+- Justin emphasised that learners still need enough vocabulary and understanding to guide the AI well and learn while building.
+
+## Key Point — Can We Trust the Output?
+- Tarak said no output should be trusted blindly and should always be validated with tools such as Terraform validate, Terraform plan, tfsec, and checkov.
+- Justin reframed this at enterprise level as verifiable trust: standards, rule sets, compliance scoring, and observability help reduce reliance on a few manual reviewers.
+
+## Questions
+- **Bhavika** asked how best practices are chosen — the platform uses authoritative documentation plus enterprise and workspace rule sets.
+- **Comfort** asked whether users can trust the output — answer: validate it, and use compliance to create verifiable trust.
+- **Tawni** asked where to draw the line between learning and relying on AI — answer: AI should support learning, not replace understanding.
+- **Ria** asked whether learners will receive certificates — Tarak said yes, the team is working on that.
+
+## Community Discussion
+- Justin invited community members to build a small use case and present it in a future session.
+- Divine volunteered to do this later in April.
+- Tawni also expressed interest, with some collaboration beforehand.
+- The group discussed creating a Discord space, and Tawni volunteered to create it.
+
+## Closing
+Tarak said he would share the notes, video, and workspace. Infracodebase University remains free and community-driven. Certificates and LinkedIn-ready brand assets are being developed. Feedback on the university, the product, and future session topics was encouraged.
+`;
+
+const session2Comments = [
+  {
+    name: 'Comfort Benton', date: 'March 25, 2026', avatar: '/Comfort_Benton.jpeg',
+    text: 'Seeing the agent translate Azure to AWS and GCP live was mind-blowing. I didn\'t realise how transferable the concepts were until I saw the service mapping side by side.',
+    upvotes: 11,
+    reply: { name: 'Tarak', badge: 'Host', badgeColor: 'linear-gradient(90deg,#f5821f,#16a34a)', ring: '#f5821f', avatar: TARAK_AVATAR, text: "That's exactly why we built the comparison doc — glad it landed! The mapping table is a great reference to keep.", upvotes: 5 }
+  },
+  {
+    name: 'Tawni', date: 'March 25, 2026', avatar: '/Tawni.jpeg',
+    text: 'The conversation about AI not replacing cloud literacy really stuck with me. I appreciated that you framed it as "AI helps you go faster but you still need the vocabulary."',
+    upvotes: 9, reply: null
+  },
+  {
+    name: 'Divine Odazie', date: 'March 25, 2026', avatar: '/Comfort_Benton.jpeg',
+    text: "I'm pumped to do a community session in April. Already thinking about what use case to bring.",
+    upvotes: 8,
+    reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: JUSTIN_AVATAR, text: "Can't wait Divine — reach out beforehand and we'll make sure you have everything you need.", upvotes: 4 }
+  },
+  {
+    name: 'Bhavika', date: 'March 25, 2026', avatar: '/Comfort_Benton.jpeg',
+    text: 'I asked about how best practices are chosen and the answer really helped — knowing it pulls from authoritative docs plus enterprise rule sets makes it feel much more trustworthy.',
+    upvotes: 7, reply: null
+  },
+  {
+    name: 'Ria Choi', date: 'March 25, 2026', avatar: '/Comfort_Benton.jpeg',
+    text: 'The prototype vs production distinction was something I hadn\'t thought about before. Really useful framing for how to approach learning projects.',
+    upvotes: 6,
+    answered: '41:15',
+    reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: JUSTIN_AVATAR, text: "Glad this clicked — we covered the prototype/production modes at 41:15 in the recording.", upvotes: 3 }
+  },
+];
+
 
 /* ── Inline editable text ── */
 function InlineField({
@@ -639,9 +851,10 @@ function NotesEditor({
 
 /* ── Session Modal ── */
 function SessionModal({
-  open, onClose, screenshots: shots, isTarak,
+  open, onClose, screenshots: shots, isTarak, title, subtitle, sessionComments, notesHTML, notesMD, downloadFilename,
 }: {
   open: boolean; onClose: () => void; screenshots: { src: string; caption: string }[]; isTarak: boolean;
+  title: string; subtitle: string; sessionComments: any[]; notesHTML: string; notesMD: string; downloadFilename: string;
 }) {
   const [tab, setTab] = useState<"recording" | "screenshots" | "notes">("recording");
   const [screenshotIdx, setScreenshotIdx] = useState(0);
@@ -721,8 +934,8 @@ function SessionModal({
                 ))}
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-foreground">Build with Her — ClickOps to IaC: Azure Infrastructure Modernization</h2>
-                <p className="text-sm text-muted-foreground">March 18, 2026 · 49 min · Justin & Tarak</p>
+                <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+                <p className="text-sm text-muted-foreground">{subtitle}</p>
               </div>
             </div>
 
@@ -847,31 +1060,7 @@ function SessionModal({
   </div>
 
   {/* Comments */}
-  {[
-    {
-      name: 'Comfort Benton', date: 'March 18, 2026', avatar: '/Comfort_Benton.jpeg',
-      text: 'This session completely changed how I think about cloud infrastructure. The ClickOps to IaC demo was eye-opening.',
-      upvotes: 12,
-      reply: { name: 'Tarak', badge: 'Host', badgeColor: 'linear-gradient(90deg,#f5821f,#16a34a)', ring: '#f5821f', avatar: TARAK_AVATAR, text: "Thanks Comfort! The live mapping of existing infra is one of my favourite moments to demo — glad it landed. Next session we'll go even deeper on the remediation side.", upvotes: 4 }
-    },
-    {
-      name: 'Tawni', date: 'March 18, 2026', avatar: '/Tawni.jpeg',
-      text: 'I appreciated that manual cloud knowledge still matters. Helps me know where to focus as a beginner.',
-      upvotes: 7, reply: null
-    },
-    {
-      name: 'Reilly', date: 'March 18, 2026', avatar: '/Reilly.jpeg',
-      text: 'The rule sets explanation was exactly what I needed. Finally understand how compliance scoring works.',
-      upvotes: 9,
-      answered: '38:22',
-      reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: JUSTIN_AVATAR, text: "Glad it clicked! We covered compliance scoring at 38:22 in the recording — definitely rewatch that section, there's a lot of detail in there.", upvotes: 6 }
-    },
-    {
-      name: 'Abby', date: 'March 18, 2026', avatar: '/Abby.jpeg',
-      text: "Seeing the agent map existing ClickOps infra live was incredible. Can't wait to try it myself.",
-      upvotes: 5, reply: null
-    },
-  ].map((c, i) => (
+  {sessionComments.map((c: any, i: number) => (
     <div key={i}>
       <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
         <img src={c.avatar} alt={c.name} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
@@ -907,7 +1096,7 @@ function SessionModal({
           )}
         </div>
       </div>
-      {i < 3 && <div style={{ borderTop: '1px solid #1c2e47', marginBottom: '20px' }} />}
+      {i < sessionComments.length - 1 && <div style={{ borderTop: '1px solid #1c2e47', marginBottom: '20px' }} />}
     </div>
   ))}
 </div>
@@ -917,13 +1106,13 @@ function SessionModal({
             {/* Notes */}
             {tab === "notes" && (
               <NotesEditor
-                initialHTML={INITIAL_SESSION_NOTES}
+                initialHTML={notesHTML}
                 onDownload={() => {
-                  const blob = new Blob([SESSION_NOTES_MD], { type: "text/markdown" });
+                  const blob = new Blob([notesMD], { type: "text/markdown" });
                   const url = URL.createObjectURL(blob);
                   const a = document.createElement("a");
                   a.href = url;
-                  a.download = "build-with-her-march-18-2026.md";
+                  a.download = downloadFilename;
                   a.click();
                   URL.revokeObjectURL(url);
                 }}
@@ -948,11 +1137,13 @@ function SessionModal({
 /* ── Horizontal Session Card ── */
 function HorizontalSessionCard({
   editing, onClick, sessionTitle, setSessionTitle, sessionDesc, setSessionDesc, sessionDate, setSessionDate,
+  thumbnail = "/workshop-thumbnail.png", tagLabel = "Real Infrastructure", tagColor = "rgba(167,139,250,0.15)", tagTextColor = "#a78bfa", duration = "49 min",
 }: {
   editing: boolean; onClick: () => void;
   sessionTitle: string; setSessionTitle: (v: string) => void;
   sessionDesc: string; setSessionDesc: (v: string) => void;
   sessionDate: string; setSessionDate: (v: string) => void;
+  thumbnail?: string; tagLabel?: string; tagColor?: string; tagTextColor?: string; duration?: string;
 }) {
   const [hov, setHov] = useState(false);
 
@@ -984,7 +1175,7 @@ function HorizontalSessionCard({
         flexShrink: 0,
       }}>
         <img
-          src="/workshop-thumbnail.png"
+          src={thumbnail}
           alt={sessionTitle}
           style={{
             position: 'absolute',
@@ -1027,11 +1218,11 @@ function HorizontalSessionCard({
             <span style={{
               borderRadius: '9999px', padding: '2px 10px',
               fontSize: '11px', fontWeight: 600,
-              background: 'rgba(167,139,250,0.15)', color: '#a78bfa',
+              background: tagColor, color: tagTextColor,
             }}>
-              Real Infrastructure
+              {tagLabel}
             </span>
-            <span style={{ fontSize: '12px', color: '#94a3b8' }}>49 min</span>
+            <span style={{ fontSize: '12px', color: '#94a3b8' }}>{duration}</span>
           </div>
           <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#f1f5f9', marginBottom: '6px' }}>
             <InlineField value={sessionTitle} onChange={setSessionTitle} editing={editing} className="text-base font-semibold text-foreground" />
@@ -1060,6 +1251,7 @@ export default function OfficeHours() {
   const [question, setQuestion] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [modal2Open, setModal2Open] = useState(false);
 
   // Hero editing
   const [heroEditing, setHeroEditing] = useState(false);
@@ -1068,10 +1260,16 @@ export default function OfficeHours() {
   const [heroDate, setHeroDate] = useState("Wednesday, March 25, 2026");
   const [heroTime, setHeroTime] = useState("5:00 PM CET");
 
-  // Session card editing
+  // Session 1 card editing
   const [sessionEditing, setSessionEditing] = useState(false);
   const [sessionTitle, setSessionTitle] = useState("Build with Her — ClickOps to IaC: Azure Infrastructure Modernization");
   const [sessionDesc, setSessionDesc] = useState("Live demo: inspect manually provisioned Azure infrastructure, generate Terraform code with Infracodebase, establish a clean IaC baseline, and shift remediation left.");
+
+  // Session 2 card editing
+  const [session2Editing, setSession2Editing] = useState(false);
+  const [session2Title, setSession2Title] = useState("Build with Her — Migrating Azure Infrastructure to AWS and GCP");
+  const [session2Desc, setSession2Desc] = useState("Live walkthrough of migrating an existing Azure environment to both AWS and GCP using Infracodebase. We'll scan the resources, generate multi-cloud Terraform, and show how the agent handles the translation automatically, no manual rewriting.");
+  const [session2Date, setSession2Date] = useState("March 25, 2026");
 
   // Instructor photo uploads
   const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => {
@@ -1251,34 +1449,87 @@ export default function OfficeHours() {
           <h2 className="text-2xl font-bold text-foreground mb-1">Past Sessions</h2>
           <p className="text-sm text-muted-foreground mb-6">Click any session to watch the recording, relive our moments, and read the notes.</p>
 
-          <div className="relative">
-            {/* Edit button */}
-            {isTarak && (
-              <button
-                onClick={e => { e.stopPropagation(); setSessionEditing(ed => !ed); }}
-                className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-                  sessionEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                }`}
-              >
-                <Edit2 className="h-4 w-4" />
-              </button>
-            )}
+          <div className="space-y-4">
+            {/* Workshop 2 — March 25, 2026 (newest first) */}
+            <div className="relative">
+              {isTarak && (
+                <button
+                  onClick={e => { e.stopPropagation(); setSession2Editing(ed => !ed); }}
+                  className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
+                    session2Editing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  }`}
+                >
+                  <Edit2 className="h-4 w-4" />
+                </button>
+              )}
+              <HorizontalSessionCard
+                editing={session2Editing}
+                onClick={() => setModal2Open(true)}
+                sessionTitle={session2Title}
+                setSessionTitle={setSession2Title}
+                sessionDesc={session2Desc}
+                setSessionDesc={setSession2Desc}
+                sessionDate={session2Date}
+                setSessionDate={setSession2Date}
+                thumbnail="/workshop2-thumbnail.png"
+                tagLabel="Cross-cloud"
+                tagColor="rgba(96,165,250,0.15)"
+                tagTextColor="#60a5fa"
+                duration="56m 46s"
+              />
+            </div>
 
-            <HorizontalSessionCard
-              editing={sessionEditing}
-              onClick={() => setModalOpen(true)}
-              sessionTitle={sessionTitle}
-              setSessionTitle={setSessionTitle}
-              sessionDesc={sessionDesc}
-              setSessionDesc={setSessionDesc}
-              sessionDate={sessionDate}
-              setSessionDate={setSessionDate}
-            />
+            {/* Workshop 1 — March 18, 2026 */}
+            <div className="relative">
+              {isTarak && (
+                <button
+                  onClick={e => { e.stopPropagation(); setSessionEditing(ed => !ed); }}
+                  className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
+                    sessionEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  }`}
+                >
+                  <Edit2 className="h-4 w-4" />
+                </button>
+              )}
+              <HorizontalSessionCard
+                editing={sessionEditing}
+                onClick={() => setModalOpen(true)}
+                sessionTitle={sessionTitle}
+                setSessionTitle={setSessionTitle}
+                sessionDesc={sessionDesc}
+                setSessionDesc={setSessionDesc}
+                sessionDate={sessionDate}
+                setSessionDate={setSessionDate}
+              />
+            </div>
           </div>
         </section>
       </div>
 
-      <SessionModal open={modalOpen} onClose={() => setModalOpen(false)} screenshots={initialScreenshots} isTarak={Boolean(isTarak)} />
+      <SessionModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        screenshots={initialScreenshots}
+        isTarak={Boolean(isTarak)}
+        title="Build with Her — ClickOps to IaC: Azure Infrastructure Modernization"
+        subtitle="March 18, 2026 · 49 min · Justin & Tarak"
+        sessionComments={session1Comments}
+        notesHTML={INITIAL_SESSION_NOTES}
+        notesMD={SESSION_NOTES_MD}
+        downloadFilename="build-with-her-march-18-2026.md"
+      />
+      <SessionModal
+        open={modal2Open}
+        onClose={() => setModal2Open(false)}
+        screenshots={session2Screenshots}
+        isTarak={Boolean(isTarak)}
+        title="Build with Her — Migrating Azure Infrastructure to AWS and GCP"
+        subtitle="March 25, 2026 · 56m 46s · Justin & Tarak"
+        sessionComments={session2Comments}
+        notesHTML={SESSION2_NOTES_HTML}
+        notesMD={SESSION2_NOTES_MD}
+        downloadFilename="build-with-her-march-25-2026.md"
+      />
     </AppLayout>
   );
 }
