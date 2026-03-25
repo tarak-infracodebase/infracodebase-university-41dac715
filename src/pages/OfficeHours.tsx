@@ -1134,31 +1134,6 @@ function SessionModal({
   );
 }
 
-/* ── Hexagonal Speaker Avatar ── */
-function HexSpeaker({ src, name, role, size = 52 }: { src: string; name: string; role: string; size?: number }) {
-  const hexClip = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)';
-  const outer = size + 6;
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px' }}>
-      <div style={{
-        width: outer, height: outer,
-        clipPath: hexClip,
-        background: 'linear-gradient(135deg, #f97316, #ec4899, #8b5cf6)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-        <div style={{
-          width: size, height: size,
-          clipPath: hexClip,
-          overflow: 'hidden',
-        }}>
-          <img src={src} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-      </div>
-      <span style={{ color: '#fff', fontSize: '13px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>{name}</span>
-      <span style={{ color: '#ffffff', opacity: 0.85, fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', marginTop: '-2px' }}>{role}</span>
-    </div>
-  );
-}
 
 /* ── Vertical Workshop Card (SheBuilds-style) ── */
 function WorkshopCard({
