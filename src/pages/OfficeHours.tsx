@@ -1548,11 +1548,16 @@ export default function OfficeHours() {
                 setSessionDesc={setSession2Desc}
                 sessionDate={session2Date}
                 setSessionDate={setSession2Date}
-                thumbnail="/workshop2-thumbnail.png"
                 tagLabel="Cross-cloud"
                 tagColor="rgba(96,165,250,0.15)"
                 tagTextColor="#60a5fa"
                 duration="56m 46s"
+                customThumbnail={
+                  <WorkshopThumbnailPanel
+                    title={"Weekly Workshop —\nMigrating Azure Infrastructure\nto AWS and GCP"}
+                    date="March 25, 2026"
+                  />
+                }
               />
             </div>
 
