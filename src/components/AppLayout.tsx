@@ -307,17 +307,19 @@ function XpPill() {
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const notif = useNotifications();
 
   return (
     <div className="min-h-screen bg-background">
       <div className="hidden lg:block">
         <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
       </div>
-      <MobileNav />
+      <MobileNav notifications={notif} />
       {/* Desktop User Button / Sign In */}
       <div className="hidden lg:flex items-center gap-2 fixed top-4 right-6 z-50">
         <XpPill />
         <ThemeToggleButton />
+        <NotificationBell {...notif} />
         <SignedIn>
           <UserButton
             afterSignOutUrl="/"
@@ -339,6 +341,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           </Link>
         </SignedOut>
       </div>
+      <NotificationModal item={notif.selectedNotification} onClose={notif.closeModal} />
       <main className={cn(
         "transition-all duration-300 min-h-screen",
         "pt-14 lg:pt-0",
