@@ -123,9 +123,9 @@ const communityCards = {
     accentColor: "#e86030",
     badge: "● NEXT SESSION",
     eyebrow: "WORKSHOPS",
-    title: "Live Demo — Migrating Azure Infrastructure to AWS and GCP",
-    desc: "Live walkthrough migrating an existing Azure environment to both AWS and GCP using Infracodebase.",
-    meta: "📅 Wed, March 25 · 5:00 PM CET",
+    title: "Shift-Left Security — Building a Secure AWS Baseline from Scratch",
+     desc: "Instead of adding security after the fact, we start with it. Live demo of generating secure AWS Terraform from scratch.",
+     meta: "📅 Wed, April 2 · 5:00 PM CET",
     cta: "ADD TO CALENDAR →",
   },
   grid: [
