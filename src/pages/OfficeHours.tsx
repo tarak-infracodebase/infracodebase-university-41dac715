@@ -1176,20 +1176,22 @@ function HorizontalSessionCard({
         overflow: 'hidden',
         flexShrink: 0,
       }}>
-        <img
-          src={thumbnail}
-          alt={sessionTitle}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center top',
-            display: 'block',
-          }}
-        />
+        {customThumbnail ? customThumbnail : (
+          <img
+            src={thumbnail}
+            alt={sessionTitle}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center top',
+              display: 'block',
+            }}
+          />
+        )}
         {!editing && hov && (
           <div style={{
             position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)',
