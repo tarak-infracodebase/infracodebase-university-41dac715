@@ -312,41 +312,44 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, isSignedIn, isLoaded } = useUser();
   const autoShowFired = useRef(false);
 
-  // Auto-show notification modal based on auth state
+  // Clear session flag on sign out
   useEffect(() => {
-    if (!isLoaded || autoShowFired.current) return;
+    if (isLoaded && !isSignedIn) {
+      sessionStorage.removeItem("icbu_notif_modal_shown");
+    }
+  }, [isLoaded, isSignedIn]);
+
+  // Auto-show notification modal after sign-up or sign-in
+  useEffect(() => {
+    if (!isLoaded || !isSignedIn || !user || autoShowFired.current) return;
 
     const firstUnread = notif.allNotifications.find((n) => !n.read);
     if (!firstUnread) return;
 
-    if (isSignedIn && user) {
-      const createdAt = user.createdAt ? new Date(user.createdAt).getTime() : 0;
-      const isNewUser = Date.now() - createdAt < 60_000;
+    const createdAt = user.createdAt ? new Date(user.createdAt).getTime() : 0;
+    const isNewUser = Date.now() - createdAt < 60_000;
 
-      if (isNewUser) {
-        autoShowFired.current = true;
-        const timer = setTimeout(() => {
-          notif.openNotification(firstUnread);
-          sessionStorage.setItem("icbu_notif_modal_shown", "1");
-        }, 600);
-        return () => clearTimeout(timer);
-      }
-
-      const alreadyShown = sessionStorage.getItem("icbu_notif_modal_shown");
-      if (!alreadyShown && notif.unreadCount > 0) {
-        autoShowFired.current = true;
-        const timer = setTimeout(() => {
-          notif.openNotification(firstUnread);
-          sessionStorage.setItem("icbu_notif_modal_shown", "1");
-        }, 600);
-        return () => clearTimeout(timer);
-      }
+    if (isNewUser) {
+      // Sign up → always show
+      autoShowFired.current = true;
+      const timer = setTimeout(() => {
+        notif.openNotification(firstUnread);
+        sessionStorage.setItem("icbu_notif_modal_shown", "1");
+      }, 600);
+      return () => clearTimeout(timer);
     }
 
-    if (!isSignedIn) {
-      sessionStorage.removeItem("icbu_notif_modal_shown");
+    // Sign in → show once per session if unread exist
+    const alreadyShown = sessionStorage.getItem("icbu_notif_modal_shown");
+    if (!alreadyShown && notif.unreadCount > 0) {
+      autoShowFired.current = true;
+      const timer = setTimeout(() => {
+        notif.openNotification(firstUnread);
+        sessionStorage.setItem("icbu_notif_modal_shown", "1");
+      }, 600);
+      return () => clearTimeout(timer);
     }
-  }, [isLoaded, isSignedIn, user, notif]);
+  }, [isLoaded, isSignedIn, user, notif.allNotifications, notif.unreadCount, notif.openNotification]);
 
   return (
     <div className="min-h-screen bg-background">

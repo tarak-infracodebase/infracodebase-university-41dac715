@@ -288,7 +288,19 @@ export function NotificationBell({
               className="w-full text-center transition-colors"
               onClick={() => {
                 closePanel();
-                navigate("/dashboard");
+                switch (activeTab) {
+                  case "workshop":
+                    navigate("/workshops");
+                    break;
+                  case "video":
+                    navigate("/videos");
+                    break;
+                  case "module":
+                    navigate("/training");
+                    break;
+                  default:
+                    navigate("/training");
+                }
               }}
               style={{
                 fontSize: 12,
