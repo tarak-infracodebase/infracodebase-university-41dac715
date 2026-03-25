@@ -76,7 +76,7 @@ const events: EventItem[] = [
     type: "Career Talk",
     speakers: [{ name: "Tarak", role: "Co-Founder" }, { name: "Fatima", role: "Software Engineer" }],
     link: "https://www.linkedin.com/events/7437983286372626433/?viewAsMember=true",
-    platform: "linkedin",
+    platform: "youtube",
     thumbnail: legalBg,
     embedUrl: "https://www.youtube.com/embed/mlIePKsqa-4",
   },
