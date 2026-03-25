@@ -1155,7 +1155,7 @@ function HexSpeaker({ src, name, role, size = 52 }: { src: string; name: string;
         </div>
       </div>
       <span style={{ color: '#fff', fontSize: '10px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>{name}</span>
-      <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: '8px', fontFamily: 'JetBrains Mono, monospace', marginTop: '-2px' }}>{role}</span>
+      <span style={{ color: '#ffffff', opacity: 0.85, fontSize: '8px', fontFamily: 'JetBrains Mono, monospace', marginTop: '-2px' }}>{role}</span>
     </div>
   );
 }
@@ -1200,7 +1200,7 @@ function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title
 
       {/* Bottom URL */}
       <div style={{ textAlign: 'center' }}>
-        <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '8px', fontFamily: 'JetBrains Mono, monospace' }}>
+        <span style={{ color: '#ffffff', opacity: 0.6, fontSize: '8px', fontFamily: 'JetBrains Mono, monospace' }}>
           university.infracodebase.com
         </span>
       </div>
