@@ -52,16 +52,6 @@ const videos: VideoItem[] = [
     trackPath: "/path/architecture-diagrams",
   },
   {
-    id: "advanced-architecture",
-    title: "Advanced Infrastructure Architecture",
-    src: "/assets/Track6_Introduction.mp4",
-    category: "Infrastructure Architecture",
-    description: "Start this track by understanding how to design systems that handle scale, failure, and complexity.",
-    trackLabel: "Track 6 — Advanced Infrastructure Architecture",
-    trackPath: "/path/advanced-architecture",
-    badge: "Track Introduction",
-  },
-  {
     id: "enterprise-governance",
     title: "Enterprise Governance & Platform Engineering",
     src: "/assets/Scaling_infra_-_veed.mp4",
@@ -242,17 +232,10 @@ const VideoLibrary = () => {
             {selectedTopic === "All" ? "All Videos" : selectedTopic}
           </h2>
           <div className="grid sm:grid-cols-2 gap-5">
-            {filtered.filter(v => v.id !== "advanced-architecture").map(v => (
+            {filtered.map(v => (
               <VideoCard key={v.id} video={v} onPlay={handlePlay} />
             ))}
           </div>
-          {filtered.some(v => v.id === "advanced-architecture") && (
-            <div className="grid sm:grid-cols-2 gap-5 mt-5">
-              {filtered.filter(v => v.id === "advanced-architecture").map(v => (
-                <VideoCard key={v.id} video={v} onPlay={handlePlay} />
-              ))}
-            </div>
-          )}
           {filtered.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-12">No videos match your search.</p>
           )}
