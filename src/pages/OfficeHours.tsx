@@ -158,13 +158,13 @@ const session1Comments = [
 
 const session2Screenshots = [
   { src: "/workshop2-thumbnail.png", caption: "Session thumbnail" },
-  { src: "/workshop2-thumbnail.png", caption: "Teams call — full group (15 attendees)" },
-  { src: "/workshop2-thumbnail.png", caption: "Teams call — second view" },
-  { src: "/workshop2-thumbnail.png", caption: "CLOUD_COMPARISON.md — Multi-Cloud API Gateway Architecture Comparison" },
-  { src: "/workshop2-thumbnail.png", caption: "PROGRESS.md — Azure APIM Secure Baseline Build Progress" },
-  { src: "/workshop2-thumbnail.png", caption: "Azure API Management diagram — 80% layout quality" },
-  { src: "/workshop2-thumbnail.png", caption: "AWS API Gateway diagram — 96% layout quality" },
-  { src: "/workshop2-thumbnail.png", caption: "GCP API Gateway diagram — 89% layout quality" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_00_48.png", caption: "Teams call — full group (15 attendees)" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_06_50.png", caption: "CLOUD_COMPARISON.md — Multi-Cloud API Gateway Architecture Comparison" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_07_30.png", caption: "PROGRESS.md — Azure APIM Secure Baseline Build Progress" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_07_45.png", caption: "Azure API Management diagram — 80% layout quality" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_07_59.png", caption: "AWS API Gateway diagram — 96% layout quality" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_08_43.png", caption: "GCP API Gateway diagram — 89% layout quality" },
+  { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_00_48.png", caption: "Teams call — second group view" },
 ];
 
 const SESSION2_NOTES_HTML = `<h2>Build with Her — March 25, 2026 — 56m 46s</h2>
@@ -323,18 +323,18 @@ const session2Comments = [
     upvotes: 9, reply: null
   },
   {
-    name: 'Divine Odazie', date: 'March 25, 2026', avatar: '/Comfort_Benton.jpeg',
+    name: 'Divine Odazie', date: 'March 25, 2026', avatar: '/workshops/workshop-2/avatars/Divine.jpeg',
     text: "I'm pumped to do a community session in April. Already thinking about what use case to bring.",
     upvotes: 8,
     reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: JUSTIN_AVATAR, text: "Can't wait Divine — reach out beforehand and we'll make sure you have everything you need.", upvotes: 4 }
   },
   {
-    name: 'Bhavika', date: 'March 25, 2026', avatar: '/Comfort_Benton.jpeg',
+    name: 'Bhavika', date: 'March 25, 2026', avatar: '/workshops/workshop-2/avatars/Bhavika.jpeg',
     text: 'I asked about how best practices are chosen and the answer really helped — knowing it pulls from authoritative docs plus enterprise rule sets makes it feel much more trustworthy.',
     upvotes: 7, reply: null
   },
   {
-    name: 'Ria Choi', date: 'March 25, 2026', avatar: '/Comfort_Benton.jpeg',
+    name: 'Ria Choi', date: 'March 25, 2026', avatar: '/workshops/workshop-2/avatars/Ria_Choi.jpeg',
     text: 'The prototype vs production distinction was something I hadn\'t thought about before. Really useful framing for how to approach learning projects.',
     upvotes: 6,
     answered: '41:15',
