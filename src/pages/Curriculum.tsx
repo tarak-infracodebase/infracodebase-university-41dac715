@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { BookOpen, Clock, ArrowRight, Search, HelpCircle, X } from "lucide-react";
 import { AzurePeriodicTablePill } from "@/components/AzurePeriodicTableLink";
+import { InfracodebaseDocsPill } from "@/components/InfracodebaseDocsLink";
 import { cn } from "@/lib/utils";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import { CurriculumGuidanceQuiz } from "@/components/CurriculumGuidanceQuiz";
@@ -71,9 +72,13 @@ function PathCard({ path, colorOverride }: { path: typeof learningPaths[number];
           <span className="flex items-center gap-1"><BookOpen className="h-3 w-3" /> {totalLessons} lessons</span>
           <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {path.courses[0]?.estimatedTime || "~2 hrs"}</span>
           <span className="text-crystal-yellow font-mono">+{totalLessons * 50} XP</span>
-          {isPrereq && (
+          {isPrereq ? (
             <span className="ml-auto">
               <AzurePeriodicTablePill />
+            </span>
+          ) : (
+            <span className="ml-auto">
+              <InfracodebaseDocsPill trackId={path.id} />
             </span>
           )}
         </div>

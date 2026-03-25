@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, Video, Hammer,
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { AzurePeriodicTableCard } from "@/components/AzurePeriodicTableLink";
+import { InfracodebaseDocsCard } from "@/components/InfracodebaseDocsLink";
 
 const crystalColors = [
   "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
@@ -220,7 +221,7 @@ function ProgressSidebar({
           {/* Helpful Resources */}
           <div className="glass-panel rounded-xl p-5">
             <h4 className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h4>
-            <AzurePeriodicTableCard />
+            {isPrereq ? <AzurePeriodicTableCard /> : <InfracodebaseDocsCard trackId={currentTrackId} />}
           </div>
 
           {/* Up Next — secondary guidance */}
@@ -259,7 +260,7 @@ function ProgressSidebar({
           {/* Helpful Resources */}
           <div className="glass-panel rounded-xl p-5">
             <h4 className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h4>
-            <AzurePeriodicTableCard />
+            {isPrereq ? <AzurePeriodicTableCard /> : <InfracodebaseDocsCard trackId={currentTrackId} />}
           </div>
 
           {/* Up Next / Completion */}
