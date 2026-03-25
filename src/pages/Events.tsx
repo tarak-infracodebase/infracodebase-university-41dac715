@@ -1,7 +1,7 @@
 import { AppLayout } from "@/components/AppLayout";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap, Headphones, X } from "lucide-react";
+import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap, Headphones } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 import legalBg from "@/assets/events/legal-background.png";
@@ -347,6 +347,7 @@ const Events = () => {
   const [seriesFilter, setSeriesFilter] = useState<SeriesFilter>("all");
   const [formatFilter, setFormatFilter] = useState<FormatFilter>("all");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
+  const [modalEvent, setModalEvent] = useState<EventItem | null>(null);
 
   const featured = events.find(e => e.featured);
 
@@ -362,6 +363,15 @@ const Events = () => {
 
   const infraEvents = filtered.filter(e => e.series === "infracodebase");
   const bwhEvents = filtered.filter(e => e.series === "buildwithher");
+
+  const openEvent = (event: EventItem) => {
+    // Podcasts always open externally
+    if (event.format === "podcast") {
+      window.open(event.link, "_blank");
+      return;
+    }
+    setModalEvent(event);
+  };
 
   return (
     <AppLayout>
@@ -439,7 +449,10 @@ const Events = () => {
         {featured && (
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Featured Session</h2>
-            <a href={featured.link} target="_blank" rel="noopener noreferrer" className="glass-panel rounded-2xl overflow-hidden flex flex-col md:flex-row hover:border-primary/20 transition-all duration-[250ms] group block">
+            <div
+              onClick={() => openEvent(featured)}
+              className="glass-panel rounded-2xl overflow-hidden flex flex-col md:flex-row hover:border-primary/20 transition-all duration-[250ms] group cursor-pointer"
+            >
               <div className="md:w-[400px] shrink-0 relative overflow-hidden">
                 <img src={featured.thumbnail} alt={featured.title} className="w-full h-full object-cover min-h-[200px] transition-transform duration-[250ms] group-hover:scale-[1.03]" />
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/80 hidden md:block" />
@@ -453,11 +466,11 @@ const Events = () => {
                   </div>
                   <span className="text-xs text-muted-foreground">{featured.speakers.map(s => s.name).join(", ")}</span>
                 </div>
-                <button className="rounded-lg bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 w-fit">
-                  {getCtaLabel(featured)} <ArrowRight className="h-4 w-4" />
-                </button>
+                <span className="rounded-lg bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 w-fit">
+                  Watch session <ArrowRight className="h-4 w-4" />
+                </span>
               </div>
-            </a>
+            </div>
           </div>
         )}
 
@@ -469,7 +482,7 @@ const Events = () => {
               <p className="text-xs text-muted-foreground">Technical deep dives into platform engineering, AI infrastructure, security practices, and real-world cloud systems.</p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {infraEvents.map(ev => <EventCard key={ev.id} event={ev} />)}
+              {infraEvents.map(ev => <EventCard key={ev.id} event={ev} onOpen={openEvent} />)}
             </div>
           </div>
         )}
@@ -482,7 +495,7 @@ const Events = () => {
               <p className="text-xs text-muted-foreground">Conversations with builders about career paths, leadership journeys, and breaking into infrastructure and cloud engineering.</p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {bwhEvents.map(ev => <EventCard key={ev.id} event={ev} />)}
+              {bwhEvents.map(ev => <EventCard key={ev.id} event={ev} onOpen={openEvent} />)}
             </div>
           </div>
         )}
@@ -492,7 +505,7 @@ const Events = () => {
           <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">All Sessions</h2>
           {filtered.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filtered.map(ev => <EventCard key={ev.id} event={ev} />)}
+              {filtered.map(ev => <EventCard key={ev.id} event={ev} onOpen={openEvent} />)}
             </div>
           ) : (
             <div className="glass-panel rounded-2xl p-12 text-center">
@@ -502,6 +515,8 @@ const Events = () => {
           )}
         </div>
       </div>
+
+      <EventVideoModal event={modalEvent} open={!!modalEvent} onClose={() => setModalEvent(null)} />
     </AppLayout>
   );
 };
