@@ -1249,9 +1249,9 @@ export default function OfficeHours() {
 
   // Hero editing
   const [heroEditing, setHeroEditing] = useState(false);
-  const [heroTitle, setHeroTitle] = useState("Live Demo — Migrating Azure Infrastructure to AWS and GCP");
-  const [heroDesc, setHeroDesc] = useState("Live walkthrough of migrating an existing Azure environment to both AWS and GCP using Infracodebase. We'll scan the resources, generate multi-cloud Terraform, and show how the agent handles the translation automatically — no manual rewriting.");
-  const [heroDate, setHeroDate] = useState("Wednesday, March 25, 2026");
+  const [heroTitle, setHeroTitle] = useState("Shift-Left Security — Building a Secure AWS Baseline from Scratch");
+   const [heroDesc, setHeroDesc] = useState("Instead of adding security after the fact, we start with it. Live demo: describe an architecture intent, watch Infracodebase generate AWS Terraform with IAM least-privilege, encryption, private subnets, and compliance scoring — before a single resource is deployed.");
+   const [heroDate, setHeroDate] = useState("Wednesday, April 2, 2026");
   const [heroTime, setHeroTime] = useState("5:00 PM CET");
 
 
