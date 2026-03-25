@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { getTrackCompletionDetails } from "@/hooks/useTrackCompletion";
 import NotFound from "@/pages/NotFound";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
@@ -473,9 +474,20 @@ const Profile = () => {
             <div className="glass-panel rounded-xl p-5">
               <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Achievements</h3>
               <div className="flex flex-wrap gap-2">
-                {["hsl(var(--crystal-violet))", "hsl(var(--crystal-magenta))", "hsl(var(--crystal-cyan))", "hsl(var(--crystal-green))", "hsl(var(--crystal-yellow))"].map((c, i) => (
-                  <CrystalIcon key={i} color={c} size={24} />
-                ))}
+                {[
+                  { color: "hsl(var(--crystal-violet))", trackId: "cloud-infrastructure-intro" },
+                  { color: "hsl(var(--crystal-magenta))", trackId: "prereq-foundations" },
+                  { color: "hsl(var(--crystal-cyan))", trackId: "foundations" },
+                  { color: "hsl(var(--crystal-green))", trackId: "real-infrastructure" },
+                  { color: "hsl(var(--crystal-yellow))", trackId: "advanced-architecture" },
+                ].map((badge, i) => {
+                  const earned = getTrackCompletionDetails(badge.trackId).isComplete;
+                  return (
+                    <div key={i} style={{ opacity: earned ? 1 : 0.25, filter: earned ? "none" : "grayscale(1)", transition: "all 0.3s" }}>
+                      <CrystalIcon color={badge.color} size={24} />
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
