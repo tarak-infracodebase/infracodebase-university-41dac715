@@ -14,7 +14,7 @@ export function AzurePeriodicTablePill() {
       href="https://www.azureperiodictable.com"
       target="_blank"
       rel="noopener noreferrer"
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => { e.stopPropagation(); e.preventDefault(); window.open("https://www.azureperiodictable.com", "_blank", "noopener,noreferrer"); }}
       className="inline-flex items-center ml-auto rounded-[7px] p-[1px]"
       style={{ background: GRADIENT }}
     >
