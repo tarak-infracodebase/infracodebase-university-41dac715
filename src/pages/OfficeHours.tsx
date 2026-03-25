@@ -1583,6 +1583,12 @@ export default function OfficeHours() {
                 setSessionDesc={setSessionDesc}
                 sessionDate={sessionDate}
                 setSessionDate={setSessionDate}
+                customThumbnail={
+                  <WorkshopThumbnailPanel
+                    title={"Weekly Workshop —\nClickOps to IaC:\nAzure Infrastructure"}
+                    date="March 18, 2026"
+                  />
+                }
               />
             </div>
           </div>
