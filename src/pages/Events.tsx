@@ -62,8 +62,8 @@ const events: EventItem[] = [
     format: "video",
     type: "Technical Session",
     speakers: [{ name: "Lalit", role: "Sr Cloud Architect" }, { name: "Tarak", role: "Co-Founder" }, { name: "Justin", role: "Founder" }],
-    link: "https://www.youtube.com/watch?v=vOMo1RquRsY",
-    platform: "youtube",
+    link: "https://www.linkedin.com/events/7437983286372626433/?viewAsMember=true",
+    platform: "linkedin",
     thumbnail: webinarLalit,
     featured: true,
     embedUrl: "https://www.youtube.com/embed/vOMo1RquRsY",
@@ -365,8 +365,8 @@ const Events = () => {
   const bwhEvents = filtered.filter(e => e.series === "buildwithher");
 
   const openEvent = (event: EventItem) => {
-    // Podcasts always open externally
-    if (event.format === "podcast") {
+    // Podcasts and LinkedIn events open externally
+    if (event.format === "podcast" || event.platform === "linkedin") {
       window.open(event.link, "_blank");
       return;
     }
