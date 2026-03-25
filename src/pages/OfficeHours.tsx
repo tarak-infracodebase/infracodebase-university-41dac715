@@ -1160,50 +1160,90 @@ function HexSpeaker({ src, name, role, size = 52 }: { src: string; name: string;
   );
 }
 
-/* ── Workshop Thumbnail Panel (JSX-rendered, matches Workshop 1 design) ── */
-function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title: string; date: string; dateLabel?: string }) {
+/* ── Vertical Workshop Card (SheBuilds-style) ── */
+function WorkshopCard({
+  gradient, thumbTitle, date, duration, detailTitle, facilitators, tagLabel, tagStyle, onClick,
+}: {
+  gradient: string; thumbTitle: string; date: string; duration: string;
+  detailTitle: string; facilitators: string; tagLabel: string; tagStyle: React.CSSProperties; onClick: () => void;
+}) {
+  const [hov, setHov] = useState(false);
   return (
-    <div style={{
-      width: '100%', height: '100%',
-      background: 'radial-gradient(ellipse at 15% 50%, #7a2510 0%, transparent 55%), radial-gradient(ellipse at 80% 30%, #1a5c1a 0%, transparent 50%), radial-gradient(ellipse at 50% 90%, #5a3010 0%, transparent 45%), #1a1208',
-      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-      padding: '12px 16px 8px',
-    }}>
-      {/* Top row */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <span style={{ color: '#fff', fontSize: '11px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>
-          Infracodebase<span style={{ fontWeight: 400 }}>.com</span>
-        </span>
-        <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '9px', fontFamily: 'JetBrains Mono, monospace' }}>
-          {dateLabel} · {date}
-        </span>
-      </div>
-
-      {/* Center title */}
-      <div style={{ textAlign: 'center', padding: '0 8px' }}>
+    <div
+      onClick={onClick}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        position: 'relative',
+        display: 'flex', flexDirection: 'column',
+        borderRadius: '12px', overflow: 'hidden', cursor: 'pointer',
+        border: `0.5px solid ${hov ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.1)'}`,
+        transition: 'all 0.2s',
+        transform: hov ? 'translateY(-2px)' : 'none',
+        boxShadow: hov ? '0 8px 32px rgba(0,0,0,0.3)' : 'none',
+      }}
+    >
+      {/* Top — Gradient Thumbnail */}
+      <div style={{
+        background: gradient,
+        padding: '24px 20px 28px',
+        display: 'flex', flexDirection: 'column', flex: 1,
+      }}>
+        <div style={{ marginBottom: '2px' }}>
+          <span style={{ fontSize: '12px', fontWeight: 700, color: '#fff' }}>Infracodebase.com</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '20px' }}>
+          <span style={{ display: 'inline-block', width: '2px', height: '10px', background: 'rgba(255,255,255,0.5)', borderRadius: '1px' }} />
+          <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.7)' }}>Weekly Workshop</span>
+        </div>
         <h4 style={{
-          color: '#fff', fontSize: '20px', fontWeight: 700,
+          fontSize: '24px', fontWeight: 700, color: '#fff',
           fontFamily: 'Fraunces, Georgia, serif',
-          lineHeight: 1.35,
-          textShadow: '0 1px 4px rgba(0,0,0,0.4)',
-          whiteSpace: 'pre-line',
+          lineHeight: 1.2, flex: 1, marginBottom: '20px',
         }}>
-          {title}
+          {thumbTitle}
         </h4>
+        <div>
+          <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.8)', marginBottom: '2px' }}>{date}</p>
+          <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}>{duration}</p>
+        </div>
       </div>
 
-      {/* Speakers */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '24px' }}>
-        <HexSpeaker src={TARAK_AVATAR} name="Tarak" role="Co-Founder, Infracodebase" />
-        <HexSpeaker src={JUSTIN_AVATAR} name="Justin" role="Founder, Infracodebase" />
+      {/* Bottom — Dark Detail Panel */}
+      <div style={{ background: '#12131f', padding: '14px 16px' }}>
+        <p style={{
+          fontSize: '12px', fontWeight: 500, color: '#fff',
+          fontFamily: 'JetBrains Mono, monospace',
+          lineHeight: 1.4, marginBottom: '3px',
+        }}>
+          {detailTitle}
+        </p>
+        <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginBottom: '10px' }}>
+          {facilitators}
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={tagStyle}>{tagLabel}</span>
+          <span style={{ fontSize: '11px', color: '#8b9cff', fontWeight: 500 }}>View session →</span>
+        </div>
       </div>
 
-      {/* Bottom URL */}
-      <div style={{ textAlign: 'center' }}>
-        <span style={{ color: '#ffffff', opacity: 0.6, fontSize: '10px', fontFamily: 'JetBrains Mono, monospace' }}>
-          university.infracodebase.com
-        </span>
-      </div>
+      {/* Hover play overlay */}
+      {hov && (
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'rgba(0,0,0,0.3)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          pointerEvents: 'none',
+        }}>
+          <div style={{
+            width: '48px', height: '48px', borderRadius: '50%',
+            background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <Play className="h-5 w-5 text-white" style={{ marginLeft: '2px' }} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
