@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { getTrackCompletionDetails } from "@/hooks/useTrackCompletion";
 import NotFound from "@/pages/NotFound";
 import { AppLayout } from "@/components/AppLayout";
 import { CrystalIcon } from "@/components/DashboardWidgets";
