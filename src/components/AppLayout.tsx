@@ -39,6 +39,7 @@ const navGroups = [
     label: "Me",
     items: [
       { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { path: "/feedback", label: "Feedback", icon: MessageSquare },
       { path: "/profile", label: "Profile", icon: User },
       { path: "/resources", label: "Resources", icon: FolderOpen },
     ],
@@ -176,13 +177,6 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
 
       {/* Bottom actions */}
       <div className="px-2 py-3 border-t border-border/50 space-y-0.5">
-        <Link
-          to="/feedback"
-          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
-        >
-          <MessageSquare className="h-4 w-4 shrink-0" />
-          {!collapsed && <span>Feedback</span>}
-        </Link>
         <button
           onClick={onToggle}
           className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors w-full"
