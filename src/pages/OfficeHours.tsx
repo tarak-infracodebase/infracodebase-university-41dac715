@@ -1240,16 +1240,8 @@ export default function OfficeHours() {
   const [heroDate, setHeroDate] = useState("Wednesday, March 25, 2026");
   const [heroTime, setHeroTime] = useState("5:00 PM CET");
 
-  // Session 1 card editing
-  const [sessionEditing, setSessionEditing] = useState(false);
-  const [sessionTitle, setSessionTitle] = useState("Build with Her — ClickOps to IaC: Azure Infrastructure Modernization");
-  const [sessionDesc, setSessionDesc] = useState("Live demo: inspect manually provisioned Azure infrastructure, generate Terraform code with Infracodebase, establish a clean IaC baseline, and shift remediation left.");
 
-  // Session 2 card editing
-  const [session2Editing, setSession2Editing] = useState(false);
-  const [session2Title, setSession2Title] = useState("Build with Her — Migrating Azure Infrastructure to AWS and GCP");
-  const [session2Desc, setSession2Desc] = useState("Live walkthrough of migrating an existing Azure environment to both AWS and GCP using Infracodebase. We'll scan the resources, generate multi-cloud Terraform, and show how the agent handles the translation automatically, no manual rewriting.");
-  const [session2Date, setSession2Date] = useState("March 25, 2026");
+
 
   // Instructor photo uploads
   const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => {
