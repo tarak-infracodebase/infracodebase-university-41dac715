@@ -471,6 +471,7 @@ export function NotificationModal({ item, onClose }: NotificationModalProps) {
           to { opacity: 1; transform: scale(1) translateY(0); }
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 }
