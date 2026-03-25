@@ -305,18 +305,52 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
           )}
 
           {/* Add new entry */}
+          <input
+            ref={externalFileRef}
+            type="file"
+            accept="image/*,application/pdf,.docx,.doc,.txt,.md,.zip"
+            onChange={handleExternalFileSelect}
+            className="hidden"
+          />
           <div className="flex gap-2">
             <Input
               value={newEntry}
               onChange={e => setNewEntry(e.target.value)}
               onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); addEntry(); } }}
-              placeholder="Add screenshot or link"
+              placeholder="Paste a link or type a description"
               className="bg-background/50 border-border/50 text-sm flex-1"
             />
             <Button onClick={addEntry} size="sm" variant="outline" className="text-xs shrink-0 gap-1">
               <Plus className="h-3 w-3" /> Add
             </Button>
+            <Button
+              onClick={() => externalFileRef.current?.click()}
+              size="sm"
+              variant="outline"
+              className="text-xs shrink-0 gap-1"
+            >
+              <Upload className="h-3 w-3" /> File
+            </Button>
           </div>
+
+          {/* Attached file preview */}
+          {attachedFile && (
+            <div className="mt-3 flex items-center gap-2 rounded-lg border border-border/30 bg-background/50 px-3 py-2.5">
+              {attachedFile.type.startsWith("image/") ? (
+                <img src={attachedFile.data} alt={attachedFile.name} className="h-10 w-10 rounded object-cover shrink-0" />
+              ) : (
+                <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+              )}
+              <span className="text-sm text-foreground truncate flex-1">{attachedFile.name}</span>
+              <button
+                onClick={clearAttachedFile}
+                className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                aria-label="Remove file"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          )}
         </>
       )}
 
