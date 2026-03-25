@@ -97,6 +97,10 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   const [entries, setEntries] = useState<string[]>([]);
   const [newEntry, setNewEntry] = useState("");
 
+  // File attachment state for build-external
+  const [attachedFile, setAttachedFile] = useState<{ data: string; name: string; type: string } | null>(null);
+  const externalFileRef = useRef<HTMLInputElement>(null);
+
   const [answer, setAnswer] = useState("");
   const [fileData, setFileData] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>("");
@@ -112,7 +116,6 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
       const data = localStorage.getItem(storageKey);
       if (data) {
         const parsed = JSON.parse(data);
-        // Migrate old single-entry format to multi-entry
         if (type === "build-external") {
           if (parsed.entries) {
             setEntries(parsed.entries);
@@ -149,11 +152,26 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   const handleSave = () => {
     if (!requireAuth()) return;
     try {
-      const payload =
-        type === "writing" ? { answer } :
-        type === "build-platform" ? { fileData, fileName, fileType, notes } :
-        { entries };
-      localStorage.setItem(storageKey, JSON.stringify(payload));
+      // If there's an attached file for build-external, add it as an entry before saving
+      if (type === "build-external" && attachedFile) {
+        const fileEntry = `[file:${attachedFile.name}]${attachedFile.data}`;
+        const allEntries = [...entries, ...(newEntry.trim() ? [newEntry.trim()] : []), fileEntry];
+        localStorage.setItem(storageKey, JSON.stringify({ entries: allEntries }));
+        setEntries(allEntries);
+        setNewEntry("");
+        setAttachedFile(null);
+        if (externalFileRef.current) externalFileRef.current.value = "";
+      } else {
+        const payload =
+          type === "writing" ? { answer } :
+          type === "build-platform" ? { fileData, fileName, fileType, notes } :
+          { entries: [...entries, ...(newEntry.trim() ? [newEntry.trim()] : [])] };
+        if (type === "build-external" && newEntry.trim()) {
+          setEntries(prev => [...prev, newEntry.trim()]);
+          setNewEntry("");
+        }
+        localStorage.setItem(storageKey, JSON.stringify(payload));
+      }
 
       const currentXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
       localStorage.setItem("icbu_xp", String(currentXP + 50));
@@ -173,6 +191,25 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
 
   const removeEntry = (index: number) => {
     setEntries(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleExternalFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setAttachedFile({
+        data: ev.target?.result as string,
+        name: file.name,
+        type: file.type,
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const clearAttachedFile = () => {
+    setAttachedFile(null);
+    if (externalFileRef.current) externalFileRef.current.value = "";
   };
 
   const processFile = (file: File) => {
