@@ -2,6 +2,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap, Headphones } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 import legalBg from "@/assets/events/legal-background.png";
 import webinarAi from "@/assets/events/webinar-ai-trust.png";
@@ -27,6 +28,7 @@ interface EventItem {
   platform: "youtube" | "linkedin" | "spotify";
   thumbnail: string;
   featured?: boolean;
+  embedUrl?: string;
 }
 
 const events: EventItem[] = [
@@ -51,6 +53,7 @@ const events: EventItem[] = [
     link: "https://www.youtube.com/watch?v=5At76xVQngA",
     platform: "youtube",
     thumbnail: webinarBrand,
+    embedUrl: "https://www.youtube.com/embed/5At76xVQngA",
   },
   {
     id: 1,
@@ -63,6 +66,7 @@ const events: EventItem[] = [
     platform: "youtube",
     thumbnail: webinarLalit,
     featured: true,
+    embedUrl: "https://www.youtube.com/embed/vOMo1RquRsY",
   },
   {
     id: 2,
@@ -74,6 +78,7 @@ const events: EventItem[] = [
     link: "https://www.linkedin.com/events/7437983286372626433/?viewAsMember=true",
     platform: "linkedin",
     thumbnail: legalBg,
+    embedUrl: "https://www.youtube.com/embed/mlIePKsqa-4",
   },
   {
     id: 3,
@@ -85,6 +90,7 @@ const events: EventItem[] = [
     link: "https://www.youtube.com/watch?v=mlIePKsqa-4",
     platform: "youtube",
     thumbnail: webinarAi,
+    embedUrl: "https://www.youtube.com/embed/vOMo1RquRsY",
   },
   {
     id: 4,
@@ -96,6 +102,7 @@ const events: EventItem[] = [
     link: "https://www.youtube.com/watch?v=SLpgv8zCzPU",
     platform: "youtube",
     thumbnail: webinarDec,
+    embedUrl: "https://www.youtube.com/embed/Ld8WG8CtagA",
   },
   {
     id: 5,
@@ -107,6 +114,7 @@ const events: EventItem[] = [
     link: "https://www.youtube.com/watch?v=H8Osx6GcLSE",
     platform: "youtube",
     thumbnail: webinarFeb,
+    embedUrl: "https://www.youtube.com/embed/H8Osx6GcLSE",
   },
   {
     id: 6,
@@ -118,6 +126,7 @@ const events: EventItem[] = [
     link: "https://www.youtube.com/watch?v=vOMo1RquRsY",
     platform: "youtube",
     thumbnail: webinarShannon,
+    embedUrl: "https://www.youtube.com/embed/SLpgv8zCzPU",
   },
 ];
 
@@ -219,12 +228,20 @@ function getCtaIcon(event: EventItem) {
   return <ExternalLink className="h-3 w-3" />;
 }
 
-function EventCard({ event }: { event: EventItem }) {
+function EventCard({ event, onOpen }: { event: EventItem; onOpen: (e: EventItem) => void }) {
+  const handleClick = (e: React.MouseEvent) => {
+    // Podcasts still open externally
+    if (event.format === "podcast") return;
+    e.preventDefault();
+    onOpen(event);
+  };
+
   return (
     <a
       href={event.link}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
       className="group relative rounded-xl overflow-hidden bg-card border border-border/30 transition-all duration-[250ms] ease-out hover:scale-105 hover:-translate-y-1.5 hover:z-10 hover:shadow-[0_12px_40px_-8px_hsl(var(--primary)/0.3),0_4px_16px_-4px_hsl(0_0%_0%/0.4)] hover:border-primary/30 block"
     >
       {/* Thumbnail */}
@@ -280,10 +297,57 @@ function EventCard({ event }: { event: EventItem }) {
   );
 }
 
+function EventVideoModal({ event, open, onClose }: { event: EventItem | null; open: boolean; onClose: () => void }) {
+  if (!event) return null;
+
+  const hasEmbed = !!event.embedUrl;
+
+  return (
+    <Dialog open={open} onOpenChange={v => !v && onClose()}>
+      <DialogContent className="max-w-4xl w-[95vw] p-0 gap-0 bg-card border-border/50 overflow-hidden">
+        <DialogTitle className="sr-only">{event.title}</DialogTitle>
+        <div className="p-4 pb-2 flex items-start justify-between gap-4">
+          <div>
+            <span className={cn("text-[10px] px-2 py-0.5 rounded-full border inline-block mb-1.5", typeColors[event.type])}>{event.type}</span>
+            <h3 className="text-sm font-bold leading-snug">{event.title}</h3>
+            <p className="text-[11px] text-muted-foreground mt-1">{event.speakers.map(s => s.name).join(", ")}</p>
+          </div>
+        </div>
+        {hasEmbed ? (
+          <div className="px-4 pb-4">
+            <div className="aspect-video w-full rounded-lg overflow-hidden bg-black">
+              <iframe
+                src={event.embedUrl + "?autoplay=1"}
+                title={event.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="px-4 pb-6 flex flex-col items-center gap-4 py-8">
+            <p className="text-sm text-muted-foreground text-center">This session is hosted externally and cannot be embedded.</p>
+            <a
+              href={event.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg bg-primary text-primary-foreground px-6 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2"
+            >
+              {event.platform === "linkedin" ? "Register on LinkedIn" : "Open externally"} <ExternalLink className="h-4 w-4" />
+            </a>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 const Events = () => {
   const [seriesFilter, setSeriesFilter] = useState<SeriesFilter>("all");
   const [formatFilter, setFormatFilter] = useState<FormatFilter>("all");
   const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
+  const [modalEvent, setModalEvent] = useState<EventItem | null>(null);
 
   const featured = events.find(e => e.featured);
 
@@ -299,6 +363,15 @@ const Events = () => {
 
   const infraEvents = filtered.filter(e => e.series === "infracodebase");
   const bwhEvents = filtered.filter(e => e.series === "buildwithher");
+
+  const openEvent = (event: EventItem) => {
+    // Podcasts always open externally
+    if (event.format === "podcast") {
+      window.open(event.link, "_blank");
+      return;
+    }
+    setModalEvent(event);
+  };
 
   return (
     <AppLayout>
@@ -376,7 +449,10 @@ const Events = () => {
         {featured && (
           <div>
             <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Featured Session</h2>
-            <a href={featured.link} target="_blank" rel="noopener noreferrer" className="glass-panel rounded-2xl overflow-hidden flex flex-col md:flex-row hover:border-primary/20 transition-all duration-[250ms] group block">
+            <div
+              onClick={() => openEvent(featured)}
+              className="glass-panel rounded-2xl overflow-hidden flex flex-col md:flex-row hover:border-primary/20 transition-all duration-[250ms] group cursor-pointer"
+            >
               <div className="md:w-[400px] shrink-0 relative overflow-hidden">
                 <img src={featured.thumbnail} alt={featured.title} className="w-full h-full object-cover min-h-[200px] transition-transform duration-[250ms] group-hover:scale-[1.03]" />
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/80 hidden md:block" />
@@ -390,11 +466,11 @@ const Events = () => {
                   </div>
                   <span className="text-xs text-muted-foreground">{featured.speakers.map(s => s.name).join(", ")}</span>
                 </div>
-                <button className="rounded-lg bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 w-fit">
-                  {getCtaLabel(featured)} <ArrowRight className="h-4 w-4" />
-                </button>
+                <span className="rounded-lg bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 w-fit">
+                  Watch session <ArrowRight className="h-4 w-4" />
+                </span>
               </div>
-            </a>
+            </div>
           </div>
         )}
 
@@ -406,7 +482,7 @@ const Events = () => {
               <p className="text-xs text-muted-foreground">Technical deep dives into platform engineering, AI infrastructure, security practices, and real-world cloud systems.</p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {infraEvents.map(ev => <EventCard key={ev.id} event={ev} />)}
+              {infraEvents.map(ev => <EventCard key={ev.id} event={ev} onOpen={openEvent} />)}
             </div>
           </div>
         )}
@@ -419,7 +495,7 @@ const Events = () => {
               <p className="text-xs text-muted-foreground">Conversations with builders about career paths, leadership journeys, and breaking into infrastructure and cloud engineering.</p>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {bwhEvents.map(ev => <EventCard key={ev.id} event={ev} />)}
+              {bwhEvents.map(ev => <EventCard key={ev.id} event={ev} onOpen={openEvent} />)}
             </div>
           </div>
         )}
@@ -429,7 +505,7 @@ const Events = () => {
           <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">All Sessions</h2>
           {filtered.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filtered.map(ev => <EventCard key={ev.id} event={ev} />)}
+              {filtered.map(ev => <EventCard key={ev.id} event={ev} onOpen={openEvent} />)}
             </div>
           ) : (
             <div className="glass-panel rounded-2xl p-12 text-center">
@@ -439,6 +515,8 @@ const Events = () => {
           )}
         </div>
       </div>
+
+      <EventVideoModal event={modalEvent} open={!!modalEvent} onClose={() => setModalEvent(null)} />
     </AppLayout>
   );
 };
