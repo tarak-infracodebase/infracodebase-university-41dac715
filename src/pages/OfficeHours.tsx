@@ -1269,7 +1269,7 @@ export default function OfficeHours() {
     reader.onload = (ev) => setter(ev.target?.result as string);
     reader.readAsDataURL(file);
   };
-  const [sessionDate, setSessionDate] = useState("March 18, 2026");
+  
 
   const handleSubmitQuestion = () => {
     if (!question.trim()) return;
