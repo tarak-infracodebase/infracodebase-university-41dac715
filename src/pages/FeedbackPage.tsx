@@ -8,6 +8,7 @@ import { Star, Check, Share2, ClipboardCopy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSearchParams, Link } from "react-router-dom";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import LZString from "lz-string";
 
 // localStorage keys
 const KEYS = {
@@ -156,7 +157,9 @@ const FeedbackPage = () => {
   // Read-only mode
   if (answersParam) {
     try {
-      const decoded = JSON.parse(atob(answersParam));
+      const decompressed = LZString.decompressFromEncodedURIComponent(answersParam);
+      if (!decompressed) throw new Error("Decompression failed");
+      const decoded = JSON.parse(decompressed);
       return <ReadOnlyView data={decoded} />;
     } catch {
       // fall through to editable
@@ -224,8 +227,8 @@ function EditableFeedback() {
       if (valuable.value.trim()) payload.valuable = valuable.value;
       if (brutal.value.trim()) payload.brutal = brutal.value;
 
-      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
-      const url = `${window.location.origin}/feedback?answers=${encoded}`;
+      const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(payload));
+      const url = `${window.location.origin}/feedback?answers=${compressed}`;
 
       try {
         await navigator.clipboard.writeText(url);
