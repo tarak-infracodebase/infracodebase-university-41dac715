@@ -172,8 +172,9 @@ function EditableFeedback() {
   const [rating, setRating] = useState(0);
   const [hoveredStar, setHoveredStar] = useState(0);
   const [submittedAt, setSubmittedAt] = useState<string | null>(null);
-  const [copyAnswersMsg, setCopyAnswersMsg] = useState(false);
+  const [copyAnswersMsg, setCopyAnswersMsg] = useState("");
   const [copyFormMsg, setCopyFormMsg] = useState(false);
+  const [fallbackUrl, setFallbackUrl] = useState("");
 
   const who = useAutoSaveText(KEYS.who);
   const benefit = useAutoSaveText(KEYS.benefit);
@@ -211,29 +212,38 @@ function EditableFeedback() {
   }, [disappointment, who.value, benefit.value, rating, friction.value, valuable.value, brutal.value]);
 
   const handleShareAnswers = async () => {
-    const payload: Record<string, string> = {};
-    if (disappointment) payload.disappointment = disappointment;
-    if (who.value.trim()) payload.who = who.value;
-    if (benefit.value.trim()) payload.benefit = benefit.value;
-    if (rating > 0) payload.rating = String(rating);
-    if (friction.value.trim()) payload.friction = friction.value;
-    if (valuable.value.trim()) payload.valuable = valuable.value;
-    if (brutal.value.trim()) payload.brutal = brutal.value;
-
-    const encoded = btoa(JSON.stringify(payload));
-    const url = `${window.location.origin}/feedback?answers=${encoded}`;
-
+    if (answeredCount === 0) return;
     try {
-      await navigator.clipboard.writeText(url);
-    } catch {
-      // fallback
-    }
+      const payload: Record<string, string> = {};
+      if (disappointment) payload.disappointment = disappointment;
+      if (who.value.trim()) payload.who = who.value;
+      if (benefit.value.trim()) payload.benefit = benefit.value;
+      if (rating > 0) payload.rating = String(rating);
+      if (friction.value.trim()) payload.friction = friction.value;
+      if (valuable.value.trim()) payload.valuable = valuable.value;
+      if (brutal.value.trim()) payload.brutal = brutal.value;
 
-    const ts = new Date().toISOString();
-    localStorage.setItem(KEYS.submittedAt, ts);
-    setSubmittedAt(ts);
-    setCopyAnswersMsg(true);
-    setTimeout(() => setCopyAnswersMsg(false), 3000);
+      const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+      const url = `${window.location.origin}/feedback?answers=${encoded}`;
+
+      try {
+        await navigator.clipboard.writeText(url);
+        setCopyAnswersMsg("Link copied — share it with the team.");
+        setFallbackUrl("");
+      } catch {
+        setFallbackUrl(url);
+        setCopyAnswersMsg("Copy this link and share it with the team:");
+      }
+
+      const ts = new Date().toISOString();
+      localStorage.setItem(KEYS.submittedAt, ts);
+      setSubmittedAt(ts);
+      setTimeout(() => setCopyAnswersMsg(""), 5000);
+    } catch (err) {
+      console.error("Share error:", err);
+      setCopyAnswersMsg("Something went wrong. Please try again.");
+      setTimeout(() => setCopyAnswersMsg(""), 3000);
+    }
   };
 
   const handleShareForm = async () => {
@@ -455,18 +465,40 @@ function EditableFeedback() {
 
         {/* Share answers */}
         <div className="pt-2 space-y-3">
-          <Button onClick={handleShareAnswers} className="px-8 gap-2">
-            <Share2 className="h-4 w-4" />
-            {hasSubmitted ? "Update shared link" : "Share my answers"}
-          </Button>
-          <div
-            className={cn(
-              "text-xs font-medium text-accent transition-opacity duration-300",
-              copyAnswersMsg ? "opacity-100" : "opacity-0",
-            )}
-          >
-            Link copied — share it with the team.
-          </div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="inline-block">
+                  <Button
+                    onClick={handleShareAnswers}
+                    disabled={answeredCount === 0}
+                    className="px-8 gap-2"
+                  >
+                    <Share2 className="h-4 w-4" />
+                    {hasSubmitted ? "Update shared link" : "Share my answers"}
+                  </Button>
+                </span>
+              </TooltipTrigger>
+              {answeredCount === 0 && (
+                <TooltipContent>
+                  <p>Fill in at least one field to share your answers</p>
+                </TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
+          {copyAnswersMsg && (
+            <div className="text-xs font-medium text-accent">
+              {copyAnswersMsg}
+            </div>
+          )}
+          {fallbackUrl && (
+            <input
+              readOnly
+              value={fallbackUrl}
+              onFocus={(e) => e.target.select()}
+              className="w-full rounded-md border border-border/50 bg-muted/30 px-3 py-2 text-xs font-mono text-foreground"
+            />
+          )}
           {hasSubmitted && !copyAnswersMsg && (
             <p className="text-xs text-accent font-medium">
               Thanks — your feedback has been noted.
