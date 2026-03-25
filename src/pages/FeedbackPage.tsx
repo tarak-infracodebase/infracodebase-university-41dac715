@@ -1,17 +1,31 @@
 import { AppLayout } from "@/components/AppLayout";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Star, Check } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Star, Check, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSearchParams } from "react-router-dom";
 
-const LS_RATING = "icbu_feedback_rating";
-const LS_FRICTION = "icbu_feedback_friction";
-const LS_BRUTAL = "icbu_feedback_brutal";
-const LS_SUBMITTED = "icbu_feedback_submitted_at";
+// localStorage keys
+const KEYS = {
+  disappointment: "icbu_fb_pmf_disappointment",
+  who: "icbu_fb_pmf_who",
+  benefit: "icbu_fb_pmf_benefit",
+  rating: "icbu_fb_rating",
+  friction: "icbu_fb_friction",
+  valuable: "icbu_fb_valuable",
+  brutal: "icbu_fb_brutal",
+  submittedAt: "icbu_fb_submitted_at",
+} as const;
 
-function useAutoSave(key: string, initial: string) {
-  const [value, setValue] = useState(initial);
+type FieldKey = keyof Omit<typeof KEYS, "submittedAt">;
+
+// --- Hooks ---
+
+function useAutoSaveText(key: string) {
+  const [value, setValue] = useState("");
   const [saved, setSaved] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>();
 
@@ -36,7 +50,7 @@ function useAutoSave(key: string, initial: string) {
   return { value, update, saved };
 }
 
-function SavedIndicator({ visible }: { visible: boolean }) {
+function SavedBadge({ visible }: { visible: boolean }) {
   return (
     <span
       className={cn(
@@ -49,29 +63,164 @@ function SavedIndicator({ visible }: { visible: boolean }) {
   );
 }
 
+// --- Read-only view ---
+
+function ReadOnlyView({ data }: { data: Record<string, string> }) {
+  const disappointmentLabels: Record<string, string> = {
+    very: "Very disappointed",
+    somewhat: "Somewhat disappointed",
+    not: "Not disappointed",
+  };
+
+  const questions: { key: FieldKey; label: string; section: "A" | "B" }[] = [
+    { key: "disappointment", label: "How would you feel if you could no longer use Infracodebase University?", section: "A" },
+    { key: "who", label: "What type of person would benefit most from this?", section: "A" },
+    { key: "benefit", label: "What is the main benefit you get from Infracodebase University?", section: "A" },
+    { key: "rating", label: "How would you rate your experience so far?", section: "B" },
+    { key: "friction", label: "Where did you get stuck or confused?", section: "B" },
+    { key: "valuable", label: "What did you find most valuable?", section: "B" },
+    { key: "brutal", label: "Anything else?", section: "B" },
+  ];
+
+  const renderValue = (key: FieldKey, val: string) => {
+    if (!val) return <span className="text-muted-foreground/50 italic">No answer</span>;
+    if (key === "disappointment") return disappointmentLabels[val] || val;
+    if (key === "rating") {
+      const n = Number(val);
+      return (
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((s) => (
+            <Star key={s} className={cn("h-5 w-5", s <= n ? "fill-accent text-accent" : "text-muted-foreground/30")} />
+          ))}
+        </div>
+      );
+    }
+    return <p className="whitespace-pre-wrap font-mono text-sm text-foreground">{val}</p>;
+  };
+
+  const sectionA = questions.filter((q) => q.section === "A");
+  const sectionB = questions.filter((q) => q.section === "B");
+
+  return (
+    <AppLayout>
+      <div className="p-6 lg:p-10 max-w-2xl mx-auto space-y-10">
+        <div className="rounded-md border border-accent/30 bg-accent/5 px-4 py-3 text-sm text-accent">
+          You're viewing shared feedback — these are read-only answers.
+        </div>
+
+        <div>
+          <h1 className="text-2xl font-bold text-foreground mb-1">Feedback</h1>
+        </div>
+
+        <section className="space-y-6">
+          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">About Infracodebase University</p>
+          {sectionA.map((q) => (
+            <div key={q.key} className="space-y-1.5">
+              <p className="text-sm font-semibold text-foreground">{q.label}</p>
+              <div className="text-sm text-foreground/90">{renderValue(q.key, data[q.key] || "")}</div>
+            </div>
+          ))}
+        </section>
+
+        <section className="space-y-6">
+          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">Your experience so far</p>
+          {sectionB.map((q) => (
+            <div key={q.key} className="space-y-1.5">
+              <p className="text-sm font-semibold text-foreground">{q.label}</p>
+              <div className="text-sm text-foreground/90">{renderValue(q.key, data[q.key] || "")}</div>
+            </div>
+          ))}
+        </section>
+      </div>
+    </AppLayout>
+  );
+}
+
+// --- Main page ---
+
 const FeedbackPage = () => {
-  const [rating, setRating] = useState<number>(0);
+  const [searchParams] = useSearchParams();
+  const answersParam = searchParams.get("answers");
+
+  // Read-only mode
+  if (answersParam) {
+    try {
+      const decoded = JSON.parse(atob(answersParam));
+      return <ReadOnlyView data={decoded} />;
+    } catch {
+      // fall through to editable
+    }
+  }
+
+  return <EditableFeedback />;
+};
+
+function EditableFeedback() {
+  const [disappointment, setDisappointment] = useState("");
+  const [rating, setRating] = useState(0);
   const [hoveredStar, setHoveredStar] = useState(0);
   const [submittedAt, setSubmittedAt] = useState<string | null>(null);
+  const [copyMsg, setCopyMsg] = useState(false);
 
-  const friction = useAutoSave(LS_FRICTION, "");
-  const brutal = useAutoSave(LS_BRUTAL, "");
+  const who = useAutoSaveText(KEYS.who);
+  const benefit = useAutoSaveText(KEYS.benefit);
+  const friction = useAutoSaveText(KEYS.friction);
+  const valuable = useAutoSaveText(KEYS.valuable);
+  const brutal = useAutoSaveText(KEYS.brutal);
 
   useEffect(() => {
-    const r = localStorage.getItem(LS_RATING);
+    setDisappointment(localStorage.getItem(KEYS.disappointment) || "");
+    const r = localStorage.getItem(KEYS.rating);
     if (r) setRating(Number(r));
-    setSubmittedAt(localStorage.getItem(LS_SUBMITTED));
+    setSubmittedAt(localStorage.getItem(KEYS.submittedAt));
   }, []);
+
+  const handleDisappointment = (val: string) => {
+    setDisappointment(val);
+    localStorage.setItem(KEYS.disappointment, val);
+  };
 
   const handleRating = (n: number) => {
     setRating(n);
-    localStorage.setItem(LS_RATING, String(n));
+    localStorage.setItem(KEYS.rating, String(n));
   };
 
-  const handleSubmit = () => {
+  const answeredCount = useMemo(() => {
+    let count = 0;
+    if (disappointment) count++;
+    if (who.value.trim()) count++;
+    if (benefit.value.trim()) count++;
+    if (rating > 0) count++;
+    if (friction.value.trim()) count++;
+    if (valuable.value.trim()) count++;
+    if (brutal.value.trim()) count++;
+    return count;
+  }, [disappointment, who.value, benefit.value, rating, friction.value, valuable.value, brutal.value]);
+
+  const handleShare = async () => {
+    const payload: Record<string, string> = {};
+    if (disappointment) payload.disappointment = disappointment;
+    if (who.value.trim()) payload.who = who.value;
+    if (benefit.value.trim()) payload.benefit = benefit.value;
+    if (rating > 0) payload.rating = String(rating);
+    if (friction.value.trim()) payload.friction = friction.value;
+    if (valuable.value.trim()) payload.valuable = valuable.value;
+    if (brutal.value.trim()) payload.brutal = brutal.value;
+
+    const encoded = btoa(JSON.stringify(payload));
+    const url = `${window.location.origin}/feedback?answers=${encoded}`;
+
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // fallback
+    }
+
     const ts = new Date().toISOString();
-    localStorage.setItem(LS_SUBMITTED, ts);
+    localStorage.setItem(KEYS.submittedAt, ts);
     setSubmittedAt(ts);
+    setCopyMsg(true);
+    setTimeout(() => setCopyMsg(false), 3000);
   };
 
   const hasSubmitted = !!submittedAt;
@@ -85,8 +234,11 @@ const FeedbackPage = () => {
           <p className="text-sm text-muted-foreground">
             This is a living document. Update it anytime — nothing resets.
           </p>
+          <p className="mt-2 text-xs text-muted-foreground/70">
+            {answeredCount} of 7 answered
+          </p>
           {hasSubmitted && (
-            <div className="mt-3 text-xs text-muted-foreground/70 font-mono">
+            <div className="mt-2 text-xs text-muted-foreground/70 font-mono">
               Last shared:{" "}
               {new Date(submittedAt!).toLocaleDateString("en-US", {
                 month: "short",
@@ -99,79 +251,176 @@ const FeedbackPage = () => {
           )}
         </div>
 
-        {/* Section 1 — Rating */}
-        <section className="space-y-3">
-          <label className="text-sm font-semibold text-foreground">
-            How would you rate your experience so far?
-          </label>
-          <div className="flex items-center gap-1.5">
-            {[1, 2, 3, 4, 5].map((n) => (
-              <button
-                key={n}
-                onClick={() => handleRating(n)}
-                onMouseEnter={() => setHoveredStar(n)}
-                onMouseLeave={() => setHoveredStar(0)}
-                className="p-0.5 transition-transform hover:scale-110"
-              >
-                <Star
-                  className={cn(
-                    "h-7 w-7 transition-colors",
-                    n <= (hoveredStar || rating)
-                      ? "fill-accent text-accent"
-                      : "text-muted-foreground/30",
-                  )}
-                />
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* Section 2 — Friction log */}
-        <section className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-semibold text-foreground">
-              Where did you get stuck or confused?
-            </label>
-            <SavedIndicator visible={friction.saved} />
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Note anything that slowed you down — unclear instructions, broken features, confusing
-            copy. Update this as you go.
+        {/* Section A */}
+        <section className="space-y-8">
+          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">
+            About Infracodebase University
           </p>
-          <Textarea
-            value={friction.value}
-            onChange={(e) => friction.update(e.target.value)}
-            className="min-h-[160px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
-            placeholder="e.g. I couldn't find the hands-on exercises from the dashboard..."
-          />
-        </section>
 
-        {/* Section 3 — Brutal feedback */}
-        <section className="space-y-2">
-          <div className="flex items-center justify-between">
+          {/* Q1 — Disappointment */}
+          <div className="space-y-3">
             <label className="text-sm font-semibold text-foreground">
-              Anything else? Be as direct as you want.
+              How would you feel if you could no longer use Infracodebase University?
             </label>
-            <SavedIndicator visible={brutal.saved} />
+            <RadioGroup value={disappointment} onValueChange={handleDisappointment} className="space-y-2">
+              {[
+                { value: "very", label: "Very disappointed" },
+                { value: "somewhat", label: "Somewhat disappointed" },
+                { value: "not", label: "Not disappointed" },
+              ].map((opt) => (
+                <div key={opt.value} className="flex items-center gap-2.5">
+                  <RadioGroupItem value={opt.value} id={`dis-${opt.value}`} />
+                  <Label htmlFor={`dis-${opt.value}`} className="text-sm text-foreground/90 cursor-pointer">
+                    {opt.label}
+                  </Label>
+                </div>
+              ))}
+            </RadioGroup>
           </div>
-          <p className="text-xs text-muted-foreground">
-            No filter needed. If something feels off, say it.
-          </p>
-          <Textarea
-            value={brutal.value}
-            onChange={(e) => brutal.update(e.target.value)}
-            className="min-h-[160px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
-            placeholder="Say what you really think..."
-          />
+
+          {/* Q2 — Who */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-semibold text-foreground">
+                What type of person would benefit most from this?
+              </label>
+              <SavedBadge visible={who.saved} />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Think about a colleague or someone in your network.
+            </p>
+            <Textarea
+              value={who.value}
+              onChange={(e) => who.update(e.target.value)}
+              className="min-h-[100px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
+            />
+          </div>
+
+          {/* Q3 — Benefit */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-semibold text-foreground">
+                What is the main benefit you get from Infracodebase University?
+              </label>
+              <SavedBadge visible={benefit.saved} />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              What would you lose if it disappeared tomorrow?
+            </p>
+            <Textarea
+              value={benefit.value}
+              onChange={(e) => benefit.update(e.target.value)}
+              className="min-h-[100px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
+            />
+          </div>
         </section>
 
-        {/* Section 4 — Submit */}
-        <div className="pt-2">
-          <Button onClick={handleSubmit} className="px-8">
-            {hasSubmitted ? "Update feedback" : "Share feedback"}
+        {/* Section B */}
+        <section className="space-y-8">
+          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">
+            Your experience so far
+          </p>
+
+          {/* Q4 — Rating */}
+          <div className="space-y-3">
+            <label className="text-sm font-semibold text-foreground">
+              How would you rate your experience so far?
+            </label>
+            <div className="flex items-center gap-1.5">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button
+                  key={n}
+                  onClick={() => handleRating(n)}
+                  onMouseEnter={() => setHoveredStar(n)}
+                  onMouseLeave={() => setHoveredStar(0)}
+                  className="p-0.5 transition-transform hover:scale-110"
+                >
+                  <Star
+                    className={cn(
+                      "h-7 w-7 transition-colors",
+                      n <= (hoveredStar || rating)
+                        ? "fill-accent text-accent"
+                        : "text-muted-foreground/30",
+                    )}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Q5 — Friction */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-semibold text-foreground">
+                Where did you get stuck or confused?
+              </label>
+              <SavedBadge visible={friction.saved} />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Unclear instructions, broken features, confusing copy. Update this as you go.
+            </p>
+            <Textarea
+              value={friction.value}
+              onChange={(e) => friction.update(e.target.value)}
+              className="min-h-[160px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
+              placeholder="e.g. I couldn't find the hands-on exercises from the dashboard..."
+            />
+          </div>
+
+          {/* Q6 — Valuable */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-semibold text-foreground">
+                What did you find most valuable?
+              </label>
+              <SavedBadge visible={valuable.saved} />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              What would you miss most if it was removed?
+            </p>
+            <Textarea
+              value={valuable.value}
+              onChange={(e) => valuable.update(e.target.value)}
+              className="min-h-[100px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
+            />
+          </div>
+
+          {/* Q7 — Brutal */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-sm font-semibold text-foreground">
+                Anything else? Be as direct as you want.
+              </label>
+              <SavedBadge visible={brutal.saved} />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              No filter needed. If something feels off, say it.
+            </p>
+            <Textarea
+              value={brutal.value}
+              onChange={(e) => brutal.update(e.target.value)}
+              className="min-h-[160px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
+              placeholder="Say what you really think..."
+            />
+          </div>
+        </section>
+
+        {/* Share */}
+        <div className="pt-2 space-y-3">
+          <Button onClick={handleShare} className="px-8 gap-2">
+            <Share2 className="h-4 w-4" />
+            {hasSubmitted ? "Update shared link" : "Share my answers"}
           </Button>
-          {hasSubmitted && (
-            <p className="mt-3 text-xs text-accent font-medium">
+          <div
+            className={cn(
+              "text-xs font-medium text-accent transition-opacity duration-300",
+              copyMsg ? "opacity-100" : "opacity-0",
+            )}
+          >
+            Link copied — share it with the team.
+          </div>
+          {hasSubmitted && !copyMsg && (
+            <p className="text-xs text-accent font-medium">
               Thanks — your feedback has been noted.
             </p>
           )}
@@ -179,6 +428,6 @@ const FeedbackPage = () => {
       </div>
     </AppLayout>
   );
-};
+}
 
 export default FeedbackPage;
