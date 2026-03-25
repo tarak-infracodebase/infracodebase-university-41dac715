@@ -1,20 +1,30 @@
 import { useState, useRef } from "react";
-import { Download, Linkedin, Shield, ExternalLink, Loader } from "lucide-react";
+import { Download, Linkedin, Shield, ExternalLink, Loader, Lock } from "lucide-react";
+import { useTrackCompletion, useAllTracksCompletion } from "@/hooks/useTrackCompletion";
+import { learningPaths } from "@/data/courseData";
 
+// Each cert maps to a learning path track ID
 const CERTS = [
-  { id: 1, name: "Tarak", track: "Cloud & Infrastructure Training — Introduction", short: "Cloud Foundations", date: "March 8, 2026", credId: "ICB-2026-0081-CF", signedBy: "Infracodebase University Team", color: "#22d3ee" },
-  { id: 2, name: "Tarak", track: "Cloud & Infrastructure Training — Foundations", short: "IaC Practitioner", date: "March 14, 2026", credId: "ICB-2026-0082-IP", signedBy: "Infracodebase University Team", color: "#34d399" },
-  { id: 3, name: "Tarak", track: "Infracodebase — Real Infrastructure Engineering", short: "Platform Builder", date: "March 19, 2026", credId: "ICB-2026-0083-PB", signedBy: "Infracodebase University Team", color: "#a78bfa" },
+  { id: 1, trackId: "cloud-infrastructure-intro", name: "Tarak", track: "Cloud & Infrastructure Training — Introduction", short: "Cloud Foundations", date: "March 8, 2026", credId: "ICB-2026-0081-CF", signedBy: "Infracodebase University Team", color: "#22d3ee" },
+  { id: 2, trackId: "prereq-foundations", name: "Tarak", track: "Cloud & Infrastructure Training — Foundations", short: "IaC Practitioner", date: "March 14, 2026", credId: "ICB-2026-0082-IP", signedBy: "Infracodebase University Team", color: "#34d399" },
+  { id: 3, trackId: "prereq-intermediate", name: "Tarak", track: "Cloud & Infrastructure Training — Intermediate", short: "Cloud Architect", date: "March 16, 2026", credId: "ICB-2026-0083-CA", signedBy: "Infracodebase University Team", color: "#60a5fa" },
+  { id: 4, trackId: "prereq-expert", name: "Tarak", track: "Cloud & Infrastructure Training — Expert", short: "Cloud Expert", date: "March 18, 2026", credId: "ICB-2026-0084-CE", signedBy: "Infracodebase University Team", color: "#c084fc" },
+  { id: 5, trackId: "welcome-orientation", name: "Tarak", track: "Welcome & Orientation", short: "Welcome", date: "March 19, 2026", credId: "ICB-2026-0085-WO", signedBy: "Infracodebase University Team", color: "#fb923c" },
+  { id: 6, trackId: "foundations", name: "Tarak", track: "Foundations — Understanding Infracodebase", short: "Platform Foundations", date: "March 20, 2026", credId: "ICB-2026-0086-PF", signedBy: "Infracodebase University Team", color: "#5eead4" },
+  { id: 7, trackId: "real-infrastructure", name: "Tarak", track: "Real Infrastructure Engineering", short: "Platform Builder", date: "March 21, 2026", credId: "ICB-2026-0087-PB", signedBy: "Infracodebase University Team", color: "#a78bfa" },
+  { id: 8, trackId: "architecture-diagrams", name: "Tarak", track: "Architecture Diagrams & Living Documentation", short: "Architecture Diagrams", date: "March 22, 2026", credId: "ICB-2026-0088-AD", signedBy: "Infracodebase University Team", color: "#f472b6" },
+  { id: 9, trackId: "enterprise-governance", name: "Tarak", track: "Enterprise Governance & Platform Engineering", short: "Enterprise Governance", date: "March 23, 2026", credId: "ICB-2026-0089-EG", signedBy: "Infracodebase University Team", color: "#fbbf24" },
+  { id: 10, trackId: "advanced-architecture", name: "Tarak", track: "Advanced Infrastructure Architecture", short: "Advanced Architecture", date: "March 24, 2026", credId: "ICB-2026-0090-AA", signedBy: "Infracodebase University Team", color: "#ef4444" },
+  { id: 11, trackId: "review-wrapup", name: "Tarak", track: "Review & Wrap-Up", short: "Program Graduate", date: "March 25, 2026", credId: "ICB-2026-0091-RW", signedBy: "Infracodebase University Team", color: "#14b8a6" },
 ];
 
-const MASTER = { name: "Tarak", track: "Infracodebase Platform Practitioner", date: "March 21, 2026", credId: "ICB-2026-MASTER-TB", signedBy: "Infracodebase University Team" };
+const MASTER = { name: "Tarak", track: "Infracodebase Platform Practitioner", date: "March 25, 2026", credId: "ICB-2026-MASTER-TB", signedBy: "Infracodebase University Team" };
 
 function CrystalGem({ size = 48 }: { size?: number }) {
   const s = size;
   const cx = s / 2;
   const cy = s / 2;
   const r = s * 0.38;
-  // Hexagon with colored facets
   const points = Array.from({ length: 6 }, (_, i) => {
     const angle = (Math.PI / 3) * i - Math.PI / 2;
     return [cx + r * Math.cos(angle), cy + r * Math.sin(angle)] as [number, number];
@@ -25,18 +35,11 @@ function CrystalGem({ size = 48 }: { size?: number }) {
       {points.map((p, i) => {
         const next = points[(i + 1) % 6];
         return (
-          <polygon
-            key={i}
-            points={`${cx},${cy} ${p[0]},${p[1]} ${next[0]},${next[1]}`}
-            fill={colors[i]}
-            opacity={0.85}
-          />
+          <polygon key={i} points={`${cx},${cy} ${p[0]},${p[1]} ${next[0]},${next[1]}`} fill={colors[i]} opacity={0.85} />
         );
       })}
-      {/* Highlight facets */}
       <polygon points={`${cx},${cy} ${points[0][0]},${points[0][1]} ${points[1][0]},${points[1][1]}`} fill="white" opacity={0.15} />
       <polygon points={`${cx},${cy} ${points[5][0]},${points[5][1]} ${points[0][0]},${points[0][1]}`} fill="white" opacity={0.1} />
-      {/* Shadow facets */}
       <polygon points={`${cx},${cy} ${points[3][0]},${points[3][1]} ${points[4][0]},${points[4][1]}`} fill="black" opacity={0.15} />
     </svg>
   );
@@ -53,37 +56,23 @@ function Seal({ size = 80 }: { size?: number }) {
 
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
-      {/* Scalloped dots around edge */}
       {Array.from({ length: dotCount }).map((_, i) => {
         const angle = (i / dotCount) * Math.PI * 2 - Math.PI / 2;
         return (
-          <circle
-            key={i}
-            cx={cx + Math.cos(angle) * outerR}
-            cy={cy + Math.sin(angle) * outerR}
-            r={dotR}
-            fill="#666"
-          />
+          <circle key={i} cx={cx + Math.cos(angle) * outerR} cy={cy + Math.sin(angle) * outerR} r={dotR} fill="#666" />
         );
       })}
-      {/* Inner ring */}
       <circle cx={cx} cy={cy} r={size * 0.4} fill="none" stroke="#555" strokeWidth={0.8} />
-      {/* Curved text */}
       <defs>
         <path id={`sealTextTop-${size}`} d={`M ${cx - textR},${cy} A ${textR},${textR} 0 1,1 ${cx + textR},${cy}`} />
         <path id={`sealTextBot-${size}`} d={`M ${cx + textR},${cy} A ${textR},${textR} 0 1,1 ${cx - textR},${cy}`} />
       </defs>
       <text fontSize={size * 0.058} fill="#888" fontWeight={600} letterSpacing={2}>
-        <textPath href={`#sealTextTop-${size}`} startOffset="50%" textAnchor="middle">
-          INFRACODEBASE
-        </textPath>
+        <textPath href={`#sealTextTop-${size}`} startOffset="50%" textAnchor="middle">INFRACODEBASE</textPath>
       </text>
       <text fontSize={size * 0.05} fill="#777" fontWeight={500} letterSpacing={1.5}>
-        <textPath href={`#sealTextBot-${size}`} startOffset="50%" textAnchor="middle">
-          CERTIFIED · 2026
-        </textPath>
+        <textPath href={`#sealTextBot-${size}`} startOffset="50%" textAnchor="middle">CERTIFIED · 2026</textPath>
       </text>
-      {/* Center gem */}
       <g transform={`translate(${cx - gemSize / 2}, ${cy - gemSize / 2})`}>
         <CrystalGem size={gemSize} />
       </g>
@@ -94,9 +83,11 @@ function Seal({ size = 80 }: { size?: number }) {
 interface CertProps {
   cert: typeof MASTER & { short?: string; color?: string };
   isMaster?: boolean;
+  locked?: boolean;
+  lockMessage?: string;
 }
 
-function Certificate({ cert, isMaster = false }: CertProps) {
+function Certificate({ cert, isMaster = false, locked = false, lockMessage }: CertProps) {
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const certRef = useRef<HTMLDivElement>(null);
@@ -105,28 +96,19 @@ function Certificate({ cert, isMaster = false }: CertProps) {
   const filename = `Infracodebase-${(cert.short || "Master-Certificate").replace(/\s+/g, "-")}-${cert.name}.pdf`;
 
   const handleDownload = async () => {
-    if (downloading || !certRef.current) return;
+    if (downloading || !certRef.current || locked) return;
     setDownloading(true);
     try {
       const html2canvas = (await import("html2canvas")).default;
       const { jsPDF } = await import("jspdf");
       const canvas = await html2canvas(certRef.current, {
-        scale: 3,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: "#0d0d0d",
+        scale: 3, useCORS: true, allowTaint: true, backgroundColor: "#0d0d0d",
         onclone: (clonedDoc) => {
           const el = clonedDoc.querySelector("[data-cert-card]") as HTMLElement | null;
-          if (el) {
-            el.style.borderRadius = "0";
-          }
+          if (el) el.style.borderRadius = "0";
         }
       });
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "px",
-        format: [canvas.width / 3, canvas.height / 3]
-      });
+      const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [canvas.width / 3, canvas.height / 3] });
       pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width / 3, canvas.height / 3);
       pdf.save(filename);
     } catch (err) {
@@ -137,12 +119,14 @@ function Certificate({ cert, isMaster = false }: CertProps) {
   };
 
   const handleLinkedIn = () => {
+    if (locked) return;
     const title = encodeURIComponent(`I earned the ${cert.short || cert.track} certificate from Infracodebase University`);
     const url = encodeURIComponent(fullVerifyUrl);
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}`, "_blank", "width=600,height=500");
   };
 
   const handleCopy = () => {
+    if (locked) return;
     navigator.clipboard.writeText(fullVerifyUrl).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -167,22 +151,36 @@ function Certificate({ cert, isMaster = false }: CertProps) {
           overflow: "hidden",
           position: "relative",
           border: "1px solid #1a1a1a",
+          opacity: locked ? 0.4 : 1,
+          transition: "opacity 0.3s",
         }}
       >
+        {/* Lock overlay */}
+        {locked && (
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 10,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(0,0,0,0.3)",
+            borderRadius: 16,
+          }}>
+            <Lock size={32} style={{ color: "#555" }} />
+          </div>
+        )}
+
         {/* Top gradient border */}
-        <div
-          style={{
-            height: 3,
-            background: isMaster
-              ? "linear-gradient(90deg, #E03A3E, #F5821F, #FDB827, #61BB46, #009DDC, #963D97)"
-              : `linear-gradient(90deg, ${color}, ${color}00)`,
-          }}
-        />
+        <div style={{
+          height: 3,
+          background: isMaster
+            ? "linear-gradient(90deg, #E03A3E, #F5821F, #FDB827, #61BB46, #009DDC, #963D97)"
+            : `linear-gradient(90deg, ${color}, ${color}00)`,
+        }} />
 
         <div style={{ padding: "40px 48px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start", position: "relative" }}>
-          {/* Left content */}
           <div style={{ flex: 1 }}>
-            {/* Logo */}
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
               <CrystalGem size={36} />
               <div>
@@ -190,11 +188,9 @@ function Certificate({ cert, isMaster = false }: CertProps) {
                 <p style={{ fontSize: 10, color: "#666", letterSpacing: 2, margin: 0, textTransform: "uppercase" }}>University</p>
               </div>
             </div>
-
             <p style={{ fontSize: 10, color: "#22d3ee", textTransform: "uppercase", letterSpacing: 3, marginBottom: 12, fontWeight: 600 }}>
               {isMaster ? "Master Certificate" : "Certificate of Completion"}
             </p>
-
             <p style={{ fontSize: 32, fontWeight: 700, color: "#f0f0f0", marginBottom: 8 }}>{cert.name}</p>
             <p style={{ fontSize: 12, color: "#666", marginBottom: 20 }}>has successfully completed</p>
 
@@ -209,33 +205,22 @@ function Certificate({ cert, isMaster = false }: CertProps) {
               </div>
             )}
           </div>
-
-          {/* Right: Seal */}
           <div style={{ marginLeft: 24, flexShrink: 0 }}>
             <Seal size={100} />
           </div>
         </div>
 
-        {/* Spacer for glow area */}
         <div style={{ height: 100, position: "relative" }}>
-          {/* Radial glow orb */}
           <div style={{
-            position: "absolute",
-            bottom: 0,
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: 200,
-            height: 120,
-            borderRadius: "50%",
+            position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
+            width: 200, height: 120, borderRadius: "50%",
             background: isMaster
               ? "radial-gradient(ellipse, rgba(245,130,31,0.15), rgba(253,184,39,0.08), transparent)"
               : `radial-gradient(ellipse, ${color}20, ${color}08, transparent)`,
-            filter: "blur(20px)",
-            pointerEvents: "none",
+            filter: "blur(20px)", pointerEvents: "none",
           }} />
         </div>
 
-        {/* Footer */}
         <div style={{ padding: "16px 48px 20px", display: "flex", justifyContent: "space-between", alignItems: "flex-end", borderTop: "1px solid #1a1a1a" }}>
           <div>
             <div style={{ width: 24, height: 2, background: "#444", marginBottom: 8 }} />
@@ -249,63 +234,77 @@ function Certificate({ cert, isMaster = false }: CertProps) {
         </div>
       </div>
 
-      {/* Action buttons */}
-      <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-        {[
-          { label: downloading ? "Generating..." : "Download PDF", icon: downloading ? <Loader size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Download size={14} />, onClick: handleDownload, disabled: downloading, hoverColor: "#f0f0f0" },
-          { label: "Share on LinkedIn", icon: <Linkedin size={14} />, onClick: handleLinkedIn, hoverColor: "#0a66c2" },
-          { label: copied ? "Copied!" : "Copy verify link", icon: <ExternalLink size={14} />, onClick: handleCopy, hoverColor: copied ? "#34d399" : "#f0f0f0" },
-        ].map((btn, i) => (
-          <button
-            key={i}
-            onClick={btn.onClick}
-            disabled={btn.disabled}
-            style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 6,
-              padding: "10px 16px",
-              borderRadius: 10,
-              border: "1px solid #2a2a2a",
-              background: "#111",
-              color: btn.label === "Copied!" ? "#34d399" : "#888",
-              fontSize: 13,
-              cursor: btn.disabled ? "wait" : "pointer",
-              transition: "all 0.15s",
-            }}
-            onMouseEnter={e => { if (!btn.disabled) { (e.currentTarget).style.borderColor = "#444"; (e.currentTarget).style.color = btn.hoverColor || "#f0f0f0"; } }}
-            onMouseLeave={e => { if (!btn.disabled) { (e.currentTarget).style.borderColor = "#2a2a2a"; (e.currentTarget).style.color = btn.label === "Copied!" ? "#34d399" : "#888"; } }}
-          >
-            {btn.icon} {btn.label}
-          </button>
-        ))}
-      </div>
+      {/* Lock message */}
+      {locked && lockMessage && (
+        <p style={{ fontSize: 12, color: "#666", marginTop: 10, fontStyle: "italic" }}>
+          {lockMessage}
+        </p>
+      )}
 
-      {/* Verify URL */}
-      <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 8, fontSize: 11, color: "#444", fontFamily: "monospace" }}>
-        <Shield size={10} />
-        {verifyUrl}
-      </div>
+      {/* Action buttons — only shown when unlocked */}
+      {!locked && (
+        <>
+          <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+            {[
+              { label: downloading ? "Generating..." : "Download PDF", icon: downloading ? <Loader size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Download size={14} />, onClick: handleDownload, disabled: downloading, hoverColor: "#f0f0f0" },
+              { label: "Share on LinkedIn", icon: <Linkedin size={14} />, onClick: handleLinkedIn, hoverColor: "#0a66c2" },
+              { label: copied ? "Copied!" : "Copy verify link", icon: <ExternalLink size={14} />, onClick: handleCopy, hoverColor: copied ? "#34d399" : "#f0f0f0" },
+            ].map((btn, i) => (
+              <button
+                key={i}
+                onClick={btn.onClick}
+                disabled={btn.disabled}
+                style={{
+                  flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                  padding: "10px 16px", borderRadius: 10, border: "1px solid #2a2a2a", background: "#111",
+                  color: btn.label === "Copied!" ? "#34d399" : "#888", fontSize: 13,
+                  cursor: btn.disabled ? "wait" : "pointer", transition: "all 0.15s",
+                }}
+                onMouseEnter={e => { if (!btn.disabled) { (e.currentTarget).style.borderColor = "#444"; (e.currentTarget).style.color = btn.hoverColor || "#f0f0f0"; } }}
+                onMouseLeave={e => { if (!btn.disabled) { (e.currentTarget).style.borderColor = "#2a2a2a"; (e.currentTarget).style.color = btn.label === "Copied!" ? "#34d399" : "#888"; } }}
+              >
+                {btn.icon} {btn.label}
+              </button>
+            ))}
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 8, fontSize: 11, color: "#444", fontFamily: "monospace" }}>
+            <Shield size={10} />
+            {verifyUrl}
+          </div>
+        </>
+      )}
 
       <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }
 
+function TrackCertificateWithGate({ cert }: { cert: typeof CERTS[0] }) {
+  const completion = useTrackCompletion(cert.trackId);
+  return (
+    <Certificate
+      cert={cert}
+      locked={!completion.isComplete}
+      lockMessage={
+        !completion.isComplete
+          ? "Complete all assessments and hands-on exercises in this track to unlock."
+          : undefined
+      }
+    />
+  );
+}
+
 export default function CertificateSection() {
   const [tab, setTab] = useState("master");
+  const allTracks = useAllTracksCompletion();
 
   return (
     <div style={{ marginTop: 32 }}>
-      {/* Header */}
       <div style={{ marginBottom: 20 }}>
         <h2 style={{ fontSize: 14, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#888", marginBottom: 4 }}>Credentials</h2>
-        <p style={{ fontSize: 12, color: "#555" }}>Earned by completing hands-on labs. Each credential has a public verification link.</p>
+        <p style={{ fontSize: 12, color: "#555" }}>Earned by completing all assessments and hands-on exercises. Each credential has a public verification link.</p>
       </div>
 
-      {/* Tabs */}
       <div style={{ display: "flex", gap: 4, marginBottom: 20, background: "#151515", borderRadius: 10, padding: 4 }}>
         {[{ id: "master", label: "Master Certificate" }, { id: "badges", label: `Track Certificates (${CERTS.length})` }].map(t => (
           <button key={t.id} onClick={() => setTab(t.id)} style={{ flex: 1, background: tab === t.id ? "#1e1e1e" : "none", border: "none", borderRadius: 7, padding: "8px 0", cursor: "pointer", color: tab === t.id ? "#f0f0f0" : "#555", fontSize: 13, fontWeight: tab === t.id ? 600 : 400, transition: "all 0.15s" }}>
@@ -314,27 +313,30 @@ export default function CertificateSection() {
         ))}
       </div>
 
-      {/* Content */}
       {tab === "master" && (
         <div>
-          {/* Progress */}
           <div style={{ marginBottom: 24, padding: "14px 20px", borderRadius: 12, background: "#111", border: "1px solid #1a1a1a", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div>
               <p style={{ fontSize: 13, color: "#999", margin: 0 }}>Progress toward master certificate</p>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
               <div style={{ width: 160, height: 6, borderRadius: 3, background: "#222", overflow: "hidden" }}>
-                <div style={{ width: "33%", height: "100%", borderRadius: 3, background: "linear-gradient(90deg, #E03A3E, #F5821F, #FDB827, #61BB46, #009DDC)" }} />
+                <div style={{ width: `${(allTracks.completedCount / allTracks.totalCount) * 100}%`, height: "100%", borderRadius: 3, background: "linear-gradient(90deg, #E03A3E, #F5821F, #FDB827, #61BB46, #009DDC)", transition: "width 0.3s" }} />
               </div>
-              <p style={{ fontSize: 13, color: "#22d3ee", fontFamily: "monospace", fontWeight: 600, margin: 0, whiteSpace: "nowrap" }}>3 / 9 tracks</p>
+              <p style={{ fontSize: 13, color: "#22d3ee", fontFamily: "monospace", fontWeight: 600, margin: 0, whiteSpace: "nowrap" }}>{allTracks.completedCount} / {allTracks.totalCount} tracks</p>
             </div>
           </div>
 
-          <Certificate cert={{ ...MASTER, color: "#a78bfa" }} isMaster />
+          <Certificate
+            cert={{ ...MASTER, color: "#a78bfa" }}
+            isMaster
+            locked={!allTracks.allComplete}
+            lockMessage={!allTracks.allComplete ? "Complete all tracks to earn your Master Certificate." : undefined}
+          />
         </div>
       )}
 
-      {tab === "badges" && CERTS.map(cert => <Certificate key={cert.id} cert={cert} />)}
+      {tab === "badges" && CERTS.map(cert => <TrackCertificateWithGate key={cert.id} cert={cert} />)}
     </div>
   );
 }
