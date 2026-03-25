@@ -6,6 +6,7 @@ import { CrystalIcon } from "@/components/DashboardWidgets";
 import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, Video, Hammer, CheckCircle2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { AzurePeriodicTableCard } from "@/components/AzurePeriodicTableLink";
 
 const crystalColors = [
   "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
