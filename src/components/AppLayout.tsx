@@ -11,6 +11,9 @@ import { CrystalIcon } from "./DashboardWidgets";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { LogIn } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { NotificationBell } from "./notifications/NotificationPanel";
+import { NotificationModal } from "./notifications/NotificationModal";
+import { useNotifications } from "./notifications/useNotifications";
 
 const navGroups = [
   {
@@ -196,7 +199,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
   );
 }
 
-export function MobileNav() {
+export function MobileNav({ notifications: notif }: { notifications?: ReturnType<typeof useNotifications> }) {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -223,6 +226,7 @@ export function MobileNav() {
         <div className="flex items-center gap-2">
           <XpPill />
           <ThemeToggleButton />
+          {notif && <NotificationBell {...notif} />}
           <SignedIn>
             <UserButton
               afterSignOutUrl="/"
@@ -304,17 +308,19 @@ function XpPill() {
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const notif = useNotifications();
 
   return (
     <div className="min-h-screen bg-background">
       <div className="hidden lg:block">
         <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
       </div>
-      <MobileNav />
+      <MobileNav notifications={notif} />
       {/* Desktop User Button / Sign In */}
       <div className="hidden lg:flex items-center gap-2 fixed top-4 right-6 z-50">
         <XpPill />
         <ThemeToggleButton />
+        <NotificationBell {...notif} />
         <SignedIn>
           <UserButton
             afterSignOutUrl="/"
@@ -336,6 +342,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           </Link>
         </SignedOut>
       </div>
+      <NotificationModal item={notif.selectedNotification} onClose={notif.closeModal} />
       <main className={cn(
         "transition-all duration-300 min-h-screen",
         "pt-14 lg:pt-0",
