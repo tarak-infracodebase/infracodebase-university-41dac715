@@ -1211,14 +1211,14 @@ function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title
 /* ── Horizontal Session Card ── */
 function HorizontalSessionCard({
   editing, onClick, sessionTitle, setSessionTitle, sessionDesc, setSessionDesc, sessionDate, setSessionDate,
-  thumbnail = "/workshop-thumbnail.png", tagLabel = "Real Infrastructure", tagColor = "rgba(167,139,250,0.15)", tagTextColor = "#a78bfa", duration = "49 min",
+  thumbnail = "/workshop-thumbnail.png", tagLabel = "Real Infrastructure", tagColor = "rgba(167,139,250,0.15)", tagTextColor = "#a78bfa", tagBorder, duration = "49 min",
   customThumbnail,
 }: {
   editing: boolean; onClick: () => void;
   sessionTitle: string; setSessionTitle: (v: string) => void;
   sessionDesc: string; setSessionDesc: (v: string) => void;
   sessionDate: string; setSessionDate: (v: string) => void;
-  thumbnail?: string; tagLabel?: string; tagColor?: string; tagTextColor?: string; duration?: string;
+  thumbnail?: string; tagLabel?: string; tagColor?: string; tagTextColor?: string; tagBorder?: string; duration?: string;
   customThumbnail?: React.ReactNode;
 }) {
   const [hov, setHov] = useState(false);
@@ -1294,9 +1294,10 @@ function HorizontalSessionCard({
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
             <span style={{
-              borderRadius: '9999px', padding: '2px 10px',
-              fontSize: '11px', fontWeight: 600,
+              borderRadius: '20px', padding: '3px 9px',
+              fontSize: '11px', fontWeight: 500,
               background: tagColor, color: tagTextColor,
+              ...(tagBorder ? { border: tagBorder } : {}),
             }}>
               {tagLabel}
             </span>
