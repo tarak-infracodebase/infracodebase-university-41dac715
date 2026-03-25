@@ -293,34 +293,29 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
             Add links to repos, screenshots, or describe what you built. This is for your own record.
           </p>
 
-          {/* Existing entries list */}
+          {/* Existing entries as chips */}
           {entries.length > 0 && (
-            <div className="space-y-1.5 mb-4">
-              {entries.map((entry, i) => (
-                <div
-                  key={i}
-                  className="relative group"
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid #1c2e47",
-                    borderRadius: "8px",
-                    padding: "10px 12px",
-                    marginBottom: "6px",
-                  }}
-                >
-                  <button
-                    onClick={() => removeEntry(i)}
-                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ color: "#64748b" }}
-                    onMouseEnter={e => (e.currentTarget.style.color = "#ef4444")}
-                    onMouseLeave={e => (e.currentTarget.style.color = "#64748b")}
-                    aria-label="Remove entry"
+            <div className="flex flex-wrap gap-2 mb-4">
+              {entries.map((entry, i) => {
+                const fileMatch = entry.match(/^\[file:(.+?)\]/);
+                const label = fileMatch ? fileMatch[1] : (entry.length > 60 ? entry.slice(0, 57) + "…" : entry);
+                return (
+                  <div
+                    key={i}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border/50 bg-muted/40 px-3 py-1 text-xs text-foreground max-w-[280px]"
                   >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                  <EntryDisplay value={entry} />
-                </div>
-              ))}
+                    {fileMatch && <FileText className="h-3 w-3 text-muted-foreground shrink-0" />}
+                    <span className="truncate">{label}</span>
+                    <button
+                      onClick={() => removeEntry(i)}
+                      className="text-muted-foreground hover:text-destructive transition-colors shrink-0 ml-0.5"
+                      aria-label="Remove entry"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           )}
 
