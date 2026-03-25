@@ -1,13 +1,14 @@
 import { AppLayout } from "@/components/AppLayout";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { Search, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { VideoPlayerModal } from "@/components/VideoPlayerModal";
 
 const videoTopics = [
-  "All", "Getting Started", "Infrastructure Architecture",
+  "All", "Getting Started", "Infrastructure Architecture", "Enterprise Governance",
 ];
 
 interface VideoItem {
@@ -59,6 +60,15 @@ const videos: VideoItem[] = [
     trackLabel: "Track 6 — Advanced Infrastructure Architecture",
     trackPath: "/path/advanced-architecture",
     badge: "Track Introduction",
+  },
+  {
+    id: "enterprise-governance",
+    title: "Enterprise Governance & Platform Engineering",
+    src: "/assets/Scaling_infra_-_veed.mp4",
+    category: "Enterprise Governance",
+    description: "Learn how organizations scale infrastructure work through rulesets, workflows, subagents, workspace history, and platform engineering practices.",
+    trackLabel: "Track 5 — Enterprise Governance & Platform Engineering",
+    trackPath: "/path/enterprise-governance",
   },
 ];
 
@@ -123,66 +133,12 @@ function VideoCard({ video, onPlay }: { video: VideoItem; onPlay: (v: VideoItem)
   );
 }
 
-function InlinePlayer({ video, onClose }: { video: VideoItem; onClose: () => void }) {
-  const ref = useRef<HTMLVideoElement>(null);
-
-  const handleTimeUpdate = useCallback(() => {
-    const el = ref.current;
-    if (!el || !el.duration) return;
-    setProgressStorage(video.id, (el.currentTime / el.duration) * 100);
-  }, [video.id]);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const saved = getProgress(video.id);
-    if (saved > 0 && saved < 98 && el.duration) {
-      el.currentTime = (saved / 100) * el.duration;
-    }
-  }, [video.id]);
-
-  return (
-    <div className="glass-panel rounded-2xl overflow-hidden border border-border/30 shadow-xl shadow-primary/5">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border/20">
-        <h3 className="text-sm font-semibold truncate">{video.title}</h3>
-        <button onClick={onClose} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
-          Close ✕
-        </button>
-      </div>
-      <video
-          ref={ref}
-          controls
-          autoPlay
-          preload="metadata"
-          playsInline
-          onTimeUpdate={handleTimeUpdate}
-          onLoadedMetadata={() => {
-            const el = ref.current;
-            if (!el) return;
-            const saved = getProgress(video.id);
-            if (saved > 0 && saved < 98) el.currentTime = (saved / 100) * el.duration;
-          }}
-          className="w-full aspect-video bg-black"
-        >
-          <source src={video.src} type="video/mp4" />
-        </video>
-      <div className="p-4">
-        <p className="text-xs text-muted-foreground">{video.description}</p>
-        <Link to={video.trackPath} className="text-xs text-primary hover:underline mt-2 inline-block">
-          Go to {video.trackLabel} →
-        </Link>
-      </div>
-    </div>
-  );
-}
-
 const VideoLibrary = () => {
   const [search, setSearch] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("All");
   const [activeVideo, setActiveVideo] = useState<VideoItem | null>(null);
   const [, forceUpdate] = useState(0);
 
-  // Force re-render to pick up progress changes
   const handlePlay = (v: VideoItem) => {
     setActiveVideo(v);
   };
@@ -213,10 +169,15 @@ const VideoLibrary = () => {
           </p>
         </div>
 
-        {/* Active Player */}
-        {activeVideo && (
-          <InlinePlayer video={activeVideo} onClose={handleClose} />
-        )}
+        {/* Video Modal */}
+        <VideoPlayerModal
+          open={!!activeVideo}
+          onClose={handleClose}
+          title={activeVideo?.title || ""}
+          videoSrc={activeVideo?.src || ""}
+          subtitle={activeVideo?.description}
+        />
+
 
         {/* Continue Watching */}
         {continueWatching.length > 0 && !activeVideo && (
