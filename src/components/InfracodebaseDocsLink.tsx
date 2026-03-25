@@ -1,3 +1,5 @@
+const GRADIENT = "linear-gradient(90deg, #7c3aed, #2563eb, #0ea5e9)";
+
 /** URL mapping: one doc page per curriculum track */
 const trackDocsMap: Record<string, string> = {
   "welcome-orientation": "https://infracodebase.com/docs/getting-started/introduction",
@@ -51,7 +53,7 @@ const InfracodebaseLogo = ({ size = 13 }: { size?: number }) => (
   </svg>
 );
 
-/** Small pill for track card footers */
+/** Small pill with gradient border for track card footers */
 export function InfracodebaseDocsPill({ trackId }: { trackId: string }) {
   const url = getDocsUrlForTrack(trackId);
 
@@ -61,31 +63,23 @@ export function InfracodebaseDocsPill({ trackId }: { trackId: string }) {
       target="_blank"
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
-      className="inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[11px] transition-colors"
-      style={{
-        background: "rgba(255,255,255,0.03)",
-        border: "0.5px solid rgba(255,255,255,0.08)",
-        color: "rgba(255,255,255,0.38)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-        e.currentTarget.style.borderColor = "rgba(255,255,255,0.14)";
-        e.currentTarget.style.color = "rgba(255,255,255,0.65)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-        e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-        e.currentTarget.style.color = "rgba(255,255,255,0.38)";
-      }}
+      className="inline-flex items-center ml-auto rounded-[7px] p-[1px]"
+      style={{ background: GRADIENT }}
     >
-      <InfracodebaseLogo size={13} />
-      Infracodebase Docs
-      <span>↗</span>
+      <span
+        className="flex items-center gap-[5px] rounded-[6px] px-[9px] py-1 text-[11px] whitespace-nowrap transition-colors"
+        style={{ background: "#12131f", color: "rgba(255,255,255,0.7)" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "#1a1d2e"; e.currentTarget.style.color = "#fff"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "#12131f"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
+      >
+        <InfracodebaseLogo size={13} />
+        Infracodebase Docs ↗
+      </span>
     </a>
   );
 }
 
-/** Larger card for sidebar Helpful Resources section */
+/** Larger card with gradient border for sidebar Helpful Resources section */
 export function InfracodebaseDocsCard({ trackId }: { trackId: string }) {
   const url = getDocsUrlForTrack(trackId);
   const subtitle = getDocsSubtitle(url);
@@ -95,26 +89,22 @@ export function InfracodebaseDocsCard({ trackId }: { trackId: string }) {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center gap-3 rounded-lg p-[9px_11px] transition-colors"
-      style={{
-        background: "rgba(255,255,255,0.03)",
-        border: "0.5px solid rgba(255,255,255,0.08)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = "rgba(255,255,255,0.06)";
-        e.currentTarget.style.borderColor = "rgba(255,255,255,0.14)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-        e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-      }}
+      className="flex rounded-[9px] p-[1px]"
+      style={{ background: GRADIENT }}
     >
-      <InfracodebaseLogo size={20} />
-      <div className="flex-1 min-w-0">
-        <p className="text-[11px] font-medium text-foreground/80">Infracodebase Docs</p>
-        <p className="text-[10px] text-muted-foreground/50">{subtitle}</p>
-      </div>
-      <span className="text-muted-foreground/40 text-sm">↗</span>
+      <span
+        className="flex items-center gap-3 w-full rounded-[8px] p-[9px_11px] transition-colors"
+        style={{ background: "#12131f" }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = "#1a1d2e"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = "#12131f"; }}
+      >
+        <InfracodebaseLogo size={20} />
+        <div className="flex-1 min-w-0">
+          <p className="text-[11px] font-medium" style={{ color: "rgba(255,255,255,0.82)" }}>Infracodebase Docs</p>
+          <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>{subtitle}</p>
+        </div>
+        <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.22)" }}>↗</span>
+      </span>
     </a>
   );
 }
