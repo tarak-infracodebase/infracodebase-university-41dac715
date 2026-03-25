@@ -1,7 +1,8 @@
 import { AppLayout } from "@/components/AppLayout";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
-import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap, Headphones } from "lucide-react";
+import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap, Headphones, X } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 import legalBg from "@/assets/events/legal-background.png";
 import webinarAi from "@/assets/events/webinar-ai-trust.png";
@@ -27,6 +28,7 @@ interface EventItem {
   platform: "youtube" | "linkedin" | "spotify";
   thumbnail: string;
   featured?: boolean;
+  embedUrl?: string;
 }
 
 const events: EventItem[] = [
