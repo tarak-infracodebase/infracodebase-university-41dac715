@@ -6,7 +6,7 @@ import {
   Sun, Moon, Zap, FileText,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { LogIn } from "lucide-react";
@@ -309,6 +309,44 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const notif = useNotifications();
+  const { user, isSignedIn, isLoaded } = useUser();
+  const autoShowFired = useRef(false);
+
+  // Auto-show notification modal based on auth state
+  useEffect(() => {
+    if (!isLoaded || autoShowFired.current) return;
+
+    const firstUnread = notif.allNotifications.find((n) => !n.read);
+    if (!firstUnread) return;
+
+    if (isSignedIn && user) {
+      const createdAt = user.createdAt ? new Date(user.createdAt).getTime() : 0;
+      const isNewUser = Date.now() - createdAt < 60_000;
+
+      if (isNewUser) {
+        autoShowFired.current = true;
+        const timer = setTimeout(() => {
+          notif.openNotification(firstUnread);
+          sessionStorage.setItem("icbu_notif_modal_shown", "1");
+        }, 600);
+        return () => clearTimeout(timer);
+      }
+
+      const alreadyShown = sessionStorage.getItem("icbu_notif_modal_shown");
+      if (!alreadyShown && notif.unreadCount > 0) {
+        autoShowFired.current = true;
+        const timer = setTimeout(() => {
+          notif.openNotification(firstUnread);
+          sessionStorage.setItem("icbu_notif_modal_shown", "1");
+        }, 600);
+        return () => clearTimeout(timer);
+      }
+    }
+
+    if (!isSignedIn) {
+      sessionStorage.removeItem("icbu_notif_modal_shown");
+    }
+  }, [isLoaded, isSignedIn, user, notif]);
 
   return (
     <div className="min-h-screen bg-background">
