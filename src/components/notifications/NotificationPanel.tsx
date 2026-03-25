@@ -73,10 +73,12 @@ export function NotificationBell({
     const keyHandler = (e: KeyboardEvent) => {
       if (e.key === "Escape") closePanel();
     };
-    document.addEventListener("mousedown", handler);
+    // Use 'click' instead of 'mousedown' so button clicks inside the panel
+    // fire their onClick before the outside-click check runs
+    document.addEventListener("click", handler);
     document.addEventListener("keydown", keyHandler);
     return () => {
-      document.removeEventListener("mousedown", handler);
+      document.removeEventListener("click", handler);
       document.removeEventListener("keydown", keyHandler);
     };
   }, [panelOpen, closePanel]);
