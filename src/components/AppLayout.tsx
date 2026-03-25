@@ -11,6 +11,9 @@ import { CrystalIcon } from "./DashboardWidgets";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { LogIn } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { NotificationBell } from "./notifications/NotificationPanel";
+import { NotificationModal } from "./notifications/NotificationModal";
+import { useNotifications } from "./notifications/useNotifications";
 
 const navGroups = [
   {
