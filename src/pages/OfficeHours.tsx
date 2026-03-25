@@ -1229,26 +1229,22 @@ function HorizontalSessionCard({
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        display: 'flex',
-        flexDirection: 'row',
+        display: 'grid',
+        gridTemplateColumns: '300px 1fr',
         background: hov && !editing ? '#162035' : '#101929',
-        border: `1px solid ${hov && !editing ? '#25405f' : '#1c2e47'}`,
+        border: `0.5px solid ${hov && !editing ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.1)'}`,
         borderRadius: '12px',
         overflow: 'hidden',
         cursor: editing ? 'default' : 'pointer',
         transition: 'all 0.2s',
         transform: hov && !editing ? 'translateY(-2px)' : 'none',
         boxShadow: hov && !editing ? '0 8px 32px rgba(0,0,0,0.3)' : 'none',
-        minHeight: customThumbnail ? '260px' : '160px',
       }}
     >
       {/* LEFT — Thumbnail */}
       <div style={{
-        width: '360px',
-        minWidth: '360px',
         position: 'relative',
         overflow: 'hidden',
-        flexShrink: 0,
       }}>
         {customThumbnail ? customThumbnail : (
           <img
