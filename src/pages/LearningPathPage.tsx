@@ -18,6 +18,7 @@ const trackVideoMap: Record<string, string> = {
   foundations: "/assets/Introduction.mp4",
   "real-infrastructure": "/assets/Applying_Infracodebase2.mp4",
   "architecture-diagrams": "/assets/Architecture_Diagrams.mp4",
+  "enterprise-governance": "/assets/Scaling_infra_-_veed.mp4",
 };
 
 
@@ -39,6 +40,9 @@ function IntroVideo({ pathId }: { pathId: string }) {
       </div>
     );
   }
+
+  // For tracks without a video (excluding advanced-architecture which has none)
+  if (pathId === "advanced-architecture") return null;
 
   return (
     <div className="rounded-2xl border border-border/30 bg-muted/30 aspect-video flex flex-col items-center justify-center gap-4 shadow-lg shadow-primary/5">
