@@ -1134,6 +1134,79 @@ function SessionModal({
   );
 }
 
+/* ── Hexagonal Speaker Avatar ── */
+function HexSpeaker({ src, name, role, size = 52 }: { src: string; name: string; role: string; size?: number }) {
+  const hexClip = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)';
+  const outer = size + 6;
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px' }}>
+      <div style={{
+        width: outer, height: outer,
+        clipPath: hexClip,
+        background: 'linear-gradient(135deg, #f97316, #ec4899, #8b5cf6)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <div style={{
+          width: size, height: size,
+          clipPath: hexClip,
+          overflow: 'hidden',
+        }}>
+          <img src={src} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </div>
+      </div>
+      <span style={{ color: '#fff', fontSize: '10px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>{name}</span>
+      <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: '8px', fontFamily: 'JetBrains Mono, monospace', marginTop: '-2px' }}>{role}</span>
+    </div>
+  );
+}
+
+/* ── Workshop Thumbnail Panel (JSX-rendered, matches Workshop 1 design) ── */
+function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title: string; date: string; dateLabel?: string }) {
+  return (
+    <div style={{
+      position: 'absolute', inset: 0,
+      background: 'linear-gradient(135deg, #1a6b3c 0%, #2d7a4a 30%, #b87333 70%, #c2410c 100%)',
+      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+      padding: '12px 16px 8px',
+    }}>
+      {/* Top row */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <span style={{ color: '#fff', fontSize: '11px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>
+          Infracodebase<span style={{ fontWeight: 400 }}>.com</span>
+        </span>
+        <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '9px', fontFamily: 'JetBrains Mono, monospace' }}>
+          {dateLabel} · {date}
+        </span>
+      </div>
+
+      {/* Center title */}
+      <div style={{ textAlign: 'center', padding: '0 8px' }}>
+        <h4 style={{
+          color: '#fff', fontSize: '13px', fontWeight: 700,
+          fontFamily: 'Fraunces, Georgia, serif',
+          lineHeight: 1.35,
+          textShadow: '0 1px 4px rgba(0,0,0,0.4)',
+        }}>
+          {title}
+        </h4>
+      </div>
+
+      {/* Speakers */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '24px' }}>
+        <HexSpeaker src={TARAK_AVATAR} name="Tarak" role="Co-Founder, Infracodebase" />
+        <HexSpeaker src={JUSTIN_AVATAR} name="Justin" role="Founder, Infracodebase" />
+      </div>
+
+      {/* Bottom URL */}
+      <div style={{ textAlign: 'center' }}>
+        <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '8px', fontFamily: 'JetBrains Mono, monospace' }}>
+          university.infracodebase.com
+        </span>
+      </div>
+    </div>
+  );
+}
+
 /* ── Horizontal Session Card ── */
 function HorizontalSessionCard({
   editing, onClick, sessionTitle, setSessionTitle, sessionDesc, setSessionDesc, sessionDate, setSessionDate,
