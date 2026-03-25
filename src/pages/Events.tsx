@@ -228,12 +228,20 @@ function getCtaIcon(event: EventItem) {
   return <ExternalLink className="h-3 w-3" />;
 }
 
-function EventCard({ event }: { event: EventItem }) {
+function EventCard({ event, onOpen }: { event: EventItem; onOpen: (e: EventItem) => void }) {
+  const handleClick = (e: React.MouseEvent) => {
+    // Podcasts still open externally
+    if (event.format === "podcast") return;
+    e.preventDefault();
+    onOpen(event);
+  };
+
   return (
     <a
       href={event.link}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
       className="group relative rounded-xl overflow-hidden bg-card border border-border/30 transition-all duration-[250ms] ease-out hover:scale-105 hover:-translate-y-1.5 hover:z-10 hover:shadow-[0_12px_40px_-8px_hsl(var(--primary)/0.3),0_4px_16px_-4px_hsl(0_0%_0%/0.4)] hover:border-primary/30 block"
     >
       {/* Thumbnail */}
@@ -286,6 +294,52 @@ function EventCard({ event }: { event: EventItem }) {
         </button>
       </div>
     </a>
+  );
+}
+
+function EventVideoModal({ event, open, onClose }: { event: EventItem | null; open: boolean; onClose: () => void }) {
+  if (!event) return null;
+
+  const hasEmbed = !!event.embedUrl;
+
+  return (
+    <Dialog open={open} onOpenChange={v => !v && onClose()}>
+      <DialogContent className="max-w-4xl w-[95vw] p-0 gap-0 bg-card border-border/50 overflow-hidden">
+        <DialogTitle className="sr-only">{event.title}</DialogTitle>
+        <div className="p-4 pb-2 flex items-start justify-between gap-4">
+          <div>
+            <span className={cn("text-[10px] px-2 py-0.5 rounded-full border inline-block mb-1.5", typeColors[event.type])}>{event.type}</span>
+            <h3 className="text-sm font-bold leading-snug">{event.title}</h3>
+            <p className="text-[11px] text-muted-foreground mt-1">{event.speakers.map(s => s.name).join(", ")}</p>
+          </div>
+        </div>
+        {hasEmbed ? (
+          <div className="px-4 pb-4">
+            <div className="aspect-video w-full rounded-lg overflow-hidden bg-black">
+              <iframe
+                src={event.embedUrl + "?autoplay=1"}
+                title={event.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="px-4 pb-6 flex flex-col items-center gap-4 py-8">
+            <p className="text-sm text-muted-foreground text-center">This session is hosted externally and cannot be embedded.</p>
+            <a
+              href={event.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg bg-primary text-primary-foreground px-6 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2"
+            >
+              {event.platform === "linkedin" ? "Register on LinkedIn" : "Open externally"} <ExternalLink className="h-4 w-4" />
+            </a>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
 
