@@ -1,7 +1,10 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
+import { useUser } from "@clerk/clerk-react";
 import { NOTIFICATIONS, NotificationItem, NotificationCategory } from "@/data/notifications";
 
 type TabFilter = "all" | NotificationCategory;
+
+const SESSION_KEY = "icbu_notif_modal_shown";
 
 export function useNotifications() {
   const [notifications, setNotifications] = useState<NotificationItem[]>(
@@ -10,6 +13,9 @@ export function useNotifications() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabFilter>("all");
   const [selectedNotification, setSelectedNotification] = useState<NotificationItem | null>(null);
+  const autoShowFired = useRef(false);
+
+  const { user, isSignedIn, isLoaded } = useUser();
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -55,6 +61,46 @@ export function useNotifications() {
   const closePanel = useCallback(() => {
     setPanelOpen(false);
   }, []);
+
+  // Auto-show logic based on auth state
+  useEffect(() => {
+    if (!isLoaded || autoShowFired.current) return;
+
+    const firstUnread = notifications.find((n) => !n.read);
+    if (!firstUnread) return;
+
+    if (isSignedIn && user) {
+      // Detect fresh sign-up: createdAt within last 60 seconds
+      const createdAt = user.createdAt ? new Date(user.createdAt).getTime() : 0;
+      const isNewUser = Date.now() - createdAt < 60_000;
+
+      if (isNewUser) {
+        // Sign up → always show after 600ms
+        autoShowFired.current = true;
+        const timer = setTimeout(() => {
+          openNotification(firstUnread);
+          sessionStorage.setItem(SESSION_KEY, "1");
+        }, 600);
+        return () => clearTimeout(timer);
+      }
+
+      // Sign in → show once per session if unread exist
+      const alreadyShown = sessionStorage.getItem(SESSION_KEY);
+      if (!alreadyShown && unreadCount > 0) {
+        autoShowFired.current = true;
+        const timer = setTimeout(() => {
+          openNotification(firstUnread);
+          sessionStorage.setItem(SESSION_KEY, "1");
+        }, 600);
+        return () => clearTimeout(timer);
+      }
+    }
+
+    if (!isSignedIn) {
+      // Sign out → clear session flag so next sign-in can trigger
+      sessionStorage.removeItem(SESSION_KEY);
+    }
+  }, [isLoaded, isSignedIn, user, notifications, unreadCount, openNotification]);
 
   return {
     notifications: filtered,
