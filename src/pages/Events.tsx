@@ -365,8 +365,8 @@ const Events = () => {
   const bwhEvents = filtered.filter(e => e.series === "buildwithher");
 
   const openEvent = (event: EventItem) => {
-    // Podcasts always open externally
-    if (event.format === "podcast") {
+    // Podcasts and LinkedIn events open externally
+    if (event.format === "podcast" || event.platform === "linkedin") {
       window.open(event.link, "_blank");
       return;
     }
