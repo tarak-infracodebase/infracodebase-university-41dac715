@@ -217,6 +217,12 @@ function ProgressSidebar({
             )}
           </div>
 
+          {/* Helpful Resources */}
+          <div className="glass-panel rounded-xl p-5">
+            <h4 className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h4>
+            <AzurePeriodicTableCard />
+          </div>
+
           {/* Up Next — secondary guidance */}
           {upNext && (
             <div className="glass-panel rounded-xl p-5">
@@ -248,6 +254,12 @@ function ProgressSidebar({
                 No hands-on training available
               </Button>
             )}
+          </div>
+
+          {/* Helpful Resources */}
+          <div className="glass-panel rounded-xl p-5">
+            <h4 className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h4>
+            <AzurePeriodicTableCard />
           </div>
 
           {/* Up Next / Completion */}
