@@ -73,9 +73,14 @@ export function NotificationBell({
     const keyHandler = (e: KeyboardEvent) => {
       if (e.key === "Escape") closePanel();
     };
-    document.addEventListener("mousedown", handler);
+    // Use setTimeout so the listener is added after the current event loop,
+    // preventing the opening click from immediately triggering close
+    const timer = setTimeout(() => {
+      document.addEventListener("mousedown", handler);
+    }, 0);
     document.addEventListener("keydown", keyHandler);
     return () => {
+      clearTimeout(timer);
       document.removeEventListener("mousedown", handler);
       document.removeEventListener("keydown", keyHandler);
     };
@@ -133,6 +138,7 @@ export function NotificationBell({
       {panelOpen && (
         <div
           className="absolute right-0 z-50"
+          onMouseDown={(e) => e.stopPropagation()}
           style={{
             top: "calc(100% + 8px)",
             width: 400,

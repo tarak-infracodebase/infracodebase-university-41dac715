@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import {
   X, Users, Calendar, Clock, Layers, Shield, Lock, Zap,
@@ -97,10 +98,11 @@ export function NotificationModal({ item, onClose }: NotificationModalProps) {
     if (route) navigate(route);
   };
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center"
+      className="fixed inset-0 flex items-center justify-center"
       style={{
+        zIndex: 9999,
         background: "rgba(0,0,0,0.75)",
         backdropFilter: "blur(10px)",
       }}
@@ -469,6 +471,7 @@ export function NotificationModal({ item, onClose }: NotificationModalProps) {
           to { opacity: 1; transform: scale(1) translateY(0); }
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 }
