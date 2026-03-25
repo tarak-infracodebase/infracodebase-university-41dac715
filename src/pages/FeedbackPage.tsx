@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Star, Check, Share2, ClipboardCopy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSearchParams, Link } from "react-router-dom";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // localStorage keys
 const KEYS = {
