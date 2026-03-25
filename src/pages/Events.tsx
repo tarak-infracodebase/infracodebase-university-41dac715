@@ -53,6 +53,7 @@ const events: EventItem[] = [
     link: "https://www.youtube.com/watch?v=5At76xVQngA",
     platform: "youtube",
     thumbnail: webinarBrand,
+    embedUrl: "https://www.youtube.com/embed/5At76xVQngA",
   },
   {
     id: 1,
@@ -65,6 +66,7 @@ const events: EventItem[] = [
     platform: "youtube",
     thumbnail: webinarLalit,
     featured: true,
+    embedUrl: "https://www.youtube.com/embed/vOMo1RquRsY",
   },
   {
     id: 2,
@@ -76,6 +78,7 @@ const events: EventItem[] = [
     link: "https://www.linkedin.com/events/7437983286372626433/?viewAsMember=true",
     platform: "linkedin",
     thumbnail: legalBg,
+    embedUrl: "https://www.youtube.com/embed/mlIePKsqa-4",
   },
   {
     id: 3,
@@ -87,6 +90,7 @@ const events: EventItem[] = [
     link: "https://www.youtube.com/watch?v=mlIePKsqa-4",
     platform: "youtube",
     thumbnail: webinarAi,
+    embedUrl: "https://www.youtube.com/embed/vOMo1RquRsY",
   },
   {
     id: 4,
@@ -98,6 +102,7 @@ const events: EventItem[] = [
     link: "https://www.youtube.com/watch?v=SLpgv8zCzPU",
     platform: "youtube",
     thumbnail: webinarDec,
+    embedUrl: "https://www.youtube.com/embed/Ld8WG8CtagA",
   },
   {
     id: 5,
@@ -109,6 +114,7 @@ const events: EventItem[] = [
     link: "https://www.youtube.com/watch?v=H8Osx6GcLSE",
     platform: "youtube",
     thumbnail: webinarFeb,
+    embedUrl: "https://www.youtube.com/embed/H8Osx6GcLSE",
   },
   {
     id: 6,
@@ -120,6 +126,9 @@ const events: EventItem[] = [
     link: "https://www.youtube.com/watch?v=vOMo1RquRsY",
     platform: "youtube",
     thumbnail: webinarShannon,
+    embedUrl: "https://www.youtube.com/embed/SLpgv8zCzPU",
+  },
+];
   },
 ];
 
