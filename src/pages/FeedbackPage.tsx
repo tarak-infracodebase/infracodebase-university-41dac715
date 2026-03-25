@@ -4,9 +4,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Star, Check, Share2 } from "lucide-react";
+import { Star, Check, Share2, ClipboardCopy } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 
 // localStorage keys
 const KEYS = {
@@ -105,7 +105,7 @@ function ReadOnlyView({ data }: { data: Record<string, string> }) {
     <AppLayout>
       <div className="p-6 lg:p-10 max-w-2xl mx-auto space-y-10">
         <div className="rounded-md border border-accent/30 bg-accent/5 px-4 py-3 text-sm text-accent">
-          You're viewing shared feedback — these are read-only answers.
+          You're viewing shared feedback — these answers are read-only.
         </div>
 
         <div>
@@ -131,6 +131,16 @@ function ReadOnlyView({ data }: { data: Record<string, string> }) {
             </div>
           ))}
         </section>
+
+        {/* Fill in your own CTA */}
+        <div className="pt-4 border-t border-border/30">
+          <p className="text-sm text-muted-foreground">
+            Want to share your own feedback?{" "}
+            <Link to="/feedback" className="text-accent hover:underline font-medium">
+              Fill in your own →
+            </Link>
+          </p>
+        </div>
       </div>
     </AppLayout>
   );
@@ -155,12 +165,15 @@ const FeedbackPage = () => {
   return <EditableFeedback />;
 };
 
+const FRICTION_AREAS = "Home & Manifesto · Training · Hands-On Training · Video Library · Workshops & Events · Dashboard";
+
 function EditableFeedback() {
   const [disappointment, setDisappointment] = useState("");
   const [rating, setRating] = useState(0);
   const [hoveredStar, setHoveredStar] = useState(0);
   const [submittedAt, setSubmittedAt] = useState<string | null>(null);
-  const [copyMsg, setCopyMsg] = useState(false);
+  const [copyAnswersMsg, setCopyAnswersMsg] = useState(false);
+  const [copyFormMsg, setCopyFormMsg] = useState(false);
 
   const who = useAutoSaveText(KEYS.who);
   const benefit = useAutoSaveText(KEYS.benefit);
@@ -197,7 +210,7 @@ function EditableFeedback() {
     return count;
   }, [disappointment, who.value, benefit.value, rating, friction.value, valuable.value, brutal.value]);
 
-  const handleShare = async () => {
+  const handleShareAnswers = async () => {
     const payload: Record<string, string> = {};
     if (disappointment) payload.disappointment = disappointment;
     if (who.value.trim()) payload.who = who.value;
@@ -219,8 +232,19 @@ function EditableFeedback() {
     const ts = new Date().toISOString();
     localStorage.setItem(KEYS.submittedAt, ts);
     setSubmittedAt(ts);
-    setCopyMsg(true);
-    setTimeout(() => setCopyMsg(false), 3000);
+    setCopyAnswersMsg(true);
+    setTimeout(() => setCopyAnswersMsg(false), 3000);
+  };
+
+  const handleShareForm = async () => {
+    const url = `${window.location.origin}/feedback`;
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // fallback
+    }
+    setCopyFormMsg(true);
+    setTimeout(() => setCopyFormMsg(false), 3000);
   };
 
   const hasSubmitted = !!submittedAt;
@@ -234,11 +258,32 @@ function EditableFeedback() {
           <p className="text-sm text-muted-foreground">
             This is a living document. Update it anytime — nothing resets.
           </p>
+
+          {/* Share blank form link */}
+          <div className="mt-3 flex items-center gap-2">
+            <button
+              onClick={handleShareForm}
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-accent transition-colors"
+            >
+              <ClipboardCopy className="h-3.5 w-3.5" />
+              Share this form with others →{" "}
+              <span className="underline underline-offset-2">Copy link</span>
+            </button>
+            <span
+              className={cn(
+                "text-xs font-medium text-accent transition-opacity duration-300",
+                copyFormMsg ? "opacity-100" : "opacity-0",
+              )}
+            >
+              Form link copied — share it with anyone.
+            </span>
+          </div>
+
           <p className="mt-2 text-xs text-muted-foreground/70">
             {answeredCount} of 7 answered
           </p>
           {hasSubmitted && (
-            <div className="mt-2 text-xs text-muted-foreground/70 font-mono">
+            <div className="mt-1 text-xs text-muted-foreground/70 font-mono">
               Last shared:{" "}
               {new Date(submittedAt!).toLocaleDateString("en-US", {
                 month: "short",
@@ -357,13 +402,16 @@ function EditableFeedback() {
               <SavedBadge visible={friction.saved} />
             </div>
             <p className="text-xs text-muted-foreground">
-              Unclear instructions, broken features, confusing copy. Update this as you go.
+              Go through each area you've visited and note anything that slowed you down.
+            </p>
+            <p className="text-[11px] font-mono text-muted-foreground/60 leading-relaxed">
+              {FRICTION_AREAS}
             </p>
             <Textarea
               value={friction.value}
               onChange={(e) => friction.update(e.target.value)}
               className="min-h-[160px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
-              placeholder="e.g. I couldn't find the hands-on exercises from the dashboard..."
+              placeholder="e.g. The Hands-On Training submission wasn't clear. The Video Library was hard to find from the Dashboard..."
             />
           </div>
 
@@ -405,21 +453,21 @@ function EditableFeedback() {
           </div>
         </section>
 
-        {/* Share */}
+        {/* Share answers */}
         <div className="pt-2 space-y-3">
-          <Button onClick={handleShare} className="px-8 gap-2">
+          <Button onClick={handleShareAnswers} className="px-8 gap-2">
             <Share2 className="h-4 w-4" />
             {hasSubmitted ? "Update shared link" : "Share my answers"}
           </Button>
           <div
             className={cn(
               "text-xs font-medium text-accent transition-opacity duration-300",
-              copyMsg ? "opacity-100" : "opacity-0",
+              copyAnswersMsg ? "opacity-100" : "opacity-0",
             )}
           >
             Link copied — share it with the team.
           </div>
-          {hasSubmitted && !copyMsg && (
+          {hasSubmitted && !copyAnswersMsg && (
             <p className="text-xs text-accent font-medium">
               Thanks — your feedback has been noted.
             </p>
