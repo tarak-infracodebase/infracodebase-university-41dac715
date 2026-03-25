@@ -1239,7 +1239,7 @@ function HorizontalSessionCard({
         transition: 'all 0.2s',
         transform: hov && !editing ? 'translateY(-2px)' : 'none',
         boxShadow: hov && !editing ? '0 8px 32px rgba(0,0,0,0.3)' : 'none',
-        minHeight: '160px',
+        minHeight: customThumbnail ? '260px' : '160px',
       }}
     >
       {/* LEFT — Thumbnail */}
