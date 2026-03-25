@@ -286,6 +286,10 @@ export function NotificationBell({
           <div style={{ padding: "8px 14px 12px" }}>
             <button
               className="w-full text-center transition-colors"
+              onClick={() => {
+                closePanel();
+                navigate("/dashboard");
+              }}
               style={{
                 fontSize: 12,
                 color: "rgba(255,255,255,0.26)",
