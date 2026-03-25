@@ -1587,6 +1587,7 @@ export default function OfficeHours() {
                 tagLabel="Azure"
                 tagColor="rgba(0, 120, 212, 0.15)"
                 tagTextColor="#60a9ff"
+                tagBorder="0.5px solid rgba(0, 120, 212, 0.3)"
                 customThumbnail={
                   <WorkshopThumbnailPanel
                     title={"Weekly Workshop —\nClickOps to IaC:\nAzure Infrastructure"}
