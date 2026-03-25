@@ -1186,6 +1186,7 @@ function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title
           fontFamily: 'Fraunces, Georgia, serif',
           lineHeight: 1.35,
           textShadow: '0 1px 4px rgba(0,0,0,0.4)',
+          whiteSpace: 'pre-line',
         }}>
           {title}
         </h4>
