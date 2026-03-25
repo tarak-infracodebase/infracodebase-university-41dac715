@@ -1164,7 +1164,7 @@ function HexSpeaker({ src, name, role, size = 52 }: { src: string; name: string;
 function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title: string; date: string; dateLabel?: string }) {
   return (
     <div style={{
-      position: 'absolute', inset: 0,
+      width: '100%', height: '100%',
       background: 'radial-gradient(ellipse at 15% 50%, #7a2510 0%, transparent 55%), radial-gradient(ellipse at 80% 30%, #1a5c1a 0%, transparent 50%), radial-gradient(ellipse at 50% 90%, #5a3010 0%, transparent 45%), #1a1208',
       display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
       padding: '12px 16px 8px',
@@ -1229,26 +1229,22 @@ function HorizontalSessionCard({
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        display: 'flex',
-        flexDirection: 'row',
+        display: 'grid',
+        gridTemplateColumns: '300px 1fr',
         background: hov && !editing ? '#162035' : '#101929',
-        border: `1px solid ${hov && !editing ? '#25405f' : '#1c2e47'}`,
+        border: `0.5px solid ${hov && !editing ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.1)'}`,
         borderRadius: '12px',
         overflow: 'hidden',
         cursor: editing ? 'default' : 'pointer',
         transition: 'all 0.2s',
         transform: hov && !editing ? 'translateY(-2px)' : 'none',
         boxShadow: hov && !editing ? '0 8px 32px rgba(0,0,0,0.3)' : 'none',
-        minHeight: customThumbnail ? '260px' : '160px',
       }}
     >
       {/* LEFT — Thumbnail */}
       <div style={{
-        width: '360px',
-        minWidth: '360px',
         position: 'relative',
         overflow: 'hidden',
-        flexShrink: 0,
       }}>
         {customThumbnail ? customThumbnail : (
           <img
