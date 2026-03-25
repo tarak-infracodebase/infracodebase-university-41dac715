@@ -39,6 +39,7 @@ const navGroups = [
     label: "Me",
     items: [
       { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { path: "/feedback", label: "Feedback", icon: MessageSquare },
       { path: "/profile", label: "Profile", icon: User },
       { path: "/resources", label: "Resources", icon: FolderOpen },
     ],
