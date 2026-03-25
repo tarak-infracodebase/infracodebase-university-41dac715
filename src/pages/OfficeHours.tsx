@@ -1375,7 +1375,7 @@ export default function OfficeHours() {
                   <div key={host.name} className="flex items-center gap-3">
                     <div style={{ position: 'relative' }}>
                       <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
-                        <img src={host.photo || host.avatar} alt={host.name} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', display: 'block' }} onError={(e) => applyAvatarFallback(e.currentTarget, host.name, 44, '2px solid #1c2e47')} />
+                        <img src={host.photo || host.avatar} alt={host.name} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} onError={(e) => applyAvatarFallback(e.currentTarget, host.name, 44, '2px solid #1c2e47')} />
                       </div>
                       {isTarak && (
                         <>
