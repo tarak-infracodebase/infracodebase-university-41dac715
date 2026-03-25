@@ -69,6 +69,26 @@ function isUrl(value: string): boolean {
 
 /** Renders a single entry with smart type detection */
 function EntryDisplay({ value }: { value: string }) {
+  // File entry format: [file:filename]dataUrl
+  const fileMatch = value.match(/^\[file:(.+?)\](.+)$/s);
+  if (fileMatch) {
+    const [, fName, fData] = fileMatch;
+    const isImg = fData.startsWith("data:image/");
+    if (isImg) {
+      return (
+        <div className="space-y-1">
+          <img src={fData} alt={fName} className="max-w-full max-h-[200px] rounded-lg object-contain" />
+          <span className="text-[10px] text-muted-foreground">{fName}</span>
+        </div>
+      );
+    }
+    return (
+      <div className="flex items-center gap-2">
+        <FileText className="h-4 w-4 text-muted-foreground shrink-0" />
+        <span className="text-sm text-foreground truncate">{fName}</span>
+      </div>
+    );
+  }
   if (isImageUrl(value)) {
     return <img src={value} alt="Submission" className="max-w-full rounded-lg mt-2" />;
   }
