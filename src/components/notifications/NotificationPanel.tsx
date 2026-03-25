@@ -138,6 +138,7 @@ export function NotificationBell({
       {panelOpen && (
         <div
           className="absolute right-0 z-50"
+          onMouseDown={(e) => e.stopPropagation()}
           style={{
             top: "calc(100% + 8px)",
             width: 400,
