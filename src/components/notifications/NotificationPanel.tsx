@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Bell } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { NotificationItem, NotificationCategory } from "@/data/notifications";
 
 type TabFilter = "all" | NotificationCategory;
@@ -61,36 +62,22 @@ export function NotificationBell({
   markAllRead,
   openNotification,
 }: NotificationPanelProps) {
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!panelOpen) return;
-    const handler = (e: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
-        closePanel();
-      }
-    };
     const keyHandler = (e: KeyboardEvent) => {
       if (e.key === "Escape") closePanel();
     };
-    // Use setTimeout so the listener is added after the current event loop,
-    // preventing the opening click from immediately triggering close
-    const timer = setTimeout(() => {
-      document.addEventListener("mousedown", handler);
-    }, 0);
     document.addEventListener("keydown", keyHandler);
-    return () => {
-      clearTimeout(timer);
-      document.removeEventListener("mousedown", handler);
-      document.removeEventListener("keydown", keyHandler);
-    };
+    return () => document.removeEventListener("keydown", keyHandler);
   }, [panelOpen, closePanel]);
 
   const featured = notifications[0];
   const rest = notifications.slice(1);
 
   return (
-    <div ref={wrapperRef} className="relative">
+    <div className="relative">
       {/* Bell button */}
       <button
         onClick={togglePanel}
@@ -134,11 +121,18 @@ export function NotificationBell({
         )}
       </button>
 
+      {/* Invisible backdrop to catch outside clicks */}
+      {panelOpen && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={closePanel}
+        />
+      )}
+
       {/* Panel */}
       {panelOpen && (
         <div
           className="absolute right-0 z-50"
-          onMouseDown={(e) => e.stopPropagation()}
           style={{
             top: "calc(100% + 8px)",
             width: 400,
@@ -292,6 +286,10 @@ export function NotificationBell({
           <div style={{ padding: "8px 14px 12px" }}>
             <button
               className="w-full text-center transition-colors"
+              onClick={() => {
+                closePanel();
+                navigate("/dashboard");
+              }}
               style={{
                 fontSize: 12,
                 color: "rgba(255,255,255,0.26)",
