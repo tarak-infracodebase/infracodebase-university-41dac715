@@ -1249,8 +1249,8 @@ export default function OfficeHours() {
 
   // Hero editing
   const [heroEditing, setHeroEditing] = useState(false);
-  const [heroTitle, setHeroTitle] = useState("Shift-Left Security — Building a Secure AWS Baseline from Scratch");
-   const [heroDesc, setHeroDesc] = useState("Instead of adding security after the fact, we start with it. Live demo: describe an architecture intent, watch Infracodebase generate AWS Terraform with IAM least-privilege, encryption, private subnets, and compliance scoring — before a single resource is deployed.");
+  const [heroTitle, setHeroTitle] = useState("Shifting Left: Building a Secure Azure Baseline");
+   const [heroDesc, setHeroDesc] = useState("Live demo: take a simple Azure 3-tier web app template, question its assumptions, and apply constraints like input validation, API boundaries, and secrets management before it's introduced into a CI pipeline.");
    const [heroDate, setHeroDate] = useState("Wednesday, April 2, 2026");
   const [heroTime, setHeroTime] = useState("5:00 PM CET");
 
@@ -1293,8 +1293,7 @@ export default function OfficeHours() {
   };
 
   const hostedByData = [
-    { ...HOSTS[0], photo: justinPhoto, setter: setJustinPhoto, uploadId: "upload-justin" },
-    { ...HOSTS[1], photo: tarakPhoto, setter: setTarakPhoto, uploadId: "upload-tarak" },
+    { name: "Tawni", initial: "T", role: "Senior Full Stack", avatar: "/hosts/tawni.jpeg", photo: null as string | null, setter: setJustinPhoto, uploadId: "upload-tawni" },
   ] as const;
 
   return (
@@ -1376,7 +1375,7 @@ export default function OfficeHours() {
                   <div key={host.name} className="flex items-center gap-3">
                     <div style={{ position: 'relative' }}>
                       <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
-                        <img src={host.photo || host.avatar} alt={host.name} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', display: 'block' }} onError={(e) => applyAvatarFallback(e.currentTarget, host.name, 44, '2px solid #1c2e47')} />
+                        <img src={host.photo || host.avatar} alt={host.name} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} onError={(e) => applyAvatarFallback(e.currentTarget, host.name, 44, '2px solid #1c2e47')} />
                       </div>
                       {isTarak && (
                         <>
