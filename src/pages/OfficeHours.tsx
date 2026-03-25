@@ -1164,7 +1164,7 @@ function HexSpeaker({ src, name, role, size = 52 }: { src: string; name: string;
 function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title: string; date: string; dateLabel?: string }) {
   return (
     <div style={{
-      position: 'absolute', inset: 0,
+      width: '100%', height: '100%',
       background: 'radial-gradient(ellipse at 15% 50%, #7a2510 0%, transparent 55%), radial-gradient(ellipse at 80% 30%, #1a5c1a 0%, transparent 50%), radial-gradient(ellipse at 50% 90%, #5a3010 0%, transparent 45%), #1a1208',
       display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
       padding: '12px 16px 8px',
