@@ -1,13 +1,14 @@
 import { AppLayout } from "@/components/AppLayout";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { Search, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { VideoPlayerModal } from "@/components/VideoPlayerModal";
 
 const videoTopics = [
-  "All", "Getting Started", "Infrastructure Architecture",
+  "All", "Getting Started", "Infrastructure Architecture", "Enterprise Governance",
 ];
 
 interface VideoItem {
