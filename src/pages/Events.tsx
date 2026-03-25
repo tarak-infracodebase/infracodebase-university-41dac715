@@ -129,8 +129,6 @@ const events: EventItem[] = [
     embedUrl: "https://www.youtube.com/embed/SLpgv8zCzPU",
   },
 ];
-  },
-];
 
 const typeColors: Record<string, string> = {
   "Technical Session": "bg-crystal-violet/10 text-crystal-violet border-crystal-violet/20",
