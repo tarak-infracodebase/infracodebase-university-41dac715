@@ -61,6 +61,15 @@ const videos: VideoItem[] = [
     trackPath: "/path/advanced-architecture",
     badge: "Track Introduction",
   },
+  {
+    id: "enterprise-governance",
+    title: "Enterprise Governance & Platform Engineering",
+    src: "/assets/Scaling_infra_-_veed.mp4",
+    category: "Enterprise Governance",
+    description: "Learn how organizations scale infrastructure work through rulesets, workflows, subagents, workspace history, and platform engineering practices.",
+    trackLabel: "Track 5 — Enterprise Governance & Platform Engineering",
+    trackPath: "/path/enterprise-governance",
+  },
 ];
 
 function getProgress(id: string): number {
