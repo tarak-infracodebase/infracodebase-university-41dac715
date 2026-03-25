@@ -157,7 +157,6 @@ const session1Comments = [
 ];
 
 const session2Screenshots = [
-  { src: "/workshop2-thumbnail.png", caption: "Session thumbnail" },
   { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_00_48.png", caption: "Teams call — full group (15 attendees)" },
   { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_06_50.png", caption: "CLOUD_COMPARISON.md — Multi-Cloud API Gateway Architecture Comparison" },
   { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_07_30.png", caption: "PROGRESS.md — Azure APIM Secure Baseline Build Progress" },
@@ -851,10 +850,10 @@ function NotesEditor({
 
 /* ── Session Modal ── */
 function SessionModal({
-  open, onClose, screenshots: shots, isTarak, title, subtitle, sessionComments, notesHTML, notesMD, downloadFilename,
+  open, onClose, screenshots: shots, isTarak, title, subtitle, sessionComments, notesHTML, notesMD, downloadFilename, youtubeEmbedUrl,
 }: {
   open: boolean; onClose: () => void; screenshots: { src: string; caption: string }[]; isTarak: boolean;
-  title: string; subtitle: string; sessionComments: any[]; notesHTML: string; notesMD: string; downloadFilename: string;
+  title: string; subtitle: string; sessionComments: any[]; notesHTML: string; notesMD: string; downloadFilename: string; youtubeEmbedUrl?: string;
 }) {
   const [tab, setTab] = useState<"recording" | "screenshots" | "notes">("recording");
   const [screenshotIdx, setScreenshotIdx] = useState(0);
@@ -957,18 +956,33 @@ function SessionModal({
             {/* Recording */}
             {tab === "recording" && (
               <div>
-                <div style={{ background: '#0a1628', border: '1px solid #1c2e47', borderRadius: '12px', padding: '60px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', minHeight: '300px' }}>
-                  <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#1c2e47', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Video className="h-6 w-6" style={{ color: '#64748b' }} />
+                {youtubeEmbedUrl ? (
+                  <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, borderRadius: '10px', overflow: 'hidden' }}>
+                    <iframe
+                      src={youtubeEmbedUrl}
+                      title={title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                    />
                   </div>
-                  <p style={{ fontSize: '16px', fontWeight: 600, color: '#f1f5f9', margin: 0 }}>Recording coming soon</p>
-                  <p style={{ fontSize: '13px', color: '#64748b', margin: 0, textAlign: 'center', maxWidth: '320px' }}>This session wasn't recorded. Future sessions will be available here within 24 hours.</p>
-                </div>
-                <div className="flex gap-3 mt-4">
-                  <button onClick={() => setTab("notes")} className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border border-border/50 text-foreground hover:bg-muted/50 transition-colors">
-                    View notes
-                  </button>
-                </div>
+                ) : (
+                  <>
+                    <div style={{ background: '#0a1628', border: '1px solid #1c2e47', borderRadius: '12px', padding: '60px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', minHeight: '300px' }}>
+                      <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#1c2e47', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Video className="h-6 w-6" style={{ color: '#64748b' }} />
+                      </div>
+                      <p style={{ fontSize: '16px', fontWeight: 600, color: '#f1f5f9', margin: 0 }}>Recording coming soon</p>
+                      <p style={{ fontSize: '13px', color: '#64748b', margin: 0, textAlign: 'center', maxWidth: '320px' }}>This session wasn't recorded. Future sessions will be available here within 24 hours.</p>
+                    </div>
+                    <div className="flex gap-3 mt-4">
+                      <button onClick={() => setTab("notes")} className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border border-border/50 text-foreground hover:bg-muted/50 transition-colors">
+                        View notes
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             )}
 
@@ -1474,6 +1488,7 @@ export default function OfficeHours() {
         notesHTML={SESSION2_NOTES_HTML}
         notesMD={SESSION2_NOTES_MD}
         downloadFilename="build-with-her-march-25-2026.md"
+        youtubeEmbedUrl="https://www.youtube.com/embed/I68mkGJHMhA"
       />
     </AppLayout>
   );
