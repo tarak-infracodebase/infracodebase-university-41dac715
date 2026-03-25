@@ -1134,190 +1134,95 @@ function SessionModal({
   );
 }
 
-/* ── Hexagonal Speaker Avatar ── */
-function HexSpeaker({ src, name, role, size = 52 }: { src: string; name: string; role: string; size?: number }) {
-  const hexClip = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)';
-  const outer = size + 6;
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px' }}>
-      <div style={{
-        width: outer, height: outer,
-        clipPath: hexClip,
-        background: 'linear-gradient(135deg, #f97316, #ec4899, #8b5cf6)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-        <div style={{
-          width: size, height: size,
-          clipPath: hexClip,
-          overflow: 'hidden',
-        }}>
-          <img src={src} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-        </div>
-      </div>
-      <span style={{ color: '#fff', fontSize: '13px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>{name}</span>
-      <span style={{ color: '#ffffff', opacity: 0.85, fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', marginTop: '-2px' }}>{role}</span>
-    </div>
-  );
-}
 
-/* ── Workshop Thumbnail Panel (JSX-rendered, matches Workshop 1 design) ── */
-function WorkshopThumbnailPanel({ title, date, dateLabel = "Workshop" }: { title: string; date: string; dateLabel?: string }) {
-  return (
-    <div style={{
-      width: '100%', height: '100%',
-      background: 'radial-gradient(ellipse at 15% 50%, #7a2510 0%, transparent 55%), radial-gradient(ellipse at 80% 30%, #1a5c1a 0%, transparent 50%), radial-gradient(ellipse at 50% 90%, #5a3010 0%, transparent 45%), #1a1208',
-      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-      padding: '12px 16px 8px',
-    }}>
-      {/* Top row */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <span style={{ color: '#fff', fontSize: '11px', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>
-          Infracodebase<span style={{ fontWeight: 400 }}>.com</span>
-        </span>
-        <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '9px', fontFamily: 'JetBrains Mono, monospace' }}>
-          {dateLabel} · {date}
-        </span>
-      </div>
-
-      {/* Center title */}
-      <div style={{ textAlign: 'center', padding: '0 8px' }}>
-        <h4 style={{
-          color: '#fff', fontSize: '20px', fontWeight: 700,
-          fontFamily: 'Fraunces, Georgia, serif',
-          lineHeight: 1.35,
-          textShadow: '0 1px 4px rgba(0,0,0,0.4)',
-          whiteSpace: 'pre-line',
-        }}>
-          {title}
-        </h4>
-      </div>
-
-      {/* Speakers */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '24px' }}>
-        <HexSpeaker src={TARAK_AVATAR} name="Tarak" role="Co-Founder, Infracodebase" />
-        <HexSpeaker src={JUSTIN_AVATAR} name="Justin" role="Founder, Infracodebase" />
-      </div>
-
-      {/* Bottom URL */}
-      <div style={{ textAlign: 'center' }}>
-        <span style={{ color: '#ffffff', opacity: 0.6, fontSize: '10px', fontFamily: 'JetBrains Mono, monospace' }}>
-          university.infracodebase.com
-        </span>
-      </div>
-    </div>
-  );
-}
-
-/* ── Horizontal Session Card ── */
-function HorizontalSessionCard({
-  editing, onClick, sessionTitle, setSessionTitle, sessionDesc, setSessionDesc, sessionDate, setSessionDate,
-  thumbnail = "/workshop-thumbnail.png", tagLabel = "Real Infrastructure", tagColor = "rgba(167,139,250,0.15)", tagTextColor = "#a78bfa", tagBorder, duration = "49 min",
-  customThumbnail,
+/* ── Vertical Workshop Card (SheBuilds-style) ── */
+function WorkshopCard({
+  gradient, thumbTitle, date, duration, detailTitle, facilitators, tagLabel, tagStyle, onClick,
 }: {
-  editing: boolean; onClick: () => void;
-  sessionTitle: string; setSessionTitle: (v: string) => void;
-  sessionDesc: string; setSessionDesc: (v: string) => void;
-  sessionDate: string; setSessionDate: (v: string) => void;
-  thumbnail?: string; tagLabel?: string; tagColor?: string; tagTextColor?: string; tagBorder?: string; duration?: string;
-  customThumbnail?: React.ReactNode;
+  gradient: string; thumbTitle: string; date: string; duration: string;
+  detailTitle: string; facilitators: string; tagLabel: string; tagStyle: React.CSSProperties; onClick: () => void;
 }) {
   const [hov, setHov] = useState(false);
-
   return (
     <div
-      onClick={() => !editing && onClick()}
+      onClick={onClick}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        display: 'grid',
-        gridTemplateColumns: '300px 1fr',
-        background: hov && !editing ? '#162035' : '#101929',
-        border: `0.5px solid ${hov && !editing ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.1)'}`,
-        borderRadius: '12px',
-        overflow: 'hidden',
-        cursor: editing ? 'default' : 'pointer',
+        position: 'relative',
+        display: 'flex', flexDirection: 'column',
+        borderRadius: '12px', overflow: 'hidden', cursor: 'pointer',
+        border: `0.5px solid ${hov ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.1)'}`,
         transition: 'all 0.2s',
-        transform: hov && !editing ? 'translateY(-2px)' : 'none',
-        boxShadow: hov && !editing ? '0 8px 32px rgba(0,0,0,0.3)' : 'none',
+        transform: hov ? 'translateY(-2px)' : 'none',
+        boxShadow: hov ? '0 8px 32px rgba(0,0,0,0.3)' : 'none',
       }}
     >
-      {/* LEFT — Thumbnail */}
+      {/* Top — Gradient Thumbnail */}
       <div style={{
-        position: 'relative',
-        overflow: 'hidden',
+        background: gradient,
+        padding: '24px 20px 28px',
+        display: 'flex', flexDirection: 'column', flex: 1,
       }}>
-        {customThumbnail ? customThumbnail : (
-          <img
-            src={thumbnail}
-            alt={sessionTitle}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center top',
-              display: 'block',
-            }}
-          />
-        )}
-        {!editing && hov && (
-          <div style={{
-            position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'opacity 0.2s',
-          }}>
-            <div style={{
-              width: '48px', height: '48px', borderRadius: '50%',
-              background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <Play className="h-5 w-5 text-white" style={{ marginLeft: '2px' }} />
-            </div>
-          </div>
-        )}
+        <div style={{ marginBottom: '2px' }}>
+          <span style={{ fontSize: '12px', fontWeight: 700, color: '#fff' }}>Infracodebase.com</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '20px' }}>
+          <span style={{ display: 'inline-block', width: '2px', height: '10px', background: 'rgba(255,255,255,0.5)', borderRadius: '1px' }} />
+          <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.7)' }}>Weekly Workshop</span>
+        </div>
+        <h4 style={{
+          fontSize: '24px', fontWeight: 700, color: '#fff',
+          fontFamily: 'Fraunces, Georgia, serif',
+          lineHeight: 1.2, flex: 1, marginBottom: '20px',
+        }}>
+          {thumbTitle}
+        </h4>
+        <div>
+          <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.8)', marginBottom: '2px' }}>{date}</p>
+          <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}>{duration}</p>
+        </div>
       </div>
 
-      {/* RIGHT — Content */}
-      <div style={{
-        flex: 1,
-        padding: '20px 24px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-      }}>
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <span style={{
-              borderRadius: '20px', padding: '3px 9px',
-              fontSize: '11px', fontWeight: 500,
-              background: tagColor, color: tagTextColor,
-              ...(tagBorder ? { border: tagBorder } : {}),
-            }}>
-              {tagLabel}
-            </span>
-            <span style={{ fontSize: '12px', color: '#94a3b8' }}>{duration}</span>
-          </div>
-          <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#f1f5f9', marginBottom: '6px' }}>
-            <InlineField value={sessionTitle} onChange={setSessionTitle} editing={editing} className="text-base font-semibold text-foreground" />
-          </h3>
-          <p style={{ fontSize: '14px', color: '#94a3b8', lineHeight: '1.6' }}>
-            <InlineField value={sessionDesc} onChange={setSessionDesc} editing={editing} multiline className="text-sm text-muted-foreground leading-relaxed" />
-          </p>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '16px' }}>
-          <span style={{ fontSize: '12px', color: '#94a3b8' }}>
-            <InlineField value={sessionDate} onChange={setSessionDate} editing={editing} className="text-xs text-muted-foreground" />
-          </span>
-          {!editing && (
-            <span style={{ fontSize: '12px', fontWeight: 500, color: '#22d3ee' }}>View session →</span>
-          )}
+      {/* Bottom — Dark Detail Panel */}
+      <div style={{ background: '#12131f', padding: '14px 16px' }}>
+        <p style={{
+          fontSize: '12px', fontWeight: 500, color: '#fff',
+          fontFamily: 'JetBrains Mono, monospace',
+          lineHeight: 1.4, marginBottom: '3px',
+        }}>
+          {detailTitle}
+        </p>
+        <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginBottom: '10px' }}>
+          {facilitators}
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={tagStyle}>{tagLabel}</span>
+          <span style={{ fontSize: '11px', color: '#8b9cff', fontWeight: 500 }}>View session →</span>
         </div>
       </div>
+
+      {/* Hover play overlay */}
+      {hov && (
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'rgba(0,0,0,0.3)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          pointerEvents: 'none',
+        }}>
+          <div style={{
+            width: '48px', height: '48px', borderRadius: '50%',
+            background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(4px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <Play className="h-5 w-5 text-white" style={{ marginLeft: '2px' }} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
 
 /* ── Main Page ── */
 export default function OfficeHours() {
@@ -1335,16 +1240,8 @@ export default function OfficeHours() {
   const [heroDate, setHeroDate] = useState("Wednesday, March 25, 2026");
   const [heroTime, setHeroTime] = useState("5:00 PM CET");
 
-  // Session 1 card editing
-  const [sessionEditing, setSessionEditing] = useState(false);
-  const [sessionTitle, setSessionTitle] = useState("Build with Her — ClickOps to IaC: Azure Infrastructure Modernization");
-  const [sessionDesc, setSessionDesc] = useState("Live demo: inspect manually provisioned Azure infrastructure, generate Terraform code with Infracodebase, establish a clean IaC baseline, and shift remediation left.");
 
-  // Session 2 card editing
-  const [session2Editing, setSession2Editing] = useState(false);
-  const [session2Title, setSession2Title] = useState("Build with Her — Migrating Azure Infrastructure to AWS and GCP");
-  const [session2Desc, setSession2Desc] = useState("Live walkthrough of migrating an existing Azure environment to both AWS and GCP using Infracodebase. We'll scan the resources, generate multi-cloud Terraform, and show how the agent handles the translation automatically, no manual rewriting.");
-  const [session2Date, setSession2Date] = useState("March 25, 2026");
+
 
   // Instructor photo uploads
   const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => {
@@ -1372,7 +1269,7 @@ export default function OfficeHours() {
     reader.onload = (ev) => setter(ev.target?.result as string);
     reader.readAsDataURL(file);
   };
-  const [sessionDate, setSessionDate] = useState("March 18, 2026");
+  
 
   const handleSubmitQuestion = () => {
     if (!question.trim()) return;
@@ -1524,74 +1421,32 @@ export default function OfficeHours() {
           <h2 className="text-2xl font-bold text-foreground mb-1">Past Sessions</h2>
           <p className="text-sm text-muted-foreground mb-6">Click any session to watch the recording, relive our moments, and read the notes.</p>
 
-          <div className="space-y-4">
-            {/* Workshop 2 — March 25, 2026 (newest first) */}
-            <div className="relative">
-              {isTarak && (
-                <button
-                  onClick={e => { e.stopPropagation(); setSession2Editing(ed => !ed); }}
-                  className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-                    session2Editing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                  }`}
-                >
-                  <Edit2 className="h-4 w-4" />
-                </button>
-              )}
-              <HorizontalSessionCard
-                editing={session2Editing}
-                onClick={() => setModal2Open(true)}
-                sessionTitle={session2Title}
-                setSessionTitle={setSession2Title}
-                sessionDesc={session2Desc}
-                setSessionDesc={setSession2Desc}
-                sessionDate={session2Date}
-                setSessionDate={setSession2Date}
-                tagLabel="Cross-cloud"
-                tagColor="rgba(96,165,250,0.15)"
-                tagTextColor="#60a5fa"
-                duration="56m 46s"
-                customThumbnail={
-                  <WorkshopThumbnailPanel
-                    title={"Weekly Workshop —\nMigrating Azure Infrastructure\nto AWS and GCP"}
-                    date="March 25, 2026"
-                  />
-                }
-              />
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'stretch' }}>
+            {/* Workshop 2 — March 25, 2026 (newest first / left) */}
+            <WorkshopCard
+              gradient="linear-gradient(135deg, #1d4ed8 0%, #7c3aed 55%, #16653a 100%)"
+              thumbTitle="Migrating Azure Infrastructure to AWS and GCP"
+              date="March 25, 2026"
+              duration="56m 46s"
+              detailTitle="Build with Her — Migrating Azure to AWS and GCP"
+              facilitators="Tarak & Justin O'Connor"
+              tagLabel="Cross-cloud"
+              tagStyle={{ background: 'rgba(91,106,245,0.15)', color: '#8b9cff', border: '0.5px solid rgba(91,106,245,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '10px', fontWeight: 500 }}
+              onClick={() => setModal2Open(true)}
+            />
 
-            {/* Workshop 1 — March 18, 2026 */}
-            <div className="relative">
-              {isTarak && (
-                <button
-                  onClick={e => { e.stopPropagation(); setSessionEditing(ed => !ed); }}
-                  className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-                    sessionEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                  }`}
-                >
-                  <Edit2 className="h-4 w-4" />
-                </button>
-              )}
-              <HorizontalSessionCard
-                editing={sessionEditing}
-                onClick={() => setModalOpen(true)}
-                sessionTitle={sessionTitle}
-                setSessionTitle={setSessionTitle}
-                sessionDesc={sessionDesc}
-                setSessionDesc={setSessionDesc}
-                sessionDate={sessionDate}
-                setSessionDate={setSessionDate}
-                tagLabel="Azure"
-                tagColor="rgba(0, 120, 212, 0.15)"
-                tagTextColor="#60a9ff"
-                tagBorder="0.5px solid rgba(0, 120, 212, 0.3)"
-                customThumbnail={
-                  <WorkshopThumbnailPanel
-                    title={"Weekly Workshop —\nClickOps to IaC:\nAzure Infrastructure"}
-                    date="March 18, 2026"
-                  />
-                }
-              />
-            </div>
+            {/* Workshop 1 — March 18, 2026 (older / right) */}
+            <WorkshopCard
+              gradient="linear-gradient(135deg, #7c3aed 0%, #db2877 55%, #ea580c 100%)"
+              thumbTitle="ClickOps to IaC: Azure Infrastructure"
+              date="March 18, 2026"
+              duration="49 min"
+              detailTitle="Build with Her — ClickOps to IaC: Azure Infrastructure Modernization"
+              facilitators="Tarak & Justin O'Connor"
+              tagLabel="Azure"
+              tagStyle={{ background: 'rgba(0,120,212,0.15)', color: '#60a9ff', border: '0.5px solid rgba(0,120,212,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '10px', fontWeight: 500 }}
+              onClick={() => setModalOpen(true)}
+            />
           </div>
         </section>
       </div>
