@@ -199,7 +199,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
   );
 }
 
-export function MobileNav() {
+export function MobileNav({ notifications: notif }: { notifications?: ReturnType<typeof useNotifications> }) {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -226,6 +226,7 @@ export function MobileNav() {
         <div className="flex items-center gap-2">
           <XpPill />
           <ThemeToggleButton />
+          {notif && <NotificationBell {...notif} />}
           <SignedIn>
             <UserButton
               afterSignOutUrl="/"
