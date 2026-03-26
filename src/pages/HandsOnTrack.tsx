@@ -3,6 +3,8 @@ import { AppLayout } from "@/components/AppLayout";
 import { getHandsOnTrack } from "@/data/handsOnData";
 import { ArrowLeft, ArrowRight, BookOpen, Clock, CheckCircle2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { ProgressBar } from "@/components/ProgressBar";
+import { Progress } from "@/components/ui/progress";
 
 function getLevelColor(level: string) {
   switch (level) {
@@ -30,9 +32,16 @@ const HandsOnTrack = () => {
     );
   }
 
+  const progressSteps = track.modules.map(m => ({ id: m.id, label: m.title.length > 8 ? m.title.slice(0, 8) + "…" : m.title }));
+
   return (
     <AppLayout>
-      <div className="max-w-5xl mx-auto px-6 py-10 lg:py-14">
+      <ProgressBar
+        title={track.title}
+        steps={progressSteps}
+        currentStepIndex={0}
+        completedCount={0}
+      />
         <Link to="/hands-on" className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-8 transition-colors">
           <ArrowLeft className="h-3 w-3" /> All Hands-On Training
         </Link>
