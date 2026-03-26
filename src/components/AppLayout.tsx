@@ -213,11 +213,9 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
       {/* Referral + User */}
       <div style={{ borderTop: "1px solid #1c2e47" }} className="pt-2 pb-2 px-2">
         <SignedIn>
-          {!collapsed && (
-            <div className="mb-2">
-              <ReferralModal />
-            </div>
-          )}
+          <div className={collapsed ? "hidden" : "mb-2"}>
+            <ReferralModal />
+          </div>
           <SidebarUserRow collapsed={collapsed} xp={xp} />
         </SignedIn>
       </div>
@@ -299,6 +297,11 @@ export function MobileNav({ notifications: notif }: { notifications?: ReturnType
                 </Link>
               ))}
             </nav>
+            <SignedIn>
+              <div className="mt-4 px-1">
+                <ReferralModal />
+              </div>
+            </SignedIn>
           </div>
         </div>
       )}
