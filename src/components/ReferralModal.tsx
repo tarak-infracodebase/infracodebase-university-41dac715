@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useUser } from "@clerk/clerk-react";
-import { ChevronUp, X, ArrowRight, Briefcase, Star, Copy, Check } from "lucide-react";
+import { X, ArrowRight, Briefcase, Star, Copy, Check } from "lucide-react";
 
 const REFERRAL_DOMAIN = "https://university.infracodebase.com";
 
