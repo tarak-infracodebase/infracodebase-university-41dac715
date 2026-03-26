@@ -29,7 +29,7 @@ const THUMB_CONTENT: Record<number, {
   titleLine2: string;
   pill?: string;
 }> = {
-  1: { eyebrow: "Upcoming Workshop", titleLine1: "Shifting", titleLine2: "Left", pill: "Tawni — Senior Full Stack Eng." },
+  1: { eyebrow: "Upcoming Workshop", titleLine1: "Shifting", titleLine2: "Left", pill: "Tawni — Senior Full Stack · Apr 2 · 5PM CET" },
   2: { eyebrow: "Weekly Workshop — Replay", titleLine1: "Azure", titleLine2: "Migration" },
   3: { eyebrow: "New Video", titleLine1: "Scaling", titleLine2: "Infra", pill: "Manisha — DevOps Eng." },
   4: { eyebrow: "New Training Resource", titleLine1: "Azure", titleLine2: "Reference" },
@@ -333,7 +333,7 @@ function FeaturedCard({
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 10, position: "relative", zIndex: 1 }}>
               {thumb.eyebrow}
             </p>
-            <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: 42, fontWeight: 400, color: "white", lineHeight: 1.0, letterSpacing: "-0.02em", position: "relative", zIndex: 1 }}>
+            <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: 42, fontWeight: 400, color: "rgba(255,255,255,0.95)", lineHeight: 1.0, letterSpacing: "-0.02em", position: "relative", zIndex: 1 }}>
               {thumb.titleLine1}<br />
               <em style={{ color: "rgba(255,255,255,0.65)" }}>{thumb.titleLine2}</em>
             </p>
