@@ -46,14 +46,18 @@ export function NotificationModal({ item, allNotifications, onClose, onNavigate 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animKey, setAnimKey] = useState(0);
 
-  // Sync index when item changes from outside
+  // Sync index when the externally-selected item changes
   useEffect(() => {
     if (!item) return;
     const idx = allNotifications.findIndex(n => n.id === item.id);
-    if (idx >= 0) setCurrentIndex(idx);
-  }, [item, allNotifications]);
+    if (idx >= 0) {
+      setCurrentIndex(idx);
+      setAnimKey(k => k + 1);
+    }
+  }, [item?.id, allNotifications]);
 
-  const currentItem = allNotifications[currentIndex] || item;
+  // Derive displayed notification from internal index — NOT from the static prop
+  const currentItem = allNotifications[currentIndex];
 
   const goTo = useCallback((newIndex: number) => {
     if (newIndex < 0 || newIndex >= allNotifications.length) return;
