@@ -279,7 +279,30 @@ export function MobileNav({ notifications: notif }: { notifications?: ReturnType
   );
 }
 
+function useCurrentXp() {
+  const [xp, setXp] = useState(() => {
+    try { return parseInt(localStorage.getItem("icbu_xp") || "0", 10); } catch { return 0; }
+  });
+
+  useEffect(() => {
+    const sync = () => {
+      try { setXp(parseInt(localStorage.getItem("icbu_xp") || "0", 10)); } catch {}
+    };
+    // Listen for cross-tab changes
+    window.addEventListener("storage", sync);
+    // Listen for same-tab XP updates (custom event)
+    window.addEventListener("icbu_xp_update", sync);
+    return () => {
+      window.removeEventListener("storage", sync);
+      window.removeEventListener("icbu_xp_update", sync);
+    };
+  }, []);
+
+  return xp;
+}
+
 function XpPill() {
+  const xp = useCurrentXp();
   return (
     <SignedIn>
       <div
@@ -298,7 +321,7 @@ function XpPill() {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
           <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-400" />
         </span>
-        0 XP
+        {xp} XP
       </div>
     </SignedIn>
   );
