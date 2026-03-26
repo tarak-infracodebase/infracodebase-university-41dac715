@@ -2,9 +2,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home, LayoutDashboard, Calendar,
   MessageSquare, Play, ChevronLeft, ChevronRight,
-  X, FolderOpen, Hammer, User, Radio, Compass,
+  FolderOpen, Hammer, User, Radio, Compass,
   Sun, Moon, Zap, FileText,
 } from "lucide-react";
+import { MobileDrawer } from "./MobileDrawer";
 import { cn } from "@/lib/utils";
 import { useState, useEffect, useRef } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
@@ -220,84 +221,48 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
 }
 
 export function MobileNav({ notifications: notif }: { notifications?: ReturnType<typeof useNotifications> }) {
-  const [open, setOpen] = useState(false);
-  const location = useLocation();
   const navigate = useNavigate();
 
   return (
-    <>
-      <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-border/50 bg-background/80 backdrop-blur-xl flex items-center justify-between px-4 lg:hidden">
-        <Link to="/" className="flex items-center gap-2">
-          <CrystalIcon color="hsl(var(--crystal-violet))" size={24} />
-          <span
-            className="text-[13px] leading-tight whitespace-nowrap tracking-wide"
-            style={{
-              background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              opacity: 0.88,
-              filter: "saturate(0.85)",
+    <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-border/50 bg-background/80 backdrop-blur-xl flex items-center justify-between px-4 lg:hidden">
+      <Link to="/" className="flex items-center gap-2">
+        <CrystalIcon color="hsl(var(--crystal-violet))" size={24} />
+        <span
+          className="text-[13px] leading-tight whitespace-nowrap tracking-wide"
+          style={{
+            background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            opacity: 0.88,
+            filter: "saturate(0.85)",
+          }}
+        >
+          <span className="font-medium">Infracodebase</span>{" "}
+          <span className="font-normal">University</span>
+        </span>
+      </Link>
+      <div className="flex items-center gap-2">
+        <SignedIn><ReferralModal /></SignedIn>
+        <XpPill />
+        <ThemeToggleButton />
+        {notif && <NotificationBell {...notif} />}
+        <SignedIn>
+          <UserButton
+            afterSignOutUrl="/"
+            appearance={{
+              elements: {
+                avatarBox: "h-8 w-8",
+              },
             }}
           >
-            <span className="font-medium">Infracodebase</span>{" "}
-            <span className="font-normal">University</span>
-          </span>
-        </Link>
-        <div className="flex items-center gap-2">
-          <SignedIn><ReferralModal /></SignedIn>
-          <XpPill />
-          <ThemeToggleButton />
-          {notif && <NotificationBell {...notif} />}
-          <SignedIn>
-            <UserButton
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  avatarBox: "h-8 w-8",
-                },
-              }}
-            >
-              <UserButton.MenuItems>
-                <UserButton.Action label="Profile" labelIcon={<User className="h-4 w-4" />} onClick={() => navigate("/profile")} />
-              </UserButton.MenuItems>
-            </UserButton>
-          </SignedIn>
-          <SignedOut>
-            <Link to="/sign-in" className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
-              <LogIn className="h-3.5 w-3.5" />
-              <span>Sign in</span>
-            </Link>
-          </SignedOut>
-          <button onClick={() => setOpen(true)} className="p-2 text-muted-foreground hover:text-foreground">
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
-          </button>
-        </div>
-      </header>
-      {open && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-0 bottom-0 w-64 bg-card border-l border-border/50 p-4">
-            <button onClick={() => setOpen(false)} className="absolute top-4 right-4 text-muted-foreground"><X className="h-5 w-5" /></button>
-            <nav className="mt-12 space-y-1">
-              {allNavItems.map(item => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setOpen(false)}
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors",
-                    location.pathname === item.path ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </Link>
-              ))}
-            </nav>
-          </div>
-        </div>
-      )}
-    </>
+            <UserButton.MenuItems>
+              <UserButton.Action label="Profile" labelIcon={<User className="h-4 w-4" />} onClick={() => navigate("/profile")} />
+            </UserButton.MenuItems>
+          </UserButton>
+        </SignedIn>
+        <MobileDrawer />
+      </div>
+    </header>
   );
 }
 
