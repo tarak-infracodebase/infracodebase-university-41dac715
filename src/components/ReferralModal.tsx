@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { useUser } from "@clerk/clerk-react";
 import { X, ArrowRight, Briefcase, Star, Copy, Check, ChevronDown } from "lucide-react";
 
-const REFERRAL_DOMAIN = "https://university.infracodebase.com";
+const REFERRAL_BASE = "https://infracodebase.com/invite";
 
 function StepIcon({ icon: Icon, color }: { icon: React.ElementType; color: string }) {
   return (
@@ -358,8 +358,8 @@ export function ReferralModal() {
   const [animating, setAnimating] = useState(false);
   const { user } = useUser();
 
-  const username = user?.username || user?.firstName?.toLowerCase() || user?.id?.slice(0, 8) || "user";
-  const referralUrl = `${REFERRAL_DOMAIN}?utm_source=${encodeURIComponent(username)}&utm_medium=referral&utm_campaign=university-referral`;
+  const inviteCode = user?.id?.slice(0, 8) || "user";
+  const referralUrl = `${REFERRAL_BASE}/${inviteCode}`;
 
   const stats = { signedUp: 0, converted: 0, credits: 0 };
 
