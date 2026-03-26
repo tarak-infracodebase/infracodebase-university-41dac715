@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useUser } from "@clerk/clerk-react";
-import { X, ArrowRight, Briefcase, Star, Copy, Check } from "lucide-react";
+import { X, ArrowRight, Briefcase, Star, Copy, Check, ChevronUp } from "lucide-react";
 
 const REFERRAL_DOMAIN = "https://university.infracodebase.com";
 
@@ -40,11 +40,13 @@ function ReferralExpandedContent({
       style={{
         fontFamily: "'Sora', sans-serif",
         background: "#0f0d24",
-        border: "0.5px solid rgba(255,255,255,0.1)",
-        borderRadius: 16,
+        border: "0.5px solid rgba(255,255,255,0.12)",
+        borderRadius: 18,
         padding: 24,
-        maxWidth: 420,
-        width: "calc(100vw - 32px)",
+        width: 420,
+        maxWidth: "92vw",
+        position: "relative",
+        zIndex: 1,
       }}
     >
       {/* Close */}
@@ -246,7 +248,134 @@ function ReferralExpandedContent({
   );
 }
 
-export function ReferralModal() {
+/* ── Glow Halo wrapper ── */
+function GlowContainer({ children, animating }: { children: React.ReactNode; animating: boolean }) {
+  return (
+    <div
+      style={{
+        position: "relative",
+        transform: animating ? "scale(0.95)" : "scale(1)",
+        transition: "transform 0.3s ease",
+      }}
+    >
+      {/* Halo layer */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: -30,
+          borderRadius: 32,
+          zIndex: 0,
+          pointerEvents: "none",
+          overflow: "hidden",
+        }}
+      >
+        {/* Primary conic gradient */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: 32,
+            background:
+              "conic-gradient(from 180deg at 50% 50%, #e8610a 0deg, #c89a00 60deg, #2ea84f 120deg, #0891b2 180deg, #7c3aed 240deg, #e8610a 360deg)",
+            filter: "blur(40px)",
+            opacity: 0.7,
+          }}
+        />
+        {/* Secondary shifted gradient */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 10,
+            borderRadius: 28,
+            background:
+              "conic-gradient(from 0deg at 40% 60%, #0891b2 0deg, #7c3aed 90deg, #e8610a 180deg, #2ea84f 270deg, #0891b2 360deg)",
+            filter: "blur(50px)",
+            opacity: 0.5,
+          }}
+        />
+      </div>
+      {children}
+    </div>
+  );
+}
+
+/* ── Sidebar collapsed bar ── */
+export function ReferralBar({ collapsed, onClick, isOpen }: { collapsed: boolean; onClick: () => void; isOpen: boolean }) {
+  if (collapsed) return null;
+
+  return (
+    <button
+      onClick={onClick}
+      className="w-full text-left transition-colors"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 8,
+        padding: "14px 16px",
+        borderRadius: 14,
+        background: "#16132e",
+        border: "0.5px solid rgba(255,255,255,0.1)",
+        cursor: "pointer",
+      }}
+    >
+      {/* Left text */}
+      <div style={{ minWidth: 0 }}>
+        <p
+          style={{
+            fontFamily: "'Sora', sans-serif",
+            fontSize: 13,
+            fontWeight: 700,
+            color: "#fff",
+            lineHeight: 1.3,
+            margin: 0,
+          }}
+        >
+          Grow the University with us
+        </p>
+        <p
+          style={{
+            fontFamily: "'Sora', sans-serif",
+            fontSize: 11,
+            color: "rgba(255,255,255,0.42)",
+            margin: 0,
+            marginTop: 2,
+          }}
+        >
+          250 credits per referral
+        </p>
+      </div>
+
+      {/* Right icons */}
+      <div className="flex items-center gap-2 shrink-0">
+        <div
+          className="flex items-center justify-center"
+          style={{
+            width: 30,
+            height: 30,
+            borderRadius: 8,
+            background: "rgba(232,97,10,0.15)",
+            border: "0.5px solid rgba(232,97,10,0.3)",
+          }}
+        >
+          <Star className="h-3.5 w-3.5" style={{ color: "#e8610a" }} />
+        </div>
+        <ChevronUp
+          className="h-4 w-4"
+          style={{
+            color: "rgba(255,255,255,0.35)",
+            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.22s ease",
+          }}
+        />
+      </div>
+    </button>
+  );
+}
+
+/* ── Main modal controller ── */
+export function ReferralModal({ collapsed }: { collapsed: boolean }) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [animating, setAnimating] = useState(false);
@@ -275,7 +404,6 @@ export function ReferralModal() {
     setOpen(false);
   };
 
-  // Close on Escape
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") handleClose(); };
@@ -287,44 +415,30 @@ export function ReferralModal() {
 
   return (
     <>
-      {/* Compact navbar trigger */}
-      <button
-        onClick={() => (open ? handleClose() : handleOpen())}
-        className="flex items-center gap-1.5 transition-colors hover:opacity-90"
-        style={{
-          fontFamily: "'Sora', sans-serif",
-          padding: "4px 10px",
-          borderRadius: 9999,
-          background: "rgba(232,97,10,0.10)",
-          border: "1px solid rgba(232,97,10,0.25)",
-          fontSize: 11,
-          fontWeight: 600,
-          color: "#e8610a",
-          height: 30,
-        }}
-      >
-        <Star className="h-3 w-3 shrink-0" style={{ color: "#e8610a" }} />
-        <span className="whitespace-nowrap hidden sm:inline">Refer &amp; Earn</span>
-      </button>
+      {/* Sidebar bar */}
+      <div style={{ padding: "12px 8px" }}>
+        <ReferralBar collapsed={collapsed} onClick={() => (open ? handleClose() : handleOpen())} isOpen={open} />
+      </div>
 
-      {/* Centered overlay modal — portal to body */}
+      {/* Modal overlay — portal to body */}
       {open &&
         createPortal(
           <>
-            {/* Backdrop */}
+            {/* Backdrop with blur */}
             <div
               className="fixed inset-0"
               style={{
                 zIndex: 9998,
-                background: "rgba(0,0,0,0.6)",
+                background: "rgba(4,3,14,0.6)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
                 opacity: animating ? 0 : 1,
-                transition: "opacity 0.2s ease",
+                transition: "opacity 0.3s ease",
               }}
               onClick={handleClose}
             />
 
             {isMobile ? (
-              /* Mobile: bottom sheet */
               <div
                 className="fixed left-0 right-0 bottom-0 overflow-y-auto"
                 style={{
@@ -348,7 +462,6 @@ export function ReferralModal() {
                 </div>
               </div>
             ) : (
-              /* Desktop: centered overlay */
               <div
                 className="fixed inset-0 flex items-center justify-center"
                 style={{
@@ -356,21 +469,16 @@ export function ReferralModal() {
                   pointerEvents: "none",
                 }}
               >
-                <div
-                  style={{
-                    pointerEvents: "auto",
-                    opacity: animating ? 0 : 1,
-                    transform: animating ? "translateY(8px)" : "translateY(0)",
-                    transition: "opacity 0.25s ease, transform 0.25s ease",
-                  }}
-                >
-                  <ReferralExpandedContent
-                    referralUrl={referralUrl}
-                    stats={stats}
-                    onClose={handleClose}
-                    copyLink={copyLink}
-                    copied={copied}
-                  />
+                <div style={{ pointerEvents: "auto" }}>
+                  <GlowContainer animating={animating}>
+                    <ReferralExpandedContent
+                      referralUrl={referralUrl}
+                      stats={stats}
+                      onClose={handleClose}
+                      copyLink={copyLink}
+                      copied={copied}
+                    />
+                  </GlowContainer>
                 </div>
               </div>
             )}
