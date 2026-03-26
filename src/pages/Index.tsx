@@ -344,6 +344,9 @@ const Index = () => {
           </div>
         </section>
 
+        {/* ═══════════ 3b · LEARNING PATH MAP + RESOURCES ═══════════ */}
+        <SectionPathMap t={t} />
+
         {/* ═══════════ 4 · WHO IT'S FOR ═══════════ */}
         <section style={{ background: t.sectionBg, borderTop: `1px solid ${t.border}`, borderBottom: `1px solid ${t.border}` }}>
           <div className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
