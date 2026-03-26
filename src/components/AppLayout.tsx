@@ -116,7 +116,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
       {/* Logo */}
       <div className="flex items-center h-14 px-3 border-b border-border/50">
         <Link to="/" className="flex items-center overflow-hidden">
-          {collapsed ? (
+        {collapsed ? (
             <span
               className="text-lg font-semibold"
               style={{
@@ -144,6 +144,14 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
             </span>
           )}
         </Link>
+        <button
+          onClick={onToggle}
+          className="flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors shrink-0"
+          style={{ width: 28, height: 28 }}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+        </button>
       </div>
 
       {/* Nav */}
@@ -178,16 +186,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
         ))}
       </nav>
 
-      {/* Bottom actions */}
-      <div className="px-2 py-3 border-t border-border/50 space-y-0.5">
-        <button
-          onClick={onToggle}
-          className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors w-full"
-        >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          {!collapsed && <span>Collapse</span>}
-        </button>
-      </div>
+      {/* Bottom spacer (collapse button moved to header) */}
 
       {/* Pinned user row */}
       <div style={{ borderTop: "1px solid #1c2e47" }} className="py-2">
