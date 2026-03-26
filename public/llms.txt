@@ -1,0 +1,53 @@
+# Infracodebase University
+
+> A structured learning program for cloud engineers. Design, build,
+> document, and govern infrastructure as code through a progressive
+> curriculum built for real systems.
+
+Infracodebase University is a free platform that teaches cloud
+infrastructure engineering through hands-on, structured learning
+paths. Built for platform engineers, DevOps engineers, cloud
+architects, and engineering teams who want to learn infrastructure
+as code using Terraform, AWS, Azure, and GCP.
+
+## Pages
+
+- [Home](https://university.infracodebase.com/): Overview of the
+  learning platform, paths, and community.
+- [Manifesto](https://university.infracodebase.com/manifesto): The
+  principles behind the platform — why infrastructure engineers who
+  build beat those who click.
+- [Curriculum](https://university.infracodebase.com/curriculum):
+  Full map of every module, prerequisite, and learning path.
+- [Training Paths](https://university.infracodebase.com/training):
+  Structured paths for beginner, intermediate, and advanced cloud
+  engineers.
+- [Hands-On Labs](https://university.infracodebase.com/hands-on):
+  Guided labs using Terraform, AWS, Azure, GCP, and Kubernetes.
+- [Cloud Infrastructure Intro](https://university.infracodebase.com/path/cloud-infrastructure-intro):
+  Beginner path — IaC concepts, providers, state, first deployment.
+- [Workshops](https://university.infracodebase.com/workshops): Live
+  sessions with engineers on real infrastructure problems.
+- [Video Library](https://university.infracodebase.com/videos):
+  Engineering walkthroughs and infrastructure design sessions.
+- [Events & Lectures](https://university.infracodebase.com/events):
+  Weekly technical lectures, podcast episodes, and engineering
+  conversations.
+- [Credentials & Badges](https://university.infracodebase.com/cards):
+  Verifiable credentials shareable on LinkedIn.
+
+## Topics covered
+
+Infrastructure as Code, Terraform, AWS, Azure, GCP, Kubernetes,
+DevOps, Platform Engineering, Cloud Architecture, GitOps, CI/CD,
+Multi-cloud, Cost optimisation, Security, Reliability Engineering.
+
+## Audience
+
+Cloud engineers, platform engineers, DevOps engineers, SREs, cloud
+architects, and engineering leads learning to manage cloud
+infrastructure programmatically.
+
+## Free to access
+
+All learning paths and content are free. No credit card required.
