@@ -71,6 +71,26 @@ function SidebarGroupLabel({ label, first }: { label: string; first?: boolean })
   );
 }
 
+function useCurrentXp() {
+  const [xp, setXp] = useState(() => {
+    try { return parseInt(localStorage.getItem("icbu_xp") || "0", 10); } catch { return 0; }
+  });
+
+  useEffect(() => {
+    const sync = () => {
+      try { setXp(parseInt(localStorage.getItem("icbu_xp") || "0", 10)); } catch {}
+    };
+    window.addEventListener("storage", sync);
+    window.addEventListener("icbu_xp_update", sync);
+    return () => {
+      window.removeEventListener("storage", sync);
+      window.removeEventListener("icbu_xp_update", sync);
+    };
+  }, []);
+
+  return xp;
+}
+
 function SidebarUserRow({ collapsed, xp }: { collapsed: boolean; xp: number }) {
   const { user } = useUser();
   if (!user) return null;
@@ -279,27 +299,6 @@ export function MobileNav({ notifications: notif }: { notifications?: ReturnType
   );
 }
 
-function useCurrentXp() {
-  const [xp, setXp] = useState(() => {
-    try { return parseInt(localStorage.getItem("icbu_xp") || "0", 10); } catch { return 0; }
-  });
-
-  useEffect(() => {
-    const sync = () => {
-      try { setXp(parseInt(localStorage.getItem("icbu_xp") || "0", 10)); } catch {}
-    };
-    // Listen for cross-tab changes
-    window.addEventListener("storage", sync);
-    // Listen for same-tab XP updates (custom event)
-    window.addEventListener("icbu_xp_update", sync);
-    return () => {
-      window.removeEventListener("storage", sync);
-      window.removeEventListener("icbu_xp_update", sync);
-    };
-  }, []);
-
-  return xp;
-}
 
 function XpPill() {
   const xp = useCurrentXp();
