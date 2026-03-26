@@ -8,6 +8,7 @@ import { InfracodebaseDocsPill } from "@/components/InfracodebaseDocsLink";
 import { cn } from "@/lib/utils";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import { CurriculumGuidanceQuiz } from "@/components/CurriculumGuidanceQuiz";
+import { AudioPlayer } from "@/components/AudioPlayer";
 
 const BANNER_GRADIENT = "linear-gradient(135deg, #1a1a1a 0%, #c2410c 15%, #d97706 35%, #ca8a04 50%, #16a34a 68%, #0891b2 85%, #1a1a1a 100%)";
 const BANNER_DISMISSED_KEY = "curriculum-guidance-dismissed";
