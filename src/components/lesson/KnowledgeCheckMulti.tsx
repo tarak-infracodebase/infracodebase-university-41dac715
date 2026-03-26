@@ -52,6 +52,7 @@ const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) 
       // Award XP for knowledge check completion
       const currentXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
       localStorage.setItem("icbu_xp", String(currentXP + 100));
+      window.dispatchEvent(new Event("icbu_xp_update"));
     } catch {}
   };
 
