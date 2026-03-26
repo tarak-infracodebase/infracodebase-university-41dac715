@@ -4,7 +4,6 @@ import { getHandsOnTrack } from "@/data/handsOnData";
 import { ArrowLeft, ArrowRight, BookOpen, Clock, CheckCircle2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { ProgressBar } from "@/components/ProgressBar";
-import { Progress } from "@/components/ui/progress";
 
 function getLevelColor(level: string) {
   switch (level) {
