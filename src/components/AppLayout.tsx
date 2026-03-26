@@ -95,7 +95,7 @@ function SidebarUserRow({ collapsed }: { collapsed: boolean }) {
           <p className="text-xs font-medium text-foreground truncate">{displayName}</p>
           <div className="flex items-center gap-1.5">
             <Zap className="h-2.5 w-2.5 text-crystal-yellow" />
-            <span className="text-[10px] text-muted-foreground">0 XP</span>
+            <span className="text-[10px] text-muted-foreground">{useCurrentXp()} XP</span>
             <span className="text-[10px] text-muted-foreground/50 mx-0.5">·</span>
             <span className="text-[10px] text-muted-foreground">Learner</span>
           </div>
