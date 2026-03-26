@@ -32,7 +32,7 @@ export const NOTIFICATIONS: NotificationItem[] = [
     category: "workshop",
     status: "upcoming",
     title: "Shifting Left: Building a Secure Azure Baseline",
-    description: "With Tawni, Senior Full Stack — Wednesday, April 1, 2026 · 5:00 PM CET",
+    description: "With Tawni, Senior Full Stack — Wednesday, April 2, 2026 · 5:00 PM CET",
     timestamp: "New",
     tags: ["Azure Security", "Upcoming"],
     read: false,
@@ -47,7 +47,7 @@ export const NOTIFICATIONS: NotificationItem[] = [
       description:
         "Live demo: take a simple Azure 3-tier web app template, question its assumptions, and apply constraints like input validation, API boundaries, and secrets management before it's introduced into a CI pipeline.",
       meta: [
-        { icon: "calendar", text: "Wednesday, April 1, 2026" },
+        { icon: "calendar", text: "Wednesday, April 2, 2026" },
         { icon: "clock", text: "5:00 PM CET" },
         { icon: "users", text: "Tawni — Senior Full Stack" },
       ],
