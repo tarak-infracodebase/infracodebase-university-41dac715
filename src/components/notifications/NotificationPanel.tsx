@@ -29,7 +29,7 @@ const THUMB_CONTENT: Record<number, {
   titleLine2: string;
   pill?: string;
 }> = {
-  1: { eyebrow: "Upcoming Workshop", titleLine1: "Shifting", titleLine2: "Left", pill: "Tawni — Senior Full Stack · Apr 2 · 5PM CET" },
+  1: { eyebrow: "Upcoming Workshop", titleLine1: "Shifting", titleLine2: "Left", pill: "Tawni — Senior Full Stack · Apr 1 · 5PM CET" },
   2: { eyebrow: "Weekly Workshop — Replay", titleLine1: "Azure", titleLine2: "Migration" },
   3: { eyebrow: "New Video", titleLine1: "Scaling", titleLine2: "Infra", pill: "Manisha — DevOps Eng." },
   4: { eyebrow: "New Training Resource", titleLine1: "Azure", titleLine2: "Reference" },
