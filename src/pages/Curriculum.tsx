@@ -145,7 +145,8 @@ const Curriculum = () => {
 
         <AudioPlayer
           src="/training-intro.mp3"
-          label="Listen to the introduction — 1 min"
+          label="Hey! Ivy created this quick 1 min voice to help you get started with your training. Hope it helps!"
+          footer="Don't forget to do the hands-on training next!"
         />
 
         {/* Controls */}
