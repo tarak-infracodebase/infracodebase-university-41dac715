@@ -114,7 +114,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
       collapsed ? "w-16" : "w-56"
     )}>
       {/* Logo */}
-      <div className="flex items-center h-14 px-3 border-b border-border/50">
+      <div className="flex items-center justify-between h-14 px-3 border-b border-border/50">
         <Link to="/" className="flex items-center overflow-hidden">
         {collapsed ? (
             <span
