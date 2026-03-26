@@ -127,6 +127,7 @@ function SidebarUserRow({ collapsed, xp }: { collapsed: boolean; xp: number }) {
 
 export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const location = useLocation();
+  const xp = useCurrentXp();
 
   return (
     <aside className={cn(
@@ -211,7 +212,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
       {/* Pinned user row */}
       <div style={{ borderTop: "1px solid #1c2e47" }} className="py-2">
         <SignedIn>
-          <SidebarUserRow collapsed={collapsed} />
+          <SidebarUserRow collapsed={collapsed} xp={xp} />
         </SignedIn>
       </div>
     </aside>
