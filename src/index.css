@@ -241,3 +241,8 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
     border-radius: 2px;
   }
 }
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
