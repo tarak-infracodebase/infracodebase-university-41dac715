@@ -32,7 +32,7 @@ export const NOTIFICATIONS: NotificationItem[] = [
     category: "workshop",
     status: "upcoming",
     title: "Shifting Left: Building a Secure Azure Baseline",
-    description: "With Tawni, Senior Full Stack Eng.",
+    description: "With Tawni, Senior Full Stack — Wednesday, April 2, 2026 · 5:00 PM CET",
     timestamp: "New",
     tags: ["Azure Security", "Upcoming"],
     read: false,
@@ -41,14 +41,15 @@ export const NOTIFICATIONS: NotificationItem[] = [
       statusTag: { label: "Upcoming", type: "upcoming" },
       eyebrow: "Upcoming workshop",
       leftTitle: "Shifting\nLeft",
-      speakers: ["Tawni — Senior Full Stack Eng."],
+      speakers: ["Tawni — Senior Full Stack"],
       badge: "UPCOMING WORKSHOP",
       title: "Shifting Left: Building a Secure Azure Baseline",
       description:
-        "A live hands-on workshop on embedding security early in the Azure infrastructure lifecycle. Covers Azure Policy, Defender for Cloud, and baseline security controls with Tawni, Senior Full Stack Engineer.",
+        "Live demo: take a simple Azure 3-tier web app template, question its assumptions, and apply constraints like input validation, API boundaries, and secrets management before it's introduced into a CI pipeline.",
       meta: [
-        { icon: "users", text: "Tawni — Senior Full Stack Eng." },
-        { icon: "calendar", text: "Date TBA — register to be notified" },
+        { icon: "calendar", text: "Wednesday, April 2, 2026" },
+        { icon: "clock", text: "5:00 PM CET" },
+        { icon: "users", text: "Tawni — Senior Full Stack" },
       ],
       features: [
         {
@@ -61,13 +62,13 @@ export const NOTIFICATIONS: NotificationItem[] = [
           icon: "lock",
           title: "Security baseline controls",
           description:
-            "Identity, network, data, and logging baselines — applied step by step on a live Azure environment.",
+            "Identity, network, data, and logging baselines — applied step by step on a live Azure 3-tier environment.",
         },
         {
           icon: "zap",
           title: "Shift-left in practice",
           description:
-            "How to catch misconfigurations at design time before they reach production.",
+            "How to catch misconfigurations at design time before they reach production or a CI pipeline.",
         },
       ],
       cta: "View Workshop",
