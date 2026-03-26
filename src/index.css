@@ -246,3 +246,35 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
+
+/* ── Mobile code block scrolling ── */
+@media (max-width: 768px) {
+  pre, code, .code-block, [class*="code"], [class*="Code"] {
+    overflow-x: auto;
+    white-space: pre;
+    -webkit-overflow-scrolling: touch;
+    word-break: normal;
+    word-wrap: normal;
+  }
+
+  pre::-webkit-scrollbar {
+    height: 3px;
+  }
+  pre::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  pre::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 2px;
+  }
+
+  /* Inline code spans (not inside pre) */
+  :not(pre) > code {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: #c87040;
+    background: rgba(200, 112, 64, 0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+}
