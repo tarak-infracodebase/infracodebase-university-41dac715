@@ -211,9 +211,13 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
       {/* Bottom spacer (collapse button moved to header) */}
 
       {/* Referral + User */}
-      <div style={{ borderTop: "1px solid #1c2e47" }} className="py-2">
+      <div style={{ borderTop: "1px solid #1c2e47" }} className="pt-2 pb-2 px-2">
         <SignedIn>
-          {!collapsed && <ReferralModal />}
+          {!collapsed && (
+            <div className="mb-2">
+              <ReferralModal />
+            </div>
+          )}
           <SidebarUserRow collapsed={collapsed} xp={xp} />
         </SignedIn>
       </div>
