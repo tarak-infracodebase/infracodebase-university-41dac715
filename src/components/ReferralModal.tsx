@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useUser } from "@clerk/clerk-react";
-import { ChevronUp, X, ArrowRight, Briefcase, Star, Copy, Check } from "lucide-react";
+import { X, ArrowRight, Briefcase, Star, Copy, Check } from "lucide-react";
 
 const REFERRAL_DOMAIN = "https://university.infracodebase.com";
 
@@ -287,48 +287,24 @@ export function ReferralModal() {
 
   return (
     <>
-      {/* Collapsed Bar — pinned above user row in sidebar */}
+      {/* Compact navbar trigger */}
       <button
         onClick={() => (open ? handleClose() : handleOpen())}
-        className="w-full flex items-center justify-between transition-colors"
+        className="flex items-center gap-1.5 transition-colors hover:opacity-90"
         style={{
           fontFamily: "'Sora', sans-serif",
-          padding: "14px 16px",
-          borderRadius: 14,
-          background: "#16132e",
-          border: "0.5px solid rgba(255,255,255,0.1)",
+          padding: "4px 10px",
+          borderRadius: 9999,
+          background: "rgba(232,97,10,0.10)",
+          border: "1px solid rgba(232,97,10,0.25)",
+          fontSize: 11,
+          fontWeight: 600,
+          color: "#e8610a",
+          height: 30,
         }}
       >
-        <div className="text-left min-w-0">
-          <p className="font-bold text-white leading-tight truncate" style={{ fontSize: 14 }}>
-            Grow the University with us
-          </p>
-          <p className="mt-0.5 truncate" style={{ fontSize: 12, color: "rgba(255,255,255,0.42)" }}>
-            250 credits per referral
-          </p>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <div
-            className="flex items-center justify-center"
-            style={{
-              width: 36,
-              height: 36,
-              borderRadius: 10,
-              background: "rgba(232,97,10,0.14)",
-              border: "0.5px solid rgba(232,97,10,0.28)",
-            }}
-          >
-            <Star className="h-[15px] w-[15px]" style={{ color: "#e8610a" }} />
-          </div>
-          <ChevronUp
-            className="h-4 w-4 transition-transform"
-            style={{
-              color: "rgba(255,255,255,0.35)",
-              transform: open ? "rotate(180deg)" : "rotate(0deg)",
-              transitionDuration: "0.22s",
-            }}
-          />
-        </div>
+        <Star className="h-3 w-3 shrink-0" style={{ color: "#e8610a" }} />
+        <span className="whitespace-nowrap hidden sm:inline">Refer &amp; Earn</span>
       </button>
 
       {/* Centered overlay modal — portal to body */}
