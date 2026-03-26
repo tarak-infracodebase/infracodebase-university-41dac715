@@ -143,6 +143,11 @@ const Curriculum = () => {
 
         <CurriculumGuidanceQuiz open={quizOpen} onClose={() => setQuizOpen(false)} />
 
+        <AudioPlayer
+          src="/training-intro.mp3"
+          label="Listen to the introduction — 1 min"
+        />
+
         {/* Controls */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
           <div className="relative flex-1 max-w-md">
