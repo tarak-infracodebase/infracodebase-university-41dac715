@@ -71,7 +71,27 @@ function SidebarGroupLabel({ label, first }: { label: string; first?: boolean })
   );
 }
 
-function SidebarUserRow({ collapsed }: { collapsed: boolean }) {
+function useCurrentXp() {
+  const [xp, setXp] = useState(() => {
+    try { return parseInt(localStorage.getItem("icbu_xp") || "0", 10); } catch { return 0; }
+  });
+
+  useEffect(() => {
+    const sync = () => {
+      try { setXp(parseInt(localStorage.getItem("icbu_xp") || "0", 10)); } catch {}
+    };
+    window.addEventListener("storage", sync);
+    window.addEventListener("icbu_xp_update", sync);
+    return () => {
+      window.removeEventListener("storage", sync);
+      window.removeEventListener("icbu_xp_update", sync);
+    };
+  }, []);
+
+  return xp;
+}
+
+function SidebarUserRow({ collapsed, xp }: { collapsed: boolean; xp: number }) {
   const { user } = useUser();
   if (!user) return null;
 
@@ -95,7 +115,7 @@ function SidebarUserRow({ collapsed }: { collapsed: boolean }) {
           <p className="text-xs font-medium text-foreground truncate">{displayName}</p>
           <div className="flex items-center gap-1.5">
             <Zap className="h-2.5 w-2.5 text-crystal-yellow" />
-            <span className="text-[10px] text-muted-foreground">0 XP</span>
+            <span className="text-[10px] text-muted-foreground">{xp} XP</span>
             <span className="text-[10px] text-muted-foreground/50 mx-0.5">·</span>
             <span className="text-[10px] text-muted-foreground">Learner</span>
           </div>
@@ -107,6 +127,7 @@ function SidebarUserRow({ collapsed }: { collapsed: boolean }) {
 
 export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const location = useLocation();
+  const xp = useCurrentXp();
 
   return (
     <aside className={cn(
@@ -191,7 +212,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
       {/* Pinned user row */}
       <div style={{ borderTop: "1px solid #1c2e47" }} className="py-2">
         <SignedIn>
-          <SidebarUserRow collapsed={collapsed} />
+          <SidebarUserRow collapsed={collapsed} xp={xp} />
         </SignedIn>
       </div>
     </aside>
@@ -279,7 +300,9 @@ export function MobileNav({ notifications: notif }: { notifications?: ReturnType
   );
 }
 
+
 function XpPill() {
+  const xp = useCurrentXp();
   return (
     <SignedIn>
       <div
@@ -298,7 +321,7 @@ function XpPill() {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
           <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-cyan-400" />
         </span>
-        0 XP
+        {xp} XP
       </div>
     </SignedIn>
   );
