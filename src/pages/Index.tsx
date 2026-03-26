@@ -136,6 +136,123 @@ const communityCards = {
   ],
 };
 
+/* ── path map data ── */
+const pathMapCards = [
+  { num: "01", tag: "Start here", tagAccent: false, title: "Read the Manifesto", path: "/manifesto", desc: "Understand why this exists and what separates infrastructure engineers who build from those who click.", arrow: "Read it", href: "/manifesto" },
+  { num: "02", tag: "Orient", tagAccent: false, title: "Explore the Curriculum", path: "/curriculum", desc: "Map out the full journey. See every module, its prerequisites, and where it leads before committing.", arrow: "Explore", href: "/curriculum" },
+  { num: "03", tag: "Choose", tagAccent: false, title: "Pick a Training Path", path: "/training", desc: "Beginner, intermediate, or advanced — select a structured path matched to where you are right now.", arrow: "See paths", href: "/training" },
+  { num: "04", tag: "Most visited", tagAccent: true, title: "Go Hands-On", path: "/hands-on", desc: "Build real infrastructure. Not sandboxes — actual systems, with the tools teams use in production.", arrow: "Start building", href: "/hands-on" },
+  { num: "05", tag: "Go deeper", tagAccent: false, title: "Attend Workshops", path: "/workshops", desc: "Live sessions with engineers solving real problems. Ask questions, review architectures, learn alongside peers.", arrow: "View schedule", href: "/workshops" },
+  { num: "06", tag: "Completion", tagAccent: true, title: "Earn Your Badge", path: "/cards", desc: "Certify your skills with a verifiable credential you can share on LinkedIn and across your professional network.", arrow: "See credentials", href: "/cards" },
+];
+
+const resourceCards = [
+  { title: "Video Library", path: "/videos", desc: "Browse video lectures, engineering walkthroughs, and infrastructure design sessions from the Infracodebase program.", arrow: "Browse videos", href: "/videos" },
+  { title: "Events & Lectures", path: "/events", desc: "Every week we share technical lectures, engineering conversations, and podcast episodes so builders can learn from real systems and grow together.", arrow: "See events", href: "/events" },
+];
+
+/* ── Section: Path Map + Resources ── */
+const SectionPathMap = ({ t }: { t: ReturnType<typeof useTokens> }) => {
+  const navigate = useNavigate();
+  const cardHoverBg = t.dark ? "#15181d" : "#f5f6f8";
+
+  return (
+    <>
+      {/* Part A — Path map */}
+      <section style={{ background: t.bg, padding: 0 }}>
+        <div className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
+          {/* Header */}
+          <div data-reveal>
+            <span className={sectionLabel} style={{ ...fontMono, color: t.muted }}>YOUR COMPLETE JOURNEY</span>
+            <h2 style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 38px)", fontWeight: 700, lineHeight: 1.15, color: t.heading }}>
+              From first concept<br />to <em className="font-light" style={{ color: t.accentEmber }}>certified.</em>
+            </h2>
+            <p className="mt-4 max-w-[480px]" style={{ ...fontMono, fontSize: 13, lineHeight: 1.65, color: t.muted }}>
+              Six pages. One path. Here is how everything on this site connects — and why each step matters before the next.
+            </p>
+          </div>
+
+          {/* 3×2 grid */}
+          <div data-reveal className="mt-12" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 1, background: t.cardBorder, border: `1px solid ${t.cardBorder}` }}>
+            {pathMapCards.map((card) => (
+              <div
+                key={card.num}
+                onClick={() => navigate(card.href)}
+                className="cursor-pointer group"
+                style={{ background: t.bg, padding: 24, transition: "background 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.background = cardHoverBg)}
+                onMouseLeave={e => (e.currentTarget.style.background = t.bg)}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <span style={{ ...fontMono, fontSize: 10, color: t.muted }}>{card.num}</span>
+                  <span style={{
+                    ...fontMono,
+                    fontSize: 9,
+                    padding: "2px 7px",
+                    borderRadius: 3,
+                    border: `1px solid ${card.tagAccent ? t.accentEmber : t.cardBorder}`,
+                    color: card.tagAccent ? t.accentEmber : t.muted,
+                    background: card.tagAccent ? `${t.accentEmber}0d` : "transparent",
+                  }}>{card.tag}</span>
+                </div>
+                <div style={{ ...fontDisplay, fontSize: 17, fontWeight: 700, color: t.heading }}>{card.title}</div>
+                <div className="mt-1" style={{ ...fontMono, fontSize: 10, color: t.accentEmber }}>{card.path}</div>
+                <p className="mt-2" style={{ ...fontMono, fontSize: 12, lineHeight: 1.65, color: t.muted }}>{card.desc}</p>
+                <span className="inline-block mt-3 transition-colors duration-200 group-hover:!color-inherit" style={{ ...fontMono, fontSize: 11, color: t.muted }}>
+                  <span className="group-hover:hidden">{card.arrow} →</span>
+                  <span className="hidden group-hover:inline" style={{ color: t.accentEmber }}>{card.arrow} →</span>
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Part B — Resources strip */}
+          <div style={{ borderTop: `1px solid ${t.border}`, marginTop: 0 }}>
+            <div className="pt-6">
+              <span className={sectionLabel} style={{ ...fontMono, color: t.muted }}>WHILE YOU LEARN</span>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 1, background: t.cardBorder, border: `1px solid ${t.cardBorder}`, marginTop: 8 }}>
+              {resourceCards.map((card) => (
+                <div
+                  key={card.title}
+                  onClick={() => navigate(card.href)}
+                  className="cursor-pointer group"
+                  style={{ background: t.bg, padding: 24, transition: "background 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget.style.background = cardHoverBg)}
+                  onMouseLeave={e => (e.currentTarget.style.background = t.bg)}
+                >
+                  <div className="flex gap-3">
+                    <span style={{ ...fontMono, fontSize: 9, color: t.muted, flexShrink: 0, width: 16 }}>—</span>
+                    <div>
+                      <div style={{ ...fontDisplay, fontSize: 15, fontWeight: 700, color: t.heading }}>{card.title}</div>
+                      <div className="mt-1" style={{ ...fontMono, fontSize: 10, color: t.accentEmber }}>{card.path}</div>
+                      <p className="mt-2" style={{ ...fontMono, fontSize: 12, lineHeight: 1.65, color: t.muted }}>{card.desc}</p>
+                      <span className="inline-block mt-3" style={{ ...fontMono, fontSize: 11, color: t.muted }}>
+                        <span className="group-hover:hidden">{card.arrow} →</span>
+                        <span className="hidden group-hover:inline" style={{ color: t.accentEmber }}>{card.arrow} →</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Part C — CTA row */}
+          <div data-reveal className="flex flex-wrap items-center gap-6 mt-12">
+            <Link to="/training" className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium transition-all duration-300 cursor-pointer" style={t.pillPrimary}>
+              <span style={fontMono}>Begin learning →</span>
+            </Link>
+            <Link to="/curriculum" style={{ ...fontMono, fontSize: 13, color: t.muted, textDecoration: "underline", textUnderlineOffset: 3 }}>
+              Or explore the full curriculum
+            </Link>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
+
 /* ══════════════════════════════════ COMPONENT ══════════════════════════════════ */
 
 const Index = () => {
