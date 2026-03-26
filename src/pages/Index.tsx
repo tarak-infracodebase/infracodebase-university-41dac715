@@ -125,7 +125,7 @@ const communityCards = {
     eyebrow: "WORKSHOPS",
     title: "Shift-Left Security — Building a Secure AWS Baseline from Scratch",
      desc: "Instead of adding security after the fact, we start with it. Live demo of generating secure AWS Terraform from scratch.",
-     meta: "📅 Wed, April 2 · 5:00 PM CET",
+     meta: "📅 Wed, April 1 · 5:00 PM CET",
     cta: "ADD TO CALENDAR →",
   },
   grid: [

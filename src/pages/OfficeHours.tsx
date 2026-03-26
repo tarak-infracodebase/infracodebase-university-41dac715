@@ -1251,7 +1251,7 @@ export default function OfficeHours() {
   const [heroEditing, setHeroEditing] = useState(false);
   const [heroTitle, setHeroTitle] = useState("Shifting Left: Building a Secure Azure Baseline");
    const [heroDesc, setHeroDesc] = useState("Live demo: take a simple Azure 3-tier web app template, question its assumptions, and apply constraints like input validation, API boundaries, and secrets management before it's introduced into a CI pipeline.");
-   const [heroDate, setHeroDate] = useState("Wednesday, April 2, 2026");
+   const [heroDate, setHeroDate] = useState("Wednesday, April 1, 2026");
   const [heroTime, setHeroTime] = useState("5:00 PM CET");
 
 
