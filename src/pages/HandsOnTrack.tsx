@@ -42,6 +42,7 @@ const HandsOnTrack = () => {
         currentStepIndex={0}
         completedCount={0}
       />
+      <div className="max-w-5xl mx-auto px-6 py-10 lg:py-14">
         <Link to="/hands-on" className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-8 transition-colors">
           <ArrowLeft className="h-3 w-3" /> All Hands-On Training
         </Link>
