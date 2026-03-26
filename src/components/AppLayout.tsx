@@ -60,7 +60,7 @@ function SidebarGroupLabel({ label, first }: { label: string; first?: boolean })
         fontWeight: 700,
         letterSpacing: "0.12em",
         textTransform: "uppercase" as const,
-        color: "#64748b",
+        color: "hsl(var(--muted-foreground))",
         padding: "0 8px",
         marginBottom: "6px",
         marginTop: first ? "0px" : "16px",
@@ -139,8 +139,8 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
                 filter: "saturate(0.85)",
               }}
             >
-              <span className="font-medium">Infracodebase</span>{" "}
-              <span className="font-normal">University</span>
+              <span className="font-bold">Infracodebase</span>{" "}
+              <span className="font-bold">University</span>
             </span>
           )}
         </Link>
