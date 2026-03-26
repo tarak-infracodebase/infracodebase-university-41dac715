@@ -3,9 +3,14 @@ import { useState, useRef, useEffect } from "react";
 interface AudioPlayerProps {
   src: string;
   label?: string;
+  footer?: string;
 }
 
-export function AudioPlayer({ src, label = "Listen to the introduction" }: AudioPlayerProps) {
+export function AudioPlayer({
+  src,
+  label = "Hey! Ivy created this quick 1 min voice to help you get started with your training. Hope it helps!",
+  footer = "Don't forget to do the hands-on training next!",
+}: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -72,126 +77,165 @@ export function AudioPlayer({ src, label = "Listen to the introduction" }: Audio
   }, []);
 
   return (
+    /* Floating wrapper — fixed to bottom of viewport */
     <div
-      className="rounded-[6px] overflow-hidden my-6"
+      className="fixed bottom-6 left-6 right-6 z-50"
       style={{
-        background: "linear-gradient(135deg, #1a0a00 0%, #2d1200 30%, #1a0800 60%, #0d0500 100%)",
-        border: "0.5px solid rgba(200,112,64,0.25)",
-        position: "relative",
+        borderRadius: "14px",
+        padding: "1.5px",
+        boxShadow:
+          "0 0 0 1.5px rgba(200,112,64,0.35), 0 0 24px rgba(200,80,30,0.2), 0 12px 40px rgba(0,0,0,0.7)",
       }}
     >
-      <div style={{
-        position:"absolute",top:"-40px",right:"-40px",
-        width:"160px",height:"160px",borderRadius:"50%",pointerEvents:"none",
-        background:"radial-gradient(circle, rgba(200,112,64,0.18) 0%, rgba(180,60,20,0.08) 40%, transparent 70%)"
-      }}/>
-      <div style={{
-        position:"absolute",bottom:"-20px",left:"20px",
-        width:"100px",height:"100px",borderRadius:"50%",pointerEvents:"none",
-        background:"radial-gradient(circle, rgba(150,40,10,0.12) 0%, transparent 70%)"
-      }}/>
-
-      <div className="px-6 py-5" style={{ position: "relative" }}>
+      {/* Dark warm inner card */}
+      <div
+        style={{
+          borderRadius: "13px",
+          overflow: "hidden",
+          background:
+            "linear-gradient(135deg, #1a0a00 0%, #2d1200 30%, #1a0800 60%, #0d0500 100%)",
+          padding: "18px 22px",
+          position: "relative",
+        }}
+      >
         <audio ref={audioRef} src={src} preload="metadata" />
 
-        {/* label */}
-        <p className="font-serif font-bold text-[13px] text-[#f0ece3]
-                      tracking-[-0.01em] mb-4">
+        {/* Glow effects */}
+        <div style={{
+          position:"absolute",top:"-40px",right:"-40px",width:"160px",height:"160px",
+          borderRadius:"50%",pointerEvents:"none",
+          background:"radial-gradient(circle, rgba(200,112,64,0.18) 0%, rgba(180,60,20,0.08) 40%, transparent 70%)"
+        }}/>
+        <div style={{
+          position:"absolute",bottom:"-20px",left:"20px",width:"100px",height:"100px",
+          borderRadius:"50%",pointerEvents:"none",
+          background:"radial-gradient(circle, rgba(150,40,10,0.12) 0%, transparent 70%)"
+        }}/>
+
+        {/* Label */}
+        <p
+          className="font-serif font-bold text-[13px] leading-[1.45]
+                     tracking-[-0.01em] mb-[14px]"
+          style={{ color: "#f0ece3", position: "relative" }}
+        >
           {label}
         </p>
 
-        <div className="flex items-center gap-4">
+        {/* Controls */}
+        <div className="flex items-center gap-[14px]" style={{ position: "relative" }}>
 
-          {/* skip back 15 */}
+          {/* Skip back */}
           <button
             onClick={() => skip(-15)}
-            className="text-white/35 hover:text-white/70 transition-colors
-                       flex flex-col items-center gap-0.5"
+            className="flex flex-col items-center gap-0.5 opacity-50
+                       hover:opacity-80 transition-opacity"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" strokeWidth="1.6">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="rgba(255,255,255,0.9)" strokeWidth="1.6">
               <path d="M12 5V2L7 7l5 5V9a7 7 0 110 7"/>
             </svg>
-            <span className="text-[8px] font-sans text-white/25">15</span>
+            <span className="text-[8px]" style={{ color: "rgba(255,255,255,0.25)" }}>15</span>
           </button>
 
-          {/* play / pause */}
+          {/* Play / pause */}
           <button
             onClick={toggle}
-            className="w-9 h-9 rounded-full flex items-center justify-center
-                       flex-shrink-0 transition-colors"
+            className="flex-shrink-0 flex items-center justify-center
+                       hover:opacity-90 transition-opacity"
             style={{
+              width: "36px", height: "36px", borderRadius: "50%",
               border: "1px solid rgba(200,112,64,0.5)",
-              background: "rgba(200,112,64,0.12)"
+              background: "rgba(200,112,64,0.12)",
             }}
           >
             {playing ? (
-              <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"
-                   className="text-white/80">
+              <svg width="10" height="12" viewBox="0 0 10 12"
+                   fill="rgba(255,255,255,0.85)">
                 <rect x="0" y="0" width="3" height="12"/>
                 <rect x="7" y="0" width="3" height="12"/>
               </svg>
             ) : (
-              <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"
-                   className="text-white/80 ml-0.5">
+              <svg width="10" height="12" viewBox="0 0 10 12"
+                   fill="rgba(255,255,255,0.85)" style={{ marginLeft: "2px" }}>
                 <polygon points="0,0 10,6 0,12"/>
               </svg>
             )}
           </button>
 
-          {/* skip forward 15 */}
+          {/* Skip forward */}
           <button
             onClick={() => skip(15)}
-            className="text-white/35 hover:text-white/70 transition-colors
-                       flex flex-col items-center gap-0.5"
+            className="flex flex-col items-center gap-0.5 opacity-50
+                       hover:opacity-80 transition-opacity"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" strokeWidth="1.6">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="rgba(255,255,255,0.9)" strokeWidth="1.6">
               <path d="M12 5V2l5 5-5 5V9a7 7 0 100 7"/>
             </svg>
-            <span className="text-[8px] font-sans text-white/25">15</span>
+            <span className="text-[8px]" style={{ color: "rgba(255,255,255,0.25)" }}>15</span>
           </button>
 
-          {/* progress bar */}
+          {/* Progress bar */}
           <div
-            className="flex-1 flex items-center gap-2.5 cursor-pointer group"
+            className="flex-1 flex items-center gap-[10px] cursor-pointer"
             onClick={seek}
           >
-            <span className="font-mono text-[15px] font-medium
-                             text-white/55 flex-shrink-0 w-9 text-right">
+            <span
+              className="font-mono text-[15px] font-medium flex-shrink-0"
+              style={{ color: "rgba(255,255,255,0.55)", width: "36px", textAlign: "right" }}
+            >
               {fmt(currentTime)}
             </span>
-            <div className="flex-1 h-[2px] bg-white/[0.08] rounded-full
-                            relative overflow-hidden">
+            <div
+              className="flex-1 relative overflow-hidden"
+              style={{ height: "2px", background: "rgba(255,255,255,0.08)", borderRadius: "1px" }}
+            >
               <div
-                className="absolute left-0 top-0 h-full rounded-full transition-all duration-100"
+                className="absolute left-0 top-0 h-full transition-all duration-100"
                 style={{
                   width: `${progress}%`,
-                  background: "linear-gradient(90deg, #c87040, #e8904a)"
+                  borderRadius: "1px",
+                  background: "linear-gradient(90deg, #c87040, #e8904a)",
                 }}
               />
             </div>
-            <span className="font-mono text-[15px] font-medium
-                             text-white/55 flex-shrink-0 w-9">
+            <span
+              className="font-mono text-[15px] font-medium flex-shrink-0"
+              style={{ color: "rgba(255,255,255,0.55)", width: "36px" }}
+            >
               {fmt(duration)}
             </span>
           </div>
 
-          {/* speed */}
+          {/* Speed */}
           <button
             onClick={cycleSpeed}
-            className="text-[10px] font-sans font-medium flex-shrink-0
-                       hover:text-[rgba(200,112,64,0.9)] transition-colors
-                       rounded-sm px-2 py-0.5"
+            className="flex-shrink-0 text-[10px] hover:opacity-90 transition-opacity"
             style={{
               color: "rgba(200,112,64,0.7)",
-              border: "0.5px solid rgba(200,112,64,0.3)"
+              border: "0.5px solid rgba(200,112,64,0.3)",
+              borderRadius: "20px",
+              padding: "3px 10px",
             }}
           >
             {speed}x
           </button>
-
         </div>
+
+        {/* Footer */}
+        {footer && (
+          <div
+            className="mt-[12px] pt-[12px]"
+            style={{ borderTop: "0.5px solid rgba(255,255,255,0.07)" }}
+          >
+            <p
+              className="font-serif font-bold text-[14px] leading-[1.3]"
+              style={{ color: "#f0ece3" }}
+            >
+              {footer}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
