@@ -374,16 +374,16 @@ const Index = () => {
 
                 {/* Top communities */}
                 <div>
-                  <span style={{ ...fontMono, fontSize: 10, color: t.muted, letterSpacing: "0.05em" }}>Top communities</span>
+                  <span style={{ ...fontMono, fontSize: 10, color: "#f0ece3", fontWeight: 700, letterSpacing: "0.05em" }}>Top communities</span>
                   <div className="flex flex-wrap gap-1.5 mt-2">
-                    {["United States", "Nigeria", "France", "India", "Kenya", "United Kingdom", "Azerbaijan", "Botswana", "South Korea"].map(c => (
+                    {["United States", "Australia", "France", "India", "Kenya", "United Kingdom", "Brazil", "Canada", "Japan"].map(c => (
                       <span key={c} className="inline-block" style={{
                         ...fontMono,
                         fontSize: 10,
                         padding: "3px 8px",
                         borderRadius: 3,
                         border: `1px solid ${t.cardBorder}`,
-                        color: t.muted,
+                        color: "#f0ece3",
                         background: t.bg,
                       }}>{c}</span>
                     ))}
