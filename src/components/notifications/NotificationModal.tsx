@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import {
@@ -6,7 +6,7 @@ import {
   Film, Image, FileText, BarChart3, Cpu, Terminal, BookOpen,
   Cloud, Map,
 } from "lucide-react";
-import { NotificationItem, NotificationCategory } from "@/data/notifications";
+import { NOTIFICATIONS, NotificationCategory } from "@/data/notifications";
 
 const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   users: Users, calendar: Calendar, clock: Clock, layers: Layers,
@@ -35,61 +35,58 @@ function getIcon(name: string) {
 }
 
 interface NotificationModalProps {
-  item: NotificationItem | null;
-  allNotifications: NotificationItem[];
+  open: boolean;
+  initialId: number | null;
   onClose: () => void;
-  onNavigate?: (item: NotificationItem) => void;
 }
 
-export function NotificationModal({ item, allNotifications, onClose, onNavigate }: NotificationModalProps) {
+export function NotificationModal({ open, initialId, onClose }: NotificationModalProps) {
   const navigate = useNavigate();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [animKey, setAnimKey] = useState(0);
+  const [index, setIndex] = useState(0);
 
-  // Sync index when the externally-selected item changes
+  // Sync index when modal opens with a specific notification
   useEffect(() => {
-    if (!item) return;
-    const idx = allNotifications.findIndex(n => n.id === item.id);
-    if (idx >= 0) {
-      setCurrentIndex(idx);
-      setAnimKey(k => k + 1);
-    }
-  }, [item?.id, allNotifications]);
+    if (!open || initialId === null) return;
+    const i = NOTIFICATIONS.findIndex(n => n.id === initialId);
+    setIndex(i >= 0 ? i : 0);
+  }, [open, initialId]);
 
-  // Derive displayed notification from internal index — NOT from the static prop
-  const currentItem = allNotifications[currentIndex];
+  // Always derive notification from index
+  const notification = NOTIFICATIONS[index];
+  const total = NOTIFICATIONS.length;
+  const hasPrev = index > 0;
+  const hasNext = index < total - 1;
 
-  const goTo = useCallback((newIndex: number) => {
-    if (newIndex < 0 || newIndex >= allNotifications.length) return;
-    setCurrentIndex(newIndex);
-    setAnimKey(k => k + 1);
-    onNavigate?.(allNotifications[newIndex]);
-  }, [allNotifications, onNavigate]);
+  const goPrev = useCallback(() => {
+    setIndex(i => Math.max(0, i - 1));
+  }, []);
 
+  const goNext = useCallback(() => {
+    setIndex(i => Math.min(total - 1, i + 1));
+  }, [total]);
+
+  // Keyboard navigation
   useEffect(() => {
-    if (!item) return;
+    if (!open) return;
     const handler = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") goPrev();
+      if (e.key === "ArrowRight") goNext();
       if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") goTo(currentIndex - 1);
-      if (e.key === "ArrowRight") goTo(currentIndex + 1);
     };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-  }, [item, onClose, currentIndex, goTo]);
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [open, goPrev, goNext, onClose]);
 
-  if (!item || !currentItem) return null;
+  if (!open || !notification) return null;
 
-  const cfg = CATEGORY_CONFIG[currentItem.category];
-  const m = currentItem.modal;
+  const cfg = CATEGORY_CONFIG[notification.category];
+  const m = notification.modal;
 
   const handleCta = () => {
     onClose();
     const route = CTA_ROUTES[m.cta];
     if (route) navigate(route);
   };
-
-  const isFirst = currentIndex === 0;
-  const isLast = currentIndex === allNotifications.length - 1;
 
   const arrowStyle = (disabled: boolean): React.CSSProperties => ({
     width: 40, height: 40, borderRadius: "50%",
@@ -109,17 +106,19 @@ export function NotificationModal({ item, allNotifications, onClose, onNavigate 
   return createPortal(
     <div
       className="fixed inset-0 flex flex-col items-center justify-center"
-      style={{ zIndex: 9999, background: "rgba(0,0,0,0.75)", backdropFilter: "blur(10px)" }}
+      style={{ zIndex: 9999, background: "rgba(0,0,0,0.78)", backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)", padding: 20 }}
       onClick={onClose}
     >
       {/* Arrow row + modal */}
-      <div className="flex items-center gap-4" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="flex items-center gap-3"
+        style={{ width: "100%", maxWidth: 820 }}
+        onClick={e => e.stopPropagation()}
+      >
         {/* Left arrow */}
         <button
-          style={arrowStyle(isFirst)}
-          onClick={() => goTo(currentIndex - 1)}
-          onMouseEnter={(e) => { if (!isFirst) { e.currentTarget.style.background = "rgba(255,255,255,0.28)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"; } }}
-          onMouseLeave={(e) => { if (!isFirst) { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; } }}
+          onClick={goPrev}
+          style={arrowStyle(!hasPrev)}
           aria-label="Previous notification"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -129,50 +128,60 @@ export function NotificationModal({ item, allNotifications, onClose, onNavigate 
 
         {/* Modal box */}
         <div
-          key={animKey}
+          key={index}
           className="flex"
           style={{
-            maxWidth: 740, width: "100%", borderRadius: 22,
+            flex: 1, background: "#0f0f13",
             border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: 22, overflow: "hidden",
+            maxHeight: "85vh",
             boxShadow: "0 48px 120px rgba(0,0,0,0.8)",
-            overflow: "hidden",
             animation: "notif-modal-in 220ms cubic-bezier(0.16,1,0.3,1) forwards",
-            maxHeight: "90vh",
           }}
         >
           {/* LEFT PANEL */}
           <div
             className="relative hidden md:flex flex-col justify-end"
-            style={{ width: 265, minWidth: 265, background: cfg.gradient, padding: "20px 22px 28px" }}
+            style={{ width: 265, minWidth: 265, background: cfg.gradient, padding: "20px 22px 28px", minHeight: 440, overflow: "hidden" }}
           >
-            <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at 25% 68%, rgba(255,255,255,0.14), transparent 60%)" }} />
-            <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(circle at 82% 18%, rgba(255,255,255,0.06), transparent 50%)" }} />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 25% 68%, rgba(255,255,255,0.13) 0%, transparent 58%)" }} />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 80% 18%, rgba(255,255,255,0.06) 0%, transparent 50%)" }} />
             <div className="absolute left-0 top-0 bottom-0" style={{ width: 3, background: cfg.accent, opacity: 0.7 }} />
 
-            <div className="absolute top-16 left-5 right-5 flex items-start justify-between">
-              <span className="flex items-center gap-1.5" style={{ fontSize: 10, fontWeight: 500, padding: "3px 9px", borderRadius: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.14)", color: "rgba(255,255,255,0.7)" }}>
-                <span style={{ width: 6, height: 6, borderRadius: 999, background: cfg.accent }} />
+            {/* Tags */}
+            <div className="absolute top-5 left-5 right-4 flex items-start justify-between">
+              <span className="flex items-center gap-1.5" style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", padding: "4px 12px", borderRadius: 20, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.14)", color: "rgba(255,255,255,0.65)" }}>
+                <span style={{ width: 5, height: 5, borderRadius: "50%", background: cfg.accent, display: "inline-block" }} />
                 {m.tagLabel}
               </span>
-              {m.statusTag?.type === "replay" && (
-                <span style={{ fontSize: 10, fontWeight: 500, padding: "3px 8px", borderRadius: 6, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.65)" }}>Replay</span>
-              )}
-              {m.statusTag?.type === "upcoming" && (
-                <span style={{ fontSize: 10, fontWeight: 500, padding: "3px 8px", borderRadius: 6, background: "rgba(249,115,22,0.22)", border: "1px solid rgba(249,115,22,0.45)", color: "#fdba74" }}>Upcoming</span>
+              {m.statusTag && (
+                <span style={{
+                  padding: "4px 10px", borderRadius: 20, fontSize: 9.5, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase",
+                  ...(m.statusTag.type === "upcoming"
+                    ? { background: "rgba(249,115,22,0.25)", border: "1px solid rgba(249,115,22,0.45)", color: "#fdba74" }
+                    : { background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.72)" }),
+                }}>
+                  {m.statusTag.label}
+                </span>
               )}
             </div>
 
+            {/* Content */}
             <div className="relative z-10">
-              <div style={{ fontSize: 10.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", color: "rgba(255,255,255,0.45)", marginBottom: 8 }}>{m.eyebrow}</div>
-              <div style={{ fontSize: 40, lineHeight: 1.05, color: "#fff", fontFamily: '"DM Serif Display", serif', whiteSpace: "pre-line" }}>
-                {m.leftTitle.split("\n").map((line, i) => (
-                  <span key={i}>{i === 1 ? <em>{line}</em> : line}{i === 0 && <br />}</span>
-                ))}
-              </div>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 10 }}>
+                {m.eyebrow}
+              </p>
+              <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: 40, fontWeight: 400, lineHeight: 1.03, letterSpacing: "-0.025em", color: "#fff" }}>
+                {m.leftTitle.split("\n").map((line, i) =>
+                  i === 1
+                    ? <span key={i}><br /><em style={{ fontStyle: "italic", color: "rgba(255,255,255,0.55)" }}>{line}</em></span>
+                    : <span key={i}>{line}</span>
+                )}
+              </p>
               {m.speakers.length > 0 && (
                 <div className="flex flex-wrap gap-1.5" style={{ marginTop: 14 }}>
-                  {m.speakers.map((s) => (
-                    <span key={s} style={{ fontSize: 11, padding: "3px 10px", borderRadius: 999, background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.5)" }}>{s}</span>
+                  {m.speakers.map(s => (
+                    <span key={s} style={{ fontSize: 11, fontWeight: 500, color: "rgba(255,255,255,0.5)", padding: "3px 10px", borderRadius: 20, background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.1)" }}>{s}</span>
                   ))}
                 </div>
               )}
@@ -181,56 +190,59 @@ export function NotificationModal({ item, allNotifications, onClose, onNavigate 
 
           {/* RIGHT PANEL */}
           <div className="flex-1 flex flex-col overflow-y-auto" style={{ background: "#0f0f12", borderLeft: "1px solid rgba(255,255,255,0.08)", padding: "26px 26px 22px" }}>
-            <div className="flex justify-end" style={{ marginBottom: 12 }}>
-              <button onClick={onClose} className="flex items-center justify-center transition-colors" style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(255,255,255,0.07)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.12)")}
-                onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.07)")}>
-                <X className="h-3.5 w-3.5" style={{ color: "rgba(255,255,255,0.5)" }} />
-              </button>
-            </div>
+            {/* Close */}
+            <button onClick={onClose} className="absolute flex items-center justify-center transition-colors" style={{ position: "absolute", top: 14, right: 14, width: 28, height: 28, borderRadius: 8, background: "rgba(255,255,255,0.07)", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.4)" }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
 
-            <span className="self-start" style={{ fontSize: 10.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", padding: "4px 10px", borderRadius: 6, background: cfg.badgeBg, border: `1px solid ${cfg.badgeBorder}`, color: cfg.badgeText, marginBottom: 14 }}>{m.badge}</span>
-            <div style={{ fontSize: 20, fontWeight: 600, color: "rgba(255,255,255,0.93)", letterSpacing: "-0.025em", marginBottom: 10 }}>{m.title}</div>
-            <div style={{ fontSize: 13, color: "rgba(255,255,255,0.43)", lineHeight: 1.68, marginBottom: 16 }}>{m.description}</div>
+            {/* Badge */}
+            <span className="self-start" style={{ fontSize: 10.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", padding: "4px 12px", borderRadius: 20, background: cfg.badgeBg, border: `1px solid ${cfg.badgeBorder}`, color: cfg.badgeText, marginBottom: 14, display: "inline-flex", width: "fit-content" }}>{m.badge}</span>
 
-            <div className="flex flex-wrap gap-2" style={{ marginBottom: 20 }}>
-              {m.meta.map((chip) => {
-                const Icon = getIcon(chip.icon);
-                return (
-                  <span key={chip.text} className="flex items-center gap-1.5" style={{ fontSize: 11, padding: "5px 10px", borderRadius: 8, background: "rgba(255,255,255,0.055)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.45)" }}>
-                    <Icon className="h-3 w-3" />{chip.text}
-                  </span>
-                );
-              })}
-            </div>
+            <h2 style={{ fontSize: 20, fontWeight: 600, color: "rgba(255,255,255,0.93)", letterSpacing: "-0.025em", lineHeight: 1.2, marginBottom: 8 }}>{m.title}</h2>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.43)", lineHeight: 1.68 }}>{m.description}</p>
 
-            <div className="space-y-4" style={{ marginBottom: 18 }}>
-              {m.features.map((feat) => {
+            {/* Meta chips */}
+            {m.meta.length > 0 && (
+              <div className="flex flex-wrap gap-2" style={{ marginTop: 13 }}>
+                {m.meta.map(chip => {
+                  const Icon = getIcon(chip.icon);
+                  return (
+                    <span key={chip.text} className="flex items-center gap-1.5" style={{ fontSize: 11, padding: "5px 10px", borderRadius: 8, background: "rgba(255,255,255,0.055)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.45)" }}>
+                      <Icon className="h-3 w-3" />{chip.text}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Features */}
+            <div className="space-y-4" style={{ marginTop: 20, flex: 1 }}>
+              {m.features.map(feat => {
                 const Icon = getIcon(feat.icon);
                 return (
                   <div key={feat.title} className="flex items-start gap-3">
-                    <div className="shrink-0 flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(255,255,255,0.055)" }}>
+                    <div className="shrink-0 flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(255,255,255,0.055)", border: "1px solid rgba(255,255,255,0.08)" }}>
                       <Icon className="h-4 w-4" style={{ color: "rgba(255,255,255,0.45)" }} />
                     </div>
                     <div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.87)", marginBottom: 2 }}>{feat.title}</div>
-                      <div style={{ fontSize: 12, color: "rgba(255,255,255,0.36)", lineHeight: 1.5 }}>{feat.description}</div>
+                      <p style={{ fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.87)", marginBottom: 2 }}>{feat.title}</p>
+                      <p style={{ fontSize: 12, color: "rgba(255,255,255,0.36)", lineHeight: 1.55 }}>{feat.description}</p>
                     </div>
                   </div>
                 );
               })}
             </div>
 
-            <div style={{ height: 1, background: "rgba(255,255,255,0.07)", marginBottom: 16 }} />
-
+            {/* Divider + actions */}
+            <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "20px 0 16px" }} />
             <div className="flex gap-3">
-              <button onClick={onClose} className="flex-1 transition-colors" style={{ padding: "10px 0", borderRadius: 10, border: "1px solid rgba(255,255,255,0.08)", background: "transparent", color: "rgba(255,255,255,0.32)", fontSize: 13, fontWeight: 500, cursor: "pointer" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.32)")}>
+              <button onClick={onClose} className="flex-1 transition-colors" style={{ padding: "10px 0", borderRadius: 10, border: "1px solid rgba(255,255,255,0.08)", background: "transparent", color: "rgba(255,255,255,0.32)", fontSize: 13, fontWeight: 500, cursor: "pointer" }}>
                 Got it
               </button>
               <button onClick={handleCta} className="flex-[2] flex items-center justify-center gap-2 transition-opacity hover:opacity-90" style={{ padding: "10px 0", borderRadius: 10, background: "#fff", color: "#09090c", fontSize: 13, fontWeight: 600, cursor: "pointer", border: "none" }}>
-                {m.cta}<span style={{ fontSize: 14 }}>→</span>
+                {m.cta} <span style={{ fontSize: 14 }}>→</span>
               </button>
             </div>
           </div>
@@ -238,10 +250,8 @@ export function NotificationModal({ item, allNotifications, onClose, onNavigate 
 
         {/* Right arrow */}
         <button
-          style={arrowStyle(isLast)}
-          onClick={() => goTo(currentIndex + 1)}
-          onMouseEnter={(e) => { if (!isLast) { e.currentTarget.style.background = "rgba(255,255,255,0.28)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"; } }}
-          onMouseLeave={(e) => { if (!isLast) { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; } }}
+          onClick={goNext}
+          style={arrowStyle(!hasNext)}
           aria-label="Next notification"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -252,7 +262,7 @@ export function NotificationModal({ item, allNotifications, onClose, onNavigate 
 
       {/* Counter */}
       <p style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", textAlign: "center", marginTop: 10 }}>
-        {currentIndex + 1} of {allNotifications.length}
+        {index + 1} of {total}
       </p>
 
       <style>{`
