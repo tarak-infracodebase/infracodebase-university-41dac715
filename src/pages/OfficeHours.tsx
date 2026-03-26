@@ -1315,7 +1315,7 @@ export default function OfficeHours() {
 
   return (
     <AppLayout>
-      <div className="max-w-5xl mx-auto px-6 lg:px-8 py-10 space-y-10">
+      <div className="max-w-5xl mx-auto px-6 lg:px-8 py-10 pt-16 lg:pt-10 space-y-10">
 
         {/* What is Workshops banner */}
         <div

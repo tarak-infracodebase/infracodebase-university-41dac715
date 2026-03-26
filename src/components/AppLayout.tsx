@@ -401,10 +401,10 @@ function ThemeToggleButton() {
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       className="flex items-center justify-center rounded-full border border-border/50 bg-card text-foreground hover:bg-muted/50 transition-colors"
-      style={{ width: 36, height: 36 }}
+      style={{ width: 40, height: 40 }}
       aria-label="Toggle theme"
     >
-      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      {theme === "dark" ? <Sun className="h-[22px] w-[22px]" /> : <Moon className="h-[22px] w-[22px]" />}
     </button>
   );
 }
