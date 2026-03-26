@@ -725,7 +725,7 @@ function CalendarDropdown() {
           <button
             onClick={() => { window.open(googleUrl, '_blank'); setCalOpen(false); }}
             style={optionStyle}
-            onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+            onMouseEnter={e => (e.currentTarget.style.background = 'hsl(var(--muted))')}
             onMouseLeave={e => (e.currentTarget.style.background = 'none')}
           >
             <ExternalLink size={14} /> Google Calendar
@@ -733,7 +733,7 @@ function CalendarDropdown() {
           <button
             onClick={() => { window.open(outlookUrl, '_blank'); setCalOpen(false); }}
             style={optionStyle}
-            onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+            onMouseEnter={e => (e.currentTarget.style.background = 'hsl(var(--muted))')}
             onMouseLeave={e => (e.currentTarget.style.background = 'none')}
           >
             <ExternalLink size={14} /> Microsoft Outlook
@@ -741,7 +741,7 @@ function CalendarDropdown() {
           <button
             onClick={handleICS}
             style={optionStyle}
-            onMouseEnter={e => (e.currentTarget.style.background = '#162035')}
+            onMouseEnter={e => (e.currentTarget.style.background = 'hsl(var(--muted))')}
             onMouseLeave={e => (e.currentTarget.style.background = 'none')}
           >
             <Download size={14} /> Apple / Other (.ics)
