@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { ProgressBar } from "@/components/ProgressBar";
 import { getLearningPathById } from "@/data/courseData";
 import { handsOnTracks } from "@/data/handsOnData";
 import { AppLayout } from "@/components/AppLayout";
@@ -317,9 +318,17 @@ const LearningPathPage = () => {
   const firstLesson = path.courses[0]?.lessons[0];
   
 
+  const allLessons = path.courses.flatMap(c => c.lessons);
+  const progressSteps = allLessons.map(l => ({ id: l.id, label: l.title.length > 8 ? l.title.slice(0, 8) + "…" : l.title }));
+
   return (
     <AppLayout>
-      {/* Track Header */}
+      <ProgressBar
+        title={path.title}
+        steps={progressSteps}
+        currentStepIndex={0}
+        completedCount={0}
+      />
       <section className="gradient-hero py-12 lg:py-16 px-6 lg:px-12 border-b border-border/30">
         <Link to="/training" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
           <ArrowLeft className="h-3 w-3" /> All Learning Paths
