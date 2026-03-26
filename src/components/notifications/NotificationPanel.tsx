@@ -22,6 +22,20 @@ const CATEGORY_CONFIG: Record<
   },
 };
 
+/* Per-notification typography content for thumbnails & featured banners */
+const THUMB_CONTENT: Record<number, {
+  eyebrow: string;
+  titleLine1: string;
+  titleLine2: string;
+  pill?: string;
+}> = {
+  1: { eyebrow: "Upcoming Workshop", titleLine1: "Shifting", titleLine2: "Left", pill: "Tawni — Senior Full Stack Eng." },
+  2: { eyebrow: "Weekly Workshop — Replay", titleLine1: "Azure", titleLine2: "Migration" },
+  3: { eyebrow: "New Video", titleLine1: "Scaling", titleLine2: "Infra", pill: "Manisha — DevOps Eng." },
+  4: { eyebrow: "New Training Resource", titleLine1: "Azure", titleLine2: "Reference" },
+  5: { eyebrow: "New Training Resource", titleLine1: "Infra", titleLine2: "Docs" },
+};
+
 const TAB_DOT_COLORS: Record<TabFilter, string> = {
   all: "#f97316",
   workshop: "#fb923c",
@@ -237,6 +251,7 @@ function FeaturedCard({
   onClick: () => void;
 }) {
   const cfg = CATEGORY_CONFIG[item.category];
+  const thumb = THUMB_CONTENT[item.id];
 
   return (
     <button
@@ -287,9 +302,8 @@ function FeaturedCard({
         </div>
       </div>
 
-      {/* Large gradient image */}
+      {/* Typography-driven banner */}
       <div
-        className="relative"
         style={{
           width: "100%",
           height: 190,
@@ -298,6 +312,11 @@ function FeaturedCard({
           marginTop: 10,
           marginBottom: 14,
           background: cfg.gradient,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          padding: "20px 22px",
+          position: "relative",
         }}
       >
         {/* Subtle glow */}
@@ -308,44 +327,34 @@ function FeaturedCard({
               "radial-gradient(circle at 30% 70%, rgba(255,255,255,0.08), transparent 60%)",
           }}
         />
-        {/* Status badge */}
+
+        {thumb && (
+          <>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 10, position: "relative", zIndex: 1 }}>
+              {thumb.eyebrow}
+            </p>
+            <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: 42, fontWeight: 400, color: "white", lineHeight: 1.0, letterSpacing: "-0.02em", position: "relative", zIndex: 1 }}>
+              {thumb.titleLine1}<br />
+              <em style={{ color: "rgba(255,255,255,0.65)" }}>{thumb.titleLine2}</em>
+            </p>
+            {thumb.pill && (
+              <div style={{ marginTop: 14, display: "inline-flex", padding: "5px 14px", borderRadius: 20, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.6)", width: "fit-content", position: "relative", zIndex: 1 }}>
+                {thumb.pill}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* Status badge top right */}
         {item.status === "upcoming" && (
-          <span
-            className="absolute"
-            style={{
-              top: 10,
-              right: 10,
-              fontSize: 9.5,
-              fontWeight: 700,
-              textTransform: "uppercase",
-              padding: "3px 8px",
-              borderRadius: 6,
-              background: "rgba(249,115,22,0.28)",
-              border: "1px solid rgba(249,115,22,0.5)",
-              color: "#fdba74",
-            }}
-          >
+          <div style={{ position: "absolute", top: 10, right: 10, padding: "3px 10px", borderRadius: 20, background: "rgba(249,115,22,0.25)", border: "1px solid rgba(249,115,22,0.45)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#fdba74", zIndex: 2 }}>
             Upcoming
-          </span>
+          </div>
         )}
         {item.status === "replay" && (
-          <span
-            className="absolute"
-            style={{
-              top: 10,
-              right: 10,
-              fontSize: 9.5,
-              fontWeight: 700,
-              textTransform: "uppercase",
-              padding: "3px 8px",
-              borderRadius: 6,
-              background: "rgba(0,0,0,0.6)",
-              border: "1px solid rgba(255,255,255,0.22)",
-              color: "rgba(255,255,255,0.72)",
-            }}
-          >
+          <div style={{ position: "absolute", top: 10, right: 10, padding: "3px 10px", borderRadius: 20, background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.22)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "rgba(255,255,255,0.72)", zIndex: 2 }}>
             Replay
-          </span>
+          </div>
         )}
       </div>
 
@@ -377,6 +386,7 @@ function ListItem({
   isLast: boolean;
 }) {
   const cfg = CATEGORY_CONFIG[item.category];
+  const thumb = THUMB_CONTENT[item.id];
 
   return (
     <button
@@ -452,15 +462,19 @@ function ListItem({
         </div>
       </div>
 
-      {/* Thumbnail */}
+      {/* Typography-driven thumbnail */}
       <div
         className="relative shrink-0"
         style={{
-          width: 80,
-          height: 80,
+          width: 84,
+          height: 84,
           borderRadius: 12,
           overflow: "hidden",
           background: cfg.gradient,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          padding: "9px 10px",
         }}
       >
         {/* Glow */}
@@ -471,6 +485,24 @@ function ListItem({
               "radial-gradient(circle at 30% 70%, rgba(255,255,255,0.06), transparent 60%)",
           }}
         />
+
+        {thumb && (
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 6.5, fontWeight: 600, letterSpacing: "0.09em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 4, lineHeight: 1 }}>
+              {thumb.eyebrow}
+            </p>
+            <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: 15, fontWeight: 400, color: "rgba(255,255,255,0.95)", lineHeight: 1.1, letterSpacing: "-0.01em" }}>
+              {thumb.titleLine1}<br />
+              <em style={{ color: "rgba(255,255,255,0.7)" }}>{thumb.titleLine2}</em>
+            </p>
+            {thumb.pill && (
+              <div style={{ marginTop: 5, display: "inline-flex", padding: "2px 7px", borderRadius: 20, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", fontSize: 7, fontWeight: 500, color: "rgba(255,255,255,0.55)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "100%" }}>
+                {thumb.pill}
+              </div>
+            )}
+          </div>
+        )}
+
         {item.status === "replay" && (
           <div
             className="absolute bottom-0 left-0 right-0 flex items-center justify-center"
@@ -482,6 +514,7 @@ function ListItem({
               textTransform: "uppercase",
               letterSpacing: "0.05em",
               color: "rgba(255,255,255,0.75)",
+              zIndex: 2,
             }}
           >
             REPLAY
@@ -497,6 +530,7 @@ function ListItem({
               height: 8,
               borderRadius: 999,
               background: "#f97316",
+              zIndex: 2,
             }}
           />
         )}
