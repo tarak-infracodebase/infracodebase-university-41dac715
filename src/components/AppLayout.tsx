@@ -207,10 +207,6 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
           </div>
         ))}
 
-        {/* Referral bar — in normal flow after nav items */}
-        <SignedIn>
-          <ReferralModal collapsed={collapsed} />
-        </SignedIn>
       </nav>
 
       {/* User row */}
@@ -248,6 +244,7 @@ export function MobileNav({ notifications: notif }: { notifications?: ReturnType
           </span>
         </Link>
         <div className="flex items-center gap-2">
+          <SignedIn><ReferralModal /></SignedIn>
           <XpPill />
           <ThemeToggleButton />
           {notif && <NotificationBell {...notif} />}
@@ -385,6 +382,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       <MobileNav notifications={notif} />
       {/* Desktop User Button / Sign In */}
       <div className="hidden lg:flex items-center gap-2 fixed top-4 right-6 z-50">
+        <SignedIn><ReferralModal /></SignedIn>
         <XpPill />
         <ThemeToggleButton />
         <NotificationBell {...notif} />
