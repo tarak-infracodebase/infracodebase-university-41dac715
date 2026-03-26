@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect, useRef } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
+import { ReferralModal } from "./ReferralModal";
 import { LogIn } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { NotificationBell } from "./notifications/NotificationPanel";
@@ -209,9 +210,10 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
 
       {/* Bottom spacer (collapse button moved to header) */}
 
-      {/* Pinned user row */}
+      {/* Referral + User */}
       <div style={{ borderTop: "1px solid #1c2e47" }} className="py-2">
         <SignedIn>
+          {!collapsed && <ReferralModal />}
           <SidebarUserRow collapsed={collapsed} xp={xp} />
         </SignedIn>
       </div>
