@@ -94,9 +94,9 @@ export function NotificationBell({
         onClick={togglePanel}
         className="relative flex items-center justify-center transition-colors"
         style={{
-          width: 34,
-          height: 34,
-          borderRadius: 9,
+          width: 40,
+          height: 40,
+          borderRadius: 10,
           background: "transparent",
         }}
         onMouseEnter={(e) =>
@@ -107,18 +107,18 @@ export function NotificationBell({
         }
         aria-label="Notifications"
       >
-        <Bell className="h-[18px] w-[18px]" style={{ color: "rgba(255,255,255,0.55)" }} />
+        <Bell className="h-[22px] w-[22px]" style={{ color: "hsl(var(--muted-foreground))" }} />
         {unreadCount > 0 && (
           <span
             className="absolute flex items-center justify-center"
             style={{
-              top: 3,
-              right: 3,
-              minWidth: 16,
-              height: 16,
+              top: 2,
+              right: 2,
+              minWidth: 18,
+              height: 18,
               borderRadius: 999,
               background: "#f97316",
-              border: "1.5px solid #0a0f1a",
+              border: "2px solid hsl(var(--background))",
               boxShadow: "0 0 10px rgba(249,115,22,0.55)",
               fontSize: 10,
               fontWeight: 700,
