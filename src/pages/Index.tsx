@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppLayout } from "@/components/AppLayout";
 import { useEffect, useRef } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -201,6 +201,78 @@ const Index = () => {
               <Link to="/manifesto" className={pill} style={t.pillSecondary}>
                 <span style={fontMono}>Read our Manifesto</span>
               </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════ 1b · SOCIAL PROOF STRIP ═══════════ */}
+        <section style={{ background: t.sectionBg, borderTop: `1px solid ${t.border}`, borderBottom: `1px solid ${t.border}` }}>
+          <div className="max-w-6xl mx-auto px-6 lg:px-12 py-16">
+            <div data-reveal className="flex flex-col lg:flex-row" style={{ gap: 0 }}>
+              {/* Left column */}
+              <div className="lg:pr-10 pb-8 lg:pb-0" style={{ width: "auto", maxWidth: 260, flexShrink: 0 }}>
+                <h2 style={{ ...fontDisplay, fontSize: 20, fontWeight: 700, lineHeight: 1.35, color: t.heading }}>
+                  Trusted by engineers across{" "}
+                  <em className="font-light" style={{ color: t.accentEmber }}>20+ countries.</em>
+                </h2>
+                <p className="mt-3" style={{ ...fontMono, fontSize: 12, lineHeight: 1.65, color: t.muted }}>
+                  From San Francisco to Japan, engineers are building real infrastructure skills through structured, hands-on training.
+                </p>
+              </div>
+
+              {/* Vertical divider */}
+              <div className="hidden lg:block self-stretch" style={{ width: 1, background: t.border, flexShrink: 0 }} />
+
+              {/* Right column */}
+              <div className="flex-1 lg:pl-10">
+                {/* Stat row */}
+                <div className="grid grid-cols-2 lg:grid-cols-4" style={{ gap: 0 }}>
+                  {[
+                    { value: "464", label: "active learners this week" },
+                    { value: "20+", label: "countries represented", accent: true },
+                    { value: "2.9k", label: "pages explored this week" },
+                    { value: "6m+", label: "avg. time spent per visit" },
+                  ].map((stat, i) => (
+                    <div key={i} className="flex flex-col" style={{
+                      borderLeft: i > 0 ? `1px solid ${t.border}` : "none",
+                      paddingLeft: i > 0 ? 20 : 0,
+                      paddingRight: 20,
+                      paddingTop: 4,
+                      paddingBottom: 4,
+                    }}>
+                      <div style={{
+                        ...fontDisplay,
+                        fontSize: 28,
+                        fontWeight: 400,
+                        color: stat.accent ? t.accentEmber : t.heading,
+                        fontStyle: stat.accent ? "italic" : "normal",
+                      }}>{stat.value}</div>
+                      <div style={{ ...fontMono, fontSize: 11, color: t.muted, marginTop: 2 }}>{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Horizontal divider */}
+                <div className="my-5" style={{ height: 1, background: t.border }} />
+
+                {/* Top communities */}
+                <div>
+                  <span style={{ ...fontMono, fontSize: 10, color: t.muted, letterSpacing: "0.05em" }}>Top communities</span>
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {["United States", "Nigeria", "France", "India", "Kenya", "United Kingdom", "Azerbaijan", "Botswana", "South Korea"].map(c => (
+                      <span key={c} className="inline-block" style={{
+                        ...fontMono,
+                        fontSize: 10,
+                        padding: "3px 8px",
+                        borderRadius: 3,
+                        border: `1px solid ${t.cardBorder}`,
+                        color: t.muted,
+                        background: t.bg,
+                      }}>{c}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
