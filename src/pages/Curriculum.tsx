@@ -111,7 +111,7 @@ const Curriculum = () => {
 
   return (
     <AppLayout>
-      <div className="p-6 lg:p-8 max-w-6xl mx-auto">
+      <div className="p-6 lg:p-8 max-w-6xl mx-auto pb-40">
         <div className="mb-8">
           <h1 className="text-2xl font-bold mb-1">Training</h1>
           <p className="text-sm text-muted-foreground">Browse the complete Infracodebase learning program</p>
@@ -143,10 +143,7 @@ const Curriculum = () => {
 
         <CurriculumGuidanceQuiz open={quizOpen} onClose={() => setQuizOpen(false)} />
 
-        <AudioPlayer
-          src="/training-intro.mp3"
-          label="Listen to the introduction — 1 min"
-        />
+        <AudioPlayer src="/training-intro.mp3" />
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
