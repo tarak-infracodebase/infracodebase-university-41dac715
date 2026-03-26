@@ -9,7 +9,8 @@ export function useNotifications() {
   );
   const [panelOpen, setPanelOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabFilter>("all");
-  const [selectedNotification, setSelectedNotification] = useState<NotificationItem | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalInitialId, setModalInitialId] = useState<number | null>(null);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -38,14 +39,16 @@ export function useNotifications() {
   const openNotification = useCallback(
     (item: NotificationItem) => {
       markRead(item.id);
-      setSelectedNotification(item);
+      setModalInitialId(item.id);
+      setModalOpen(true);
       setPanelOpen(false);
     },
     [markRead]
   );
 
   const closeModal = useCallback(() => {
-    setSelectedNotification(null);
+    setModalOpen(false);
+    setModalInitialId(null);
   }, []);
 
   const togglePanel = useCallback(() => {
@@ -64,7 +67,8 @@ export function useNotifications() {
     panelOpen,
     activeTab,
     setActiveTab,
-    selectedNotification,
+    modalOpen,
+    modalInitialId,
     markRead,
     markAllRead,
     openNotification,
