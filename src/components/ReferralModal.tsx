@@ -316,18 +316,6 @@ function ReferralPill({ onClick, isOpen }: { onClick: () => void; isOpen: boolea
         cursor: "pointer",
       }}
     >
-      <div
-        className="flex items-center justify-center shrink-0"
-        style={{
-          width: 22,
-          height: 22,
-          borderRadius: 6,
-          background: "rgba(232,97,10,0.15)",
-          border: "0.5px solid rgba(232,97,10,0.28)",
-        }}
-      >
-        <Star className="h-[11px] w-[11px]" style={{ color: "#e8610a" }} />
-      </div>
       <span
         className="whitespace-nowrap hidden sm:inline"
         style={{
@@ -337,7 +325,7 @@ function ReferralPill({ onClick, isOpen }: { onClick: () => void; isOpen: boolea
           color: "#fff",
         }}
       >
-        Grow the University
+        Invite and Earn
       </span>
       <ChevronDown
         className="h-3 w-3 shrink-0"
