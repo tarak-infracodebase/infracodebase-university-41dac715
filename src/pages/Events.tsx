@@ -38,7 +38,7 @@ const events: EventItem[] = [
     series: "infracodebase",
     format: "podcast",
     type: "Conversation",
-    speakers: [{ name: "Justin", role: "Founder" }, { name: "Tarak", role: "Co-Founder" }],
+    speakers: [{ name: "Cameron" }, { name: "Kurt" }, { name: "Tarak", role: "Co-Founder" }],
     link: "https://open.spotify.com/episode/1WsnZwbY9NNqK3R1OhURg2?si=pHpeR_zbQiKa9nPMnZxqDw",
     platform: "spotify",
     thumbnail: podcastProdsec,
@@ -74,7 +74,7 @@ const events: EventItem[] = [
     series: "buildwithher",
     format: "video",
     type: "Career Talk",
-    speakers: [{ name: "Tarak", role: "Co-Founder" }, { name: "Fatima", role: "Software Engineer" }],
+    speakers: [{ name: "Tarak", role: "Co-Founder" }, { name: "Damien" }],
     link: "https://www.linkedin.com/events/7437983286372626433/?viewAsMember=true",
     platform: "youtube",
     thumbnail: legalBg,
@@ -151,6 +151,9 @@ const speakerInitialColors: Record<string, string> = {
   Fatima: "hsl(var(--crystal-yellow))",
   "Seif Hateb": "hsl(var(--crystal-red))",
   Divine: "hsl(var(--crystal-orange))",
+  Cameron: "hsl(var(--crystal-cyan))",
+  Kurt: "hsl(var(--crystal-green))",
+  Damien: "hsl(var(--crystal-violet))",
 };
 
 function SpeakerAvatar({ name }: { name: string }) {
