@@ -29,7 +29,7 @@ const THUMB_CONTENT: Record<number, {
   titleLine2: string;
   pill?: string;
 }> = {
-  1: { eyebrow: "Upcoming Workshop", titleLine1: "Shifting", titleLine2: "Left", pill: "Tawni — Senior Full Stack · Apr 1 · 5PM CET" },
+  1: { eyebrow: "Upcoming Workshop", titleLine1: "Shifting", titleLine2: "Left", pill: "Tawni — Senior Full Stack · Apr 2 · 5PM CET" },
   2: { eyebrow: "Weekly Workshop — Replay", titleLine1: "Azure", titleLine2: "Migration" },
   3: { eyebrow: "New Video", titleLine1: "Scaling", titleLine2: "Infra", pill: "Manisha — DevOps Eng." },
   4: { eyebrow: "New Training Resource", titleLine1: "Azure", titleLine2: "Reference" },
@@ -207,6 +207,21 @@ export function NotificationBell({
                 </button>
               );
             })}
+          </div>
+
+          {/* Header */}
+          <div style={{ padding: "14px 18px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <span style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.87)" }}>Notifications</span>
+            {unreadCount > 0 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); markAllRead(); }}
+                style={{ fontSize: 11, color: "rgba(255,255,255,0.28)", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.28)")}
+              >
+                Mark all read
+              </button>
+            )}
           </div>
 
           {/* Content */}
