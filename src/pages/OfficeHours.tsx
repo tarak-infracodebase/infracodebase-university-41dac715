@@ -713,8 +713,8 @@ function CalendarDropdown() {
             position: 'absolute',
             top: 'calc(100% + 8px)',
             left: 0,
-            background: '#101929',
-            border: '1px solid #25405f',
+            background: 'hsl(var(--card))',
+            border: '1px solid hsl(var(--border))',
             borderRadius: '10px',
             minWidth: '240px',
             padding: '6px',
@@ -794,18 +794,18 @@ function NotesEditor({
   return (
     <div>
       <style>{`
-        [contenteditable] h2 { color:#f1f5f9; font-size:16px; font-weight:800; border-bottom:1px solid #1c2e47; padding-bottom:6px; margin:20px 0 8px; }
-        [contenteditable] h3 { color:#f1f5f9; font-size:14px; font-weight:700; margin:16px 0 6px; }
-        [contenteditable] p { color:#cbd5e1; margin:4px 0; line-height:1.8; }
+        [contenteditable] h2 { color:hsl(var(--foreground)); font-size:16px; font-weight:800; border-bottom:1px solid hsl(var(--border)); padding-bottom:6px; margin:20px 0 8px; }
+        [contenteditable] h3 { color:hsl(var(--foreground)); font-size:14px; font-weight:700; margin:16px 0 6px; }
+        [contenteditable] p { color:hsl(var(--muted-foreground)); margin:4px 0; line-height:1.8; }
         [contenteditable] ul { margin:4px 0 4px 16px; }
-        [contenteditable] li { color:#cbd5e1; margin:2px 0; }
-        [contenteditable] hr { border:none; border-top:1px solid #1c2e47; margin:12px 0; }
-        [contenteditable] strong { color:#f1f5f9; font-weight:700; }
-        [contenteditable]:focus { outline:none; border-color:#22d3ee40; caret-color:#22d3ee; }
+        [contenteditable] li { color:hsl(var(--muted-foreground)); margin:2px 0; }
+        [contenteditable] hr { border:none; border-top:1px solid hsl(var(--border)); margin:12px 0; }
+        [contenteditable] strong { color:hsl(var(--foreground)); font-weight:700; }
+        [contenteditable]:focus { outline:none; border-color:rgba(34,211,238,0.25); caret-color:#22d3ee; }
       `}</style>
 
       {/* Toolbar */}
-      <div className="flex items-center gap-0.5 border border-border/50 rounded-t-lg px-2 py-1.5 bg-white/[0.02]">
+      <div className="flex items-center gap-0.5 border border-border/50 rounded-t-lg px-2 py-1.5 bg-muted/30">
         <button onClick={() => exec("bold")} className={btnCls} title="Bold"><Bold className="h-4 w-4" /></button>
         <button onClick={() => exec("italic")} className={btnCls} title="Italic"><Italic className="h-4 w-4" /></button>
         <button onClick={() => exec("formatBlock", "h3")} className={btnCls} title="Heading"><Heading3 className="h-4 w-4" /></button>
@@ -814,7 +814,7 @@ function NotesEditor({
         <button onClick={() => exec("insertHorizontalRule")} className={btnCls} title="Divider"><Minus className="h-4 w-4" /></button>
         <div className="flex-1" />
         {isDirty && (
-          <button onClick={handleDiscard} className="px-3 py-1 text-xs rounded border border-border/50 text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors">
+          <button onClick={handleDiscard} className="px-3 py-1 text-xs rounded border border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
             Discard
           </button>
         )}
@@ -830,8 +830,7 @@ function NotesEditor({
         contentEditable
         suppressContentEditableWarning
         onInput={() => setIsDirty(true)}
-        className="border border-t-0 border-border/50 rounded-b-lg p-4 min-h-[300px] text-sm focus:outline-none"
-        style={{ background: "#0a0e14" }}
+        className="border border-t-0 border-border/50 rounded-b-lg p-4 min-h-[300px] text-sm focus:outline-none bg-card"
         dangerouslySetInnerHTML={{ __html: savedHTML }}
       />
 
@@ -1050,8 +1049,8 @@ function SessionModal({
                 </div>
 
                 {/* ── Comments Section ── */}
-<div style={{ marginTop: '40px', borderTop: '1px solid #1c2e47', paddingTop: '28px' }}>
-  <h3 style={{ fontSize: '16px', fontWeight: 700, color: '#f1f5f9', marginBottom: '20px', fontFamily: "'Courier New', monospace" }}>What our community said</h3>
+<div style={{ marginTop: '40px', borderTop: '1px solid hsl(var(--border))', paddingTop: '28px' }}>
+  <h3 style={{ fontSize: '16px', fontWeight: 700, color: 'hsl(var(--foreground))', marginBottom: '20px', fontFamily: "'Courier New', monospace" }}>What our community said</h3>
 
   {/* Compose */}
   <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', marginBottom: '24px' }}>
@@ -1061,56 +1060,74 @@ function SessionModal({
         type="text"
         value={commentInput}
         onChange={e => setCommentInput(e.target.value)}
-        onKeyDown={e => { if (e.key === 'Enter' && commentInput.trim()) { setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim(), avatar: 'Y', replies: [] }, ...c]); setCommentInput(''); } }}
-        placeholder="Share your experience from this session..."
-        style={{ flex: 1, background: 'rgba(255,255,255,0.03)', border: '1px solid #1c2e47', borderRadius: '10px', padding: '10px 14px', fontSize: '13px', color: '#f1f5f9', outline: 'none' }}
+        placeholder="Share your thoughts on this session..."
+        style={{ flex: 1, background: 'hsl(var(--muted))', border: '1px solid hsl(var(--border))', borderRadius: '8px', padding: '8px 12px', fontSize: '13px', color: 'hsl(var(--foreground))' }}
       />
       <button
-        onClick={() => { if (!commentInput.trim()) return; setComments(c => [{ name: 'You', date: 'Just now', text: commentInput.trim(), avatar: 'Y', replies: [] }, ...c]); setCommentInput(''); }}
-        disabled={!commentInput.trim()}
-        style={{ background: 'linear-gradient(90deg,#f5821f,#16a34a)', color: '#fff', border: 'none', borderRadius: '10px', padding: '10px 18px', fontSize: '13px', fontWeight: 600, cursor: commentInput.trim() ? 'pointer' : 'default', opacity: commentInput.trim() ? 1 : 0.4 }}
+        onClick={() => {
+          if (!commentInput.trim()) return;
+          setComments(c => [...c, { name: 'You', date: 'Just now', text: commentInput }]);
+          setCommentInput("");
+        }}
+        style={{ background: SPECTRUM_GRADIENT, color: '#fff', border: 'none', borderRadius: '8px', padding: '8px 16px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
       >Post</button>
     </div>
   </div>
 
-  {/* Comments */}
+  {/* User-added */}
+  {comments.map((c, i) => (
+    <div key={`user-${i}`} style={{ display: 'flex', gap: '10px', marginBottom: '16px' }}>
+      <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'linear-gradient(135deg,#c2410c,#16a34a)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#fff', flexShrink: 0 }}>{c.name[0]}</div>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '2px' }}>
+          <span style={{ fontSize: '13px', fontWeight: 700, color: 'hsl(var(--foreground))' }}>{c.name}</span>
+          <span style={{ fontSize: '11px', color: 'hsl(var(--muted-foreground))' }}>{c.date}</span>
+        </div>
+        <p style={{ fontSize: '13px', color: 'hsl(var(--muted-foreground))', lineHeight: 1.7, margin: 0 }}>{c.text}</p>
+      </div>
+    </div>
+  ))}
+
+  {/* Pre-seeded */}
   {sessionComments.map((c: any, i: number) => (
     <div key={i}>
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-        <img src={c.avatar} alt={c.name} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-        <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '13px', fontWeight: 700, color: '#f1f5f9' }}>{c.name}</span>
-            <span style={{ fontSize: '11px', color: '#64748b' }}>{c.date}</span>
-          </div>
-          <p style={{ fontSize: '13px', color: '#cbd5e1', lineHeight: 1.7, margin: '0 0 8px' }}>{c.text}</p>
-          <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
-            <button style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: '#16a34a', background: 'none', border: 'none', cursor: 'pointer' }}>▲ {c.upvotes}</button>
-            <button style={{ fontSize: '12px', color: '#64748b', background: 'none', border: 'none', cursor: 'pointer' }}>↩ Reply</button>
-          </div>
-          {c.answered && (
-            <div style={{ marginTop: '10px', display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '11px', padding: '3px 10px', borderRadius: '99px', background: '#e1f5ee', color: '#0f6e56', border: '0.5px solid #5dcaa5' }}>✓ Covered in session — {c.answered}</div>
-          )}
-          {c.reply && (
-            <div style={{ marginTop: '12px', paddingLeft: '12px', borderLeft: '2px solid #1c2e47' }}>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, boxShadow: `0 0 0 2px ${c.reply.ring}` }}>
-                  <img src={c.reply.avatar} alt={c.reply.name} style={{ width: '28px', height: '28px', borderRadius: '50%', objectFit: 'cover', display: 'block' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.reply.name, 28)} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px', flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#f1f5f9' }}>{c.reply.name}</span>
-                    <span style={{ fontSize: '10px', padding: '2px 7px', borderRadius: '99px', background: c.reply.badgeColor, color: '#fff', fontWeight: 600 }}>{c.reply.badge}</span>
-                  </div>
-                  <p style={{ fontSize: '13px', color: '#cbd5e1', lineHeight: 1.7, margin: '0 0 6px' }}>{c.reply.text}</p>
-                  <button style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: '#64748b', background: 'none', border: 'none', cursor: 'pointer' }}>▲ {c.reply.upvotes}</button>
-                </div>
-              </div>
-            </div>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: c.reply ? '12px' : '20px' }}>
+        <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '1.5px solid hsl(var(--border))' }}>
+          {c.avatar ? (
+            <img src={c.avatar} alt={c.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.name, 32)} />
+          ) : (
+            <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg,#c2410c,#16a34a)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#fff' }}>{c.name[0]}</div>
           )}
         </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '13px', fontWeight: 700, color: 'hsl(var(--foreground))' }}>{c.name}</span>
+            <span style={{ fontSize: '11px', color: 'hsl(var(--muted-foreground))' }}>{c.date}</span>
+            {c.answered && <span style={{ fontSize: '10px', color: '#22d3ee', background: 'rgba(34,211,238,0.1)', padding: '1px 6px', borderRadius: '4px' }}>Answered at {c.answered}</span>}
+          </div>
+          <p style={{ fontSize: '13px', color: 'hsl(var(--muted-foreground))', lineHeight: 1.7, margin: '0 0 6px' }}>{c.text}</p>
+          <button style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: 'hsl(var(--muted-foreground))', background: 'none', border: 'none', cursor: 'pointer' }}>▲ {c.upvotes}</button>
+        </div>
       </div>
-      {i < sessionComments.length - 1 && <div style={{ borderTop: '1px solid #1c2e47', marginBottom: '20px' }} />}
+
+      {c.reply && (
+        <div style={{ marginLeft: '42px', marginBottom: '20px' }}>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `1.5px solid ${c.reply.ring}` }}>
+              <img src={c.reply.avatar} alt={c.reply.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.reply.name, 28)} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: 'hsl(var(--foreground))' }}>{c.reply.name}</span>
+                <span style={{ fontSize: '10px', padding: '2px 7px', borderRadius: '99px', background: c.reply.badgeColor, color: '#fff', fontWeight: 600 }}>{c.reply.badge}</span>
+              </div>
+              <p style={{ fontSize: '13px', color: 'hsl(var(--muted-foreground))', lineHeight: 1.7, margin: '0 0 6px' }}>{c.reply.text}</p>
+              <button style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: 'hsl(var(--muted-foreground))', background: 'none', border: 'none', cursor: 'pointer' }}>▲ {c.reply.upvotes}</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {i < sessionComments.length - 1 && <div style={{ borderTop: '1px solid hsl(var(--border))', marginBottom: '20px' }} />}
     </div>
   ))}
 </div>
@@ -1166,7 +1183,7 @@ function WorkshopCard({
         position: 'relative',
         display: 'flex', flexDirection: 'column',
         borderRadius: '12px', overflow: 'hidden', cursor: 'pointer',
-        border: `0.5px solid ${hov ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.1)'}`,
+        border: `1px solid hsl(var(--border))`,
         transition: 'all 0.2s',
         transform: hov ? 'translateY(-2px)' : 'none',
         boxShadow: hov ? '0 8px 32px rgba(0,0,0,0.3)' : 'none',
@@ -1198,16 +1215,16 @@ function WorkshopCard({
         </div>
       </div>
 
-      {/* Bottom — Dark Detail Panel */}
-      <div style={{ background: '#12131f', padding: '14px 16px' }}>
+      {/* Bottom — Detail Panel */}
+      <div style={{ background: 'hsl(var(--card))', padding: '14px 16px' }}>
         <p style={{
-          fontSize: '12px', fontWeight: 500, color: '#fff',
+          fontSize: '12px', fontWeight: 500, color: 'hsl(var(--foreground))',
           fontFamily: 'JetBrains Mono, monospace',
           lineHeight: 1.4, marginBottom: '3px',
         }}>
           {detailTitle}
         </p>
-        <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginBottom: '10px' }}>
+        <p style={{ fontSize: '11px', color: 'hsl(var(--muted-foreground))', marginBottom: '10px' }}>
           {facilitators}
         </p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -1305,7 +1322,7 @@ export default function OfficeHours() {
           className="rounded-xl p-[1.5px]"
           style={{ background: "linear-gradient(135deg, #1a1a1a 0%, #c2410c 15%, #d97706 35%, #ca8a04 50%, #16a34a 68%, #0891b2 85%, #1a1a1a 100%)" }}
         >
-          <div className="rounded-[11px] bg-[#141414] px-5 py-4 flex items-center gap-4">
+          <div className="rounded-[11px] bg-card px-5 py-4 flex items-center gap-4">
             <div className="shrink-0 h-9 w-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
               <Clock className="h-4 w-4 text-muted-foreground" />
             </div>
@@ -1319,7 +1336,7 @@ export default function OfficeHours() {
         </div>
 
         {/* ── SECTION 1 — HERO ── */}
-        <section style={{ position: 'relative', borderRadius: '14px', border: '1px solid #25405f', background: '#0d0d0d' }}>
+        <section style={{ position: 'relative', borderRadius: '14px', border: '1px solid hsl(var(--border))', background: 'hsl(var(--card))' }}>
           <div style={{ height: '4px', background: SPECTRUM_GRADIENT, borderRadius: '14px 14px 0 0' }} />
 
           {/* Edit button */}
@@ -1368,7 +1385,7 @@ export default function OfficeHours() {
             </div>
 
             {/* Hosted by */}
-            <div className="shrink-0 rounded-lg border border-border/30 bg-white/[0.03] p-5 space-y-4" style={{ minWidth: '300px' }}>
+            <div className="shrink-0 rounded-lg border border-border/30 bg-muted/30 p-5 space-y-4" style={{ minWidth: '300px' }}>
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hosted by</p>
               <div className="space-y-4">
                 {hostedByData.map(host => (
