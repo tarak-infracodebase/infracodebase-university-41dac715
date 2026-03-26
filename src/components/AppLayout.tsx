@@ -208,14 +208,16 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
         ))}
       </nav>
 
-      {/* Bottom spacer (collapse button moved to header) */}
+      {/* Referral bar — in normal flow after nav */}
+      <SignedIn>
+        <div className={collapsed ? "hidden" : ""} style={{ padding: "12px 8px" }}>
+          <ReferralModal />
+        </div>
+      </SignedIn>
 
-      {/* Referral + User */}
+      {/* User row */}
       <div style={{ borderTop: "1px solid #1c2e47" }} className="pt-2 pb-2 px-2">
         <SignedIn>
-          <div className={collapsed ? "hidden" : "mb-2"}>
-            <ReferralModal />
-          </div>
           <SidebarUserRow collapsed={collapsed} xp={xp} />
         </SignedIn>
       </div>
