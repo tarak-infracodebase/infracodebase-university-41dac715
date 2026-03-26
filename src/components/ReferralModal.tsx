@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useUser } from "@clerk/clerk-react";
-import { X, ArrowRight, Briefcase, Star, Copy, Check, ChevronUp } from "lucide-react";
+import { X, ArrowRight, Briefcase, Star, Copy, Check, ChevronDown } from "lucide-react";
 
 const REFERRAL_DOMAIN = "https://university.infracodebase.com";
 
@@ -300,82 +300,59 @@ function GlowContainer({ children, animating }: { children: React.ReactNode; ani
   );
 }
 
-/* ── Sidebar collapsed bar ── */
-export function ReferralBar({ collapsed, onClick, isOpen }: { collapsed: boolean; onClick: () => void; isOpen: boolean }) {
-  if (collapsed) return null;
-
+/* ── Navbar pill trigger ── */
+function ReferralPill({ onClick, isOpen }: { onClick: () => void; isOpen: boolean }) {
   return (
     <button
       onClick={onClick}
-      className="w-full text-left transition-colors"
+      className="flex items-center transition-colors hover:opacity-90"
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 8,
-        padding: "14px 16px",
-        borderRadius: 14,
+        gap: 7,
+        padding: "6px 10px 6px 8px",
+        borderRadius: 10,
         background: "#16132e",
         border: "0.5px solid rgba(255,255,255,0.1)",
+        height: 32,
         cursor: "pointer",
       }}
     >
-      {/* Left text */}
-      <div style={{ minWidth: 0 }}>
-        <p
-          style={{
-            fontFamily: "'Sora', sans-serif",
-            fontSize: 13,
-            fontWeight: 700,
-            color: "#fff",
-            lineHeight: 1.3,
-            margin: 0,
-          }}
-        >
-          Grow the University with us
-        </p>
-        <p
-          style={{
-            fontFamily: "'Sora', sans-serif",
-            fontSize: 11,
-            color: "rgba(255,255,255,0.42)",
-            margin: 0,
-            marginTop: 2,
-          }}
-        >
-          250 credits per referral
-        </p>
+      <div
+        className="flex items-center justify-center shrink-0"
+        style={{
+          width: 22,
+          height: 22,
+          borderRadius: 6,
+          background: "rgba(232,97,10,0.15)",
+          border: "0.5px solid rgba(232,97,10,0.28)",
+        }}
+      >
+        <Star className="h-[11px] w-[11px]" style={{ color: "#e8610a" }} />
       </div>
-
-      {/* Right icons */}
-      <div className="flex items-center gap-2 shrink-0">
-        <div
-          className="flex items-center justify-center"
-          style={{
-            width: 30,
-            height: 30,
-            borderRadius: 8,
-            background: "rgba(232,97,10,0.15)",
-            border: "0.5px solid rgba(232,97,10,0.3)",
-          }}
-        >
-          <Star className="h-3.5 w-3.5" style={{ color: "#e8610a" }} />
-        </div>
-        <ChevronUp
-          className="h-4 w-4"
-          style={{
-            color: "rgba(255,255,255,0.35)",
-            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-            transition: "transform 0.22s ease",
-          }}
-        />
-      </div>
+      <span
+        className="whitespace-nowrap hidden sm:inline"
+        style={{
+          fontFamily: "'Sora', sans-serif",
+          fontSize: 11.5,
+          fontWeight: 700,
+          color: "#fff",
+        }}
+      >
+        Grow the University
+      </span>
+      <ChevronDown
+        className="h-3 w-3 shrink-0"
+        style={{
+          color: "rgba(255,255,255,0.35)",
+          transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+          transition: "transform 0.22s ease",
+        }}
+      />
     </button>
   );
 }
 
 /* ── Main modal controller ── */
-export function ReferralModal({ collapsed }: { collapsed: boolean }) {
+export function ReferralModal() {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [animating, setAnimating] = useState(false);
@@ -415,10 +392,7 @@ export function ReferralModal({ collapsed }: { collapsed: boolean }) {
 
   return (
     <>
-      {/* Sidebar bar */}
-      <div style={{ padding: "12px 8px" }}>
-        <ReferralBar collapsed={collapsed} onClick={() => (open ? handleClose() : handleOpen())} isOpen={open} />
-      </div>
+      <ReferralPill onClick={() => (open ? handleClose() : handleOpen())} isOpen={open} />
 
       {/* Modal overlay — portal to body */}
       {open &&
