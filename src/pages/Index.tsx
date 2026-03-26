@@ -347,8 +347,8 @@ const Index = () => {
                   {[
                     { value: "464", label: "active learners this week" },
                     { value: "20+", label: "countries represented", accent: true },
-                    { value: "2.9k", label: "pages explored this week" },
-                    { value: "6m+", label: "avg. time spent per visit" },
+                     { value: "2.9k", label: "pageviews this week" },
+                     { value: "6m 32s", label: "avg. time spent learning" },
                   ].map((stat, i) => (
                     <div key={i} className="flex flex-col" style={{
                       borderLeft: i > 0 ? `1px solid ${t.border}` : "none",
