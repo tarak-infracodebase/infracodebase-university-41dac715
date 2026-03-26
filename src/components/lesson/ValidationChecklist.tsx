@@ -8,6 +8,7 @@ interface ValidationChecklistProps {
   items: string[];
   lessonId: string;
   onAllChecked?: (allChecked: boolean) => void;
+  compact?: boolean;
 }
 
 const ValidationChecklist = ({ items, lessonId, onAllChecked }: ValidationChecklistProps) => {
