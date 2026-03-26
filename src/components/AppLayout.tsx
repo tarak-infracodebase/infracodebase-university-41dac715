@@ -51,8 +51,7 @@ const navGroups = [
   },
 ];
 
-// Flat list for mobile nav
-const allNavItems = navGroups.flatMap(g => g.items);
+// allNavItems removed — mobile drawer uses its own link list
 
 function SidebarGroupLabel({ label, first }: { label: string; first?: boolean }) {
   return (
