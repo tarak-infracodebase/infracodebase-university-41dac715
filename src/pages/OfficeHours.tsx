@@ -681,7 +681,7 @@ function CalendarDropdown() {
     background: 'none',
     border: 'none',
     cursor: 'pointer',
-    color: '#cbd5e1',
+    color: 'hsl(var(--foreground))',
     fontSize: '13px',
     borderRadius: '7px',
     textAlign: 'left' as const,
@@ -968,12 +968,12 @@ function SessionModal({
                   </div>
                 ) : (
                   <>
-                    <div style={{ background: '#0a1628', border: '1px solid #1c2e47', borderRadius: '12px', padding: '60px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', minHeight: '300px' }}>
-                      <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#1c2e47', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Video className="h-6 w-6" style={{ color: '#64748b' }} />
+                    <div style={{ background: 'hsl(var(--muted))', border: '1px solid hsl(var(--border))', borderRadius: '12px', padding: '60px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', minHeight: '300px' }}>
+                      <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'hsl(var(--border))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Video className="h-6 w-6 text-muted-foreground" />
                       </div>
-                      <p style={{ fontSize: '16px', fontWeight: 600, color: '#f1f5f9', margin: 0 }}>Recording coming soon</p>
-                      <p style={{ fontSize: '13px', color: '#64748b', margin: 0, textAlign: 'center', maxWidth: '320px' }}>This session wasn't recorded. Future sessions will be available here within 24 hours.</p>
+                      <p style={{ fontSize: '16px', fontWeight: 600, color: 'hsl(var(--foreground))', margin: 0 }}>Recording coming soon</p>
+                      <p style={{ fontSize: '13px', color: 'hsl(var(--muted-foreground))', margin: 0, textAlign: 'center', maxWidth: '320px' }}>This session wasn't recorded. Future sessions will be available here within 24 hours.</p>
                     </div>
                     <div className="flex gap-3 mt-4">
                       <button onClick={() => setTab("notes")} className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border border-border/50 text-foreground hover:bg-muted/50 transition-colors">
