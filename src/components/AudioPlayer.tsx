@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import { cn } from "@/lib/utils";
 
 interface AudioPlayerProps {
   src: string;
   label?: string;
+  footer?: string;
 }
 
-export function AudioPlayer({ src, label = "Listen to the introduction" }: AudioPlayerProps) {
+export function AudioPlayer({ src, label = "Listen to the introduction", footer }: AudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -73,97 +73,154 @@ export function AudioPlayer({ src, label = "Listen to the introduction" }: Audio
   }, []);
 
   return (
-    <div className="border-t border-b border-white/[0.07] py-4 px-0 my-6">
-      <audio ref={audioRef} src={src} preload="metadata" />
-
-      {/* label */}
-      <p className="text-[9px] uppercase tracking-[0.18em] text-white/30
-                    font-sans mb-3">
-        {label}
-      </p>
-
-      <div className="flex items-center gap-4">
-
-        {/* skip back 15 */}
-        <button
-          onClick={() => skip(-15)}
-          className="text-white/35 hover:text-white/70 transition-colors
-                     flex flex-col items-center gap-0.5"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" strokeWidth="1.6">
-            <path d="M12 5V2L7 7l5 5V9a7 7 0 110 7"/>
-          </svg>
-          <span className="text-[8px] font-sans text-white/25">15</span>
-        </button>
-
-        {/* play / pause */}
-        <button
-          onClick={toggle}
-          className="w-8 h-8 rounded-full border border-white/20
-                     flex items-center justify-center
-                     hover:border-white/40 transition-colors flex-shrink-0"
-        >
-          {playing ? (
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"
-                 className="text-white/80">
-              <rect x="0" y="0" width="3" height="12"/>
-              <rect x="7" y="0" width="3" height="12"/>
-            </svg>
-          ) : (
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"
-                 className="text-white/80 ml-0.5">
-              <polygon points="0,0 10,6 0,12"/>
-            </svg>
-          )}
-        </button>
-
-        {/* skip forward 15 */}
-        <button
-          onClick={() => skip(15)}
-          className="text-white/35 hover:text-white/70 transition-colors
-                     flex flex-col items-center gap-0.5"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" strokeWidth="1.6">
-            <path d="M12 5V2l5 5-5 5V9a7 7 0 100 7"/>
-          </svg>
-          <span className="text-[8px] font-sans text-white/25">15</span>
-        </button>
-
-        {/* progress bar */}
+    <div className="w-full my-6">
+      <div
+        style={{
+          borderRadius: "14px",
+          padding: "1.5px",
+          boxShadow:
+            "0 0 0 1.5px rgba(200,112,64,0.35), 0 0 24px rgba(200,80,30,0.2), 0 8px 24px rgba(0,0,0,0.5)",
+        }}
+      >
         <div
-          className="flex-1 flex items-center gap-2 cursor-pointer group"
-          onClick={seek}
+          style={{
+            borderRadius: "13px",
+            overflow: "hidden",
+            background:
+              "linear-gradient(135deg, #1a0a00 0%, #2d1200 30%, #1a0800 60%, #0d0500 100%)",
+            padding: "18px 22px",
+            position: "relative",
+          }}
         >
-          <span className="text-[10px] font-mono text-white/28 w-8
-                           flex-shrink-0 text-right">
-            {fmt(currentTime)}
-          </span>
-          <div className="flex-1 h-[2px] bg-white/[0.08] rounded-full
-                          relative overflow-hidden">
-            <div
-              className="absolute left-0 top-0 h-full bg-[#c87040]
-                         rounded-full transition-all duration-100"
-              style={{ width: `${progress}%` }}
-            />
+          <audio ref={audioRef} src={src} preload="metadata" />
+
+          {/* Glow top-right */}
+          <div style={{
+            position:"absolute",top:"-40px",right:"-40px",width:"160px",
+            height:"160px",borderRadius:"50%",pointerEvents:"none",
+            background:"radial-gradient(circle, rgba(200,112,64,0.18) 0%, rgba(180,60,20,0.08) 40%, transparent 70%)"
+          }}/>
+          {/* Glow bottom-left */}
+          <div style={{
+            position:"absolute",bottom:"-20px",left:"20px",width:"100px",
+            height:"100px",borderRadius:"50%",pointerEvents:"none",
+            background:"radial-gradient(circle, rgba(150,40,10,0.12) 0%, transparent 70%)"
+          }}/>
+
+          {/* Label */}
+          <p style={{
+            fontFamily:"Georgia,'Times New Roman',serif",
+            fontSize:"13px",fontWeight:700,color:"#f0ece3",
+            letterSpacing:"-0.01em",marginBottom:"14px",
+            lineHeight:1.45,position:"relative"
+          }}>
+            {label}
+          </p>
+
+          {/* Controls row */}
+          <div style={{ display:"flex",alignItems:"center",gap:"14px",position:"relative" }}>
+
+            {/* Skip back 15 */}
+            <button onClick={() => skip(-15)} style={{
+              display:"flex",flexDirection:"column",alignItems:"center",
+              gap:"2px",opacity:.5,background:"none",border:"none",cursor:"pointer"
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                   stroke="rgba(255,255,255,0.9)" strokeWidth="1.6">
+                <path d="M12 5V2L7 7l5 5V9a7 7 0 110 7"/>
+              </svg>
+              <span style={{fontSize:"8px",color:"rgba(255,255,255,0.25)"}}>15</span>
+            </button>
+
+            {/* Play / pause */}
+            <button onClick={toggle} style={{
+              width:"36px",height:"36px",borderRadius:"50%",flexShrink:0,
+              border:"1px solid rgba(200,112,64,0.5)",
+              background:"rgba(200,112,64,0.12)",
+              display:"flex",alignItems:"center",justifyContent:"center",
+              cursor:"pointer"
+            }}>
+              {playing ? (
+                <svg width="10" height="12" viewBox="0 0 10 12" fill="rgba(255,255,255,0.85)">
+                  <rect x="0" y="0" width="3" height="12"/>
+                  <rect x="7" y="0" width="3" height="12"/>
+                </svg>
+              ) : (
+                <svg width="10" height="12" viewBox="0 0 10 12"
+                     fill="rgba(255,255,255,0.85)" style={{marginLeft:"2px"}}>
+                  <polygon points="0,0 10,6 0,12"/>
+                </svg>
+              )}
+            </button>
+
+            {/* Skip forward 15 */}
+            <button onClick={() => skip(15)} style={{
+              display:"flex",flexDirection:"column",alignItems:"center",
+              gap:"2px",opacity:.5,background:"none",border:"none",cursor:"pointer"
+            }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                   stroke="rgba(255,255,255,0.9)" strokeWidth="1.6">
+                <path d="M12 5V2l5 5-5 5V9a7 7 0 100 7"/>
+              </svg>
+              <span style={{fontSize:"8px",color:"rgba(255,255,255,0.25)"}}>15</span>
+            </button>
+
+            {/* Progress bar */}
+            <div onClick={seek} style={{
+              flex:1,display:"flex",alignItems:"center",gap:"10px",cursor:"pointer"
+            }}>
+              <span style={{
+                fontFamily:"'Courier New',monospace",fontSize:"15px",fontWeight:500,
+                color:"rgba(255,255,255,0.55)",flexShrink:0,width:"36px",textAlign:"right"
+              }}>
+                {fmt(currentTime)}
+              </span>
+              <div style={{
+                flex:1,height:"2px",background:"rgba(255,255,255,0.08)",
+                borderRadius:"1px",position:"relative",overflow:"hidden"
+              }}>
+                <div style={{
+                  position:"absolute",left:0,top:0,height:"100%",
+                  width:`${progress}%`,borderRadius:"1px",
+                  background:"linear-gradient(90deg, #c87040, #e8904a)",
+                  transition:"width .1s"
+                }}/>
+              </div>
+              <span style={{
+                fontFamily:"'Courier New',monospace",fontSize:"15px",fontWeight:500,
+                color:"rgba(255,255,255,0.55)",flexShrink:0,width:"36px"
+              }}>
+                {fmt(duration)}
+              </span>
+            </div>
+
+            {/* Speed */}
+            <button onClick={cycleSpeed} style={{
+              fontSize:"10px",color:"rgba(200,112,64,0.7)",
+              border:"0.5px solid rgba(200,112,64,0.3)",borderRadius:"20px",
+              padding:"3px 10px",flexShrink:0,background:"none",cursor:"pointer"
+            }}>
+              {speed}x
+            </button>
+
           </div>
-          <span className="text-[10px] font-mono text-white/28 w-8
-                           flex-shrink-0">
-            {fmt(duration)}
-          </span>
+
+          {/* Footer */}
+          {footer && (
+            <div style={{
+              marginTop:"12px",paddingTop:"12px",
+              borderTop:"0.5px solid rgba(255,255,255,0.07)"
+            }}>
+              <p style={{
+                fontFamily:"Georgia,'Times New Roman',serif",
+                fontSize:"14px",fontWeight:700,color:"#f0ece3",lineHeight:1.3
+              }}>
+                {footer}
+              </p>
+            </div>
+          )}
+
         </div>
-
-        {/* speed */}
-        <button
-          onClick={cycleSpeed}
-          className="text-[10px] font-sans font-medium text-white/35
-                     hover:text-white/70 transition-colors border
-                     border-white/12 rounded-sm px-2 py-0.5 flex-shrink-0"
-        >
-          {speed}x
-        </button>
-
       </div>
     </div>
   );
