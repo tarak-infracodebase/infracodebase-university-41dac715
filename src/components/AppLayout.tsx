@@ -383,7 +383,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           </Link>
         </SignedOut>
       </div>
-      <NotificationModal item={notif.selectedNotification} onClose={notif.closeModal} />
+      <NotificationModal item={notif.selectedNotification} allNotifications={notif.allNotifications} onClose={notif.closeModal} onNavigate={(n) => notif.markRead(n.id)} />
       <main className={cn(
         "transition-all duration-300 min-h-screen",
         "pt-14 lg:pt-0",
