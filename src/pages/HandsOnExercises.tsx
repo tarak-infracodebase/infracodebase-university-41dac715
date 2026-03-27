@@ -108,6 +108,84 @@ const HandsOnExercises = () => {
           </p>
         </div>
 
+        {/* Prerequisite Warning Banner */}
+        <div className="flex items-start justify-between gap-4 rounded-lg border p-4 mb-6"
+             style={{ background: "rgba(232,96,48,0.06)", border: "1px solid rgba(232,96,48,0.2)" }}>
+          <div className="flex items-start gap-3">
+            <span style={{ color: "#e86030", marginTop: "2px", flexShrink: 0 }}>⚠</span>
+            <div>
+              <p className="font-semibold text-sm" style={{ color: "#e86030" }}>
+                Complete the Training paths first
+              </p>
+              <p className="text-sm mt-1" style={{ color: "var(--text-muted)" }}>
+                The hands-on labs build directly on the concepts covered in
+                the Cloud & Infrastructure Training tracks. If you haven't
+                completed them yet, start there first.
+              </p>
+            </div>
+          </div>
+          <Link to="/training"
+                className="text-sm font-medium whitespace-nowrap shrink-0 px-4 py-2 rounded"
+                style={{ background: "#e86030", color: "#ffffff" }}>
+            Go to Training →
+          </Link>
+        </div>
+
+        {/* Before You Start */}
+        <div className="rounded-lg border p-5 mb-6"
+             style={{ borderColor: "var(--border-themed)" }}>
+          <h3 className="font-semibold text-sm mb-3"
+              style={{ fontFamily: "'Fraunces', serif" }}>
+            Before you start
+          </h3>
+          <div className="space-y-3 text-sm" style={{ color: "var(--text-muted)" }}>
+            <div className="flex gap-3">
+              <span className="font-mono text-xs mt-0.5 shrink-0"
+                    style={{ color: "#e86030" }}>01</span>
+              <div>
+                <p className="font-medium" style={{ color: "var(--text-primary)" }}>
+                  What platform do I use?
+                </p>
+                <p className="mt-1">
+                  These labs use Infracodebase to generate and manage
+                  infrastructure. You will need an Infracodebase account.
+                  Your code will deploy to your own cloud provider account
+                  (AWS, Azure, or GCP).
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <span className="font-mono text-xs mt-0.5 shrink-0"
+                    style={{ color: "#e86030" }}>02</span>
+              <div>
+                <p className="font-medium" style={{ color: "var(--text-primary)" }}>
+                  What do I need before starting?
+                </p>
+                <p className="mt-1">
+                  An Infracodebase account, a cloud provider account with
+                  appropriate permissions, and completion of at least the
+                  Introduction training track.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <span className="font-mono text-xs mt-0.5 shrink-0"
+                    style={{ color: "#e86030" }}>03</span>
+              <div>
+                <p className="font-medium" style={{ color: "var(--text-primary)" }}>
+                  How do I write a good prompt in Infracodebase?
+                </p>
+                <p className="mt-1">
+                  Be specific about your cloud provider, region, and
+                  resource names. Include any existing infrastructure
+                  context. The more specific your prompt, the more
+                  accurate the generated Terraform will be.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Featured Track */}
         <Link
           to={`/hands-on/${featuredTrack.id}`}
