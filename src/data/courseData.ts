@@ -1335,7 +1335,7 @@ export const learningPaths: LearningPath[] = [
         id: "review-course",
         title: "Review & Wrap-Up",
         description: "Reflect on the complete learning journey and prepare for the final assessment.",
-        difficulty: "beginner",
+        difficulty: "advanced",
         estimatedTime: "45 min",
         lessons: [
           { id: "track1-review", title: "Review — Understanding Infracodebase", whyThisMatters: "Revisiting the foundations ensures the core principles are solidified before moving forward in your infrastructure career.", coreConcepts: "In the first track, you learned how Infracodebase works and how engineers collaborate with the agent to design and manage infrastructure. You explored how: the agent collaborates with you, workspaces organize infrastructure work, rulesets guide infrastructure generation, workflows structure infrastructure delivery, and code, diagrams, documentation, and history stay connected.\n\nThis track introduced the core principle: Infrastructure knowledge should live in one connected system. Instead of definitions, diagrams, and documentation living in separate tools, they remain synchronized inside the same workspace.", exercise: { title: "Foundation Reflection", description: "Write a brief summary of the core Infracodebase principles you learned." }, artifact: { title: "Foundation Summary", description: "A short summary of key Infracodebase principles." }, validationChecklist: ["Can explain what Infracodebase is", "Understand workspace organization", "Know how the agent collaborates"] },
