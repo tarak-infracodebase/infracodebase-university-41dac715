@@ -197,7 +197,7 @@ const SectionPathMap = ({ t }: { t: ReturnType<typeof useTokens> }) => {
                 </div>
                 <div style={{ ...fontDisplay, fontSize: 17, fontWeight: 700, color: t.heading }}>{card.title}</div>
                 <div className="mt-1" style={{ ...fontMono, fontSize: 10, color: t.accentEmber }}>{card.path}</div>
-                <p className="mt-2" style={{ ...fontMono, fontSize: 14, lineHeight: 1.65, color: t.muted }}>{card.desc}</p>
+                <p className="mt-2" style={{ ...fontMono, fontSize: 12, lineHeight: 1.65, color: t.muted }}>{card.desc}</p>
                 <span className="inline-block mt-3 transition-colors duration-200 group-hover:!color-inherit" style={{ ...fontMono, fontSize: 11, color: t.muted }}>
                   <span className="group-hover:hidden">{card.arrow} →</span>
                   <span className="hidden group-hover:inline" style={{ color: t.accentEmber }}>{card.arrow} →</span>
@@ -226,7 +226,7 @@ const SectionPathMap = ({ t }: { t: ReturnType<typeof useTokens> }) => {
                     <div>
                       <div style={{ ...fontDisplay, fontSize: 15, fontWeight: 700, color: t.heading }}>{card.title}</div>
                       <div className="mt-1" style={{ ...fontMono, fontSize: 10, color: t.accentEmber }}>{card.path}</div>
-                      <p className="mt-2" style={{ ...fontMono, fontSize: 14, lineHeight: 1.65, color: t.muted }}>{card.desc}</p>
+                      <p className="mt-2" style={{ ...fontMono, fontSize: 12, lineHeight: 1.65, color: t.muted }}>{card.desc}</p>
                       <span className="inline-block mt-3" style={{ ...fontMono, fontSize: 11, color: t.muted }}>
                         <span className="group-hover:hidden">{card.arrow} →</span>
                         <span className="hidden group-hover:inline" style={{ color: t.accentEmber }}>{card.arrow} →</span>
@@ -307,7 +307,7 @@ const Index = () => {
 
             {/* subtitle */}
             <p data-reveal className="mx-auto mt-8 max-w-2xl" style={{ ...fontMono, fontSize: 14, lineHeight: 1.7, color: t.muted, animationDelay: "0.2s" }}>
-              A structured learning program for cloud engineers. Learn to design, build, and govern infrastructure as code using Infracodebase — through a progressive curriculum built for real systems.
+              A structured learning program for cloud engineers. Design, build, document, and govern infrastructure as code — through a progressive curriculum built for real systems.
             </p>
 
             {/* CTAs */}
@@ -332,7 +332,7 @@ const Index = () => {
                   Trusted by engineers across{" "}
                   <em className="font-light" style={{ color: t.accentEmber }}>20+ countries.</em>
                 </h2>
-                <p className="mt-3" style={{ ...fontMono, fontSize: 14, lineHeight: 1.65, color: t.muted }}>
+                <p className="mt-3" style={{ ...fontMono, fontSize: 12, lineHeight: 1.65, color: t.muted }}>
                   From San Francisco to Japan, engineers are building real infrastructure skills through structured, hands-on training.
                 </p>
               </div>
@@ -374,7 +374,7 @@ const Index = () => {
 
                 {/* Top communities */}
                 <div>
-                  <span style={{ ...fontMono, fontSize: 10, color: t.heading, fontWeight: 700, letterSpacing: "0.05em" }}>Top communities</span>
+                  <span style={{ ...fontMono, fontSize: 10, color: "#f0ece3", fontWeight: 700, letterSpacing: "0.05em" }}>Top communities</span>
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {["United States", "Australia", "France", "India", "Kenya", "United Kingdom", "Brazil", "Canada", "Japan"].map(c => (
                       <span key={c} className="inline-block" style={{
@@ -383,7 +383,7 @@ const Index = () => {
                         padding: "3px 8px",
                         borderRadius: 3,
                         border: `1px solid ${t.cardBorder}`,
-                        color: t.heading,
+                        color: "#f0ece3",
                         background: t.bg,
                       }}>{c}</span>
                     ))}
@@ -441,7 +441,7 @@ const Index = () => {
                 <div className="h-1 w-full rounded-full mb-4" style={{ background: tr.accent }} />
                 <div style={{ ...fontMono, fontSize: 10, letterSpacing: "0.1em", color: t.muted }}>{tr.label}</div>
                 <div className="mt-1.5 font-semibold text-sm" style={{ ...fontDisplay, color: t.heading }}>{tr.title}</div>
-                <p className="mt-2" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.6 }}>{tr.desc}</p>
+                <p className="mt-2" style={{ ...fontMono, fontSize: 12, color: t.muted, lineHeight: 1.6 }}>{tr.desc}</p>
                 <span className="inline-block mt-3 text-[10px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${levelColor(tr.level)}22`, color: levelColor(tr.level) }}>{tr.level}</span>
               </Link>
             ))}
@@ -491,9 +491,6 @@ const Index = () => {
           <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: t.heading }}>
             Start fresh or work <em className="font-light" style={{ color: t.accentPrism }}>with what you have.</em>
           </h2>
-          <p data-reveal className="mt-3 mb-8 max-w-2xl" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.7 }}>
-            Infracodebase generates and manages your Terraform. You bring your cloud provider account — AWS, Azure, or GCP. Together, they replace manual infrastructure work with structured, code-driven engineering.
-          </p>
 
           {useCaseGroups.map((g, gi) => (
             <div key={gi} className="mt-12">
@@ -508,7 +505,7 @@ const Index = () => {
                       <span className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ background: g.accent }} />
                       <div>
                         <div className="font-semibold text-sm" style={{ ...fontDisplay, color: t.heading }}>{item.title}</div>
-                        <p className="mt-1" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.6 }}>{item.desc}</p>
+                        <p className="mt-1" style={{ ...fontMono, fontSize: 12, color: t.muted, lineHeight: 1.6 }}>{item.desc}</p>
                       </div>
                     </div>
                   </div>
@@ -537,7 +534,7 @@ const Index = () => {
                   <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${t.accentEmber}22`, color: t.accentEmber }}>{communityCards.tall.badge}</span>
                   <div className="mt-4" style={{ ...fontMono, fontSize: 10, letterSpacing: "0.15em", color: t.muted }}>{communityCards.tall.eyebrow}</div>
                   <div className="mt-2 text-lg font-semibold leading-snug" style={{ ...fontDisplay, color: t.heading }}>{communityCards.tall.title}</div>
-                  <p className="mt-3" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.6 }}>{communityCards.tall.desc}</p>
+                  <p className="mt-3" style={{ ...fontMono, fontSize: 12, color: t.muted, lineHeight: 1.6 }}>{communityCards.tall.desc}</p>
                 </div>
                 <div>
                   <p className="mb-4" style={{ ...fontMono, fontSize: 12, color: t.muted }}>{communityCards.tall.meta}</p>

@@ -1,40 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { SignedOut } from "@clerk/clerk-react";
-import { LogIn, Home, FileText, Compass, Hammer, Play, Radio, Calendar, LayoutDashboard, MessageSquare, User, FolderOpen } from "lucide-react";
+import { LogIn } from "lucide-react";
 
-const sections = [
-  {
-    label: "DISCOVER",
-    items: [
-      { title: "Home", path: "/", icon: Home },
-      { title: "Manifesto", path: "/manifesto", icon: FileText },
-    ],
-  },
-  {
-    label: "LEARN",
-    items: [
-      { title: "Training", path: "/training", icon: Compass },
-      { title: "Hands-On Training", path: "/hands-on", icon: Hammer },
-      { title: "Video Library", path: "/videos", icon: Play },
-    ],
-  },
-  {
-    label: "LIVE",
-    items: [
-      { title: "Workshops", path: "/workshops", icon: Radio },
-      { title: "Events", path: "/events", icon: Calendar },
-    ],
-  },
-  {
-    label: "ME",
-    items: [
-      { title: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-      { title: "Feedback", path: "/feedback", icon: MessageSquare },
-      { title: "Profile", path: "/profile", icon: User },
-      { title: "Resources", path: "/resources", icon: FolderOpen },
-    ],
-  },
+const quickAccess = [
+  { title: "Training", path: "/training" },
+  { title: "Curriculum", path: "/curriculum" },
+  { title: "Hands-On Labs", path: "/hands-on" },
+];
+
+const explore = [
+  { title: "Workshops", path: "/workshops" },
+  { title: "Manifesto", path: "/manifesto" },
+  { title: "Video Library", path: "/videos" },
+  { title: "Events & Lectures", path: "/events" },
 ];
 
 const fontDisplay: React.CSSProperties = { fontFamily: "'Fraunces', serif" };
@@ -76,22 +55,20 @@ function HamburgerButton({ open, onClick }: { open: boolean; onClick: () => void
 interface NavRowProps {
   title: string;
   path: string;
-  icon: React.ComponentType<{ style?: React.CSSProperties; className?: string }>;
   onNavigate: (path: string) => void;
 }
 
-function NavRow({ title, path, icon: Icon, onNavigate }: NavRowProps) {
+function NavRow({ title, path, onNavigate }: NavRowProps) {
   return (
     <button
       onClick={() => onNavigate(path)}
-      className="w-full flex items-center gap-3 active:bg-white/[0.03] transition-colors"
+      className="w-full flex items-center justify-between active:bg-white/[0.03] transition-colors"
       style={{
         padding: "10px 18px",
         borderBottom: "1px solid rgba(255,255,255,0.07)",
       }}
     >
-      <Icon style={{ width: 16, height: 16, color: "rgba(255,255,255,0.35)", flexShrink: 0 }} />
-      <div className="text-left flex-1">
+      <div className="text-left">
         <div style={{ ...fontDisplay, fontSize: 15, fontWeight: 700, color: "var(--text-primary, #f8fafc)" }}>
           {title}
         </div>
@@ -137,27 +114,43 @@ export function MobileDrawer() {
             borderBottom: open ? "1px solid rgba(255,255,255,0.07)" : "none",
           }}
         >
-          {sections.map((section, idx) => (
-            <div key={section.label}>
-              <div style={{
-                ...fontMono,
-                fontSize: 9,
-                fontWeight: 700,
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-                color: "rgba(255,255,255,0.22)",
-                padding: "14px 18px 6px",
-              }}>
-                {section.label}
-              </div>
-              {section.items.map(item => (
-                <NavRow key={item.path} title={item.title} path={item.path} icon={item.icon} onNavigate={handleNavigate} />
-              ))}
-              {idx < sections.length - 1 && (
-                <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "0 18px" }} />
-              )}
-            </div>
+          {/* QUICK ACCESS */}
+          <div style={{
+            ...fontMono,
+            fontSize: 9,
+            fontWeight: 700,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.22)",
+            padding: "14px 18px 6px",
+          }}>
+            QUICK ACCESS
+          </div>
+          {quickAccess.map(item => (
+            <NavRow key={item.path} title={item.title} path={item.path} onNavigate={handleNavigate} />
           ))}
+
+          {/* Divider */}
+          <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "0 18px" }} />
+
+          {/* EXPLORE */}
+          <div style={{
+            ...fontMono,
+            fontSize: 9,
+            fontWeight: 700,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.22)",
+            padding: "14px 18px 6px",
+          }}>
+            EXPLORE
+          </div>
+          {explore.map(item => (
+            <NavRow key={item.path} title={item.title} path={item.path} onNavigate={handleNavigate} />
+          ))}
+
+          {/* Divider */}
+          <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "0 18px" }} />
 
           {/* Sign in button (signed out only) */}
           <SignedOut>
