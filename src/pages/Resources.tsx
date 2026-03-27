@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AppLayout } from "@/components/AppLayout";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface EcosystemItem {
   id: string;
@@ -103,27 +104,29 @@ const items: EcosystemItem[] = [
 
 export default function Resources() {
   const [active, setActive] = useState<EcosystemItem | null>(null);
+  const { theme } = useTheme();
+  const dark = theme === "dark";
 
   return (
     <AppLayout>
-      <div style={{ background: "#090907", padding: "36px 32px", minHeight: "100vh" }}>
+      <div style={{ background: dark ? "#090907" : "#ffffff", padding: "36px 32px", minHeight: "100vh" }}>
 
         <p style={{
           fontFamily: "'Courier New', monospace", fontSize: 10,
           letterSpacing: "0.2em", textTransform: "uppercase",
-          color: "rgba(255,255,255,0.22)", marginBottom: 6
+          color: dark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.35)", marginBottom: 6
         }}>
           The ecosystem
         </p>
         <h1 style={{
           fontFamily: "Georgia, 'Times New Roman', serif",
-          fontSize: 28, fontWeight: 700, color: "#f0ece3", marginBottom: 4
+          fontSize: 28, fontWeight: 700, color: dark ? "#f0ece3" : "#0f172a", marginBottom: 4
         }}>
           YOUR ecosystem.
         </h1>
         <p style={{
           fontFamily: "'Courier New', monospace", fontSize: 12,
-          color: "rgba(255,255,255,0.3)", marginBottom: 24
+          color: dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.45)", marginBottom: 24
         }}>
           Every part of Infracodebase — click any card to explore
         </p>
@@ -140,8 +143,8 @@ export default function Resources() {
                 borderRadius: 10,
                 overflow: "hidden",
                 cursor: "pointer",
-                background: "#0d0f11",
-                border: "0.5px solid rgba(255,255,255,0.07)",
+                background: dark ? "#0d0f11" : "#f8f9fa",
+                border: `0.5px solid ${dark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.08)"}`,
                 transition: "transform 0.15s",
               }}
             >
@@ -178,12 +181,12 @@ export default function Resources() {
                 justifyContent: "space-between", gap: 8
               }}>
                 <div>
-                  <div style={{ fontSize: 12, fontWeight: 500, color: "#f0ece3", lineHeight: 1.2 }}>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: dark ? "#f0ece3" : "#0f172a", lineHeight: 1.2 }}>
                     {item.name}
                   </div>
                   <div style={{
                     fontSize: 10, fontFamily: "'Courier New', monospace",
-                    color: "rgba(255,255,255,0.28)", marginTop: 1
+                    color: dark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.4)", marginTop: 1
                   }}>
                     {item.url}
                   </div>
@@ -216,7 +219,7 @@ export default function Resources() {
           onClick={(e) => { if (e.target === e.currentTarget) setActive(null); }}
           style={{
             position: "fixed", inset: 0,
-            background: "rgba(0,0,0,0.9)",
+            background: dark ? "rgba(0,0,0,0.9)" : "rgba(0,0,0,0.7)",
             display: "flex", alignItems: "center", justifyContent: "center",
             zIndex: 100, padding: 32
           }}
@@ -228,9 +231,9 @@ export default function Resources() {
             animation: "glowSpin 4s linear infinite",
             width: "min(640px, 90vw)"
           }}>
-            <div style={{ background: "#0d0d11", borderRadius: 18, overflow: "hidden" }}>
+            <div style={{ background: dark ? "#0d0d11" : "#ffffff", borderRadius: 18, overflow: "hidden" }}>
 
-              <div style={{ position: "relative", height: 340, overflow: "hidden", background: "#0d0d11" }}>
+              <div style={{ position: "relative", height: 340, overflow: "hidden", background: dark ? "#0d0d11" : "#ffffff" }}>
                 <img
                   src={active.img}
                   alt={active.name}
@@ -244,8 +247,9 @@ export default function Resources() {
                   style={{
                     position: "absolute", top: 12, right: 12, zIndex: 10,
                     width: 26, height: 26, borderRadius: "50%",
-                    background: "rgba(0,0,0,0.6)", color: "rgba(255,255,255,0.7)",
-                    border: "0.5px solid rgba(255,255,255,0.2)",
+                    background: dark ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.9)",
+                    color: dark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)",
+                    border: `0.5px solid ${dark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)"}`,
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: 12, cursor: "pointer"
                   }}
@@ -258,13 +262,13 @@ export default function Resources() {
                 <p style={{
                   fontFamily: "'Courier New', monospace", fontSize: 9,
                   letterSpacing: "0.18em", textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.3)", marginBottom: 5
+                  color: dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.4)", marginBottom: 5
                 }}>
                   {active.cat}
                 </p>
                 <h2 style={{
                   fontFamily: "Georgia, serif", fontSize: 20,
-                  fontWeight: 700, color: "#f0ece3", marginBottom: 4
+                  fontWeight: 700, color: dark ? "#f0ece3" : "#0f172a", marginBottom: 4
                 }}>
                   {active.name}
                 </h2>
@@ -276,7 +280,7 @@ export default function Resources() {
                 </p>
                 <p style={{
                   fontFamily: "'Courier New', monospace", fontSize: 12,
-                  color: "rgba(255,255,255,0.42)", lineHeight: 1.75, marginBottom: 16
+                  color: dark ? "rgba(255,255,255,0.42)" : "rgba(0,0,0,0.55)", lineHeight: 1.75, marginBottom: 16
                 }}>
                   {active.desc}
                 </p>
