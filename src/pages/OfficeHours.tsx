@@ -791,6 +791,38 @@ function NotesEditor({
 
   const btnCls = "p-1.5 rounded hover:bg-white/10 text-muted-foreground hover:text-foreground transition-colors";
 
+  if (readOnly) {
+    return (
+      <div>
+        <style>{`
+          .notes-readonly h2 { color:hsl(var(--foreground)); font-size:16px; font-weight:800; border-bottom:1px solid hsl(var(--border)); padding-bottom:6px; margin:20px 0 8px; }
+          .notes-readonly h3 { color:hsl(var(--foreground)); font-size:14px; font-weight:700; margin:16px 0 6px; }
+          .notes-readonly p { color:hsl(var(--muted-foreground)); margin:4px 0; line-height:1.8; }
+          .notes-readonly ul { margin:4px 0 4px 16px; }
+          .notes-readonly li { color:hsl(var(--muted-foreground)); margin:2px 0; }
+          .notes-readonly hr { border:none; border-top:1px solid hsl(var(--border)); margin:12px 0; }
+          .notes-readonly strong { color:hsl(var(--foreground)); font-weight:700; }
+        `}</style>
+        <div className="relative">
+          <span className="absolute top-3 right-3 text-[10px] font-mono text-muted-foreground/40 uppercase tracking-wider">Read only</span>
+          <div
+            className="notes-readonly border border-border/50 rounded-lg p-4 min-h-[300px] text-sm bg-card"
+            dangerouslySetInnerHTML={{ __html: initialHTML }}
+          />
+        </div>
+        <div className="flex items-center justify-between mt-3">
+          <p className="text-xs text-muted-foreground">These notes are maintained by the workshop hosts.</p>
+          <button
+            onClick={handleDownloadNotes}
+            className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border border-border/50 text-foreground hover:bg-muted/50 transition-colors"
+          >
+            <Download className="h-4 w-4" /> Download notes (.md)
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <style>{`
