@@ -240,11 +240,11 @@ export function MobileNav({ notifications: notif }: { notifications?: ReturnType
           <span className="font-normal">University</span>
         </span>
       </Link>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <SignedIn><ReferralModal /></SignedIn>
         <XpPill />
         <ThemeToggleButton />
-        {notif && <NotificationBell {...notif} />}
+        {notif && <div className="relative z-10"><NotificationBell {...notif} /></div>}
         <SignedIn>
           <UserButton
             afterSignOutUrl="/"
@@ -345,11 +345,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       </div>
       <MobileNav notifications={notif} />
       {/* Desktop User Button / Sign In */}
-      <div className="hidden lg:flex items-center gap-2 fixed top-4 right-6 z-50">
+      <div className="hidden lg:flex items-center gap-3 fixed top-4 right-6 z-50">
         <SignedIn><ReferralModal /></SignedIn>
         <XpPill />
         <ThemeToggleButton />
-        <NotificationBell {...notif} />
+        <div className="relative z-10"><NotificationBell {...notif} /></div>
         <SignedIn>
           <UserButton
             afterSignOutUrl="/"
