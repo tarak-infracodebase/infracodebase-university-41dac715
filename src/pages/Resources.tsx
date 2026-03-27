@@ -114,7 +114,7 @@ export default function Resources() {
         <p style={{
           fontFamily: "'Courier New', monospace", fontSize: 10,
           letterSpacing: "0.2em", textTransform: "uppercase",
-          color: dark ? "rgba(255,255,255,0.22)" : "rgba(0,0,0,0.35)", marginBottom: 6
+          color: dark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.35)", marginBottom: 6
         }}>
           The ecosystem
         </p>
@@ -126,7 +126,7 @@ export default function Resources() {
         </h1>
         <p style={{
           fontFamily: "'Courier New', monospace", fontSize: 12,
-          color: dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.45)", marginBottom: 24
+          color: dark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.45)", marginBottom: 24
         }}>
           Every part of Infracodebase — click any card to explore
         </p>
@@ -186,16 +186,16 @@ export default function Resources() {
                   </div>
                   <div style={{
                     fontSize: 10, fontFamily: "'Courier New', monospace",
-                    color: dark ? "rgba(255,255,255,0.28)" : "rgba(0,0,0,0.4)", marginTop: 1
+                    color: dark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)", marginTop: 1
                   }}>
                     {item.url}
                   </div>
                 </div>
                 <div style={{
-                  fontSize: 9, fontFamily: "'Courier New', monospace",
+                  fontSize: 10, fontFamily: "'Courier New', monospace",
                   letterSpacing: "0.1em", textTransform: "uppercase",
-                  padding: "2px 7px", borderRadius: 3, flexShrink: 0,
-                  fontWeight: 500,
+                  padding: "2px 8px", borderRadius: 3, flexShrink: 0,
+                  fontWeight: 700,
                   background: `${item.accent}18`,
                   color: item.accent
                 }}>
