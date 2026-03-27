@@ -75,6 +75,7 @@ const Dashboard = () => {
   const xpToNext = Math.max(0, (currentLevel * 500) - totalXP);
   const currentTrack = tracks.find(p => trackProgress[p.id]?.status === "in_progress");
   const allCurrentLessons = currentTrack?.courses.flatMap(c => c.lessons) || [];
+  const currentTrackLessons = allCurrentLessons.length;
   const completedLessons = Math.min(trackProgress[currentTrack?.id || ""]?.completed || 0, currentTrackLessons);
   const nextLesson = allCurrentLessons[completedLessons];
   const progressPct = currentTrackLessons > 0 ? Math.min(100, Math.round((completedLessons / currentTrackLessons) * 100)) : 0;
