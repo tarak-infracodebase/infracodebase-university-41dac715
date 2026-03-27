@@ -754,9 +754,9 @@ function CalendarDropdown() {
 
 /* ── Rich Text Editor ── */
 function NotesEditor({
-  initialHTML, onDownload,
+  initialHTML, onDownload, readOnly = false,
 }: {
-  initialHTML: string; onDownload: (text: string) => void;
+  initialHTML: string; onDownload: (text: string) => void; readOnly?: boolean;
 }) {
   const editorRef = useRef<HTMLDivElement>(null);
   const [saved, setSaved] = useState(false);
