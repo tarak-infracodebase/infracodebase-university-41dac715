@@ -886,6 +886,9 @@ function SessionModal({
   open: boolean; onClose: () => void; screenshots: { src: string; caption: string }[]; isTarak: boolean;
   title: string; subtitle: string; sessionComments: any[]; notesHTML: string; notesMD: string; downloadFilename: string; youtubeEmbedUrl?: string;
 }) {
+  const { user } = useUser();
+  const isAdmin = (user?.publicMetadata as Record<string, unknown>)?.role === "admin";
+  const canEditNotes = isAdmin;
   const [tab, setTab] = useState<"recording" | "screenshots" | "notes">("recording");
   const [screenshotIdx, setScreenshotIdx] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
