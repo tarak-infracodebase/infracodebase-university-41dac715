@@ -646,8 +646,8 @@ function CalendarDropdown() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const googleUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Infracodebase+University+%E2%80%94+Office+Hours&dates=20260325T160000Z/20260325T170000Z&details=Weekly+live+Q%26A+with+Justin+and+Tarak&recur=RRULE:FREQ%3DWEEKLY;BYDAY%3DWE";
-  const outlookUrl = "https://outlook.live.com/calendar/0/deeplink/compose?subject=Infracodebase+University+%E2%80%94+Office+Hours&startdt=2026-03-25T16:00:00Z&enddt=2026-03-25T17:00:00Z&body=Weekly+live+Q%26A+with+Justin+and+Tarak&allday=false";
+  const googleUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Shifting+Left+%E2%80%94+Building+a+Secure+AWS+Baseline&dates=20260401T160000Z/20260401T170000Z&details=Live+workshop+by+Infracodebase+University&location=https://university.infracodebase.com/workshops&recur=RRULE:FREQ%3DWEEKLY;BYDAY%3DWE";
+  const outlookUrl = "https://outlook.live.com/calendar/0/deeplink/compose?subject=Shifting+Left+%E2%80%94+Building+a+Secure+AWS+Baseline&startdt=2026-04-01T16:00:00Z&enddt=2026-04-01T17:00:00Z&body=Live+workshop+by+Infracodebase+University&allday=false";
 
   const handleICS = () => {
     const ics = [
@@ -655,10 +655,10 @@ function CalendarDropdown() {
       'VERSION:2.0',
       'PRODID:-//Infracodebase University//EN',
       'BEGIN:VEVENT',
-      'DTSTART:20260325T160000Z',
-      'DTEND:20260325T170000Z',
-      'SUMMARY:Infracodebase University — Workshops',
-      'DESCRIPTION:Weekly live Q&A with Justin and Tarak.',
+      'DTSTART:20260401T160000Z',
+      'DTEND:20260401T170000Z',
+      'SUMMARY:Shifting Left — Building a Secure AWS Baseline',
+      'DESCRIPTION:Live workshop by Infracodebase University.',
       'LOCATION:Online',
       'RRULE:FREQ=WEEKLY;BYDAY=WE',
       'END:VEVENT',

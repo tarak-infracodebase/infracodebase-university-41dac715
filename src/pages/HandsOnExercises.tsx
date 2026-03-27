@@ -64,7 +64,7 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
           {track.level}
         </span>
       </div>
-      <h3 className="font-bold text-base mb-2" style={{ color: '#f8fafc' }}>{track.title}</h3>
+      <h3 className="font-bold text-base mb-2" style={{ color: 'var(--text-primary)' }}>{track.title}</h3>
       <p className="text-xs leading-relaxed mb-4 line-clamp-2" style={{ color: '#94a3b8' }}>
         {track.description}
       </p>
