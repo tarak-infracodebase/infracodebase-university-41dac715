@@ -114,7 +114,7 @@ export default function Resources() {
         <p style={{
           fontFamily: "'Courier New', monospace", fontSize: 10,
           letterSpacing: "0.2em", textTransform: "uppercase",
-          color: dark ? "rgba(255,255,255,0.55)" : "rgba(0,0,0,0.35)", marginBottom: 6
+          color: dark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.35)", marginBottom: 6
         }}>
           The ecosystem
         </p>
@@ -126,7 +126,7 @@ export default function Resources() {
         </h1>
         <p style={{
           fontFamily: "'Courier New', monospace", fontSize: 12,
-          color: dark ? "rgba(255,255,255,0.6)" : "rgba(0,0,0,0.45)", marginBottom: 24
+          color: dark ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.45)", marginBottom: 24
         }}>
           Every part of Infracodebase — click any card to explore
         </p>
@@ -181,12 +181,12 @@ export default function Resources() {
                 justifyContent: "space-between", gap: 8
               }}>
                 <div>
-                  <div style={{ fontSize: 12, fontWeight: 500, color: dark ? "#f0ece3" : "#0f172a", lineHeight: 1.2 }}>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: dark ? "#ffffff" : "#0f172a", lineHeight: 1.2 }}>
                     {item.name}
                   </div>
                   <div style={{
                     fontSize: 10, fontFamily: "'Courier New', monospace",
-                    color: dark ? "rgba(255,255,255,0.5)" : "rgba(0,0,0,0.4)", marginTop: 1
+                    color: dark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.4)", marginTop: 1
                   }}>
                     {item.url}
                   </div>
