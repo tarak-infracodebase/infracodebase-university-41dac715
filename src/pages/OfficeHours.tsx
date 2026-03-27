@@ -1170,6 +1170,7 @@ function SessionModal({
             {tab === "notes" && (
               <NotesEditor
                 initialHTML={notesHTML}
+                readOnly={!canEditNotes}
                 onDownload={() => {
                   const blob = new Blob([notesMD], { type: "text/markdown" });
                   const url = URL.createObjectURL(blob);
