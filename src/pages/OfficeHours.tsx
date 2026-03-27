@@ -646,8 +646,8 @@ function CalendarDropdown() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const googleUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Infracodebase+University+%E2%80%94+Office+Hours&dates=20260325T160000Z/20260325T170000Z&details=Weekly+live+Q%26A+with+Justin+and+Tarak&recur=RRULE:FREQ%3DWEEKLY;BYDAY%3DWE";
-  const outlookUrl = "https://outlook.live.com/calendar/0/deeplink/compose?subject=Infracodebase+University+%E2%80%94+Office+Hours&startdt=2026-03-25T16:00:00Z&enddt=2026-03-25T17:00:00Z&body=Weekly+live+Q%26A+with+Justin+and+Tarak&allday=false";
+  const googleUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Shifting+Left+%E2%80%94+Building+a+Secure+AWS+Baseline&dates=20260401T160000Z/20260401T170000Z&details=Live+workshop+by+Infracodebase+University&location=https://university.infracodebase.com/workshops&recur=RRULE:FREQ%3DWEEKLY;BYDAY%3DWE";
+  const outlookUrl = "https://outlook.live.com/calendar/0/deeplink/compose?subject=Shifting+Left+%E2%80%94+Building+a+Secure+AWS+Baseline&startdt=2026-04-01T16:00:00Z&enddt=2026-04-01T17:00:00Z&body=Live+workshop+by+Infracodebase+University&allday=false";
 
   const handleICS = () => {
     const ics = [
@@ -655,10 +655,10 @@ function CalendarDropdown() {
       'VERSION:2.0',
       'PRODID:-//Infracodebase University//EN',
       'BEGIN:VEVENT',
-      'DTSTART:20260325T160000Z',
-      'DTEND:20260325T170000Z',
-      'SUMMARY:Infracodebase University — Workshops',
-      'DESCRIPTION:Weekly live Q&A with Justin and Tarak.',
+      'DTSTART:20260401T160000Z',
+      'DTEND:20260401T170000Z',
+      'SUMMARY:Shifting Left — Building a Secure AWS Baseline',
+      'DESCRIPTION:Live workshop by Infracodebase University.',
       'LOCATION:Online',
       'RRULE:FREQ=WEEKLY;BYDAY=WE',
       'END:VEVENT',
@@ -754,9 +754,9 @@ function CalendarDropdown() {
 
 /* ── Rich Text Editor ── */
 function NotesEditor({
-  initialHTML, onDownload,
+  initialHTML, onDownload, readOnly = false,
 }: {
-  initialHTML: string; onDownload: (text: string) => void;
+  initialHTML: string; onDownload: (text: string) => void; readOnly?: boolean;
 }) {
   const editorRef = useRef<HTMLDivElement>(null);
   const [saved, setSaved] = useState(false);
@@ -790,6 +790,38 @@ function NotesEditor({
   };
 
   const btnCls = "p-1.5 rounded hover:bg-white/10 text-muted-foreground hover:text-foreground transition-colors";
+
+  if (readOnly) {
+    return (
+      <div>
+        <style>{`
+          .notes-readonly h2 { color:hsl(var(--foreground)); font-size:16px; font-weight:800; border-bottom:1px solid hsl(var(--border)); padding-bottom:6px; margin:20px 0 8px; }
+          .notes-readonly h3 { color:hsl(var(--foreground)); font-size:14px; font-weight:700; margin:16px 0 6px; }
+          .notes-readonly p { color:hsl(var(--muted-foreground)); margin:4px 0; line-height:1.8; }
+          .notes-readonly ul { margin:4px 0 4px 16px; }
+          .notes-readonly li { color:hsl(var(--muted-foreground)); margin:2px 0; }
+          .notes-readonly hr { border:none; border-top:1px solid hsl(var(--border)); margin:12px 0; }
+          .notes-readonly strong { color:hsl(var(--foreground)); font-weight:700; }
+        `}</style>
+        <div className="relative">
+          <span className="absolute top-3 right-3 text-[10px] font-mono text-muted-foreground/40 uppercase tracking-wider">Read only</span>
+          <div
+            className="notes-readonly border border-border/50 rounded-lg p-4 min-h-[300px] text-sm bg-card"
+            dangerouslySetInnerHTML={{ __html: initialHTML }}
+          />
+        </div>
+        <div className="flex items-center justify-between mt-3">
+          <p className="text-xs text-muted-foreground">These notes are maintained by the workshop hosts.</p>
+          <button
+            onClick={handleDownloadNotes}
+            className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium border border-border/50 text-foreground hover:bg-muted/50 transition-colors"
+          >
+            <Download className="h-4 w-4" /> Download notes (.md)
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -854,6 +886,9 @@ function SessionModal({
   open: boolean; onClose: () => void; screenshots: { src: string; caption: string }[]; isTarak: boolean;
   title: string; subtitle: string; sessionComments: any[]; notesHTML: string; notesMD: string; downloadFilename: string; youtubeEmbedUrl?: string;
 }) {
+  const { user } = useUser();
+  const isAdmin = (user?.publicMetadata as Record<string, unknown>)?.role === "admin";
+  const canEditNotes = isAdmin;
   const [tab, setTab] = useState<"recording" | "screenshots" | "notes">("recording");
   const [screenshotIdx, setScreenshotIdx] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -1138,6 +1173,7 @@ function SessionModal({
             {tab === "notes" && (
               <NotesEditor
                 initialHTML={notesHTML}
+                readOnly={!canEditNotes}
                 onDownload={() => {
                   const blob = new Blob([notesMD], { type: "text/markdown" });
                   const url = URL.createObjectURL(blob);

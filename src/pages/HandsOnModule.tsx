@@ -209,8 +209,11 @@ const HandsOnModulePage = () => {
                       const raw = localStorage.getItem("icbu_track_progress");
                       const progress = raw ? JSON.parse(raw) : {};
                       const key = trackId || "";
-                      const current = progress[key] || { completed: 0, status: "in_progress" };
-                      progress[key] = { completed: current.completed + 1, status: "in_progress" };
+                      const current = progress[key] || { completed: 0, completedLessons: [], status: "in_progress" };
+                      const completedSet = new Set<string>(current.completedLessons || []);
+                      completedSet.add(moduleId || "");
+                      const totalModules = track.modules.length;
+                      progress[key] = { completed: Math.min(completedSet.size, totalModules), completedLessons: Array.from(completedSet), status: "in_progress" };
                       localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
                     } catch {}
                     window.scrollTo(0, 0);
