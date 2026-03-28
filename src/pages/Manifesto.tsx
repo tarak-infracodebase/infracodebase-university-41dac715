@@ -146,6 +146,7 @@ const Manifesto = () => {
         </Link>
       </section>
     </div>
+    </>
   );
 };
 
