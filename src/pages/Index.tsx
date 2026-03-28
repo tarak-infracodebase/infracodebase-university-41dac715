@@ -511,21 +511,40 @@ const Index = () => {
           <div className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
             <span data-reveal className={sectionLabel} style={{ ...fontMono, color: t.muted }}>WHO IT'S FOR</span>
             <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: t.heading }}>
-              Built for <em className="font-light" style={{ color: t.accentAurora }}>builders.</em>
+              Start where you{" "}
+              <em className="font-light" style={{ color: t.accentEmber }}>actually are.</em>
             </h2>
             <p data-reveal className="mt-3 max-w-xl" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.7 }}>
-              Whether you're just starting or running large-scale systems — there's a path for you.
+              You don't need a title to start. You just need to be ready to learn.
             </p>
-            <div data-reveal className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-10">
-              {personas.map((p, i) => (
-                <div key={i} className={`${cardBase} p-5 transition-colors duration-300 hover:brightness-110`} style={{ background: t.surface, border: `1px solid ${t.cardBorder}` }}>
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center text-lg mb-3" style={{ background: `${p.color}22`, color: p.color }}>{p.icon}</div>
-                  <div className="font-semibold text-sm" style={{ ...fontDisplay, color: t.heading }}>{p.title}</div>
-                </div>
-              ))}
+            <div data-reveal className="mt-10 max-w-[560px]">
+              {whoItsForRows.map((row, i) => {
+                const isExternal = row.external;
+                const Tag = isExternal ? "a" : Link;
+                const linkProps = isExternal
+                  ? { href: row.href, target: "_blank", rel: "noopener noreferrer" } as React.AnchorHTMLAttributes<HTMLAnchorElement>
+                  : { to: row.href } as { to: string };
+                return (
+                  <Tag
+                    key={i}
+                    {...(linkProps as any)}
+                    className="group block py-4 transition-colors duration-200"
+                    style={{ borderBottom: `1px solid ${t.cardBorder}` }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold transition-colors duration-200 group-hover:text-[#e86030]" style={{ ...fontDisplay, color: t.heading }}>{row.title}</span>
+                      <span className="text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ color: t.accentEmber }}>→</span>
+                    </div>
+                    <p className="mt-1" style={{ ...fontMono, fontSize: 12, color: t.muted, lineHeight: 1.6 }}>{row.sub}</p>
+                  </Tag>
+                );
+              })}
             </div>
           </div>
         </section>
+
+        {/* ═══════════ BUILD WITH HER ═══════════ */}
+        <BuildWithHerSection />
 
         {/* ═══════════ 5 · USE CASES ═══════════ */}
         <section className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
@@ -613,9 +632,27 @@ const Index = () => {
           </div>
         </section>
 
-        {/* ═══════════ 7 · CTA ═══════════ */}
+        {/* ═══════════ FAQ ═══════════ */}
+        <section className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
+          <span data-reveal className={sectionLabel} style={{ ...fontMono, color: t.muted }}>FAQ</span>
+          <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: t.heading }}>
+            Common <em className="font-light" style={{ color: t.accentEmber }}>questions.</em>
+          </h2>
+          <div data-reveal className="mt-10 max-w-2xl space-y-8">
+            {[
+              { q: "How long does it take to complete?", a: "It depends on your starting point and how much time you can commit. The prerequisites take most learners around 4 hours. The full curriculum — prerequisites through to badge — is designed for part-time study over several months. You go at your own pace. There is no deadline." },
+              { q: "Is this only for women?", a: "Infracodebase University is open to everyone. The curriculum, training, and badge are available regardless of gender. Build with Her was created because women in cloud face particular barriers the industry hasn't fully addressed — but the community is open to anyone who believes access to this field should be equal, including men who want to be part of closing that gap. University is the skills path. Build with Her is the community. Both exist because they're needed." },
+            ].map((faq, i) => (
+              <div key={i}>
+                <h3 style={{ ...fontDisplay, fontSize: 17, fontWeight: 700, color: t.heading }}>{faq.q}</h3>
+                <p className="mt-2" style={{ ...fontMono, fontSize: 14, lineHeight: 1.75, color: t.muted }}>{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════════ CTA ═══════════ */}
         <section className="relative text-center overflow-hidden" style={{ padding: "100px 24px 80px" }}>
-          {/* ambient glows — dark only */}
           {t.dark && (
             <div className="absolute inset-0 pointer-events-none" aria-hidden>
               <div className="absolute" style={{ top: "30%", left: "20%", width: 400, height: 400, borderRadius: "50%", background: `radial-gradient(circle,${t.accentEmber}0f 0%,transparent 70%)` }} />
@@ -646,8 +683,8 @@ const Index = () => {
               <Link to="/training" className={pill} style={t.pillPrimary}>
                 <span style={fontMono}>Begin training →</span>
               </Link>
-              <Link to="/manifesto" className={pill} style={t.pillSecondary}>
-                <span style={fontMono}>Read the manifesto</span>
+              <Link to="/our-story" className={pill} style={t.pillSecondary}>
+                <span style={fontMono}>Read our story</span>
               </Link>
             </div>
           </div>
