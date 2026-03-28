@@ -137,7 +137,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
 
   return (
     <aside className={cn(
-      "fixed left-0 top-0 bottom-0 z-40 flex flex-col border-r border-border/50 bg-sidebar transition-all duration-300",
+      "fixed left-0 top-0 bottom-0 z-50 h-screen overflow-y-auto flex flex-col border-r border-border/50 bg-sidebar transition-all duration-300",
       collapsed ? "w-16" : "w-56"
     )}>
       {/* Logo */}
