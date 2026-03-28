@@ -41,6 +41,10 @@ const navGroups = [
       { path: "/workshops", label: "Workshops", icon: Radio },
       { path: "/events", label: "Events", icon: Calendar },
     ],
+  },
+  {
+    label: "Community",
+    items: [],
     externalItems: [
       { href: "https://buildwithher.infracodebase.com", label: "Build with Her", icon: ExternalLink, amber: true },
     ],
