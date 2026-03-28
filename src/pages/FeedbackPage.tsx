@@ -551,9 +551,69 @@ function EditableFeedback() {
             />
           )}
           {hasSubmitted && !copyAnswersMsg && (
-            <p className="text-xs text-accent font-medium">
-              Thanks — your feedback has been noted.
-            </p>
+            <div>
+              <p className="text-xs text-accent font-medium">
+                Thanks — your feedback has been noted.
+              </p>
+              <div style={{
+                marginTop: 24,
+                padding: "20px 24px",
+                background: "rgba(232,96,48,0.06)",
+                border: "0.5px solid rgba(232,96,48,0.25)",
+                borderRadius: 10,
+              }}>
+                <p style={{
+                  fontFamily: "Georgia, serif",
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: "#f0ece3",
+                  marginBottom: 6,
+                }}>
+                  ✓ Your feedback has been saved.
+                </p>
+                <p style={{
+                  fontFamily: "'Courier New', monospace",
+                  fontSize: 13,
+                  color: "rgba(255,255,255,0.55)",
+                  lineHeight: 1.7,
+                  marginBottom: 16,
+                }}>
+                  One last step — send your link to Tarak so we can read it.
+                  We read every submission personally.
+                </p>
+                <button
+                  onClick={() => {
+                    const url = window.location.href;
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                      navigator.clipboard.writeText(url).catch(() => {});
+                    } else {
+                      const ta = document.createElement("textarea");
+                      ta.value = url;
+                      ta.style.position = "fixed";
+                      ta.style.opacity = "0";
+                      document.body.appendChild(ta);
+                      ta.focus();
+                      ta.select();
+                      try { document.execCommand("copy"); } catch(e) {}
+                      document.body.removeChild(ta);
+                    }
+                  }}
+                  style={{
+                    fontFamily: "'Courier New', monospace",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    padding: "11px 24px",
+                    borderRadius: 6,
+                    background: "#e86030",
+                    color: "#fff",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  📋 Copy my feedback link
+                </button>
+              </div>
+            </div>
           )}
         </div>
       </div>
