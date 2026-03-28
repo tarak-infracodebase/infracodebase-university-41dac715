@@ -34,6 +34,7 @@ export interface Lesson {
   failureAndDebugging?: string;
   modificationExercise?: string;
   engineeringReflection?: string;
+  reflectionHint?: string;
   knowledgeCheck?: KnowledgeCheck;
   comparisonTables?: ComparisonTable[];
 }
