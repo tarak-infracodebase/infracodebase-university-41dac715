@@ -169,7 +169,14 @@ const FeedbackPage = () => {
   return <EditableFeedback />;
 };
 
-const FRICTION_AREAS = "Home & Manifesto · Training · Hands-On Training · Video Library · Workshops & Events · Dashboard";
+const FRICTION_AREAS_LIST = [
+  "Home & Manifesto",
+  "Training",
+  "Hands-On Training",
+  "Video Library",
+  "Workshops & Events",
+  "Dashboard",
+];
 
 function EditableFeedback() {
   const [disappointment, setDisappointment] = useState("");
@@ -179,6 +186,8 @@ function EditableFeedback() {
   const [copyAnswersMsg, setCopyAnswersMsg] = useState("");
   const [copyFormMsg, setCopyFormMsg] = useState(false);
   const [fallbackUrl, setFallbackUrl] = useState("");
+  const [stuckAreas, setStuckAreas] = useState<string[]>([]);
+  const [referral, setReferral] = useState("");
 
   const who = useAutoSaveText(KEYS.who);
   const benefit = useAutoSaveText(KEYS.benefit);
