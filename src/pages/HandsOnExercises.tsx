@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/AppLayout";
 import { handsOnTracks } from "@/data/handsOnData";
 import { ArrowRight, BookOpen, Clock, Layers } from "lucide-react";
@@ -99,6 +100,23 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
 const HandsOnExercises = () => {
   return (
     <AppLayout>
+      <Helmet>
+        <title>Hands-On Training — Infracodebase University</title>
+        <meta name="description" content="Build real infrastructure with guided labs. Use Infracodebase to generate Terraform and deploy to your own AWS, Azure, or GCP account." />
+        <link rel="canonical" href="https://university.infracodebase.com/hands-on" />
+        <meta property="og:title" content="Hands-On Training — Infracodebase University" />
+        <meta property="og:description" content="Build real infrastructure with guided labs. Use Infracodebase to generate Terraform and deploy to your own AWS, Azure, or GCP account." />
+        <meta property="og:url" content="https://university.infracodebase.com/hands-on" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://university.infracodebase.com/og/hands-on.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Infracodebase University" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Hands-On Training — Infracodebase University" />
+        <meta name="twitter:description" content="Build real infrastructure with guided labs. Infracodebase + your cloud account." />
+        <meta name="twitter:image" content="https://university.infracodebase.com/og/hands-on.png" />
+      </Helmet>
       <div className="max-w-6xl mx-auto px-6 py-10 lg:py-14">
         {/* Header */}
         <div className="mb-10">

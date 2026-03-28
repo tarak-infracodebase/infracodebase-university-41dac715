@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/AppLayout";
 import { useEffect, useRef } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -265,6 +266,23 @@ const Index = () => {
 
   return (
     <AppLayout>
+      <Helmet>
+        <title>Infracodebase University</title>
+        <meta name="description" content="A structured learning program for cloud engineers. Design, build, and govern infrastructure as code using Infracodebase — through a progressive curriculum built for real systems." />
+        <link rel="canonical" href="https://university.infracodebase.com/" />
+        <meta property="og:title" content="Infracodebase University" />
+        <meta property="og:description" content="A structured learning program for cloud engineers. Design, build, and govern infrastructure as code using Infracodebase — through a progressive curriculum built for real systems." />
+        <meta property="og:url" content="https://university.infracodebase.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://university.infracodebase.com/og/home.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Infracodebase University" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Infracodebase University" />
+        <meta name="twitter:description" content="A structured learning program for cloud engineers. Design, build, and govern infrastructure as code." />
+        <meta name="twitter:image" content="https://university.infracodebase.com/og/home.png" />
+      </Helmet>
       <div ref={revealRef} style={{ background: t.bg, color: t.heading }}>
 
         {/* ── GRAIN OVERLAY ── */}

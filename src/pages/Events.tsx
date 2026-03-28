@@ -1,4 +1,5 @@
 import { AppLayout } from "@/components/AppLayout";
+import { Helmet } from "react-helmet-async";
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap, Headphones } from "lucide-react";
@@ -378,6 +379,23 @@ const Events = () => {
 
   return (
     <AppLayout>
+      <Helmet>
+        <title>Events &amp; Lectures — Infracodebase University</title>
+        <meta name="description" content="Community events, guest lectures, and engineering sessions. Join engineers from across 20+ countries building infrastructure together." />
+        <link rel="canonical" href="https://university.infracodebase.com/events" />
+        <meta property="og:title" content="Events & Lectures — Infracodebase University" />
+        <meta property="og:description" content="Community events, guest lectures, and engineering sessions. Join engineers from across 20+ countries building infrastructure together." />
+        <meta property="og:url" content="https://university.infracodebase.com/events" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://university.infracodebase.com/og/events.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Infracodebase University" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Events & Lectures — Infracodebase University" />
+        <meta name="twitter:description" content="Community events, guest lectures, and engineering sessions from 20+ countries." />
+        <meta name="twitter:image" content="https://university.infracodebase.com/og/events.png" />
+      </Helmet>
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-8 space-y-12">
         {/* Hero */}
         <div className="text-center max-w-2xl mx-auto">

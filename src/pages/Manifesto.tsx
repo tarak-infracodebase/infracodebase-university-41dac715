@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import "@fontsource/caveat/700.css";
 import signatureImg from "@/assets/signature.png";
 
@@ -51,7 +52,25 @@ const styleClasses: Record<ParagraphStyle, string> = {
 
 const Manifesto = () => {
   return (
-    <div className="min-h-screen bg-[hsl(0,0%,100%)] text-[hsl(228,20%,12%)] selection:bg-[hsl(260,70%,58%)/0.15]">
+    <>
+      <Helmet>
+        <title>The Manifesto — Infracodebase University</title>
+        <meta name="description" content="You don't learn infrastructure by watching tutorials. You learn it by building systems — and understanding why they work. Why we built the University." />
+        <link rel="canonical" href="https://university.infracodebase.com/manifesto" />
+        <meta property="og:title" content="The Manifesto — Infracodebase University" />
+        <meta property="og:description" content="You don't learn infrastructure by watching tutorials. You learn it by building systems — and understanding why they work." />
+        <meta property="og:url" content="https://university.infracodebase.com/manifesto" />
+        <meta property="og:type" content="article" />
+        <meta property="og:image" content="https://university.infracodebase.com/og/manifesto.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Infracodebase University" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="The Manifesto — Infracodebase University" />
+        <meta name="twitter:description" content="You don't learn infrastructure by watching tutorials. You learn it by building systems." />
+        <meta name="twitter:image" content="https://university.infracodebase.com/og/manifesto.png" />
+      </Helmet>
+      <div className="min-h-screen bg-[hsl(0,0%,100%)] text-[hsl(228,20%,12%)] selection:bg-[hsl(260,70%,58%)/0.15]">
       {/* Hero */}
       <section className="flex flex-col items-center justify-center px-6 pt-20 pb-6 md:pt-28 md:pb-8">
         {/* Rainbow wordmark */}
@@ -127,6 +146,7 @@ const Manifesto = () => {
         </Link>
       </section>
     </div>
+    </>
   );
 };
 

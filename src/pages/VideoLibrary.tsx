@@ -1,4 +1,5 @@
 import { AppLayout } from "@/components/AppLayout";
+import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { Search, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -150,6 +151,23 @@ const VideoLibrary = () => {
 
   return (
     <AppLayout>
+      <Helmet>
+        <title>Video Library — Infracodebase University</title>
+        <meta name="description" content="Watch infrastructure engineering in practice — recordings from live workshops, platform walkthroughs, and engineering demos." />
+        <link rel="canonical" href="https://university.infracodebase.com/videos" />
+        <meta property="og:title" content="Video Library — Infracodebase University" />
+        <meta property="og:description" content="Watch infrastructure engineering in practice — recordings from live workshops, platform walkthroughs, and engineering demos." />
+        <meta property="og:url" content="https://university.infracodebase.com/videos" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://university.infracodebase.com/og/videos.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Infracodebase University" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Video Library — Infracodebase University" />
+        <meta name="twitter:description" content="Watch infrastructure engineering in practice — workshops, walkthroughs, and demos." />
+        <meta name="twitter:image" content="https://university.infracodebase.com/og/videos.png" />
+      </Helmet>
       <div className="p-6 lg:p-8 max-w-6xl mx-auto space-y-10">
         {/* Header */}
         <div>
