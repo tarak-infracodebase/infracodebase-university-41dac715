@@ -601,21 +601,13 @@ const Index = () => {
           )}
 
           <div className="relative z-10 max-w-3xl mx-auto">
-            <div data-reveal className="flex items-center gap-4 justify-center mb-8">
-              <span className="h-px flex-1 max-w-[60px]" style={{ background: t.subtleLine }} />
-              <span style={{ ...fontMono, fontSize: 11, letterSpacing: "0.25em", color: t.muted }}>INFRACODEBASE UNIVERSITY · 2026</span>
-              <span className="h-px flex-1 max-w-[60px]" style={{ background: t.subtleLine }} />
-            </div>
-
             <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 5vw, 56px)", fontWeight: 900, lineHeight: 1.1, color: t.heading }}>
-              Ready to start building{" "}
-              <em className="font-light" style={{
-                background: RAINBOW_CSS, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-              }}>real systems?</em>
+              Ready to learn{" "}
+              <em className="font-light" style={{ color: t.accentEmber }}>infrastructure?</em>
             </h2>
 
             <p data-reveal className="mt-6 mx-auto max-w-lg" style={{ ...fontMono, fontSize: 15, color: t.muted, lineHeight: 1.7 }}>
-              Join a community of cloud engineers learning infrastructure the way it's actually built — through structured, hands-on training.
+              From zero to cloud engineer. Structured, practical, and open to anyone ready to learn.
             </p>
 
             <div data-reveal className="flex flex-wrap gap-4 justify-center mt-10">
