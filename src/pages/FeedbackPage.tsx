@@ -494,6 +494,23 @@ function EditableFeedback() {
               placeholder="Say what you really think..."
             />
           </div>
+
+          {/* Q8 — Referral */}
+          <div className="space-y-2 mt-8">
+            <label className="text-sm font-semibold text-foreground" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+              Who would you most want to send this to?
+            </label>
+            <p className="text-xs font-mono text-muted-foreground/40">
+              A colleague, a friend, someone in your team — just a name or role is fine.
+            </p>
+            <textarea
+              value={referral}
+              onChange={(e) => setReferral(e.target.value)}
+              placeholder="e.g. My DevOps colleague who keeps asking me about Terraform..."
+              rows={3}
+              className="w-full rounded-lg border border-border/30 bg-muted/10 px-3.5 py-3 font-mono text-sm text-foreground resize-y outline-none focus:border-accent/30 transition-colors"
+            />
+          </div>
         </section>
 
         {/* Share answers */}
