@@ -140,7 +140,7 @@ const communityCards = {
 
 /* ── path map data ── */
 const pathMapCards = [
-  { num: "01", tag: "Start here", tagAccent: false, title: "Read the Manifesto", path: "/manifesto", desc: "Understand why this exists and what separates infrastructure engineers who build from those who click.", arrow: "Read it", href: "/manifesto" },
+  { num: "01", tag: "Start here", tagAccent: false, title: "Read Our Story", path: "/our-story", desc: "Understand why this exists and what separates infrastructure engineers who build from those who click.", arrow: "Read it", href: "/our-story" },
   { num: "02", tag: "Orient", tagAccent: false, title: "Explore the Curriculum", path: "/curriculum", desc: "Map out the full journey. See every module, its prerequisites, and where it leads before committing.", arrow: "Explore", href: "/curriculum" },
   { num: "03", tag: "Choose", tagAccent: false, title: "Pick a Training Path", path: "/training", desc: "Beginner, intermediate, or advanced — select a structured path matched to where you are right now.", arrow: "See paths", href: "/training" },
   { num: "04", tag: "Most visited", tagAccent: true, title: "Go Hands-On", path: "/hands-on", desc: "Build real infrastructure. Not sandboxes — actual systems, with the tools teams use in production.", arrow: "Start building", href: "/hands-on" },
