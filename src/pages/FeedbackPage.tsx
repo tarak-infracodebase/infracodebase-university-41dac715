@@ -232,9 +232,10 @@ function EditableFeedback() {
       if (who.value.trim()) payload.who = who.value;
       if (benefit.value.trim()) payload.benefit = benefit.value;
       if (rating > 0) payload.rating = String(rating);
-      if (friction.value.trim()) payload.friction = friction.value;
+      if (stuckAreas.length > 0) payload.friction = stuckAreas.join(", ");
       if (valuable.value.trim()) payload.valuable = valuable.value;
       if (brutal.value.trim()) payload.brutal = brutal.value;
+      if (referral.trim()) payload.referral = referral;
 
       const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(payload));
       const url = `${window.location.origin}/feedback?answers=${compressed}`;
