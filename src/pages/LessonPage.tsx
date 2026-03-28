@@ -10,6 +10,9 @@ import StartingPointStatement from "@/components/lesson/StartingPointStatement";
 import HandsOnSubmission from "@/components/lesson/HandsOnSubmission";
 import KnowledgeCheckMulti from "@/components/lesson/KnowledgeCheckMulti";
 import { XpToastContainer, useXpToast } from "@/components/lesson/XpToast";
+import { ReflectionNotebook } from "@/components/lesson/ReflectionNotebook";
+import { ReflectionHint } from "@/components/lesson/ReflectionHint";
+import { LabScreenshot } from "@/components/lesson/LabScreenshot";
 
 const crystalColors = [
   "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
@@ -225,6 +228,10 @@ const LessonPage = () => {
                   <h2 className="text-base font-bold mb-3">Engineering Reflection</h2>
                   <div className="rounded-xl border-l-4 border-crystal-magenta/50 bg-card/30 p-5 text-sm text-muted-foreground leading-relaxed">
                     {lesson.engineeringReflection}
+                    {lesson.reflectionHint && (
+                      <ReflectionHint hint={lesson.reflectionHint} />
+                    )}
+                    <ReflectionNotebook lessonId={`${pathId}_${lessonId}`} />
                   </div>
                 </section>
               )}
@@ -253,6 +260,7 @@ const LessonPage = () => {
                   <p className="text-sm text-muted-foreground leading-relaxed">{lesson.exercise.description}</p>
                 </div>
                 <HandsOnSubmission exerciseId={`${pathId}_${lessonId}`} exerciseType={lesson.exercise.type} exerciseDescription={lesson.exercise.description} exerciseTitle={lesson.exercise.title} onSave={() => showXp(50)} />
+                <LabScreenshot stepId={`${pathId}_${lessonId}`} />
               </section>
 
               {/* Artifact */}
