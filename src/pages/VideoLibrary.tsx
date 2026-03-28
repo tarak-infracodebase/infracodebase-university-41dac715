@@ -1,4 +1,5 @@
 import { AppLayout } from "@/components/AppLayout";
+import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 import { Search, Play } from "lucide-react";
 import { cn } from "@/lib/utils";

@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/AppLayout";
 import { useEffect, useRef } from "react";
 import { useTheme } from "@/contexts/ThemeContext";

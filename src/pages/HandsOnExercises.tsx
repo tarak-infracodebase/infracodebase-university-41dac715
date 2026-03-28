@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/AppLayout";
 import { handsOnTracks } from "@/data/handsOnData";
 import { ArrowRight, BookOpen, Clock, Layers } from "lucide-react";

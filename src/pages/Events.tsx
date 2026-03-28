@@ -1,4 +1,5 @@
 import { AppLayout } from "@/components/AppLayout";
+import { Helmet } from "react-helmet-async";
 import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Radio, ArrowRight, Play, ExternalLink, Globe, Zap, Headphones } from "lucide-react";

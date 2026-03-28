@@ -1,4 +1,5 @@
 import { AppLayout } from "@/components/AppLayout";
+import { Helmet } from "react-helmet-async";
 import { learningPaths } from "@/data/courseData";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
