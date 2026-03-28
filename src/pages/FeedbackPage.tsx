@@ -169,7 +169,14 @@ const FeedbackPage = () => {
   return <EditableFeedback />;
 };
 
-const FRICTION_AREAS = "Home & Manifesto · Training · Hands-On Training · Video Library · Workshops & Events · Dashboard";
+const FRICTION_AREAS_LIST = [
+  "Home & Manifesto",
+  "Training",
+  "Hands-On Training",
+  "Video Library",
+  "Workshops & Events",
+  "Dashboard",
+];
 
 function EditableFeedback() {
   const [disappointment, setDisappointment] = useState("");
@@ -179,10 +186,12 @@ function EditableFeedback() {
   const [copyAnswersMsg, setCopyAnswersMsg] = useState("");
   const [copyFormMsg, setCopyFormMsg] = useState(false);
   const [fallbackUrl, setFallbackUrl] = useState("");
+  const [stuckAreas, setStuckAreas] = useState<string[]>([]);
+  const [referral, setReferral] = useState("");
 
   const who = useAutoSaveText(KEYS.who);
   const benefit = useAutoSaveText(KEYS.benefit);
-  const friction = useAutoSaveText(KEYS.friction);
+  
   const valuable = useAutoSaveText(KEYS.valuable);
   const brutal = useAutoSaveText(KEYS.brutal);
 
@@ -209,11 +218,11 @@ function EditableFeedback() {
     if (who.value.trim()) count++;
     if (benefit.value.trim()) count++;
     if (rating > 0) count++;
-    if (friction.value.trim()) count++;
+    if (stuckAreas.length > 0) count++;
     if (valuable.value.trim()) count++;
     if (brutal.value.trim()) count++;
     return count;
-  }, [disappointment, who.value, benefit.value, rating, friction.value, valuable.value, brutal.value]);
+  }, [disappointment, who.value, benefit.value, rating, stuckAreas, valuable.value, brutal.value]);
 
   const handleShareAnswers = async () => {
     if (answeredCount === 0) return;
@@ -223,9 +232,10 @@ function EditableFeedback() {
       if (who.value.trim()) payload.who = who.value;
       if (benefit.value.trim()) payload.benefit = benefit.value;
       if (rating > 0) payload.rating = String(rating);
-      if (friction.value.trim()) payload.friction = friction.value;
+      if (stuckAreas.length > 0) payload.friction = stuckAreas.join(", ");
       if (valuable.value.trim()) payload.valuable = valuable.value;
       if (brutal.value.trim()) payload.brutal = brutal.value;
+      if (referral.trim()) payload.referral = referral;
 
       const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(payload));
       const url = `${window.location.origin}/feedback?answers=${compressed}`;
@@ -293,19 +303,22 @@ function EditableFeedback() {
             </span>
           </div>
 
-          <p className="mt-2 text-xs text-muted-foreground/70">
-            {answeredCount} of 7 answered
-          </p>
-          {hasSubmitted && (
-            <div className="mt-1 text-xs text-muted-foreground/70 font-mono">
-              Last shared:{" "}
-              {new Date(submittedAt!).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+          {answeredCount > 0 && (
+            <div className="mt-2 flex items-center gap-1.5">
+              {Array.from({ length: 7 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="rounded-full transition-colors duration-200"
+                  style={{
+                    width: 6,
+                    height: 6,
+                    background: i < answeredCount ? "hsl(var(--accent))" : "hsl(var(--muted-foreground) / 0.15)",
+                  }}
+                />
+              ))}
+              <span className="ml-1 font-mono text-[10px] text-muted-foreground/35">
+                {answeredCount} of 7
+              </span>
             </div>
           )}
         </div>
@@ -409,24 +422,41 @@ function EditableFeedback() {
 
           {/* Q5 — Friction */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">
-                Where did you get stuck or confused?
-              </label>
-              <SavedBadge visible={friction.saved} />
-            </div>
+            <label className="text-sm font-semibold text-foreground">
+              Where did you get stuck or confused?
+            </label>
             <p className="text-xs text-muted-foreground">
-              Go through each area you've visited and note anything that slowed you down.
+              Select all areas where you experienced friction.
             </p>
-            <p className="text-[11px] font-mono text-muted-foreground/60 leading-relaxed">
-              {FRICTION_AREAS}
-            </p>
-            <Textarea
-              value={friction.value}
-              onChange={(e) => friction.update(e.target.value)}
-              className="min-h-[160px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
-              placeholder="e.g. The Hands-On Training submission wasn't clear. The Video Library was hard to find from the Dashboard..."
-            />
+            <div className="flex flex-wrap gap-2 mt-2">
+              {FRICTION_AREAS_LIST.map((area) => (
+                <button
+                  key={area}
+                  type="button"
+                  onClick={() =>
+                    setStuckAreas((prev) =>
+                      prev.includes(area)
+                        ? prev.filter((a) => a !== area)
+                        : [...prev, area]
+                    )
+                  }
+                  className="font-mono text-[11px] px-3 py-1.5 rounded-full border transition-all duration-150 cursor-pointer"
+                  style={{
+                    borderColor: stuckAreas.includes(area)
+                      ? "hsl(var(--accent) / 0.5)"
+                      : "hsl(var(--muted-foreground) / 0.15)",
+                    background: stuckAreas.includes(area)
+                      ? "hsl(var(--accent) / 0.1)"
+                      : "transparent",
+                    color: stuckAreas.includes(area)
+                      ? "hsl(var(--accent))"
+                      : "hsl(var(--muted-foreground) / 0.5)",
+                  }}
+                >
+                  {area}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Q6 — Valuable */}
@@ -463,6 +493,23 @@ function EditableFeedback() {
               onChange={(e) => brutal.update(e.target.value)}
               className="min-h-[160px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
               placeholder="Say what you really think..."
+            />
+          </div>
+
+          {/* Q8 — Referral */}
+          <div className="space-y-2 mt-8">
+            <label className="text-sm font-semibold text-foreground" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+              Who would you most want to send this to?
+            </label>
+            <p className="text-xs font-mono text-muted-foreground/40">
+              A colleague, a friend, someone in your team — just a name or role is fine.
+            </p>
+            <textarea
+              value={referral}
+              onChange={(e) => setReferral(e.target.value)}
+              placeholder="e.g. My DevOps colleague who keeps asking me about Terraform..."
+              rows={3}
+              className="w-full rounded-lg border border-border/30 bg-muted/10 px-3.5 py-3 font-mono text-sm text-foreground resize-y outline-none focus:border-accent/30 transition-colors"
             />
           </div>
         </section>
