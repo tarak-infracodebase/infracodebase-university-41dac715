@@ -32,10 +32,10 @@ export function BuildWithHerSection() {
         <div className="grid lg:grid-cols-2 gap-16 mt-12 items-start">
           {/* Left */}
           <div>
-            <p style={{ ...fontMono, fontSize: 14, lineHeight: 1.75, color: muted }}>
+            <p style={{ ...fontMono, fontSize: 15, lineHeight: 1.75, color: muted }}>
               Infracodebase University is part of a wider ecosystem designed to make sure you never have to build alone. Build with Her is the community layer — workshops, live sessions, mentorship, and a global network of people working to close the gap in cloud engineering.
             </p>
-            <p className="mt-4" style={{ ...fontMono, fontSize: 14, lineHeight: 1.75, color: muted }}>
+            <p className="mt-4" style={{ ...fontMono, fontSize: 15, lineHeight: 1.75, color: muted }}>
               Open to everyone who believes access to this field should be equal. Whether you're just starting or already mid-journey, the community meets you where you are.
             </p>
             <a
@@ -57,7 +57,7 @@ export function BuildWithHerSection() {
                   <f.icon style={{ width: 20, height: 20, color: amber }} />
                 </div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: heading }}>{f.title}</div>
-                <p className="mt-1" style={{ ...fontMono, fontSize: 12, color: muted, lineHeight: 1.6 }}>{f.desc}</p>
+                <p className="mt-1" style={{ ...fontMono, fontSize: 13, color: muted, lineHeight: 1.6 }}>{f.desc}</p>
               </div>
             ))}
           </div>

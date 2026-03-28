@@ -95,14 +95,14 @@ export function TestimonialsSection() {
                 borderTop: t.accent ? `1.5px solid ${accentColors[t.accent]}` : undefined,
               }}
             >
-              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 13.5, color: muted, lineHeight: 1.75 }}>
+              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 14.5, color: muted, lineHeight: 1.8 }}>
                 "{t.quote}"
               </p>
               <div className="flex items-center gap-3 mt-4">
                 <AvatarWithFallback name={t.name} src={t.avatar} />
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: heading }}>{t.name}</div>
-                  <div style={{ ...fontMono, fontSize: 10, color: muted, marginTop: 1 }}>{t.role}</div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: heading }}>{t.name}</div>
+                  <div style={{ ...fontMono, fontSize: 11, color: muted, marginTop: 1 }}>{t.role}</div>
                 </div>
               </div>
             </div>

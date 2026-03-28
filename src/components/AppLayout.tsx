@@ -161,7 +161,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
             </span>
           ) : (
             <span
-              className="text-[13px] leading-tight whitespace-nowrap tracking-wide"
+              className="text-[14px] leading-tight whitespace-nowrap tracking-wide"
               style={{
                 background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
                 WebkitBackgroundClip: "text",
@@ -201,7 +201,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
                     key={item.path}
                     to={item.path}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                      "flex items-center gap-3 rounded-lg px-3 py-2 text-[14px] transition-colors",
                       isActive
                         ? "bg-primary/10 text-primary font-medium"
                         : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
@@ -219,7 +219,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
                   target="_blank"
                   rel="noopener noreferrer"
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] transition-colors",
                     ext.amber
                       ? "text-amber-500 border border-amber-500/30 hover:bg-amber-500/10"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
