@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/AppLayout";
+import { TestimonialsSection } from "@/components/homepage/TestimonialsSection";
+import { BuildWithHerSection } from "@/components/homepage/BuildWithHerSection";
 import { useEffect, useRef } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 
