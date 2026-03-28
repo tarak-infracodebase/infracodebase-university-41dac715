@@ -171,7 +171,7 @@ const SectionPathMap = ({ t }: { t: ReturnType<typeof useTokens> }) => {
                 <div style={{ ...fontDisplay, fontSize: 17, fontWeight: 700, color: t.heading }}>{card.title}</div>
                 <div className="mt-1" style={{ ...fontMono, fontSize: 10, color: t.accentEmber }}>{card.path}</div>
                 <p className="mt-2" style={{ ...fontMono, fontSize: 14, lineHeight: 1.65, color: t.muted }}>{card.desc}</p>
-                <span className="inline-block mt-3 transition-colors duration-200 group-hover:!color-inherit" style={{ ...fontMono, fontSize: 11, color: t.muted }}>
+                <span className="inline-block mt-3 transition-colors duration-200 group-hover:!color-inherit" style={{ ...fontMono, fontSize: 13, color: t.muted }}>
                   <span className="group-hover:hidden">{card.arrow} →</span>
                   <span className="hidden group-hover:inline" style={{ color: t.accentEmber }}>{card.arrow} →</span>
                 </span>
@@ -321,10 +321,10 @@ const Index = () => {
               </p>
             </div>
             <div style={{ maxWidth: 360 }}>
-              <p style={{ ...fontMono, fontSize: 13, lineHeight: 1.7, color: t.muted }}>
+              <p style={{ ...fontMono, fontSize: 15, lineHeight: 1.75, color: t.muted }}>
                 Cloud engineering has a gap — not a talent gap, but an access gap. To mentorship, to structured paths, to communities that signal <em>this is for you too</em>.
               </p>
-              <p className="mt-3" style={{ ...fontMono, fontSize: 13, lineHeight: 1.7, color: t.muted }}>
+              <p className="mt-3" style={{ ...fontMono, fontSize: 15, lineHeight: 1.75, color: t.muted }}>
                 University closes the skills gap. <a href="https://buildwithher.infracodebase.com" target="_blank" rel="noopener noreferrer" style={{ color: t.accentEmber, fontWeight: 700 }}>Build with Her</a> closes the human barriers. Both exist because they're needed.
               </p>
             </div>
@@ -342,7 +342,7 @@ const Index = () => {
                   <em className="font-light" style={{ color: t.accentEmber }}>20+ countries.</em><br />
                   One structured path.
                 </h2>
-                <p className="mt-3" style={{ ...fontMono, fontSize: 14, lineHeight: 1.65, color: t.muted }}>
+                <p className="mt-3" style={{ ...fontMono, fontSize: 15, lineHeight: 1.7, color: t.muted }}>
                   From San Francisco to Sydney, people are building real infrastructure skills — through a curriculum designed to take anyone from zero to senior-level thinking.
                 </p>
               </div>
@@ -417,7 +417,7 @@ const Index = () => {
                   Infrastructure as code,{" "}
                   <em className="font-light" style={{ color: t.accentAurora }}>not clicks.</em>
                 </h2>
-                <p data-reveal className="mt-5" style={{ ...fontMono, fontSize: 14, lineHeight: 1.75, color: t.muted }}>
+                <p data-reveal className="mt-5" style={{ ...fontMono, fontSize: 15, lineHeight: 1.75, color: t.muted }}>
                   Infracodebase University is a <strong style={{ color: t.strongText, fontWeight: 500 }}>structured learning program</strong> for cloud engineers. Instead of fragmented tutorials, you follow a <strong style={{ color: t.strongText, fontWeight: 500 }}>progressive curriculum</strong> — designing and governing systems the way they're actually built with <strong style={{ color: t.strongText, fontWeight: 500 }}>AI-powered Terraform workflows</strong>.
                 </p>
               </div>
@@ -442,7 +442,7 @@ const Index = () => {
         <section className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
           <span data-reveal className={sectionLabel} style={{ ...fontMono, color: t.muted }}>TRAINING</span>
           <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: t.heading }}>Learning paths.</h2>
-          <p data-reveal className="mt-3 max-w-xl" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.7 }}>
+          <p data-reveal className="mt-3 max-w-xl" style={{ ...fontMono, fontSize: 15, color: t.muted, lineHeight: 1.7 }}>
             Start with cloud & infrastructure prerequisites, then move through the Infracodebase curriculum. Each module builds on the last.
           </p>
 
@@ -454,7 +454,7 @@ const Index = () => {
                 <div className="h-1 w-full rounded-full mb-4" style={{ background: tr.accent }} />
                 <div style={{ ...fontMono, fontSize: 10, letterSpacing: "0.1em", color: t.muted }}>{tr.label}</div>
                 <div className="mt-1.5 font-semibold text-sm" style={{ ...fontDisplay, color: t.heading }}>{tr.title}</div>
-                <p className="mt-2" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.6 }}>{tr.desc}</p>
+                <p className="mt-2" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.65 }}>{tr.desc}</p>
                 <span className="inline-block mt-3 text-[10px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${levelColor(tr.level)}22`, color: levelColor(tr.level) }}>{tr.level}</span>
               </Link>
             ))}
@@ -485,7 +485,7 @@ const Index = () => {
               Start where you{" "}
               <em className="font-light" style={{ color: t.accentEmber }}>actually are.</em>
             </h2>
-            <p data-reveal className="mt-3 max-w-xl" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.7 }}>
+            <p data-reveal className="mt-3 max-w-xl" style={{ ...fontMono, fontSize: 15, color: t.muted, lineHeight: 1.7 }}>
               You don't need a title to start. You just need to be ready to learn.
             </p>
             <div data-reveal className="mt-10 max-w-[560px]">
@@ -503,10 +503,10 @@ const Index = () => {
                     style={{ borderBottom: `1px solid ${t.cardBorder}` }}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-semibold transition-colors duration-200 group-hover:text-[#e86030]" style={{ ...fontDisplay, color: t.heading }}>{row.title}</span>
+                      <span className="text-[15px] font-semibold transition-colors duration-200 group-hover:text-[#e86030]" style={{ ...fontDisplay, color: t.heading }}>{row.title}</span>
                       <span className="text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ color: t.accentEmber }}>→</span>
                     </div>
-                    <p className="mt-1" style={{ ...fontMono, fontSize: 12, color: t.muted, lineHeight: 1.6 }}>{row.sub}</p>
+                    <p className="mt-1" style={{ ...fontMono, fontSize: 13, color: t.muted, lineHeight: 1.6 }}>{row.sub}</p>
                   </Tag>
                 );
               })}
@@ -525,7 +525,7 @@ const Index = () => {
             <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: t.heading }}>
               Learn. Build. <em className="font-light" style={{ color: t.accentEmber }}>Grow.</em>
             </h2>
-            <p data-reveal className="mt-3 max-w-2xl" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.7 }}>
+            <p data-reveal className="mt-3 max-w-2xl" style={{ ...fontMono, fontSize: 15, color: t.muted, lineHeight: 1.7 }}>
               Every week: live workshops, engineering walkthroughs, and community events so builders can learn from real systems and grow together.
             </p>
 
@@ -537,7 +537,7 @@ const Index = () => {
                   <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${t.accentEmber}22`, color: t.accentEmber }}>{communityCards.tall.badge}</span>
                   <div className="mt-4" style={{ ...fontMono, fontSize: 10, letterSpacing: "0.15em", color: t.muted }}>{communityCards.tall.eyebrow}</div>
                   <div className="mt-2 text-lg font-semibold leading-snug" style={{ ...fontDisplay, color: t.heading }}>{communityCards.tall.title}</div>
-                  <p className="mt-3" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.6 }}>{communityCards.tall.desc}</p>
+                  <p className="mt-3" style={{ ...fontMono, fontSize: 13, color: t.muted, lineHeight: 1.6 }}>{communityCards.tall.desc}</p>
                 </div>
                 <div>
                   <p className="mb-4" style={{ ...fontMono, fontSize: 12, color: t.muted }}>{communityCards.tall.meta}</p>
@@ -583,8 +583,8 @@ const Index = () => {
               { q: "Is this only for women?", a: "Infracodebase University is open to everyone. The curriculum, training, and badge are available regardless of gender. Build with Her was created because women in cloud face particular barriers the industry hasn't fully addressed — but the community is open to anyone who believes access to this field should be equal, including men who want to be part of closing that gap. University is the skills path. Build with Her is the community. Both exist because they're needed." },
             ].map((faq, i) => (
               <div key={i}>
-                <h3 style={{ ...fontDisplay, fontSize: 17, fontWeight: 700, color: t.heading }}>{faq.q}</h3>
-                <p className="mt-2" style={{ ...fontMono, fontSize: 14, lineHeight: 1.75, color: t.muted }}>{faq.a}</p>
+                <h3 style={{ ...fontDisplay, fontSize: 15, fontWeight: 700, color: t.heading }}>{faq.q}</h3>
+                <p className="mt-2" style={{ ...fontMono, fontSize: 15, lineHeight: 1.75, color: t.muted }}>{faq.a}</p>
               </div>
             ))}
           </div>
@@ -614,7 +614,7 @@ const Index = () => {
               }}>real systems?</em>
             </h2>
 
-            <p data-reveal className="mt-6 mx-auto max-w-lg" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.7 }}>
+            <p data-reveal className="mt-6 mx-auto max-w-lg" style={{ ...fontMono, fontSize: 15, color: t.muted, lineHeight: 1.7 }}>
               Join a community of cloud engineers learning infrastructure the way it's actually built — through structured, hands-on training.
             </p>
 
