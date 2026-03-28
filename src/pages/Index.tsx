@@ -88,35 +88,6 @@ const whoItsForRows = [
   { title: "Job-ready — get hands-on and build real systems", sub: "Learn to code, design, ship, and operate cloud infrastructure on Infracodebase.", href: "/hands-on", external: false },
 ];
 
-/* ── use cases ── */
-const useCaseGroups = [
-  {
-    label: "Build new", accent: "#3a7a5a",
-    items: [
-      { title: "Landing zones & new environments", desc: "Design and deploy greenfield cloud environments with IaC from day one." },
-      { title: "Reusable modules for shift-left", desc: "Create standardized, composable Terraform modules your teams can adopt." },
-      { title: "Multi-cloud expansion", desc: "Extend your footprint to new providers with consistent tooling." },
-      { title: "New platforms with limited expertise", desc: "Bootstrap infrastructure platforms even without deep domain knowledge." },
-    ],
-  },
-  {
-    label: "Modernize & migrate", accent: "#e86030",
-    items: [
-      { title: "Click-ops to IaC", desc: "Migrate manually managed infrastructure to code-driven workflows." },
-      { title: "Cloud to cloud migration", desc: "Orchestrate cross-cloud migrations with confidence and documentation." },
-      { title: "On-prem to cloud", desc: "Plan and execute datacenter-to-cloud migrations at scale.", span2: true },
-    ],
-  },
-  {
-    label: "Extend & improve", accent: "#c060d0",
-    items: [
-      { title: "Extend existing infrastructure", desc: "Add new capabilities to existing stacks without starting over." },
-      { title: "Security audits & improvements", desc: "Audit, remediate, and harden your infrastructure posture." },
-      { title: "Cost analysis & optimization", desc: "Identify waste and right-size your cloud spend." },
-      { title: "Architecture diagrams", desc: "Generate and maintain living documentation of your systems." },
-    ],
-  },
-];
 
 /* ── community cards ── */
 const communityCards = {
@@ -546,38 +517,6 @@ const Index = () => {
         {/* ═══════════ BUILD WITH HER ═══════════ */}
         <BuildWithHerSection />
 
-        {/* ═══════════ 5 · USE CASES ═══════════ */}
-        <section className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
-          <span data-reveal className={sectionLabel} style={{ ...fontMono, color: t.muted }}>USE CASES</span>
-          <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: t.heading }}>
-            Start fresh or work <em className="font-light" style={{ color: t.accentPrism }}>with what you have.</em>
-          </h2>
-          <p data-reveal className="mt-3 mb-8 max-w-2xl" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.7 }}>
-            Infracodebase generates and manages your Terraform. You bring your cloud provider account — AWS, Azure, or GCP. Together, they replace manual infrastructure work with structured, code-driven engineering.
-          </p>
-
-          {useCaseGroups.map((g, gi) => (
-            <div key={gi} className="mt-12">
-              <div data-reveal className="flex items-center gap-2.5 mb-4">
-                <span className="w-2.5 h-2.5 rounded-full" style={{ background: g.accent }} />
-                <span style={{ ...fontMono, fontSize: 12, letterSpacing: "0.1em", color: t.muted }}>{g.label.toUpperCase()}</span>
-              </div>
-              <div data-reveal className="grid sm:grid-cols-2 gap-3">
-                {g.items.map((item, ii) => (
-                  <div key={ii} className={`${cardBase} p-5 ${cardHover} ${"span2" in item && item.span2 ? "sm:col-span-2" : ""}`} style={{ background: t.surface, border: `1px solid ${t.cardBorder}` }}>
-                    <div className="flex items-start gap-2.5">
-                      <span className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ background: g.accent }} />
-                      <div>
-                        <div className="font-semibold text-sm" style={{ ...fontDisplay, color: t.heading }}>{item.title}</div>
-                        <p className="mt-1" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.6 }}>{item.desc}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </section>
 
         {/* ═══════════ 6 · COMMUNITY ═══════════ */}
         <section style={{ background: t.sectionBg, borderTop: `1px solid ${t.border}`, borderBottom: `1px solid ${t.border}` }}>
