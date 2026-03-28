@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/AppLayout";
+import { TestimonialsSection } from "@/components/homepage/TestimonialsSection";
+import { BuildWithHerSection } from "@/components/homepage/BuildWithHerSection";
 import { useEffect, useRef } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -78,13 +80,12 @@ const curriculumModules = [
 const levelColor = (l: string) => l === "Beginner" ? "#3a7a5a" : l === "Intermediate" ? "#e86030" : "#c060d0";
 
 /* ── who it's for ── */
-const personas = [
-  { icon: "⬡", title: "Platform Engineers", color: "#e86030" },
-  { icon: "◈", title: "DevOps Engineers", color: "#30c0a0" },
-  { icon: "△", title: "Cloud Architects", color: "#c060d0" },
-  { icon: "◎", title: "Cloud Engineers", color: "#9a6b3a" },
-  { icon: "⬡", title: "Engineering Teams", color: "#3a7a5a" },
-  { icon: "◈", title: "Technical Leaders", color: "#1e3a5f" },
+const whoItsForRows = [
+  { title: "New to cloud — not sure where to start", sub: "Begin with the prerequisites. Zero prior knowledge required.", href: "/path/cloud-infrastructure-intro", external: false },
+  { title: "Ready to learn — want structure and a clear path", sub: "The curriculum takes you from concept to hands-on deployment.", href: "/training", external: false },
+  { title: "Actively learning — need support and momentum", sub: "Build with Her runs community sessions alongside your studies.", href: "https://buildwithher.infracodebase.com", external: true },
+  { title: "Building — need visibility and feedback", sub: "Publish your work on the Build with Her Builder Wall.", href: "https://buildwithher.infracodebase.com/builder-wall", external: true },
+  { title: "Job-ready — get hands-on and build real systems", sub: "Learn to code, design, ship, and operate cloud infrastructure on Infracodebase.", href: "/hands-on", external: false },
 ];
 
 /* ── use cases ── */
@@ -139,7 +140,7 @@ const communityCards = {
 
 /* ── path map data ── */
 const pathMapCards = [
-  { num: "01", tag: "Start here", tagAccent: false, title: "Read the Manifesto", path: "/manifesto", desc: "Understand why this exists and what separates infrastructure engineers who build from those who click.", arrow: "Read it", href: "/manifesto" },
+  { num: "01", tag: "Start here", tagAccent: false, title: "Read Our Story", path: "/our-story", desc: "Understand why this exists and what separates infrastructure engineers who build from those who click.", arrow: "Read it", href: "/our-story" },
   { num: "02", tag: "Orient", tagAccent: false, title: "Explore the Curriculum", path: "/curriculum", desc: "Map out the full journey. See every module, its prerequisites, and where it leads before committing.", arrow: "Explore", href: "/curriculum" },
   { num: "03", tag: "Choose", tagAccent: false, title: "Pick a Training Path", path: "/training", desc: "Beginner, intermediate, or advanced — select a structured path matched to where you are right now.", arrow: "See paths", href: "/training" },
   { num: "04", tag: "Most visited", tagAccent: true, title: "Go Hands-On", path: "/hands-on", desc: "Build real infrastructure. Not sandboxes — actual systems, with the tools teams use in production.", arrow: "Start building", href: "/hands-on" },
@@ -325,7 +326,7 @@ const Index = () => {
 
             {/* subtitle */}
             <p data-reveal className="mx-auto mt-8 max-w-2xl" style={{ ...fontMono, fontSize: 14, lineHeight: 1.7, color: t.muted, animationDelay: "0.2s" }}>
-              A structured learning program for cloud engineers. Learn to design, build, and govern infrastructure as code using Infracodebase — through a progressive curriculum built for real systems.
+              Structured. Practical. Built for real systems — and built for anyone ready to learn them.
             </p>
 
             {/* CTAs */}
@@ -333,9 +334,28 @@ const Index = () => {
               <Link to="/training" className={pill} style={t.pillPrimary}>
                 <span style={fontMono}>Begin training →</span>
               </Link>
-              <Link to="/manifesto" className={pill} style={t.pillSecondary}>
-                <span style={fontMono}>Read our Manifesto</span>
+              <Link to="/our-story" className={pill} style={t.pillSecondary}>
+                <span style={fontMono}>Read our Story →</span>
               </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── PULL QUOTE BAND ── */}
+        <section style={{ borderTop: `1px solid ${t.border}`, borderBottom: `1px solid ${t.border}`, background: t.bg }}>
+          <div className="max-w-6xl mx-auto px-6 lg:px-12 py-10 flex flex-col lg:flex-row justify-between items-start gap-10">
+            <div>
+              <p style={{ ...fontDisplay, fontSize: "clamp(22px, 3vw, 28px)", fontStyle: "italic", lineHeight: 1.4, color: t.heading }}>
+                "Talent is everywhere.<br />Access is not."
+              </p>
+            </div>
+            <div style={{ maxWidth: 360 }}>
+              <p style={{ ...fontMono, fontSize: 13, lineHeight: 1.7, color: t.muted }}>
+                Cloud engineering has a gap — not a talent gap, but an access gap. To mentorship, to structured paths, to communities that signal <em>this is for you too</em>.
+              </p>
+              <p className="mt-3" style={{ ...fontMono, fontSize: 13, lineHeight: 1.7, color: t.muted }}>
+                University closes the skills gap. <a href="https://buildwithher.infracodebase.com" target="_blank" rel="noopener noreferrer" style={{ color: t.accentEmber, fontWeight: 700 }}>Build with Her</a> closes the human barriers. Both exist because they're needed.
+              </p>
             </div>
           </div>
         </section>
@@ -347,11 +367,12 @@ const Index = () => {
               {/* Left column */}
               <div className="lg:pr-10 pb-8 lg:pb-0" style={{ width: "auto", maxWidth: 260, flexShrink: 0 }}>
                 <h2 style={{ ...fontDisplay, fontSize: 20, fontWeight: 700, lineHeight: 1.35, color: t.heading }}>
-                  Trusted by engineers across{" "}
-                  <em className="font-light" style={{ color: t.accentEmber }}>20+ countries.</em>
+                  464 learners.<br />
+                  <em className="font-light" style={{ color: t.accentEmber }}>20+ countries.</em><br />
+                  One structured path.
                 </h2>
                 <p className="mt-3" style={{ ...fontMono, fontSize: 14, lineHeight: 1.65, color: t.muted }}>
-                  From San Francisco to Japan, engineers are building real infrastructure skills through structured, hands-on training.
+                  From San Francisco to Sydney, people are building real infrastructure skills — through a curriculum designed to take anyone from zero to senior-level thinking.
                 </p>
               </div>
 
@@ -365,8 +386,8 @@ const Index = () => {
                   {[
                     { value: "464", label: "active learners this week" },
                     { value: "20+", label: "countries represented", accent: true },
-                     { value: "2.9k", label: "pageviews this week" },
-                     { value: "6m 32s", label: "avg. time spent learning" },
+                    { value: "50+", label: "lessons in the curriculum" },
+                    { value: "7", label: "core weeks to completion" },
                   ].map((stat, i) => (
                     <div key={i} className="flex flex-col" style={{
                       borderLeft: i > 0 ? `1px solid ${t.border}` : "none",
@@ -411,6 +432,9 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* ═══════════ TESTIMONIALS ═══════════ */}
+        <TestimonialsSection />
 
         {/* ═══════════ 2 · WHAT IS IT ═══════════ */}
         <section style={{ background: t.sectionBg, borderTop: `1px solid ${t.border}`, borderBottom: `1px solid ${t.border}` }}>
@@ -487,21 +511,40 @@ const Index = () => {
           <div className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
             <span data-reveal className={sectionLabel} style={{ ...fontMono, color: t.muted }}>WHO IT'S FOR</span>
             <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: t.heading }}>
-              Built for <em className="font-light" style={{ color: t.accentAurora }}>builders.</em>
+              Start where you{" "}
+              <em className="font-light" style={{ color: t.accentEmber }}>actually are.</em>
             </h2>
             <p data-reveal className="mt-3 max-w-xl" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.7 }}>
-              Whether you're just starting or running large-scale systems — there's a path for you.
+              You don't need a title to start. You just need to be ready to learn.
             </p>
-            <div data-reveal className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-10">
-              {personas.map((p, i) => (
-                <div key={i} className={`${cardBase} p-5 transition-colors duration-300 hover:brightness-110`} style={{ background: t.surface, border: `1px solid ${t.cardBorder}` }}>
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center text-lg mb-3" style={{ background: `${p.color}22`, color: p.color }}>{p.icon}</div>
-                  <div className="font-semibold text-sm" style={{ ...fontDisplay, color: t.heading }}>{p.title}</div>
-                </div>
-              ))}
+            <div data-reveal className="mt-10 max-w-[560px]">
+              {whoItsForRows.map((row, i) => {
+                const isExternal = row.external;
+                const Tag = isExternal ? "a" : Link;
+                const linkProps = isExternal
+                  ? { href: row.href, target: "_blank", rel: "noopener noreferrer" } as React.AnchorHTMLAttributes<HTMLAnchorElement>
+                  : { to: row.href } as { to: string };
+                return (
+                  <Tag
+                    key={i}
+                    {...(linkProps as any)}
+                    className="group block py-4 transition-colors duration-200"
+                    style={{ borderBottom: `1px solid ${t.cardBorder}` }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-semibold transition-colors duration-200 group-hover:text-[#e86030]" style={{ ...fontDisplay, color: t.heading }}>{row.title}</span>
+                      <span className="text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200" style={{ color: t.accentEmber }}>→</span>
+                    </div>
+                    <p className="mt-1" style={{ ...fontMono, fontSize: 12, color: t.muted, lineHeight: 1.6 }}>{row.sub}</p>
+                  </Tag>
+                );
+              })}
             </div>
           </div>
         </section>
+
+        {/* ═══════════ BUILD WITH HER ═══════════ */}
+        <BuildWithHerSection />
 
         {/* ═══════════ 5 · USE CASES ═══════════ */}
         <section className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
@@ -589,9 +632,27 @@ const Index = () => {
           </div>
         </section>
 
-        {/* ═══════════ 7 · CTA ═══════════ */}
+        {/* ═══════════ FAQ ═══════════ */}
+        <section className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
+          <span data-reveal className={sectionLabel} style={{ ...fontMono, color: t.muted }}>FAQ</span>
+          <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: t.heading }}>
+            Common <em className="font-light" style={{ color: t.accentEmber }}>questions.</em>
+          </h2>
+          <div data-reveal className="mt-10 max-w-2xl space-y-8">
+            {[
+              { q: "How long does it take to complete?", a: "It depends on your starting point and how much time you can commit. The prerequisites take most learners around 4 hours. The full curriculum — prerequisites through to badge — is designed for part-time study over several months. You go at your own pace. There is no deadline." },
+              { q: "Is this only for women?", a: "Infracodebase University is open to everyone. The curriculum, training, and badge are available regardless of gender. Build with Her was created because women in cloud face particular barriers the industry hasn't fully addressed — but the community is open to anyone who believes access to this field should be equal, including men who want to be part of closing that gap. University is the skills path. Build with Her is the community. Both exist because they're needed." },
+            ].map((faq, i) => (
+              <div key={i}>
+                <h3 style={{ ...fontDisplay, fontSize: 17, fontWeight: 700, color: t.heading }}>{faq.q}</h3>
+                <p className="mt-2" style={{ ...fontMono, fontSize: 14, lineHeight: 1.75, color: t.muted }}>{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══════════ CTA ═══════════ */}
         <section className="relative text-center overflow-hidden" style={{ padding: "100px 24px 80px" }}>
-          {/* ambient glows — dark only */}
           {t.dark && (
             <div className="absolute inset-0 pointer-events-none" aria-hidden>
               <div className="absolute" style={{ top: "30%", left: "20%", width: 400, height: 400, borderRadius: "50%", background: `radial-gradient(circle,${t.accentEmber}0f 0%,transparent 70%)` }} />
@@ -622,8 +683,8 @@ const Index = () => {
               <Link to="/training" className={pill} style={t.pillPrimary}>
                 <span style={fontMono}>Begin training →</span>
               </Link>
-              <Link to="/manifesto" className={pill} style={t.pillSecondary}>
-                <span style={fontMono}>Read the manifesto</span>
+              <Link to="/our-story" className={pill} style={t.pillSecondary}>
+                <span style={fontMono}>Read our story</span>
               </Link>
             </div>
           </div>

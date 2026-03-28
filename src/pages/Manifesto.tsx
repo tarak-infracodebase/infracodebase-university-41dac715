@@ -8,16 +8,28 @@ type ParagraphStyle = "statement" | "narrative" | "supporting" | "emphasis";
 interface ManifestoParagraph {
   text: string;
   style: ParagraphStyle;
+  section?: string;
 }
 
+const sections = [
+  { id: "who", label: "Who we are" },
+  { id: "what", label: "What we're building" },
+  { id: "how", label: "How we support you" },
+  { id: "community", label: "Our community — global" },
+  { id: "problem", label: "The problem we're here to solve" },
+];
+
 const manifestoParagraphs: ManifestoParagraph[] = [
-  { text: "You don't learn infrastructure by watching tutorials.", style: "statement" },
+  // Who we are
+  { text: "You don't learn infrastructure by watching tutorials.", style: "statement", section: "who" },
   { text: "You learn it by building systems.", style: "statement" },
   { text: "You learn it by asking why an architecture exists.\nWhy a platform was designed a certain way.\nWhy a system survives failure — or doesn't.", style: "narrative" },
-  { text: "Infrastructure runs everything now.", style: "statement" },
+  // What we're building
+  { text: "Infrastructure runs everything now.", style: "statement", section: "what" },
   { text: "Every product you use.\nEvery startup you admire.\nEvery AI system being built.", style: "supporting" },
   { text: "Behind all of it are architectures.\nNetworks.\nPlatforms.\nAutomation.", style: "supporting" },
-  { text: "But most people never learn how those systems are actually designed.", style: "narrative" },
+  // How we support you
+  { text: "But most people never learn how those systems are actually designed.", style: "narrative", section: "how" },
   { text: "They learn services.", style: "statement" },
   { text: "They memorize commands.\nThey follow steps.\nThey deploy examples.", style: "narrative" },
   { text: "But they never learn how to think like an infrastructure engineer.", style: "narrative" },
@@ -28,13 +40,15 @@ const manifestoParagraphs: ManifestoParagraph[] = [
   { text: "Tools change every year.", style: "narrative" },
   { text: "To teach you how to see systems.", style: "statement" },
   { text: "To understand how infrastructure is structured.\nHow platform teams design environments.\nHow security, networking, automation, and governance connect.", style: "narrative" },
-  { text: "Once you see those patterns, everything changes.", style: "statement" },
+  // Our community — global
+  { text: "Once you see those patterns, everything changes.", style: "statement", section: "community" },
   { text: "You stop thinking about configuration.", style: "narrative" },
   { text: "You start thinking about architecture.", style: "statement" },
   { text: "You stop asking how to deploy something.", style: "narrative" },
   { text: "You start asking how the system should work.", style: "narrative" },
   { text: "How it should scale.\nHow it should fail safely.\nHow teams should interact with it.", style: "supporting" },
-  { text: "This is what real infrastructure engineering looks like.", style: "narrative" },
+  // The problem we're here to solve
+  { text: "This is what real infrastructure engineering looks like.", style: "narrative", section: "problem" },
   { text: "It's not a checklist.", style: "emphasis" },
   { text: "It's systems thinking.", style: "emphasis" },
   { text: "And once you start seeing infrastructure that way, the way you build technology changes forever.", style: "narrative" },
@@ -51,29 +65,30 @@ const styleClasses: Record<ParagraphStyle, string> = {
 };
 
 const Manifesto = () => {
+  let currentSection = 0;
+
   return (
     <>
       <Helmet>
-        <title>The Manifesto — Infracodebase University</title>
-        <meta name="description" content="You don't learn infrastructure by watching tutorials. You learn it by building systems — and understanding why they work. Why we built the University." />
-        <link rel="canonical" href="https://university.infracodebase.com/manifesto" />
-        <meta property="og:title" content="The Manifesto — Infracodebase University" />
-        <meta property="og:description" content="You don't learn infrastructure by watching tutorials. You learn it by building systems — and understanding why they work." />
-        <meta property="og:url" content="https://university.infracodebase.com/manifesto" />
+        <title>Our Story — Infracodebase University</title>
+        <meta name="description" content="Whether you are new to infrastructure entirely, or transitioning from another role — you belong here. The story behind Infracodebase University." />
+        <link rel="canonical" href="https://university.infracodebase.com/our-story" />
+        <meta property="og:title" content="Our Story — Infracodebase University" />
+        <meta property="og:description" content="Whether you are new to infrastructure entirely, or transitioning from another role — you belong here." />
+        <meta property="og:url" content="https://university.infracodebase.com/our-story" />
         <meta property="og:type" content="article" />
         <meta property="og:image" content="https://university.infracodebase.com/og/manifesto.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:site_name" content="Infracodebase University" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="The Manifesto — Infracodebase University" />
-        <meta name="twitter:description" content="You don't learn infrastructure by watching tutorials. You learn it by building systems." />
+        <meta name="twitter:title" content="Our Story — Infracodebase University" />
+        <meta name="twitter:description" content="Whether you are new to infrastructure entirely, or transitioning from another role — you belong here." />
         <meta name="twitter:image" content="https://university.infracodebase.com/og/manifesto.png" />
       </Helmet>
       <div className="min-h-screen bg-[hsl(0,0%,100%)] text-[hsl(228,20%,12%)] selection:bg-[hsl(260,70%,58%)/0.15]">
       {/* Hero */}
       <section className="flex flex-col items-center justify-center px-6 pt-20 pb-6 md:pt-28 md:pb-8">
-        {/* Rainbow wordmark */}
         <h2
           className="text-2xl md:text-3xl font-bold tracking-tight"
           style={{
@@ -91,15 +106,11 @@ const Manifesto = () => {
           className="mt-8 md:mt-10 text-5xl md:text-7xl lg:text-8xl text-center leading-[1.15] tracking-tight text-[hsl(228,20%,10%)]"
           style={{ fontFamily: "'Caveat', cursive" }}
         >
-          Learn Infrastructure
-          <br />
-          Differently.
+          Our Story
         </h1>
 
         <p className="mt-6 max-w-lg text-center text-base md:text-lg leading-relaxed text-[hsl(220,10%,40%)] font-sans">
-          Modern infrastructure isn't learned through tutorials.
-          <br />
-          You learn it by understanding systems.
+          Whether you are new to infrastructure entirely, or transitioning from another role — you belong here.
         </p>
 
         <Link
@@ -110,17 +121,31 @@ const Manifesto = () => {
         </Link>
       </section>
 
-      {/* Manifesto */}
+      {/* Content */}
       <section className="px-6 pt-4 md:pt-6 pb-12 md:pb-20">
         <div className="mx-auto max-w-[620px]">
-          {manifestoParagraphs.map((p, i) => (
-            <p
-              key={i}
-              className={`font-sans leading-[1.75] whitespace-pre-line ${styleClasses[p.style]} ${i === 0 ? "!mt-0" : ""}`}
-            >
-              {p.text}
-            </p>
-          ))}
+          {manifestoParagraphs.map((p, i) => {
+            let sectionHeader = null;
+            if (p.section) {
+              const sec = sections[currentSection];
+              sectionHeader = (
+                <div key={`section-${currentSection}`} className={currentSection === 0 ? "" : "mt-16 md:mt-20"}>
+                  <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-[hsl(220,10%,60%)]" style={{ fontFamily: "'DM Mono', monospace" }}>
+                    {String(currentSection + 1).padStart(2, "0")} — {sec.label}
+                  </span>
+                </div>
+              );
+              currentSection++;
+            }
+            return (
+              <div key={i}>
+                {sectionHeader}
+                <p className={`font-sans leading-[1.75] whitespace-pre-line ${styleClasses[p.style]} ${i === 0 ? "!mt-4" : ""}`}>
+                  {p.text}
+                </p>
+              </div>
+            );
+          })}
 
           {/* Signature */}
           <div className="pt-12 md:pt-16">
@@ -129,6 +154,22 @@ const Manifesto = () => {
               alt="Founder's signature"
               className="w-[220px] md:w-[260px] h-auto"
             />
+          </div>
+
+          {/* Closing card */}
+          <div className="mt-16 rounded-xl p-8" style={{ background: "#131316", border: "1px solid rgba(255,255,255,0.07)" }}>
+            <p className="text-base leading-relaxed text-[#f0ece3]" style={{ fontFamily: "'Fraunces', serif" }}>
+              "This journey is easier with others. That is why Infracodebase University is part of a wider ecosystem designed to make sure you never have to build alone."
+            </p>
+            <a
+              href="https://buildwithher.infracodebase.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-medium mt-6 transition-all duration-300 cursor-pointer"
+              style={{ background: "#e86030", color: "#fff", fontFamily: "'DM Mono', monospace" }}
+            >
+              Explore Build with Her ↗
+            </a>
           </div>
         </div>
       </section>

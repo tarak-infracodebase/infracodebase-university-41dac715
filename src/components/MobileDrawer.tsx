@@ -8,7 +8,7 @@ const sections = [
     label: "DISCOVER",
     items: [
       { title: "Home", path: "/", icon: Home },
-      { title: "Manifesto", path: "/manifesto", icon: FileText },
+      { title: "Our Story", path: "/our-story", icon: FileText },
     ],
   },
   {
@@ -24,6 +24,9 @@ const sections = [
     items: [
       { title: "Workshops", path: "/workshops", icon: Radio },
       { title: "Events", path: "/events", icon: Calendar },
+    ],
+    externalItems: [
+      { title: "Build with Her", href: "https://buildwithher.infracodebase.com", icon: Home, amber: true },
     ],
   },
   {
@@ -152,6 +155,28 @@ export function MobileDrawer() {
               </div>
               {section.items.map(item => (
                 <NavRow key={item.path} title={item.title} path={item.path} icon={item.icon} onNavigate={handleNavigate} />
+              ))}
+              {"externalItems" in section && section.externalItems?.map((ext: { title: string; href: string; icon: React.ComponentType<{ style?: React.CSSProperties; className?: string }>; amber?: boolean }) => (
+                <a
+                  key={ext.href}
+                  href={ext.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setOpen(false)}
+                  className="w-full flex items-center gap-3 active:bg-white/[0.03] transition-colors"
+                  style={{
+                    padding: "10px 18px",
+                    borderBottom: "1px solid rgba(255,255,255,0.07)",
+                  }}
+                >
+                  <ext.icon style={{ width: 16, height: 16, color: "#d97706", flexShrink: 0 }} />
+                  <div className="text-left flex-1">
+                    <div style={{ ...fontDisplay, fontSize: 15, fontWeight: 700, color: "#d97706" }}>
+                      {ext.title} ↗
+                    </div>
+                  </div>
+                  <span style={{ ...fontMono, fontSize: 14, color: "rgba(255,255,255,0.2)" }}>→</span>
+                </a>
               ))}
               {idx < sections.length - 1 && (
                 <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "0 18px" }} />
