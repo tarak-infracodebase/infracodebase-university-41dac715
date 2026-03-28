@@ -191,7 +191,7 @@ function EditableFeedback() {
 
   const who = useAutoSaveText(KEYS.who);
   const benefit = useAutoSaveText(KEYS.benefit);
-  const friction = useAutoSaveText(KEYS.friction);
+  
   const valuable = useAutoSaveText(KEYS.valuable);
   const brutal = useAutoSaveText(KEYS.brutal);
 
