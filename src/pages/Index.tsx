@@ -326,7 +326,7 @@ const Index = () => {
 
             {/* subtitle */}
             <p data-reveal className="mx-auto mt-8 max-w-2xl" style={{ ...fontMono, fontSize: 14, lineHeight: 1.7, color: t.muted, animationDelay: "0.2s" }}>
-              A structured learning program for cloud engineers. Learn to design, build, and govern infrastructure as code using Infracodebase — through a progressive curriculum built for real systems.
+              Structured. Practical. Built for real systems — and built for anyone ready to learn them.
             </p>
 
             {/* CTAs */}
@@ -334,9 +334,28 @@ const Index = () => {
               <Link to="/training" className={pill} style={t.pillPrimary}>
                 <span style={fontMono}>Begin training →</span>
               </Link>
-              <Link to="/manifesto" className={pill} style={t.pillSecondary}>
-                <span style={fontMono}>Read our Manifesto</span>
+              <Link to="/our-story" className={pill} style={t.pillSecondary}>
+                <span style={fontMono}>Read our Story →</span>
               </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── PULL QUOTE BAND ── */}
+        <section style={{ borderTop: `1px solid ${t.border}`, borderBottom: `1px solid ${t.border}`, background: t.bg }}>
+          <div className="max-w-6xl mx-auto px-6 lg:px-12 py-10 flex flex-col lg:flex-row justify-between items-start gap-10">
+            <div>
+              <p style={{ ...fontDisplay, fontSize: "clamp(22px, 3vw, 28px)", fontStyle: "italic", lineHeight: 1.4, color: t.heading }}>
+                "Talent is everywhere.<br />Access is not."
+              </p>
+            </div>
+            <div style={{ maxWidth: 360 }}>
+              <p style={{ ...fontMono, fontSize: 13, lineHeight: 1.7, color: t.muted }}>
+                Cloud engineering has a gap — not a talent gap, but an access gap. To mentorship, to structured paths, to communities that signal <em>this is for you too</em>.
+              </p>
+              <p className="mt-3" style={{ ...fontMono, fontSize: 13, lineHeight: 1.7, color: t.muted }}>
+                University closes the skills gap. <a href="https://buildwithher.infracodebase.com" target="_blank" rel="noopener noreferrer" style={{ color: t.accentEmber, fontWeight: 700 }}>Build with Her</a> closes the human barriers. Both exist because they're needed.
+              </p>
             </div>
           </div>
         </section>
@@ -348,11 +367,12 @@ const Index = () => {
               {/* Left column */}
               <div className="lg:pr-10 pb-8 lg:pb-0" style={{ width: "auto", maxWidth: 260, flexShrink: 0 }}>
                 <h2 style={{ ...fontDisplay, fontSize: 20, fontWeight: 700, lineHeight: 1.35, color: t.heading }}>
-                  Trusted by engineers across{" "}
-                  <em className="font-light" style={{ color: t.accentEmber }}>20+ countries.</em>
+                  464 learners.<br />
+                  <em className="font-light" style={{ color: t.accentEmber }}>20+ countries.</em><br />
+                  One structured path.
                 </h2>
                 <p className="mt-3" style={{ ...fontMono, fontSize: 14, lineHeight: 1.65, color: t.muted }}>
-                  From San Francisco to Japan, engineers are building real infrastructure skills through structured, hands-on training.
+                  From San Francisco to Sydney, people are building real infrastructure skills — through a curriculum designed to take anyone from zero to senior-level thinking.
                 </p>
               </div>
 
@@ -366,8 +386,8 @@ const Index = () => {
                   {[
                     { value: "464", label: "active learners this week" },
                     { value: "20+", label: "countries represented", accent: true },
-                     { value: "2.9k", label: "pageviews this week" },
-                     { value: "6m 32s", label: "avg. time spent learning" },
+                    { value: "50+", label: "lessons in the curriculum" },
+                    { value: "7", label: "core weeks to completion" },
                   ].map((stat, i) => (
                     <div key={i} className="flex flex-col" style={{
                       borderLeft: i > 0 ? `1px solid ${t.border}` : "none",
@@ -412,6 +432,9 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* ═══════════ TESTIMONIALS ═══════════ */}
+        <TestimonialsSection />
 
         {/* ═══════════ 2 · WHAT IS IT ═══════════ */}
         <section style={{ background: t.sectionBg, borderTop: `1px solid ${t.border}`, borderBottom: `1px solid ${t.border}` }}>
