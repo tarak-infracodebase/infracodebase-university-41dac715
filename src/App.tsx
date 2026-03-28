@@ -45,13 +45,14 @@ const AnimatedRoutes = () => {
         <Route path="/sign-in/*" element={<SignInPage />} />
         <Route path="/sign-up/*" element={<SignUpPage />} />
         <Route
-          path="/manifesto"
+          path="/our-story"
           element={
             <AppLayout>
               <Manifesto />
             </AppLayout>
           }
         />
+        <Route path="/manifesto" element={<Navigate to="/our-story" replace />} />
         <Route
           path="/cards"
           element={
