@@ -29,6 +29,7 @@ import SignInPage from "./pages/SignIn";
 import SignUpPage from "./pages/SignUp";
 import OfficeHours from "./pages/OfficeHours";
 import CommunityCards from "./pages/CommunityCards";
+import Community from "./pages/Community";
 
 const CLERK_PUBLISHABLE_KEY = "pk_live_Y2xlcmsuaW5mcmFjb2RlYmFzZS5jb20k";
 
@@ -53,6 +54,7 @@ const AnimatedRoutes = () => {
           }
         />
         <Route path="/manifesto" element={<Navigate to="/our-story" replace />} />
+        <Route path="/community" element={<Community />} />
         <Route
           path="/cards"
           element={

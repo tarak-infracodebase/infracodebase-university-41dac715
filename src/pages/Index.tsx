@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { AppLayout } from "@/components/AppLayout";
 import { TestimonialsSection } from "@/components/homepage/TestimonialsSection";
-import { BuildWithHerSection } from "@/components/homepage/BuildWithHerSection";
+
 import { useEffect, useRef } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -59,25 +59,6 @@ function useTokens() {
   };
 }
 
-/* ── prerequisite tracks ── */
-const prereqTracks = [
-  { label: "Cloud & Infra · Track 1", title: "Introduction", href: "/path/cloud-infrastructure-intro", level: "Beginner", accent: "#3a7a5a", desc: "Cloud concepts, core services, and introduction to Infrastructure as Code." },
-  { label: "Cloud & Infra · Track 2", title: "Foundations", href: "/path/prereq-foundations", level: "Beginner", accent: "#1e3a5f", desc: "Deeper into networking, storage, compute, and IAM across providers." },
-  { label: "Cloud & Infra · Track 3", title: "Intermediate", href: "/path/prereq-intermediate", level: "Intermediate", accent: "#e86030", desc: "Multi-cloud patterns, CI/CD pipelines, and state management." },
-  { label: "Cloud & Infra · Track 4", title: "Expert", href: "/path/prereq-expert", level: "Advanced", accent: "#c060d0", desc: "Platform engineering, zero-trust networking, and disaster recovery." },
-];
-
-const curriculumModules = [
-  { mod: 1, title: "Welcome & Orientation", href: "/path/welcome-orientation", level: "Beginner", accent: "#3a7a5a", span2: true },
-  { mod: 2, title: "Foundations – Understanding Infracodebase", href: "/path/foundations", level: "Beginner", accent: "#1e3a5f" },
-  { mod: 3, title: "Real Infrastructure Engineering", href: "/path/real-infrastructure-engineering", level: "Intermediate", accent: "#e86030" },
-  { mod: 4, title: "Architecture Diagrams & Living Documentation", href: "/path/architecture-diagrams", level: "Intermediate", accent: "#9a6b3a" },
-  { mod: 5, title: "Enterprise Governance & Platform Engineering", href: "/path/enterprise-governance", level: "Intermediate", accent: "#30c0a0" },
-  { mod: 6, title: "Advanced Infrastructure Architecture", href: "/path/advanced-architecture", level: "Advanced", accent: "#c060d0" },
-  { mod: 7, title: "Review & Wrap-Up", href: "/path/review-wrapup", level: "Advanced", accent: "rainbow" },
-];
-
-const levelColor = (l: string) => l === "Beginner" ? "#3a7a5a" : l === "Intermediate" ? "#e86030" : "#c060d0";
 
 /* ── who it's for ── */
 const whoItsForRows = [
@@ -89,25 +70,6 @@ const whoItsForRows = [
 ];
 
 
-/* ── community cards ── */
-const communityCards = {
-  tall: {
-    href: "/workshops",
-    accentColor: "#e86030",
-    badge: "● NEXT SESSION",
-    eyebrow: "WORKSHOPS",
-    title: "Shift-Left Security — Building a Secure AWS Baseline from Scratch",
-     desc: "Instead of adding security after the fact, we start with it. Live demo of generating secure AWS Terraform from scratch.",
-     meta: "📅 Wed, April 1 · 5:00 PM CET",
-    cta: "ADD TO CALENDAR →",
-  },
-  grid: [
-    { href: "/videos", accentColor: "#a78bfa", eyebrow: "VIDEO LIBRARY", title: "Introduction to Infracodebase", badge: "GETTING STARTED", play: true },
-    { href: "/videos", accentColor: "#30c0a0", eyebrow: "VIDEO LIBRARY", title: "Applying Infracodebase to Real Infrastructure", badge: "INFRASTRUCTURE ARCHITECTURE", play: true },
-    { href: "/workshops", accentColor: "#e86030", eyebrow: "PAST SESSION · 49 MIN", title: "ClickOps to IaC: Azure Infrastructure Modernization", badge: "REAL INFRASTRUCTURE", extra: "March 18, 2026" },
-    { href: "/events", accentColor: "#6fa3d8", eyebrow: "EVENTS", title: "Building Self-Service, Secure & Scalable Developer Platforms", badge: "FEATURED SESSION", arrow: true },
-  ],
-};
 
 /* ── path map data ── */
 const pathMapCards = [
@@ -407,74 +369,7 @@ const Index = () => {
         {/* ═══════════ TESTIMONIALS ═══════════ */}
         <TestimonialsSection />
 
-        {/* ═══════════ 2 · WHAT IS IT ═══════════ */}
-        <section style={{ background: t.sectionBg, borderTop: `1px solid ${t.border}`, borderBottom: `1px solid ${t.border}` }}>
-          <div className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
-            <div className="grid lg:grid-cols-2 gap-16 items-start">
-              <div>
-                <span data-reveal className={sectionLabel} style={{ ...fontMono, color: t.muted }}>WHAT IS IT</span>
-                <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, lineHeight: 1.15, color: t.heading }}>
-                  Infrastructure as code,{" "}
-                  <em className="font-light" style={{ color: t.accentAurora }}>not clicks.</em>
-                </h2>
-                <p data-reveal className="mt-5" style={{ ...fontMono, fontSize: 15, lineHeight: 1.75, color: t.muted }}>
-                  Infracodebase University is a <strong style={{ color: t.strongText, fontWeight: 500 }}>structured learning program</strong> for cloud engineers. Instead of fragmented tutorials, you follow a <strong style={{ color: t.strongText, fontWeight: 500 }}>progressive curriculum</strong> — designing and governing systems the way they're actually built with <strong style={{ color: t.strongText, fontWeight: 500 }}>AI-powered Terraform workflows</strong>.
-                </p>
-              </div>
-              <div data-reveal className="grid grid-cols-2 gap-3">
-                {[
-                  { num: "7", label: "Core weeks", color: t.accentEmber },
-                  { num: "4", label: "Prereq tracks", color: t.accentAurora },
-                  { num: "50+", label: "Lessons", color: t.accentPrism },
-                  { num: "∞", label: "Community", color: t.accentBronze },
-                ].map((s, i) => (
-                  <div key={i} className="rounded-xl p-6 transition-colors duration-300 hover:brightness-110" style={{ background: t.surface, border: `1px solid ${t.cardBorder}` }}>
-                    <div style={{ ...fontDisplay, fontSize: 40, fontWeight: 900, color: s.color }}>{s.num}</div>
-                    <div style={{ ...fontMono, fontSize: 12, color: t.muted, marginTop: 4 }}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════ 3 · LEARNING PATHS ═══════════ */}
-        <section className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
-          <span data-reveal className={sectionLabel} style={{ ...fontMono, color: t.muted }}>TRAINING</span>
-          <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: t.heading }}>Learning paths.</h2>
-          <p data-reveal className="mt-3 max-w-xl" style={{ ...fontMono, fontSize: 15, color: t.muted, lineHeight: 1.7 }}>
-            Start with cloud & infrastructure prerequisites, then move through the Infracodebase curriculum. Each module builds on the last.
-          </p>
-
-          {/* Part A — prerequisites */}
-          <h3 data-reveal className="mt-14 mb-5" style={{ ...fontMono, fontSize: 12, letterSpacing: "0.15em", color: t.muted }}>CLOUD & INFRASTRUCTURE PREREQUISITES</h3>
-          <div data-reveal className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {prereqTracks.map((tr, i) => (
-              <Link key={i} to={tr.href} className={`${cardBase} ${cardHover} block p-5 group`} style={{ background: t.surface, border: `1px solid ${t.cardBorder}` }}>
-                <div className="h-1 w-full rounded-full mb-4" style={{ background: tr.accent }} />
-                <div style={{ ...fontMono, fontSize: 10, letterSpacing: "0.1em", color: t.muted }}>{tr.label}</div>
-                <div className="mt-1.5 font-semibold text-sm" style={{ ...fontDisplay, color: t.heading }}>{tr.title}</div>
-                <p className="mt-2" style={{ ...fontMono, fontSize: 14, color: t.muted, lineHeight: 1.65 }}>{tr.desc}</p>
-                <span className="inline-block mt-3 text-[10px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${levelColor(tr.level)}22`, color: levelColor(tr.level) }}>{tr.level}</span>
-              </Link>
-            ))}
-          </div>
-
-          {/* Part B — curriculum */}
-          <h3 data-reveal className="mt-14 mb-5" style={{ ...fontMono, fontSize: 12, letterSpacing: "0.15em", color: t.muted }}>INFRACODEBASE CURRICULUM</h3>
-          <div data-reveal className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {curriculumModules.map((m, i) => (
-              <Link key={i} to={m.href} className={`${cardBase} ${cardHover} block p-5 group ${m.span2 ? "sm:col-span-2" : ""}`} style={{ background: t.surface, border: `1px solid ${t.cardBorder}` }}>
-                <div className="h-1 w-full rounded-full mb-4" style={{ background: m.accent === "rainbow" ? RAINBOW_CSS : m.accent }} />
-                <div style={{ ...fontMono, fontSize: 10, letterSpacing: "0.1em", color: t.muted }}>Module {m.mod}</div>
-                <div className="mt-1.5 font-semibold text-sm" style={{ ...fontDisplay, color: t.heading }}>{m.title}</div>
-                <span className="inline-block mt-3 text-[10px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${levelColor(m.level)}22`, color: levelColor(m.level) }}>{m.level}</span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* ═══════════ 3b · LEARNING PATH MAP + RESOURCES ═══════════ */}
+        {/* ═══════════ YOUR COMPLETE JOURNEY ═══════════ */}
         <SectionPathMap t={t} />
 
         {/* ═══════════ 4 · WHO IT'S FOR ═══════════ */}
@@ -510,63 +405,6 @@ const Index = () => {
                   </Tag>
                 );
               })}
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════ BUILD WITH HER ═══════════ */}
-        <BuildWithHerSection />
-
-
-        {/* ═══════════ 6 · COMMUNITY ═══════════ */}
-        <section style={{ background: t.sectionBg, borderTop: `1px solid ${t.border}`, borderBottom: `1px solid ${t.border}` }}>
-          <div className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
-            <span data-reveal className={sectionLabel} style={{ ...fontMono, color: t.muted }}>COMMUNITY</span>
-            <h2 data-reveal style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, color: t.heading }}>
-              Learn. Build. <em className="font-light" style={{ color: t.accentEmber }}>Grow.</em>
-            </h2>
-            <p data-reveal className="mt-3 max-w-2xl" style={{ ...fontMono, fontSize: 15, color: t.muted, lineHeight: 1.7 }}>
-              Every week: live workshops, engineering walkthroughs, and community events so builders can learn from real systems and grow together.
-            </p>
-
-            <div data-reveal className="grid lg:grid-cols-2 gap-3 mt-10">
-              {/* Tall card — workshops */}
-              <Link to={communityCards.tall.href} className={`${cardBase} ${cardHover} flex flex-col justify-between p-7 min-h-[420px] lg:row-span-2`}
-                style={{ background: t.surface, border: `1px solid ${t.cardBorder}`, borderTop: `2px solid ${communityCards.tall.accentColor}` }}>
-                <div>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${t.accentEmber}22`, color: t.accentEmber }}>{communityCards.tall.badge}</span>
-                  <div className="mt-4" style={{ ...fontMono, fontSize: 10, letterSpacing: "0.15em", color: t.muted }}>{communityCards.tall.eyebrow}</div>
-                  <div className="mt-2 text-lg font-semibold leading-snug" style={{ ...fontDisplay, color: t.heading }}>{communityCards.tall.title}</div>
-                  <p className="mt-3" style={{ ...fontMono, fontSize: 13, color: t.muted, lineHeight: 1.6 }}>{communityCards.tall.desc}</p>
-                </div>
-                <div>
-                  <p className="mb-4" style={{ ...fontMono, fontSize: 12, color: t.muted }}>{communityCards.tall.meta}</p>
-                  {/* host avatars */}
-                  <div className="flex items-center gap-2 mb-5">
-                    <div className="flex -space-x-2">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ background: `linear-gradient(135deg,${t.accentEmber},${t.accentPrism})` }}>J</div>
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ background: `linear-gradient(135deg,${t.accentAurora},${t.accentNavy})` }}>T</div>
-                    </div>
-                    <span style={{ ...fontMono, fontSize: 11, color: t.muted }}>Justin & Tarak</span>
-                  </div>
-                  <span style={{ ...fontMono, fontSize: 12, fontWeight: 500, color: t.accentEmber }}>{communityCards.tall.cta}</span>
-                </div>
-              </Link>
-
-              {/* 2×2 grid */}
-              <div className="grid grid-cols-2 gap-3">
-                {communityCards.grid.map((c, i) => (
-                  <Link key={i} to={c.href} className={`${cardBase} ${cardHover} block p-5`}
-                    style={{ background: t.surface, border: `1px solid ${t.cardBorder}`, borderTop: `2px solid ${c.accentColor}` }}>
-                    <div style={{ ...fontMono, fontSize: 10, letterSpacing: "0.12em", color: c.accentColor }}>{c.eyebrow}</div>
-                    <div className="mt-2 text-sm font-semibold leading-snug" style={{ ...fontDisplay, color: t.heading }}>{c.title}</div>
-                    <span className="inline-block mt-3 text-[9px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: t.dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)", color: t.muted }}>{c.badge}</span>
-                    {c.play && <div className="mt-3 text-lg opacity-50">▶</div>}
-                    {c.extra && <div className="mt-2" style={{ ...fontMono, fontSize: 11, color: t.muted }}>{c.extra}</div>}
-                    {c.arrow && <div className="mt-3 text-sm opacity-40">→</div>}
-                  </Link>
-                ))}
-              </div>
             </div>
           </div>
         </section>
