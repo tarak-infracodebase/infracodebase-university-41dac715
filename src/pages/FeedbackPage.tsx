@@ -302,19 +302,22 @@ function EditableFeedback() {
             </span>
           </div>
 
-          <p className="mt-2 text-xs text-muted-foreground/70">
-            {answeredCount} of 7 answered
-          </p>
-          {hasSubmitted && (
-            <div className="mt-1 text-xs text-muted-foreground/70 font-mono">
-              Last shared:{" "}
-              {new Date(submittedAt!).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+          {answeredCount > 0 && (
+            <div className="mt-2 flex items-center gap-1.5">
+              {Array.from({ length: 7 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="rounded-full transition-colors duration-200"
+                  style={{
+                    width: 6,
+                    height: 6,
+                    background: i < answeredCount ? "hsl(var(--accent))" : "hsl(var(--muted-foreground) / 0.15)",
+                  }}
+                />
+              ))}
+              <span className="ml-1 font-mono text-[10px] text-muted-foreground/35">
+                {answeredCount} of 7
+              </span>
             </div>
           )}
         </div>
