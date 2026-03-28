@@ -17,12 +17,14 @@ import { NotificationBell } from "./notifications/NotificationPanel";
 import { NotificationModal } from "./notifications/NotificationModal";
 import { useNotifications } from "./notifications/useNotifications";
 
+import { ExternalLink } from "lucide-react";
+
 const navGroups = [
   {
     label: "Discover",
     items: [
       { path: "/", label: "Home", icon: Home },
-      { path: "/manifesto", label: "Manifesto", icon: FileText },
+      { path: "/our-story", label: "Our Story", icon: FileText },
     ],
   },
   {
@@ -38,6 +40,9 @@ const navGroups = [
     items: [
       { path: "/workshops", label: "Workshops", icon: Radio },
       { path: "/events", label: "Events", icon: Calendar },
+    ],
+    externalItems: [
+      { href: "https://buildwithher.infracodebase.com", label: "Build with Her", icon: ExternalLink, amber: true },
     ],
   },
   {

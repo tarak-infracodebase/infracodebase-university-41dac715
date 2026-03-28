@@ -8,7 +8,7 @@ const sections = [
     label: "DISCOVER",
     items: [
       { title: "Home", path: "/", icon: Home },
-      { title: "Manifesto", path: "/manifesto", icon: FileText },
+      { title: "Our Story", path: "/our-story", icon: FileText },
     ],
   },
   {
@@ -24,6 +24,9 @@ const sections = [
     items: [
       { title: "Workshops", path: "/workshops", icon: Radio },
       { title: "Events", path: "/events", icon: Calendar },
+    ],
+    externalItems: [
+      { title: "Build with Her", href: "https://buildwithher.infracodebase.com", icon: Home, amber: true },
     ],
   },
   {
