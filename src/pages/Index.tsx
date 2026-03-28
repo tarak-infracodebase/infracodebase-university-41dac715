@@ -80,13 +80,12 @@ const curriculumModules = [
 const levelColor = (l: string) => l === "Beginner" ? "#3a7a5a" : l === "Intermediate" ? "#e86030" : "#c060d0";
 
 /* ── who it's for ── */
-const personas = [
-  { icon: "⬡", title: "Platform Engineers", color: "#e86030" },
-  { icon: "◈", title: "DevOps Engineers", color: "#30c0a0" },
-  { icon: "△", title: "Cloud Architects", color: "#c060d0" },
-  { icon: "◎", title: "Cloud Engineers", color: "#9a6b3a" },
-  { icon: "⬡", title: "Engineering Teams", color: "#3a7a5a" },
-  { icon: "◈", title: "Technical Leaders", color: "#1e3a5f" },
+const whoItsForRows = [
+  { title: "New to cloud — not sure where to start", sub: "Begin with the prerequisites. Zero prior knowledge required.", href: "/path/cloud-infrastructure-intro", external: false },
+  { title: "Ready to learn — want structure and a clear path", sub: "The curriculum takes you from concept to hands-on deployment.", href: "/training", external: false },
+  { title: "Actively learning — need support and momentum", sub: "Build with Her runs community sessions alongside your studies.", href: "https://buildwithher.infracodebase.com", external: true },
+  { title: "Building — need visibility and feedback", sub: "Publish your work on the Build with Her Builder Wall.", href: "https://buildwithher.infracodebase.com/builder-wall", external: true },
+  { title: "Job-ready — get hands-on and build real systems", sub: "Learn to code, design, ship, and operate cloud infrastructure on Infracodebase.", href: "/hands-on", external: false },
 ];
 
 /* ── use cases ── */
