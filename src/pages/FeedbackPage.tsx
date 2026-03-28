@@ -218,11 +218,11 @@ function EditableFeedback() {
     if (who.value.trim()) count++;
     if (benefit.value.trim()) count++;
     if (rating > 0) count++;
-    if (friction.value.trim()) count++;
+    if (stuckAreas.length > 0) count++;
     if (valuable.value.trim()) count++;
     if (brutal.value.trim()) count++;
     return count;
-  }, [disappointment, who.value, benefit.value, rating, friction.value, valuable.value, brutal.value]);
+  }, [disappointment, who.value, benefit.value, rating, stuckAreas, valuable.value, brutal.value]);
 
   const handleShareAnswers = async () => {
     if (answeredCount === 0) return;
