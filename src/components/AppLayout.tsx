@@ -208,6 +208,23 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
                   </Link>
                 );
               })}
+              {"externalItems" in group && group.externalItems?.map((ext: { href: string; label: string; icon: React.ComponentType<{ className?: string }>; amber?: boolean }) => (
+                <a
+                  key={ext.href}
+                  href={ext.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+                    ext.amber
+                      ? "text-amber-500 border border-amber-500/30 hover:bg-amber-500/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  )}
+                >
+                  <ext.icon className="h-4 w-4 shrink-0" />
+                  {!collapsed && <span className="truncate">{ext.label} ↗</span>}
+                </a>
+              ))}
             </div>
           </div>
         ))}
