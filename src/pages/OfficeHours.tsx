@@ -1352,6 +1352,23 @@ export default function OfficeHours() {
 
   return (
     <AppLayout>
+      <Helmet>
+        <title>Live Workshops — Infracodebase University</title>
+        <meta name="description" content="Join live infrastructure engineering workshops every Wednesday at 5:00 PM CET. Demos, walkthroughs, and Q&A with real systems. Hosted by Justin & Tarak." />
+        <link rel="canonical" href="https://university.infracodebase.com/workshops" />
+        <meta property="og:title" content="Live Workshops — Infracodebase University" />
+        <meta property="og:description" content="Join live infrastructure engineering workshops every Wednesday at 5:00 PM CET. Demos, walkthroughs, and Q&A with real systems." />
+        <meta property="og:url" content="https://university.infracodebase.com/workshops" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://university.infracodebase.com/og/workshops.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Infracodebase University" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Live Workshops — Infracodebase University" />
+        <meta name="twitter:description" content="Live infrastructure engineering workshops every Wednesday. Real systems, real demos." />
+        <meta name="twitter:image" content="https://university.infracodebase.com/og/workshops.png" />
+      </Helmet>
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-10 pt-16 lg:pt-16 space-y-10">
 
         {/* What is Workshops banner */}

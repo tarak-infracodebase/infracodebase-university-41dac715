@@ -88,11 +88,27 @@ const Curriculum = () => {
 
   return (
     <AppLayout>
+      <Helmet>
+        <title>Training — Infracodebase University</title>
+        <meta name="description" content="Browse the complete Infracodebase learning program — 4 prerequisite tracks and 7 curriculum modules for cloud and platform engineers." />
+        <link rel="canonical" href="https://university.infracodebase.com/training" />
+        <meta property="og:title" content="Training — Infracodebase University" />
+        <meta property="og:description" content="Browse the complete Infracodebase learning program — 4 prerequisite tracks and 7 curriculum modules for cloud and platform engineers." />
+        <meta property="og:url" content="https://university.infracodebase.com/training" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://university.infracodebase.com/og/training.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Infracodebase University" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Training — Infracodebase University" />
+        <meta name="twitter:description" content="Browse the complete Infracodebase learning program — 4 prerequisite tracks and 7 curriculum modules." />
+        <meta name="twitter:image" content="https://university.infracodebase.com/og/training.png" />
+      </Helmet>
       <div className="p-6 lg:p-8 max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-2xl font-bold mb-1">Training</h1>
           <p className="text-sm text-muted-foreground">Browse the complete Infracodebase learning program</p>
-          <title>Training | Infracodebase University</title>
         </div>
 
         {/* Guidance Banner */}
