@@ -293,7 +293,7 @@ const Index = () => {
         }} />
 
         {/* ═══════════ 1 · HERO ═══════════ */}
-        <section className="relative flex flex-col items-center justify-center text-center overflow-hidden" style={{ minHeight: "100vh", padding: "60px 24px 80px" }}>
+        <section className="relative flex flex-col items-center justify-center text-center overflow-hidden" style={{ padding: "72px 48px 64px" }}>
           {/* ambient blobs — only in dark mode */}
           {t.dark && (
             <div className="absolute inset-0 pointer-events-none" aria-hidden>
