@@ -421,24 +421,41 @@ function EditableFeedback() {
 
           {/* Q5 — Friction */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">
-                Where did you get stuck or confused?
-              </label>
-              <SavedBadge visible={friction.saved} />
-            </div>
+            <label className="text-sm font-semibold text-foreground">
+              Where did you get stuck or confused?
+            </label>
             <p className="text-xs text-muted-foreground">
-              Go through each area you've visited and note anything that slowed you down.
+              Select all areas where you experienced friction.
             </p>
-            <p className="text-[11px] font-mono text-muted-foreground/60 leading-relaxed">
-              {FRICTION_AREAS}
-            </p>
-            <Textarea
-              value={friction.value}
-              onChange={(e) => friction.update(e.target.value)}
-              className="min-h-[160px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
-              placeholder="e.g. The Hands-On Training submission wasn't clear. The Video Library was hard to find from the Dashboard..."
-            />
+            <div className="flex flex-wrap gap-2 mt-2">
+              {FRICTION_AREAS_LIST.map((area) => (
+                <button
+                  key={area}
+                  type="button"
+                  onClick={() =>
+                    setStuckAreas((prev) =>
+                      prev.includes(area)
+                        ? prev.filter((a) => a !== area)
+                        : [...prev, area]
+                    )
+                  }
+                  className="font-mono text-[11px] px-3 py-1.5 rounded-full border transition-all duration-150 cursor-pointer"
+                  style={{
+                    borderColor: stuckAreas.includes(area)
+                      ? "hsl(var(--accent) / 0.5)"
+                      : "hsl(var(--muted-foreground) / 0.15)",
+                    background: stuckAreas.includes(area)
+                      ? "hsl(var(--accent) / 0.1)"
+                      : "transparent",
+                    color: stuckAreas.includes(area)
+                      ? "hsl(var(--accent))"
+                      : "hsl(var(--muted-foreground) / 0.5)",
+                  }}
+                >
+                  {area}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Q6 — Valuable */}
