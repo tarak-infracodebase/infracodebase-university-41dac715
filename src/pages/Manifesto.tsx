@@ -198,8 +198,7 @@ const Manifesto = () => {
                         e.preventDefault();
                         const el = document.getElementById(item.id);
                         if (el) {
-                          const y = el.getBoundingClientRect().top + window.scrollY - 80;
-                          window.scrollTo({ top: y, behavior: "smooth" });
+                          el.scrollIntoView({ behavior: "smooth", block: "start" });
                         }
                       }}
                       className="block py-1.5 text-[13px] transition-colors duration-200"
