@@ -6,7 +6,7 @@ import {
   Sun, Moon, Zap, FileText,
 } from "lucide-react";
 import { MobileDrawer } from "./MobileDrawer";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { ReferralModal } from "./ReferralModal";
