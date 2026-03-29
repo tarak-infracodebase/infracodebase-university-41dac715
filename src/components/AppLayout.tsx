@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { MobileDrawer } from "./MobileDrawer";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { ReferralModal } from "./ReferralModal";
