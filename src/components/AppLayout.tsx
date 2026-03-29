@@ -135,62 +135,57 @@ function SidebarUserRow({ collapsed, xp }: { collapsed: boolean; xp: number }) {
   );
 }
 
-export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
+export function AppSidebar() {
   const location = useLocation();
   const xp = useCurrentXp();
 
   return (
-    <aside className={cn(
-      "hidden lg:flex fixed left-0 top-0 bottom-0 z-[100] h-screen overflow-y-auto flex-col border-r border-border/50 bg-sidebar transition-all duration-300",
-      collapsed ? "w-16" : "w-56"
-    )}>
+    <aside
+      className="hidden lg:flex flex-col overflow-y-auto border-r border-border/50 custom-scrollbar"
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        width: 220,
+        zIndex: 50,
+        background: "#131316",
+      }}
+    >
       {/* Logo */}
-      <div className="flex items-center justify-between h-14 px-3 border-b border-border/50">
+      <div className="flex items-center h-14 px-4 border-b border-border/50">
         <Link to="/" className="flex items-center overflow-hidden">
-        {collapsed ? (
-            <span
-              className="text-lg font-semibold"
-              style={{
-                background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                opacity: 0.88,
-              }}
-            >
-              I
-            </span>
-          ) : (
-            <span
-              className="text-[14px] leading-tight whitespace-nowrap tracking-wide"
-              style={{
-                background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                opacity: 0.88,
-                filter: "saturate(0.85)",
-              }}
-            >
-              <span className="font-bold">Infracodebase</span>{" "}
-              <span className="font-bold">University</span>
-            </span>
-          )}
+          <span
+            className="text-[14px] leading-tight whitespace-nowrap tracking-wide"
+            style={{
+              fontFamily: "'Fraunces', serif",
+            }}
+          >
+            <span className="font-bold" style={{ color: "#e8e6e0" }}>Infracodebase</span>{" "}
+            <span className="font-light" style={{ color: "#6b6b78" }}>University</span>
+          </span>
         </Link>
-        <button
-          onClick={onToggle}
-          className="flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors shrink-0"
-          style={{ width: 28, height: 28 }}
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-        </button>
       </div>
 
       {/* Nav */}
       <nav className="flex-1 py-3 px-2 overflow-y-auto custom-scrollbar">
         {navGroups.map((group, gi) => (
           <div key={group.label}>
-            {!collapsed && <SidebarGroupLabel label={group.label} first={gi === 0} />}
-            {collapsed && gi > 0 && <div className="my-2 mx-2 border-t border-border/30" />}
+            <div
+              style={{
+                fontFamily: "'DM Mono', monospace",
+                fontSize: "9.5px",
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase" as const,
+                color: "#6b6b78",
+                padding: "0 10px",
+                marginBottom: "6px",
+                marginTop: gi === 0 ? "0px" : "16px",
+              }}
+            >
+              {group.label}
+            </div>
             <div className="space-y-0.5">
               {group.items.map(item => {
                 const isActive = item.path === "/"
@@ -200,15 +195,29 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
                   <Link
                     key={item.path}
                     to={item.path}
-                    className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2 text-[14px] transition-colors",
-                      isActive
-                        ? "bg-primary/10 text-primary font-medium"
-                        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                    )}
+                    className="flex items-center transition-colors"
+                    style={{
+                      fontSize: 14,
+                      borderRadius: 6,
+                      gap: 9,
+                      padding: "7px 10px",
+                      color: isActive ? "#e8e6e0" : "#9898a8",
+                      background: isActive ? "#1a1a1f" : "transparent",
+                    }}
+                    onMouseEnter={e => {
+                      if (!isActive) {
+                        (e.currentTarget as HTMLElement).style.background = "#1a1a1f";
+                        (e.currentTarget as HTMLElement).style.color = "#e8e6e0";
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      if (!isActive) {
+                        (e.currentTarget as HTMLElement).style.background = "transparent";
+                        (e.currentTarget as HTMLElement).style.color = "#9898a8";
+                      }
+                    }}
                   >
-                    <item.icon className="h-4 w-4 shrink-0" />
-                    {!collapsed && <span className="truncate">{item.label}</span>}
+                    <span className="truncate">{item.label}</span>
                   </Link>
                 );
               })}
@@ -218,27 +227,28 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
                   href={ext.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] transition-colors",
-                    ext.amber
-                      ? "text-amber-500 border border-amber-500/30 hover:bg-amber-500/10"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                  )}
+                  className="flex items-center transition-colors"
+                  style={{
+                    fontSize: 14,
+                    borderRadius: 6,
+                    gap: 9,
+                    padding: "7px 10px",
+                    color: "#e8854a",
+                    border: "1px solid rgba(232,133,74,0.2)",
+                  }}
                 >
-                  <ext.icon className="h-4 w-4 shrink-0" />
-                  {!collapsed && <span className="truncate">{ext.label} ↗</span>}
+                  <span className="truncate">{ext.label} ↗</span>
                 </a>
               ))}
             </div>
           </div>
         ))}
-
       </nav>
 
       {/* User row */}
       <div style={{ borderTop: "1px solid #1c2e47" }} className="pt-2 pb-2 px-2">
         <SignedIn>
-          <SidebarUserRow collapsed={collapsed} xp={xp} />
+          <SidebarUserRow collapsed={false} xp={xp} />
         </SignedIn>
       </div>
     </aside>
