@@ -139,9 +139,9 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
       {/* Logo + Toggle */}
       <div className="flex items-center justify-between h-14 px-3 border-b border-border/50">
         {!collapsed ? (
-          <Link to="/" className="flex items-center overflow-hidden">
+          <Link to="/" className="flex items-center min-w-0">
             <span
-              className="text-[14px] leading-tight whitespace-nowrap tracking-wide"
+              className="text-[13px] leading-tight whitespace-nowrap"
               style={{
                 background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
                 WebkitBackgroundClip: "text",
