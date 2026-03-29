@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home, LayoutDashboard, Calendar,
-  MessageSquare, Play, ChevronLeft, ChevronRight,
+  MessageSquare, Play,
   FolderOpen, Hammer, User, Radio, Compass,
   Sun, Moon, Zap, FileText,
 } from "lucide-react";
@@ -62,24 +62,6 @@ const navGroups = [
 
 // allNavItems removed — mobile drawer uses its own link list
 
-function SidebarGroupLabel({ label, first }: { label: string; first?: boolean }) {
-  return (
-    <div
-      style={{
-        fontSize: "9px",
-        fontWeight: 700,
-        letterSpacing: "0.12em",
-        textTransform: "uppercase" as const,
-        color: "hsl(var(--muted-foreground))",
-        padding: "0 8px",
-        marginBottom: "6px",
-        marginTop: first ? "0px" : "16px",
-      }}
-    >
-      {label}
-    </div>
-  );
-}
 
 function useCurrentXp() {
   const [xp, setXp] = useState(() => {
