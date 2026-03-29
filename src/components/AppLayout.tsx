@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home, LayoutDashboard, Calendar,
-  MessageSquare, Play,
+  MessageSquare, Play, ChevronLeft, ChevronRight,
   FolderOpen, Hammer, User, Radio, Compass,
   Sun, Moon, Zap, FileText,
 } from "lucide-react";
@@ -116,11 +116,10 @@ function SidebarUserRow({ collapsed, xp }: { collapsed: boolean; xp: number }) {
   );
 }
 
-export function AppSidebar() {
+export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const location = useLocation();
   const xp = useCurrentXp();
-  const sidebarWidth = 220;
-  const collapsed = false;
+  const sidebarWidth = collapsed ? 56 : 220;
 
   return (
     <aside
@@ -136,23 +135,49 @@ export function AppSidebar() {
         transition: "width 0.2s ease",
       }}
     >
-      {/* Logo */}
-      <div className="flex items-center h-14 px-3 border-b border-border/50">
-        <Link to="/" className="flex items-center min-w-0">
-          <span
-            className="text-[13px] leading-tight whitespace-nowrap"
-            style={{
-              background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              opacity: 0.88,
-              filter: "saturate(0.85)",
-            }}
-          >
-            <span className="font-bold">Infracodebase</span>{" "}
-            <span className="font-bold">University</span>
-          </span>
-        </Link>
+      {/* Logo + Toggle */}
+      <div className="flex items-center justify-between h-14 px-3 border-b border-border/50">
+        {!collapsed ? (
+          <Link to="/" className="flex items-center min-w-0">
+            <span
+              className="text-[13px] leading-tight whitespace-nowrap"
+              style={{
+                background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                opacity: 0.88,
+                filter: "saturate(0.85)",
+              }}
+            >
+              <span className="font-bold">Infracodebase</span>{" "}
+              <span className="font-bold">University</span>
+            </span>
+          </Link>
+        ) : (
+          <Link to="/" className="flex items-center justify-center w-full">
+            <span
+              className="text-lg font-semibold"
+              style={{
+                background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                opacity: 0.88,
+              }}
+            >
+              I
+            </span>
+          </Link>
+        )}
+        <button
+          onClick={onToggle}
+          className="flex items-center justify-center rounded-md transition-colors shrink-0"
+          style={{ width: 28, height: 28, color: "#6b6b78" }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#e8e6e0"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#6b6b78"; }}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+        </button>
       </div>
 
       {/* Nav */}
@@ -383,9 +408,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     }
   }, [isLoaded, isSignedIn, user, notif.allNotifications, notif.unreadCount, notif.openNotification]);
 
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
     <div className="min-h-screen bg-background">
-      <AppSidebar />
+      <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
       <MobileNav notifications={notif} />
       {/* Desktop User Button / Sign In */}
       <div className="hidden lg:flex items-center gap-3 fixed top-4 right-6 z-50">
