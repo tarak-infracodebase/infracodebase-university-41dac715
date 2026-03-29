@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home, LayoutDashboard, Calendar,
-  MessageSquare, Play,
+  MessageSquare, Play, ChevronLeft, ChevronRight,
   FolderOpen, Hammer, User, Radio, Compass,
   Sun, Moon, Zap, FileText,
 } from "lucide-react";
