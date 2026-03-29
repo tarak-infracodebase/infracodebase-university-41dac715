@@ -123,16 +123,17 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
 
   return (
     <aside
-      className="hidden lg:flex flex-col overflow-y-auto border-r border-border/50 custom-scrollbar"
+      className="hidden lg:flex flex-col border-r border-border/50 custom-scrollbar"
       style={{
         position: "fixed",
         top: 0,
         left: 0,
-        bottom: 0,
+        height: "100vh",
         width: sidebarWidth,
-        zIndex: 50,
+        zIndex: 100,
         background: "#131316",
         transition: "width 0.2s ease",
+        overflowY: "auto",
       }}
     >
       {/* Logo + Toggle */}
