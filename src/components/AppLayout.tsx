@@ -136,11 +136,42 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
         transition: "width 0.2s ease",
       }}
     >
-      {/* Toggle row */}
-      <div className="flex items-center h-10 px-2" style={{ justifyContent: collapsed ? "center" : "flex-end" }}>
+      {/* Logo + Toggle */}
+      <div className="flex items-center justify-between h-14 px-3 border-b border-border/50">
+        {!collapsed ? (
+          <Link to="/" className="flex items-center overflow-hidden">
+            <span
+              className="text-[14px] leading-tight whitespace-nowrap tracking-wide"
+              style={{
+                background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                opacity: 0.88,
+                filter: "saturate(0.85)",
+              }}
+            >
+              <span className="font-bold">Infracodebase</span>{" "}
+              <span className="font-bold">University</span>
+            </span>
+          </Link>
+        ) : (
+          <Link to="/" className="flex items-center justify-center w-full">
+            <span
+              className="text-lg font-semibold"
+              style={{
+                background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                opacity: 0.88,
+              }}
+            >
+              I
+            </span>
+          </Link>
+        )}
         <button
           onClick={onToggle}
-          className="flex items-center justify-center rounded-md transition-colors"
+          className="flex items-center justify-center rounded-md transition-colors shrink-0"
           style={{ width: 28, height: 28, color: "#6b6b78" }}
           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#e8e6e0"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#6b6b78"; }}
