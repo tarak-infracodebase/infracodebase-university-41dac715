@@ -4,7 +4,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import signatureImg from "@/assets/signature.png";
+
 
 const fontDisplay: React.CSSProperties = { fontFamily: "'Fraunces', serif" };
 const fontMono: React.CSSProperties = { fontFamily: "'DM Mono', monospace" };
@@ -30,7 +30,7 @@ function useTokens() {
 
 const tocItems = [
   { id: "why-we-exist", label: "Why we exist" },
-  { id: "what-university-is", label: "What University is" },
+  { id: "what-it-is", label: "What University is" },
   { id: "the-path", label: "The path" },
   { id: "how-we-teach", label: "How we teach" },
   { id: "the-community", label: "The community" },
@@ -239,7 +239,7 @@ const Manifesto = () => {
               </section>
 
               {/* Section 02 — What University is */}
-              <section id="what-university-is" ref={setRef("what-university-is")} className="scroll-mt-24">
+              <section id="what-it-is" ref={setRef("what-it-is")} className="scroll-mt-24">
                 <SectionEyebrow num="02" label="WHAT UNIVERSITY IS" t={t} />
                 <SectionH2 t={t}>
                   Infrastructure as code,{" "}
@@ -411,10 +411,6 @@ const Manifesto = () => {
                   </a>
                 </div>
 
-                {/* Signature */}
-                <div className="pt-12">
-                  <img src={signatureImg} alt="Founder's signature" className="w-[220px] md:w-[260px] h-auto" />
-                </div>
               </section>
             </article>
           </div>
