@@ -196,7 +196,11 @@ const Manifesto = () => {
                       href={`#${item.id}`}
                       onClick={e => {
                         e.preventDefault();
-                        document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        const el = document.getElementById(item.id);
+                        if (el) {
+                          const y = el.getBoundingClientRect().top + window.scrollY - 80;
+                          window.scrollTo({ top: y, behavior: "smooth" });
+                        }
                       }}
                       className="block py-1.5 text-[13px] transition-colors duration-200"
                       style={{
