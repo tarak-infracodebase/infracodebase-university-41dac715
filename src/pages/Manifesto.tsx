@@ -196,7 +196,7 @@ const Manifesto = () => {
                       href={`#${item.id}`}
                       onClick={e => {
                         e.preventDefault();
-                        sectionRefs.current[item.id]?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        document.getElementById(item.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
                       }}
                       className="block py-1.5 text-[13px] transition-colors duration-200"
                       style={{
@@ -218,7 +218,7 @@ const Manifesto = () => {
             <article className="flex-1 min-w-0 space-y-20">
 
               {/* Section 01 — Why we exist */}
-              <section id="why-we-exist" ref={setRef("why-we-exist")} className="scroll-mt-24">
+              <section id="why-we-exist" ref={setRef("why-we-exist")} style={{ scrollMarginTop: 80 }}>
                 <SectionEyebrow num="01" label="WHY WE EXIST" t={t} />
                 <SectionH2 t={t}>
                   Cloud engineering has a gap. Not a talent gap —{" "}
@@ -239,7 +239,7 @@ const Manifesto = () => {
               </section>
 
               {/* Section 02 — What University is */}
-              <section id="what-it-is" ref={setRef("what-it-is")} className="scroll-mt-24">
+              <section id="what-it-is" ref={setRef("what-it-is")} style={{ scrollMarginTop: 80 }}>
                 <SectionEyebrow num="02" label="WHAT UNIVERSITY IS" t={t} />
                 <SectionH2 t={t}>
                   Infrastructure as code,{" "}
@@ -279,7 +279,7 @@ const Manifesto = () => {
               </section>
 
               {/* Section 03 — The path */}
-              <section id="the-path" ref={setRef("the-path")} className="scroll-mt-24">
+              <section id="the-path" ref={setRef("the-path")} style={{ scrollMarginTop: 80 }}>
                 <SectionEyebrow num="03" label="THE PATH" t={t} />
                 <SectionH2 t={t}>
                   From first concept to{" "}
@@ -325,7 +325,7 @@ const Manifesto = () => {
               </section>
 
               {/* Section 04 — How we teach */}
-              <section id="how-we-teach" ref={setRef("how-we-teach")} className="scroll-mt-24">
+              <section id="how-we-teach" ref={setRef("how-we-teach")} style={{ scrollMarginTop: 80 }}>
                 <SectionEyebrow num="04" label="HOW WE TEACH" t={t} />
                 <SectionH2 t={t}>
                   Systems thinking, not{" "}
@@ -346,7 +346,7 @@ const Manifesto = () => {
               </section>
 
               {/* Section 05 — The community */}
-              <section id="the-community" ref={setRef("the-community")} className="scroll-mt-24">
+              <section id="the-community" ref={setRef("the-community")} style={{ scrollMarginTop: 80 }}>
                 <SectionEyebrow num="05" label="THE COMMUNITY" t={t} />
                 <SectionH2 t={t}>
                   464 learners. 20+ countries.{" "}
@@ -379,7 +379,7 @@ const Manifesto = () => {
               </section>
 
               {/* Section 06 — Build with Her */}
-              <section id="build-with-her" ref={setRef("build-with-her")} className="scroll-mt-24">
+              <section id="build-with-her" ref={setRef("build-with-her")} style={{ scrollMarginTop: 80 }}>
                 <SectionEyebrow num="06" label="BUILD WITH HER" t={t} />
                 <SectionH2 t={t}>
                   The community layer that makes learning{" "}
