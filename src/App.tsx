@@ -45,14 +45,7 @@ const AnimatedRoutes = () => {
         <Route path="/" element={<Index />} />
         <Route path="/sign-in/*" element={<SignInPage />} />
         <Route path="/sign-up/*" element={<SignUpPage />} />
-        <Route
-          path="/our-story"
-          element={
-            <AppLayout>
-              <Manifesto />
-            </AppLayout>
-          }
-        />
+        <Route path="/our-story" element={<Manifesto />} />
         <Route path="/manifesto" element={<Navigate to="/our-story" replace />} />
         <Route path="/community" element={<Community />} />
         <Route
