@@ -143,7 +143,7 @@ const Manifesto = () => {
         <meta name="twitter:image" content="https://university.infracodebase.com/og/manifesto.png" />
       </Helmet>
 
-      <div style={{ background: t.bg }} className="min-h-screen">
+      <div className="min-h-screen" style={{ background: "var(--bg-primary, #070809)" }}>
         {/* ── HEADER ── */}
         <header className="relative overflow-hidden px-6 lg:px-12 pt-12 pb-16 md:pt-20 md:pb-24">
           {/* Ambient amber glow */}
@@ -156,7 +156,7 @@ const Manifesto = () => {
             backgroundSize: "40px 40px",
           }} />
 
-          <div className="relative max-w-4xl mx-auto">
+          <div className="relative" style={{ maxWidth: 900, paddingLeft: 0 }}>
             <Link to="/" className="inline-flex items-center gap-1.5 text-sm transition-colors mb-8" style={{ ...fontMono, color: t.muted }}>
               <ArrowLeft className="h-3.5 w-3.5" /> Home
             </Link>
@@ -181,7 +181,7 @@ const Manifesto = () => {
         </header>
 
         {/* ── BODY: TOC + Content ── */}
-        <div className="max-w-4xl mx-auto px-6 lg:px-12 pb-24">
+        <div className="px-6 lg:px-12 pb-24" style={{ maxWidth: 900 }}>
           <div className="flex gap-12">
             {/* Sticky TOC — left column */}
             <aside className="hidden lg:block shrink-0" style={{ width: 200 }}>
