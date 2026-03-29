@@ -117,10 +117,11 @@ function SidebarUserRow({ collapsed, xp }: { collapsed: boolean; xp: number }) {
   );
 }
 
-export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
+export function AppSidebar() {
   const location = useLocation();
   const xp = useCurrentXp();
-  const sidebarWidth = collapsed ? 56 : 220;
+  const sidebarWidth = 220;
+  const collapsed = false;
 
   return (
     <aside
@@ -136,49 +137,23 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
         transition: "width 0.2s ease",
       }}
     >
-      {/* Logo + Toggle */}
-      <div className="flex items-center justify-between h-14 px-3 border-b border-border/50">
-        {!collapsed ? (
-          <Link to="/" className="flex items-center min-w-0">
-            <span
-              className="text-[13px] leading-tight whitespace-nowrap"
-              style={{
-                background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                opacity: 0.88,
-                filter: "saturate(0.85)",
-              }}
-            >
-              <span className="font-bold">Infracodebase</span>{" "}
-              <span className="font-bold">University</span>
-            </span>
-          </Link>
-        ) : (
-          <Link to="/" className="flex items-center justify-center w-full">
-            <span
-              className="text-lg font-semibold"
-              style={{
-                background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                opacity: 0.88,
-              }}
-            >
-              I
-            </span>
-          </Link>
-        )}
-        <button
-          onClick={onToggle}
-          className="flex items-center justify-center rounded-md transition-colors shrink-0"
-          style={{ width: 28, height: 28, color: "#6b6b78" }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#e8e6e0"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#6b6b78"; }}
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-        </button>
+      {/* Logo */}
+      <div className="flex items-center h-14 px-3 border-b border-border/50">
+        <Link to="/" className="flex items-center min-w-0">
+          <span
+            className="text-[13px] leading-tight whitespace-nowrap"
+            style={{
+              background: "linear-gradient(90deg, #61BB46, #FDB827, #F5821F, #E03A3E, #963D97, #009DDC)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              opacity: 0.88,
+              filter: "saturate(0.85)",
+            }}
+          >
+            <span className="font-bold">Infracodebase</span>{" "}
+            <span className="font-bold">University</span>
+          </span>
+        </Link>
       </div>
 
       {/* Nav */}
@@ -364,7 +339,7 @@ function XpPill() {
 }
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  const [collapsed, setCollapsed] = useState(false);
+  
   const navigate = useNavigate();
   const notif = useNotifications();
   const { user, isSignedIn, isLoaded } = useUser();
@@ -411,7 +386,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
+      <AppSidebar />
       <MobileNav notifications={notif} />
       {/* Desktop User Button / Sign In */}
       <div className="hidden lg:flex items-center gap-3 fixed top-4 right-6 z-50">
@@ -441,7 +416,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </SignedOut>
       </div>
       <NotificationModal open={notif.modalOpen} initialId={notif.modalInitialId} onClose={notif.closeModal} />
-      <style>{`@media (min-width: 1024px) { .app-main-content { margin-left: ${collapsed ? 56 : 220}px; transition: margin-left 0.2s ease; } }`}</style>
+      <style>{`@media (min-width: 1024px) { .app-main-content { margin-left: 220px; } }`}</style>
       <main className="app-main-content min-h-screen pt-14 lg:pt-0">
         {children}
       </main>
