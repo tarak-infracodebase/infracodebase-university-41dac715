@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap');
 
 html, body, #root {
+  scroll-behavior: smooth;
   background-color: #0a0f1a !important;
   min-height: 100vh;
   margin: 0;
