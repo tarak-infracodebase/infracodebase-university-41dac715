@@ -442,7 +442,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </SignedOut>
       </div>
       <NotificationModal open={notif.modalOpen} initialId={notif.modalInitialId} onClose={notif.closeModal} />
-      <style>{`@media (min-width: 1024px) { .app-main-content { margin-left: 220px; } }`}</style>
+      <style>{`@media (min-width: 1024px) { .app-main-content { margin-left: ${collapsed ? 56 : 220}px; transition: margin-left 0.2s ease; } }`}</style>
       <main className="app-main-content min-h-screen pt-14 lg:pt-0">
         {children}
       </main>
