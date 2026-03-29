@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Home, LayoutDashboard, Calendar,
-  MessageSquare, Play,
+  MessageSquare, Play, ChevronLeft, ChevronRight,
   FolderOpen, Hammer, User, Radio, Compass,
   Sun, Moon, Zap, FileText,
 } from "lucide-react";
@@ -117,9 +117,10 @@ function SidebarUserRow({ collapsed, xp }: { collapsed: boolean; xp: number }) {
   );
 }
 
-export function AppSidebar() {
+export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const location = useLocation();
   const xp = useCurrentXp();
+  const sidebarWidth = collapsed ? 56 : 220;
 
   return (
     <aside
@@ -129,98 +130,119 @@ export function AppSidebar() {
         top: 0,
         left: 0,
         bottom: 0,
-        width: 220,
+        width: sidebarWidth,
         zIndex: 50,
         background: "#131316",
+        transition: "width 0.2s ease",
       }}
     >
-      {/* Logo */}
-      <div className="flex items-center h-14 px-4 border-b border-border/50">
-        <Link to="/" className="flex items-center overflow-hidden">
-          <span
-            className="text-[14px] leading-tight whitespace-nowrap tracking-wide"
-            style={{
-              fontFamily: "'Fraunces', serif",
-            }}
-          >
-            <span className="font-bold" style={{ color: "#e8e6e0" }}>Infracodebase</span>{" "}
-            <span className="font-light" style={{ color: "#6b6b78" }}>University</span>
-          </span>
-        </Link>
+      {/* Toggle row */}
+      <div className="flex items-center h-10 px-2" style={{ justifyContent: collapsed ? "center" : "flex-end" }}>
+        <button
+          onClick={onToggle}
+          className="flex items-center justify-center rounded-md transition-colors"
+          style={{ width: 28, height: 28, color: "#6b6b78" }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#e8e6e0"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#6b6b78"; }}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+        </button>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 py-3 px-2 overflow-y-auto custom-scrollbar">
+      <nav className="flex-1 py-1 px-2 overflow-y-auto custom-scrollbar">
         {navGroups.map((group, gi) => (
           <div key={group.label}>
-            <div
-              style={{
-                fontFamily: "'DM Mono', monospace",
-                fontSize: "9.5px",
-                fontWeight: 700,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase" as const,
-                color: "#6b6b78",
-                padding: "0 10px",
-                marginBottom: "6px",
-                marginTop: gi === 0 ? "0px" : "16px",
-              }}
-            >
-              {group.label}
-            </div>
+            {!collapsed && (
+              <div
+                style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: "9.5px",
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase" as const,
+                  color: "#6b6b78",
+                  padding: "0 10px",
+                  marginBottom: "6px",
+                  marginTop: gi === 0 ? "0px" : "16px",
+                }}
+              >
+                {group.label}
+              </div>
+            )}
+            {collapsed && gi > 0 && <div style={{ margin: "8px 6px", borderTop: "1px solid rgba(255,255,255,0.06)" }} />}
             <div className="space-y-0.5">
               {group.items.map(item => {
                 const isActive = item.path === "/"
                   ? location.pathname === "/"
                   : location.pathname === item.path || location.pathname.startsWith(item.path);
                 return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
+                  <div key={item.path} className="relative group">
+                    <Link
+                      to={item.path}
+                      className="flex items-center transition-colors"
+                      style={{
+                        fontSize: 14,
+                        borderRadius: 6,
+                        gap: collapsed ? 0 : 9,
+                        padding: collapsed ? "7px 0" : "7px 10px",
+                        justifyContent: collapsed ? "center" : "flex-start",
+                        color: isActive ? "#e8e6e0" : "#9898a8",
+                        background: isActive ? "#1a1a1f" : "transparent",
+                      }}
+                      onMouseEnter={e => {
+                        if (!isActive) {
+                          (e.currentTarget as HTMLElement).style.background = "#1a1a1f";
+                          (e.currentTarget as HTMLElement).style.color = "#e8e6e0";
+                        }
+                      }}
+                      onMouseLeave={e => {
+                        if (!isActive) {
+                          (e.currentTarget as HTMLElement).style.background = "transparent";
+                          (e.currentTarget as HTMLElement).style.color = "#9898a8";
+                        }
+                      }}
+                    >
+                      <item.icon className="h-4 w-4 shrink-0" />
+                      {!collapsed && <span className="truncate">{item.label}</span>}
+                    </Link>
+                    {collapsed && (
+                      <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity"
+                        style={{ background: "#1a1a1f", color: "#e8e6e0", zIndex: 999 }}>
+                        {item.label}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+              {"externalItems" in group && group.externalItems?.map((ext: { href: string; label: string; icon: React.ComponentType<{ className?: string }>; amber?: boolean }) => (
+                <div key={ext.href} className="relative group">
+                  <a
+                    href={ext.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center transition-colors"
                     style={{
                       fontSize: 14,
                       borderRadius: 6,
-                      gap: 9,
-                      padding: "7px 10px",
-                      color: isActive ? "#e8e6e0" : "#9898a8",
-                      background: isActive ? "#1a1a1f" : "transparent",
-                    }}
-                    onMouseEnter={e => {
-                      if (!isActive) {
-                        (e.currentTarget as HTMLElement).style.background = "#1a1a1f";
-                        (e.currentTarget as HTMLElement).style.color = "#e8e6e0";
-                      }
-                    }}
-                    onMouseLeave={e => {
-                      if (!isActive) {
-                        (e.currentTarget as HTMLElement).style.background = "transparent";
-                        (e.currentTarget as HTMLElement).style.color = "#9898a8";
-                      }
+                      gap: collapsed ? 0 : 9,
+                      padding: collapsed ? "7px 0" : "7px 10px",
+                      justifyContent: collapsed ? "center" : "flex-start",
+                      color: "#e8854a",
+                      border: collapsed ? "none" : "1px solid rgba(232,133,74,0.2)",
                     }}
                   >
-                    <span className="truncate">{item.label}</span>
-                  </Link>
-                );
-              })}
-              {"externalItems" in group && group.externalItems?.map((ext: { href: string; label: string; icon: React.ComponentType<{ className?: string }>; amber?: boolean }) => (
-                <a
-                  key={ext.href}
-                  href={ext.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center transition-colors"
-                  style={{
-                    fontSize: 14,
-                    borderRadius: 6,
-                    gap: 9,
-                    padding: "7px 10px",
-                    color: "#e8854a",
-                    border: "1px solid rgba(232,133,74,0.2)",
-                  }}
-                >
-                  <span className="truncate">{ext.label} ↗</span>
-                </a>
+                    <ExternalLink className="h-4 w-4 shrink-0" style={{ color: "#e8854a" }} />
+                    {!collapsed && <span className="truncate">{ext.label} ↗</span>}
+                  </a>
+                  {collapsed && (
+                    <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2 px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity"
+                      style={{ background: "#1a1a1f", color: "#e8854a", zIndex: 999 }}>
+                      {ext.label}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           </div>
@@ -230,7 +252,7 @@ export function AppSidebar() {
       {/* User row */}
       <div style={{ borderTop: "1px solid #1c2e47" }} className="pt-2 pb-2 px-2">
         <SignedIn>
-          <SidebarUserRow collapsed={false} xp={xp} />
+          <SidebarUserRow collapsed={collapsed} xp={xp} />
         </SignedIn>
       </div>
     </aside>
@@ -311,6 +333,7 @@ function XpPill() {
 }
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
+  const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   const notif = useNotifications();
   const { user, isSignedIn, isLoaded } = useUser();
@@ -357,7 +380,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <AppSidebar />
+      <AppSidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
       <MobileNav notifications={notif} />
       {/* Desktop User Button / Sign In */}
       <div className="hidden lg:flex items-center gap-3 fixed top-4 right-6 z-50">
@@ -387,7 +410,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </SignedOut>
       </div>
       <NotificationModal open={notif.modalOpen} initialId={notif.modalInitialId} onClose={notif.closeModal} />
-      <main className="min-h-screen pt-14 lg:pt-0 lg:ml-[220px]">
+      <style>{`@media (min-width: 1024px) { .app-main-content { margin-left: ${collapsed ? 56 : 220}px; transition: margin-left 0.2s ease; } }`}</style>
+      <main className="app-main-content min-h-screen pt-14 lg:pt-0">
         {children}
       </main>
     </div>
