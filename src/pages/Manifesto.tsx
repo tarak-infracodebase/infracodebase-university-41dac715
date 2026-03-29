@@ -197,7 +197,19 @@ const Manifesto = () => {
                       onClick={e => {
                         e.preventDefault();
                         const el = document.getElementById(item.id);
+                        console.log("TOC click:", item.id, "element found:", !!el, el);
                         if (el) {
+                          // Find the nearest scrollable ancestor
+                          let scrollParent: Element | null = el.parentElement;
+                          while (scrollParent && scrollParent !== document.documentElement) {
+                            const style = window.getComputedStyle(scrollParent);
+                            if (style.overflowY === "auto" || style.overflowY === "scroll") {
+                              console.log("Found scroll parent:", scrollParent.tagName, scrollParent.className);
+                              break;
+                            }
+                            scrollParent = scrollParent.parentElement;
+                          }
+                          console.log("Final scroll parent:", scrollParent?.tagName, scrollParent?.className);
                           el.scrollIntoView({ behavior: "smooth", block: "start" });
                         }
                       }}
