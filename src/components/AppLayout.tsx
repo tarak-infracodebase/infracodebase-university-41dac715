@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { MobileDrawer } from "./MobileDrawer";
 import { cn } from "@/lib/utils";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { CrystalIcon } from "./DashboardWidgets";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { ReferralModal } from "./ReferralModal";
@@ -387,7 +387,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         </SignedOut>
       </div>
       <NotificationModal open={notif.modalOpen} initialId={notif.modalInitialId} onClose={notif.closeModal} />
-      <main className="min-h-screen pt-14 lg:pt-0" style={{ marginLeft: 220 }}>
+      <main className="min-h-screen pt-14 lg:pt-0 lg:ml-[220px]">
         {children}
       </main>
     </div>
