@@ -90,20 +90,8 @@ const Dashboard = () => {
   const monthlyData = state.monthlyXP.length > 0 ? state.monthlyXP : FALLBACK_MONTHLY;
   const maxMonthly = Math.max(...monthlyData.map(d => d.xp), 1);
 
-  // Build weekly XP data (last 7 days)
-  const weeklyXPData = useMemo(() => {
-    const days: Array<{ day: string; xp: number; isToday: boolean }> = [];
-    const today = new Date();
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(d.getDate() - i);
-      const dateStr = d.toISOString().split("T")[0];
-      const dayLabel = i === 0 ? "Today" : d.toLocaleDateString("en-US", { weekday: "short" });
-      const entry = state.dailyXPLog?.find(e => e.date === dateStr);
-      days.push({ day: dayLabel, xp: entry?.xp ?? 0, isToday: i === 0 });
-    }
-    return days;
-  }, [state.dailyXPLog]);
+
+
 
   const currentTrack = learningPaths.find(p => trackProgress[p.id]?.status === "in_progress");
   const allCurrentLessons = currentTrack?.courses.flatMap(c => c.lessons) ?? [];
