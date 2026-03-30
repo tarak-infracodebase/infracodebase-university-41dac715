@@ -105,17 +105,4 @@ export function CrystalIcon({ color, size = 18 }: CrystalIconProps) {
     </svg>
   );
 }
-  const pct = Math.min((value / max) * 100, 100);
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-1.5">
-        <span className="text-xs text-muted-foreground">{label}</span>
-        <span className="text-xs font-mono text-foreground">{value}%</span>
-      </div>
-      <div className="h-2 rounded-full bg-muted overflow-hidden">
-        <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, background: color }} />
-      </div>
-    </div>
-  );
-}
 
