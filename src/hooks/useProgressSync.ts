@@ -78,6 +78,7 @@ function writeLocalProgress(data: ClerkProgressData) {
       localStorage.setItem(`${VIDEO_PREFIX}${id}`, String(Math.round(pct)));
     });
   }
+  if (data.streak) localStorage.setItem("icbu_streak", JSON.stringify(data.streak));
 }
 
 export function useProgressSync() {
@@ -124,6 +125,13 @@ export function useProgressSync() {
         trackProgress: { ...localData.trackProgress, ...cloudData.trackProgress },
         monthlyXp: cloudData.monthlyXp?.length ? cloudData.monthlyXp : localData.monthlyXp,
         videoProgress: { ...localData.videoProgress, ...cloudData.videoProgress },
+        streak: {
+          currentStreak: Math.max(cloudData.streak?.currentStreak || 0, localData.streak?.currentStreak || 0),
+          longestStreak: Math.max(cloudData.streak?.longestStreak || 0, localData.streak?.longestStreak || 0),
+          lastActivityDate: (cloudData.streak?.lastActivityDate || "") > (localData.streak?.lastActivityDate || "")
+            ? cloudData.streak?.lastActivityDate || ""
+            : localData.streak?.lastActivityDate || "",
+        },
         lastSynced: new Date().toISOString(),
       };
 
