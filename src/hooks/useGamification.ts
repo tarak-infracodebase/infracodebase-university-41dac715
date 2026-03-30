@@ -75,6 +75,7 @@ export interface GamState {
   monthlyXP: { month: string; xp: number }[];
   weeklyXP: number;
   weekStart: string;
+  dailyHistory: { date: string; xp: number }[];
   _migrated?: boolean;
 }
 
