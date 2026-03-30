@@ -52,8 +52,8 @@ const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) 
       localStorage.setItem(storageKey, String(newBest));
     } catch {}
     // Award XP through the gamification system
-    earnXP(100, moduleId);
-    recordActivity();
+    const perfect = score === questions.length;
+    passKnowledgeCheck(moduleId, perfect);
   };
 
   const handleRetry = () => {

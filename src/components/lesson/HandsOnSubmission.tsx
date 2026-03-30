@@ -195,8 +195,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
         localStorage.setItem(storageKey, JSON.stringify(payload));
       }
 
-      earnXP(50, exerciseId);
-      recordActivity();
+      addXP(50);
 
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);

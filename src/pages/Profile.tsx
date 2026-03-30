@@ -14,10 +14,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
-import { LEVELS, BADGES, getEarnedBadges } from "@/hooks/useGamification";
+import { BADGES } from "@/hooks/useGamification";
 import { learningPaths } from "@/data/courseData";
 import { TotalXPCard, XPStatsCard } from "@/components/GamificationWidgets";
-import { CrystalIcon } from "@/components/DashboardWidgets";
 
 // ── Static data ────────────────────────────────────────────────────────────
 
