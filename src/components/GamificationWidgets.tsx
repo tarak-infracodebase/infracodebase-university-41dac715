@@ -176,190 +176,189 @@ export function ShareModal({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleShare = () => {
-    earnFreezeBySharing();
-    setStep("done");
-  };
+  const handleShare = () => { earnFreezeBySharing(); setStep("done"); };
 
   if (!open) return null;
 
+  const shareText = encodeURIComponent(`Learning cloud & DevOps on Infracodebase University — join me: https://${referralLink}`);
+  const emailBody = encodeURIComponent(`Learning cloud & DevOps on Infracodebase University — join me:\nhttps://${referralLink}`);
+
   const CHANNELS = [
-    {
-      id: "linkedin", label: "LinkedIn",
+    { id: "linkedin",  label: "LinkedIn",
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0077b5" strokeWidth="1.8" strokeLinecap="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>,
       bg: "bg-[rgba(0,119,181,0.12)]",
-      href: `https://www.linkedin.com/sharing/share-offsite/?url=https://${referralLink}`,
-    },
-    {
-      id: "twitter", label: "X / Twitter",
+      href: `https://www.linkedin.com/sharing/share-offsite/?url=https://${referralLink}` },
+    { id: "twitter",   label: "X / Twitter",
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1da1f2" strokeWidth="1.8" strokeLinecap="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>,
       bg: "bg-[rgba(29,161,242,0.1)]",
-      href: `https://twitter.com/intent/tweet?text=Learning%20cloud%20%26%20DevOps%20on%20Infracodebase%20University%20%E2%80%94%20join%20me%3A%20https://${referralLink}`,
-    },
-    {
-      id: "whatsapp", label: "WhatsApp",
+      href: `https://twitter.com/intent/tweet?text=${shareText}` },
+    { id: "whatsapp",  label: "WhatsApp",
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25d366" strokeWidth="1.8" strokeLinecap="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>,
       bg: "bg-[rgba(37,211,102,0.1)]",
-      href: `https://wa.me/?text=Learning%20cloud%20%26%20DevOps%20on%20Infracodebase%20University%20%E2%80%94%20join%20me%3A%20https://${referralLink}`,
-    },
-    {
-      id: "email", label: "Email",
+      href: `https://wa.me/?text=${shareText}` },
+    { id: "email",     label: "Email",
       icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>,
       bg: "bg-muted/30",
-      href: `mailto:?subject=Join%20me%20on%20Infracodebase%20University&body=I%27m%20learning%20cloud%20infrastructure%20and%20DevOps%20on%20Infracodebase%20University%20%E2%80%94%20join%20me%3A%20https://${referralLink}`,
-    },
+      href: `mailto:?subject=Join%20me%20on%20Infracodebase%20University&body=${emailBody}` },
   ];
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto bg-black/70 backdrop-blur-sm" onClick={onClose}>
-      <div className="my-8" onClick={e => e.stopPropagation()}>
-        <div
-          className="relative w-full max-w-lg rounded-[20px] p-[2px]"
-          style={{ background: "linear-gradient(135deg,hsl(260,70%,55%),hsl(185,70%,45%),hsl(330,65%,50%))" }}
+    <div
+      className="fixed inset-0 z-[9999] flex items-start justify-center p-4 overflow-y-auto"
+      style={{ backgroundColor: "rgba(0,0,0,0.75)" }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div
+        className="relative my-8 w-full max-w-2xl rounded-[20px] p-[2px]"
+        style={{ background: "linear-gradient(135deg,hsl(260,70%,55%),hsl(185,70%,45%),hsl(330,65%,50%))" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 z-10 h-8 w-8 rounded-lg border border-border/40 bg-card flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
         >
-          {/* Close */}
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-3 z-10 h-8 w-8 rounded-lg border border-border/40 bg-card flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-          >
-            <X className="h-4 w-4" />
-          </button>
+          <X className="h-4 w-4" />
+        </button>
 
-          <div className="bg-card rounded-[18px] overflow-hidden max-h-[90vh] overflow-y-auto">
+        <div className="bg-card rounded-[18px] overflow-hidden">
           {step === "share" ? (
             <div className="p-7">
-
-              {/* Eyebrow */}
-              <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground mb-4 text-center">
-                Infracodebase University · {new Date().getFullYear()}
+              {/* Header */}
+              <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground mb-3 text-center">
+                Infracodebase University &middot; {new Date().getFullYear()}
               </p>
-
-              {/* Headline — centered, large, readable in both modes */}
-              <h2 className="text-3xl font-semibold leading-tight mb-3 text-center">
-                Earn a{" "}
-                <span className="text-[hsl(260,70%,62%)]">streak freeze</span>
-                <br />for every{" "}
-                <span className="text-[hsl(185,65%,50%)]">referral.</span>
+              <h2 className="text-3xl font-semibold leading-tight mb-2 text-center">
+                Earn a <span className="text-[hsl(260,70%,62%)]">streak freeze</span>{" "}
+                for every <span className="text-[hsl(185,65%,50%)]">referral.</span>
               </h2>
-              <p className="text-base text-muted-foreground leading-relaxed mb-6 text-center max-w-sm mx-auto">
-                Share your link — when a colleague joins and completes their first lesson,
-                you earn a streak freeze that automatically protects your progress if you miss a day.
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6 text-center max-w-lg mx-auto">
+                Share with as many people as you like — every colleague who completes their first lesson earns you a freeze.
               </p>
 
               <div className="h-px bg-border mb-6" />
 
-              {/* What is a streak freeze */}
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground mb-3">
-                What is a streak freeze?
-              </p>
-              <div className="rounded-xl border border-primary/20 bg-primary/5 p-5 mb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-10 w-10 rounded-xl border border-primary/25 bg-primary/10 flex items-center justify-center shrink-0">
-                    <Flame className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-base font-semibold text-foreground">Streak freeze</p>
-                    <p className="text-sm text-muted-foreground">A shield for your learning streak</p>
-                  </div>
-                </div>
+              {/* Two-column body */}
+              <div className="grid grid-cols-2 gap-6 mb-6">
 
-                {/* 7-day visual */}
-                <div className="grid grid-cols-7 gap-2 mb-4">
-                  {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((day, i) => {
-                    const isDone   = i < 3 || i === 4;
-                    const isFrozen = i === 3;
-                    const isToday  = i === 5;
-                    const isFuture = i === 6;
-                    return (
-                      <div key={day} className="flex flex-col items-center gap-1.5">
-                        <div className={cn(
-                          "h-8 w-8 rounded-full flex items-center justify-center text-xs font-semibold",
-                          isDone && !isFrozen && "bg-primary text-primary-foreground",
-                          isFrozen  && "border-2 border-dashed border-primary bg-primary/10 text-primary",
-                          isToday   && "border-2 border-orange-400 bg-orange-400/10 text-orange-500",
-                          isFuture  && "bg-muted border border-border text-muted-foreground/40",
-                        )}>
-                          {isDone && !isFrozen && <Check className="h-3 w-3" />}
-                          {isFrozen  && <Flame className="h-3 w-3" />}
-                          {isToday   && <Flame className="h-3 w-3" />}
-                          {isFuture  && "?"}
-                        </div>
-                        <span className={cn(
-                          "text-[11px] font-medium",
-                          isFrozen ? "text-primary" : isToday ? "text-orange-500" : "text-muted-foreground"
-                        )}>{day}</span>
+                {/* LEFT — what is a streak freeze */}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground mb-3">
+                    What is a streak freeze?
+                  </p>
+                  <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="h-9 w-9 rounded-xl border border-primary/25 bg-primary/10 flex items-center justify-center shrink-0">
+                        <Flame className="h-4 w-4 text-primary" />
                       </div>
-                    );
-                  })}
-                </div>
-
-                <div className="flex gap-4 flex-wrap mb-4">
-                  {[
-                    { color: "bg-primary", label: "Lesson done" },
-                    { color: "bg-primary/20 border border-dashed border-primary", label: "Freeze used" },
-                    { color: "bg-orange-400", label: "Streak active" },
-                  ].map(l => (
-                    <span key={l.label} className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <span className={cn("h-2.5 w-2.5 rounded-full shrink-0", l.color)} />
-                      {l.label}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="h-px bg-border/50 mb-4" />
-
-                <div className="space-y-2.5">
-                  {[
-                    <>If you miss a day, the freeze <strong className="text-foreground font-semibold">activates automatically</strong> — no action needed.</>,
-                    <>It <strong className="text-foreground font-semibold">won't work two days in a row</strong> — covers one missed day per week.</>,
-                    <>Earned by sharing — <strong className="text-foreground font-semibold">no XP cost, no purchase required.</strong></>,
-                  ].map((text, i) => (
-                    <div key={i} className="flex items-start gap-2.5">
-                      <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
-                      <p className="text-sm text-muted-foreground leading-relaxed">{text}</p>
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">Streak freeze</p>
+                        <p className="text-xs text-muted-foreground">A shield for your learning streak</p>
+                      </div>
                     </div>
-                  ))}
+                    {/* 7-day visual */}
+                    <div className="grid grid-cols-7 gap-1 mb-3">
+                      {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((day, i) => {
+                        const isDone = i < 3 || i === 4;
+                        const isFrozen = i === 3;
+                        const isToday = i === 5;
+                        const isFuture = i === 6;
+                        return (
+                          <div key={day} className="flex flex-col items-center gap-1">
+                            <div className={cn(
+                              "h-7 w-7 rounded-full flex items-center justify-center text-[10px] font-semibold",
+                              isDone && !isFrozen && "bg-primary text-primary-foreground",
+                              isFrozen && "border-2 border-dashed border-primary bg-primary/10 text-primary",
+                              isToday && "border-2 border-orange-400 bg-orange-400/10 text-orange-500",
+                              isFuture && "bg-muted border border-border text-muted-foreground/40",
+                            )}>
+                              {isDone && !isFrozen && <Check className="h-2.5 w-2.5" />}
+                              {isFrozen && <Flame className="h-2.5 w-2.5" />}
+                              {isToday && <Flame className="h-2.5 w-2.5" />}
+                              {isFuture && "?"}
+                            </div>
+                            <span className={cn(
+                              "text-[10px] font-medium",
+                              isFrozen ? "text-primary" : isToday ? "text-orange-500" : "text-muted-foreground"
+                            )}>{day}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="flex gap-3 flex-wrap mb-3">
+                      {[
+                        { color: "bg-primary", label: "Done" },
+                        { color: "bg-primary/20 border border-dashed border-primary", label: "Frozen" },
+                        { color: "bg-orange-400", label: "Active" },
+                      ].map(l => (
+                        <span key={l.label} className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                          <span className={cn("h-2 w-2 rounded-full shrink-0", l.color)} />
+                          {l.label}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="h-px bg-border/50 mb-3" />
+                    <div className="space-y-2">
+                      {([
+                        "Activates automatically if you miss a day.",
+                        "Covers one missed day — won't work two days in a row.",
+                        "Free — no XP cost, earned by sharing.",
+                      ] as string[]).map((text, i) => (
+                        <div key={i} className="flex items-start gap-2">
+                          <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                          <p className="text-xs text-muted-foreground leading-relaxed">{text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* RIGHT — how it works + stats */}
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground mb-3">
+                      How it works
+                    </p>
+                    <div className="space-y-2.5">
+                      {[
+                        { bg: "bg-orange-500/10", color: "text-orange-500",
+                          icon: <ArrowRight className="h-3.5 w-3.5" />,
+                          text: "Share your link — no limits" },
+                        { bg: "bg-teal-500/10", color: "text-teal-500",
+                          icon: <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+                          text: "They complete their first lesson" },
+                        { bg: "bg-primary/10", color: "text-primary",
+                          icon: <Flame className="h-3.5 w-3.5" />,
+                          text: "You earn 1 streak freeze" },
+                      ].map((s, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                          <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center shrink-0", s.bg, s.color)}>
+                            {s.icon}
+                          </div>
+                          <p className="text-sm font-medium text-foreground">{s.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { val: state.referralCount ?? 0, label: "Signed up",     color: "text-primary" },
+                      { val: state.referralCount ?? 0, label: "Completed",      color: "text-primary" },
+                      { val: state.referralCount ?? 0, label: "Freezes",        color: "text-teal-500" },
+                    ].map((s, i) => (
+                      <div key={i} className="rounded-xl border border-border bg-muted/30 p-2.5 text-center">
+                        <p className={cn("font-mono text-xl font-semibold mb-0.5", s.color)}>{s.val}</p>
+                        <p className="text-[10px] uppercase tracking-[0.08em] text-muted-foreground">{s.label}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              <div className="h-px bg-border mb-6" />
+              {/* Full-width bottom — link + channels + CTA */}
+              <div className="h-px bg-border mb-5" />
 
-              {/* How it works */}
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground mb-3">
-                How it works
-              </p>
-              <div className="space-y-3 mb-6">
-                {[
-                  { bg: "bg-orange-500/10", color: "text-orange-500", icon: <ArrowRight className="h-4 w-4" />, text: <>Share your invite link with anyone</> },
-                  { bg: "bg-teal-500/10",   color: "text-teal-500",
-                    icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
-                    text: <>They sign up and <strong className="text-foreground font-semibold">complete their first lesson</strong></> },
-                  { bg: "bg-primary/10", color: "text-primary", icon: <Flame className="h-4 w-4" />, text: <>You instantly earn <strong className="text-foreground font-semibold">1 streak freeze</strong></> },
-                ].map((s, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <div className={cn("h-9 w-9 rounded-xl flex items-center justify-center shrink-0", s.bg, s.color)}>
-                      {s.icon}
-                    </div>
-                    <p className="text-sm text-muted-foreground">{s.text}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-3 mb-6">
-                {[
-                  { val: state.referralCount ?? 0, label: "Signed up", color: "text-primary" },
-                  { val: state.referralCount ?? 0, label: "Completed",  color: "text-primary" },
-                  { val: state.referralCount ?? 0, label: "Freezes earned", color: "text-teal-500" },
-                ].map((s, i) => (
-                  <div key={i} className="rounded-xl border border-border bg-muted/30 p-3 text-center">
-                    <p className={cn("font-mono text-2xl font-semibold mb-1", s.color)}>{s.val}</p>
-                    <p className="text-[11px] uppercase tracking-[0.1em] text-muted-foreground">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Referral link */}
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground mb-2">
                 Your referral link
               </p>
@@ -370,7 +369,7 @@ export function ShareModal({
                 <button
                   onClick={handleCopy}
                   className={cn(
-                    "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all",
+                    "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm font-medium transition-all whitespace-nowrap",
                     copied
                       ? "border-green-500/50 bg-green-500/10 text-green-600 dark:text-green-400"
                       : "border-border bg-background text-foreground hover:bg-muted"
@@ -381,7 +380,6 @@ export function ShareModal({
                 </button>
               </div>
 
-              {/* Share channels */}
               <div className="grid grid-cols-4 gap-2 mb-5">
                 {CHANNELS.map(ch => (
                   <a
@@ -400,18 +398,19 @@ export function ShareModal({
                     <div className={cn("h-9 w-9 rounded-xl flex items-center justify-center", ch.bg)}>
                       {ch.icon}
                     </div>
-                    <span className={cn(
-                      "text-xs font-medium",
+                    <span className={cn("text-xs font-medium",
                       selectedChannel === ch.id ? "text-primary" : "text-muted-foreground"
-                    )}>
-                      {ch.label}
-                    </span>
+                    )}>{ch.label}</span>
                   </a>
                 ))}
               </div>
 
-              {/* CTA */}
-              {canShareForFreeze ? (
+              {state.freezeAvailable ? (
+                <div className="w-full rounded-xl py-3.5 text-center text-sm border border-primary/30 bg-primary/5 text-primary font-medium flex items-center justify-center gap-2">
+                  <Flame className="h-4 w-4" />
+                  You already have a freeze — use it before earning another
+                </div>
+              ) : (
                 <button
                   onClick={handleShare}
                   className="w-full rounded-xl py-3.5 text-base font-semibold text-white flex items-center justify-center gap-2 transition-opacity hover:opacity-90 active:scale-[.98]"
@@ -421,20 +420,14 @@ export function ShareModal({
                     <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
                     <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
                   </svg>
-                  Share and protect my streak
+                  Share and earn a freeze
                 </button>
-              ) : (
-                <div className="w-full rounded-xl py-3.5 text-center text-sm text-muted-foreground border border-border bg-muted/30">
-                  Shared this week — available again in{" "}
-                  {Math.max(0, 7 - Math.floor((Date.now() - new Date(state.lastSharedAt).getTime()) / 86_400_000))} days
-                </div>
               )}
-              <p className="text-xs text-muted-foreground text-center mt-3 leading-relaxed">
-                Link never expires · 1 freeze per referral who completes their first lesson
+              <p className="text-xs text-muted-foreground text-center mt-3">
+                Share with as many people as you like &middot; 1 freeze per completed referral
               </p>
             </div>
           ) : (
-            /* Done state */
             <div className="p-10 text-center">
               <div className="h-16 w-16 rounded-full border-2 border-green-500/30 bg-green-500/10 flex items-center justify-center mx-auto mb-5">
                 <Check className="h-8 w-8 text-green-500" />
@@ -442,7 +435,7 @@ export function ShareModal({
               <h3 className="text-2xl font-semibold text-foreground mb-3">Streak freeze earned</h3>
               <p className="text-base text-muted-foreground leading-relaxed max-w-xs mx-auto mb-7">
                 Your {state.streak}-day streak is protected. If you miss a day this week,
-                the freeze activates automatically — no action needed.
+                the freeze activates automatically.
               </p>
               <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/30 p-4 text-left mb-6">
                 <Flame className="h-5 w-5 text-orange-400 shrink-0" />
@@ -464,7 +457,6 @@ export function ShareModal({
               </button>
             </div>
           )}
-          </div>
         </div>
       </div>
     </div>
@@ -474,12 +466,8 @@ export function ShareModal({
 // ── StreakFreezeCard ────────────────────────────────────────────────────────
 // Sidebar card showing freeze status. Replaces the old "buy for 200 XP" mechanic.
 export function StreakFreezeCard() {
-  const { state, canShareForFreeze } = useGamificationContext();
+  const { state } = useGamificationContext();
   const [showModal, setShowModal] = React.useState(false);
-
-  const daysUntilNext = state.lastSharedAt
-    ? Math.max(0, 7 - Math.floor((Date.now() - new Date(state.lastSharedAt).getTime()) / 86_400_000))
-    : 0;
 
   return (
     <>
@@ -526,10 +514,8 @@ export function StreakFreezeCard() {
             <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
           </svg>
           {state.freezeAvailable
-            ? "Earn another — share the university"
-            : canShareForFreeze
-            ? "Share to earn a freeze"
-            : `Available again in ${daysUntilNext} day${daysUntilNext !== 1 ? "s" : ""}`
+            ? "Share to earn your next freeze"
+            : "Share the university to earn a freeze"
           }
         </button>
       </div>
