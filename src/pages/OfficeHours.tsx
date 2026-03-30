@@ -1237,15 +1237,15 @@ function WorkshopCard({
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '20px' }}>
           <span style={{ display: 'inline-block', width: '2px', height: '10px', background: 'rgba(255,255,255,0.5)', borderRadius: '1px' }} />
-          <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.7)' }}>Weekly Workshop</span>
+          <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)' }}>Weekly Workshop</span>
         </div>
-        <h4 style={{
+        <h3 style={{
           fontSize: '24px', fontWeight: 700, color: '#fff',
           fontFamily: 'Fraunces, Georgia, serif',
           lineHeight: 1.2, flex: 1, marginBottom: '20px',
         }}>
           {thumbTitle}
-        </h4>
+        </h3>
         <div>
           <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.8)', marginBottom: '2px' }}>{date}</p>
           <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}>{duration}</p>
