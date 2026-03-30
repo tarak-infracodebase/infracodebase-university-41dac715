@@ -4,10 +4,11 @@ import { ProgressRing, SkillBar, CrystalIcon } from "@/components/DashboardWidge
 import { learningPaths } from "@/data/courseData";
 import { Link, useSearchParams } from "react-router-dom";
 import {
-  ArrowRight, BookOpen, Play, ChevronRight, Zap, Target, Layers, Shield
+  ArrowRight, BookOpen, Play, ChevronRight, Zap, Target, Layers, Shield, Flame
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { useStreakTracking } from "@/hooks/useStreakTracking";
 
 const tracks = learningPaths;
 
@@ -47,6 +48,8 @@ const Dashboard = () => {
   ]);
   const [searchParams] = useSearchParams();
   const highlightProgress = searchParams.get("tab") === "progress";
+  const { getStreak } = useStreakTracking();
+  const streak = getStreak();
 
   useEffect(() => {
     try {
@@ -86,7 +89,7 @@ const Dashboard = () => {
   const milestones = [
     { name: "First Lesson", earned: totalXP >= 50, xp: 50 },
     { name: "Track Complete", earned: tracksCompleted >= 1, xp: 500 },
-    { name: "5-Day Streak", earned: false, xp: 100 },
+    { name: "5-Day Streak", earned: streak.currentStreak >= 5 || streak.longestStreak >= 5, xp: 100 },
     { name: "10 Lessons", earned: totalXP >= 500, xp: 200 },
     { name: "Silver League", earned: false, xp: 300 },
     { name: "All Tracks", earned: tracksCompleted >= totalTracks, xp: 1000 },
@@ -106,7 +109,7 @@ const Dashboard = () => {
         </div>
 
         {/* Identity + Stats Row */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           <div className="glass-panel rounded-xl p-5">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Identity</span>
             <div className="mt-2">
@@ -121,6 +124,16 @@ const Dashboard = () => {
               <p className="text-lg font-mono font-bold text-foreground">{totalXP.toLocaleString()}</p>
             </div>
             <p className="text-[11px] text-muted-foreground mt-0.5">{xpToNext} XP to Level {currentLevel + 1}</p>
+          </div>
+          <div className="glass-panel rounded-xl p-5">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Streak</span>
+            <div className="mt-2 flex items-baseline gap-1.5">
+              <Flame className="h-4 w-4 text-orange-500" />
+              <p className="text-lg font-mono font-bold text-foreground">{streak.currentStreak}</p>
+            </div>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              {streak.currentStreak === 1 ? "day" : "days"} · best {streak.longestStreak}
+            </p>
           </div>
           <div className="glass-panel rounded-xl p-5">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Tracks</span>

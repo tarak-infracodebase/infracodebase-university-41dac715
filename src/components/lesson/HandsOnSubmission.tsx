@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Upload, FileText, X, ExternalLink, Plus } from "lucide-react";
 import { useAuthGate } from "@/hooks/useAuthGate";
 import AuthGateModal from "@/components/AuthGateModal";
+import { useStreakTracking } from "@/hooks/useStreakTracking";
 
 type ExerciseType = "writing" | "build-external" | "build-platform";
 
@@ -112,6 +113,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   const type = inferType(exerciseDescription, exerciseType, exerciseTitle);
   const storageKey = getStorageKey(type, exerciseId);
   const { requireAuth, showGate, dismissGate } = useAuthGate();
+  const { recordActivity } = useStreakTracking();
 
   // Multi-entry state for build-external
   const [entries, setEntries] = useState<string[]>([]);
@@ -196,6 +198,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
       const currentXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
       localStorage.setItem("icbu_xp", String(currentXP + 50));
       window.dispatchEvent(new Event("icbu_xp_update"));
+      recordActivity();
 
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);

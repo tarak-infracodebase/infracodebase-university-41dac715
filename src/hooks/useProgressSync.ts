@@ -8,14 +8,13 @@ import { useUser } from "@clerk/clerk-react";
  * On XP/progress changes: debounced save from localStorage → Clerk.
  */
 
-const SYNC_KEYS = [
-  "icbu_xp",
-  "icbu_level",
-  "icbu_track_progress",
-  "icbu_monthly_xp",
-] as const;
-
 const VIDEO_PREFIX = "vid-progress-";
+
+interface StreakData {
+  currentStreak: number;
+  longestStreak: number;
+  lastActivityDate: string;
+}
 
 interface ClerkProgressData {
   xp: number;
@@ -23,6 +22,7 @@ interface ClerkProgressData {
   trackProgress: Record<string, unknown>;
   monthlyXp: Array<{ month: string; xp: number }>;
   videoProgress: Record<string, number>;
+  streak: StreakData;
   lastSynced: string;
 }
 
@@ -42,6 +42,12 @@ function readLocalProgress(): ClerkProgressData {
     if (raw) monthlyXp = JSON.parse(raw);
   } catch {}
 
+  let streak: StreakData = { currentStreak: 0, longestStreak: 0, lastActivityDate: "" };
+  try {
+    const raw = localStorage.getItem("icbu_streak");
+    if (raw) streak = JSON.parse(raw);
+  } catch {}
+
   // Collect video progress
   const videoProgress: Record<string, number> = {};
   for (let i = 0; i < localStorage.length; i++) {
@@ -52,7 +58,7 @@ function readLocalProgress(): ClerkProgressData {
     }
   }
 
-  return { xp, level, trackProgress, monthlyXp, videoProgress, lastSynced: new Date().toISOString() };
+  return { xp, level, trackProgress, monthlyXp, videoProgress, streak, lastSynced: new Date().toISOString() };
 }
 
 function writeLocalProgress(data: ClerkProgressData) {
@@ -65,6 +71,7 @@ function writeLocalProgress(data: ClerkProgressData) {
       localStorage.setItem(`${VIDEO_PREFIX}${id}`, String(Math.round(pct)));
     });
   }
+  if (data.streak) localStorage.setItem("icbu_streak", JSON.stringify(data.streak));
 }
 
 export function useProgressSync() {
@@ -111,6 +118,13 @@ export function useProgressSync() {
         trackProgress: { ...localData.trackProgress, ...cloudData.trackProgress },
         monthlyXp: cloudData.monthlyXp?.length ? cloudData.monthlyXp : localData.monthlyXp,
         videoProgress: { ...localData.videoProgress, ...cloudData.videoProgress },
+        streak: {
+          currentStreak: Math.max(cloudData.streak?.currentStreak || 0, localData.streak?.currentStreak || 0),
+          longestStreak: Math.max(cloudData.streak?.longestStreak || 0, localData.streak?.longestStreak || 0),
+          lastActivityDate: (cloudData.streak?.lastActivityDate || "") > (localData.streak?.lastActivityDate || "")
+            ? cloudData.streak?.lastActivityDate || ""
+            : localData.streak?.lastActivityDate || "",
+        },
         lastSynced: new Date().toISOString(),
       };
 
