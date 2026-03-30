@@ -648,8 +648,9 @@ function CalendarDropdown() {
   }, []);
 
   const teamsUrl = "https://teams.microsoft.com/meet/2873768926095?p=24ECEiepy6bHQMKLa4";
-  const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Shifting+Left+%E2%80%94+Building+a+Secure+AWS+Baseline&dates=20260401T160000Z/20260401T170000Z&details=Live+workshop+by+Infracodebase+University.+Join:+${encodeURIComponent(teamsUrl)}&location=${encodeURIComponent(teamsUrl)}&recur=RRULE:FREQ%3DWEEKLY;BYDAY%3DWE`;
-  const outlookUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=Shifting+Left+%E2%80%94+Building+a+Secure+AWS+Baseline&startdt=2026-04-01T16:00:00Z&enddt=2026-04-01T17:00:00Z&body=Live+workshop+by+Infracodebase+University.+Join:+${encodeURIComponent(teamsUrl)}&location=${encodeURIComponent(teamsUrl)}&allday=false`;
+  const sessionTitle = "Shifting Left: Building a Secure Azure Baseline";
+  const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(sessionTitle)}&dates=20260401T150000Z/20260401T160000Z&details=Live+workshop+by+Infracodebase+University.+Join:+${encodeURIComponent(teamsUrl)}&location=${encodeURIComponent(teamsUrl)}&recur=RRULE:FREQ%3DWEEKLY;BYDAY%3DWE`;
+  const outlookUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${encodeURIComponent(sessionTitle)}&startdt=2026-04-01T15:00:00Z&enddt=2026-04-01T16:00:00Z&body=Live+workshop+by+Infracodebase+University.+Join:+${encodeURIComponent(teamsUrl)}&location=${encodeURIComponent(teamsUrl)}&allday=false`;
 
   const handleICS = () => {
     const ics = [
@@ -657,11 +658,11 @@ function CalendarDropdown() {
       'VERSION:2.0',
       'PRODID:-//Infracodebase University//EN',
       'BEGIN:VEVENT',
-      'DTSTART:20260401T160000Z',
-      'DTEND:20260401T170000Z',
-      'SUMMARY:Shifting Left — Building a Secure AWS Baseline',
-      'DESCRIPTION:Live workshop by Infracodebase University. Join: https://teams.microsoft.com/meet/2873768926095?p=24ECEiepy6bHQMKLa4',
-      'LOCATION:https://teams.microsoft.com/meet/2873768926095?p=24ECEiepy6bHQMKLa4',
+      'DTSTART;TZID=Europe/Paris:20260401T170000',
+      'DTEND;TZID=Europe/Paris:20260401T180000',
+      `SUMMARY:${sessionTitle}`,
+      `DESCRIPTION:Live workshop by Infracodebase University. Join: ${teamsUrl}`,
+      `LOCATION:${teamsUrl}`,
       'RRULE:FREQ=WEEKLY;BYDAY=WE',
       'END:VEVENT',
       'END:VCALENDAR'
