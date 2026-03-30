@@ -99,7 +99,7 @@ export function DailyGoalRing({ size = 80 }: { size?: number }) {
 
   return (
     <div className="glass-panel rounded-xl p-5 flex flex-col items-center gap-3">
-      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium self-start">Daily Goal</span>
+      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium self-start">Daily target</span>
       <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="-rotate-90">
           <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="hsl(var(--muted))" strokeWidth={strokeWidth} />
