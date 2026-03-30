@@ -74,12 +74,3 @@ export function SkillBar({ label, value, max = 100, color }: SkillBarProps) {
   );
 }
 
-export function CrystalIcon({ color = "hsl(var(--crystal-violet))", size = 20 }: { color?: string; size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <polygon points="12,2 20,9 17,22 7,22 4,9" fill={color} opacity="0.8" />
-      <polygon points="12,2 16,9 12,20 8,9" fill={color} opacity="0.5" />
-      <polygon points="12,2 20,9 12,9" fill="white" opacity="0.15" />
-    </svg>
-  );
-}

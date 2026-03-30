@@ -3,17 +3,13 @@ import { ProgressBar } from "@/components/ProgressBar";
 import { getLearningPathById } from "@/data/courseData";
 import { handsOnTracks } from "@/data/handsOnData";
 import { AppLayout } from "@/components/AppLayout";
-import { CrystalIcon } from "@/components/DashboardWidgets";
+
 import { ArrowLeft, ArrowRight, BookOpen, Clock, BarChart3, Play, Video, Hammer, CheckCircle2 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { AzurePeriodicTableCard } from "@/components/AzurePeriodicTableLink";
 import { InfracodebaseDocsCard } from "@/components/InfracodebaseDocsLink";
 
-const crystalColors = [
-  "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
-  "hsl(145, 60%, 45%)", "hsl(45, 85%, 55%)", "hsl(25, 85%, 55%)", "hsl(0, 72%, 55%)"
-];
 
 const trackVideoMap: Record<string, string> = {
   foundations: "/assets/Introduction.mp4",
@@ -334,7 +330,6 @@ const LearningPathPage = () => {
           <ArrowLeft className="h-3 w-3" /> All Learning Paths
         </Link>
         <div className="flex items-start gap-4">
-          <CrystalIcon color={path.color === "prerequisite" ? (path.accentColor || "hsl(235, 56%, 34%)") : crystalColors[(path.order - 1) % crystalColors.length]} size={40} />
           <div>
             <div className="text-xs font-mono mb-1">
               {path.color === "prerequisite" ? (

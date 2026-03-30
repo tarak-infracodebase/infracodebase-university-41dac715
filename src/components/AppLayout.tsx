@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { MobileDrawer } from "./MobileDrawer";
 import { useState, useEffect, useRef } from "react";
-import { CrystalIcon } from "./DashboardWidgets";
+
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { ReferralModal } from "./ReferralModal";
 import { LogIn } from "lucide-react";
@@ -296,7 +296,7 @@ export function MobileNav({ notifications: notif }: { notifications?: ReturnType
   return (
     <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-border/50 bg-background/80 backdrop-blur-xl flex items-center justify-between px-4 lg:hidden">
       <Link to="/" className="flex items-center gap-2">
-        <CrystalIcon color="hsl(var(--crystal-violet))" size={24} />
+        
         <span
           className="text-[13px] leading-tight whitespace-nowrap tracking-wide"
           style={{

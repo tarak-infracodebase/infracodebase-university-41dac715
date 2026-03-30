@@ -1,5 +1,5 @@
 import { AppLayout } from "@/components/AppLayout";
-import { SkillBar, CrystalIcon } from "@/components/DashboardWidgets";
+import { SkillBar } from "@/components/DashboardWidgets";
 import { learningPaths } from "@/data/courseData";
 import { Link } from "react-router-dom";
 import {
@@ -338,10 +338,6 @@ const Dashboard = () => {
                 const earned = earnedBadges.some(b => b.id === badge.id);
                 return (
                   <div key={badge.id} className="flex items-center gap-3" style={{ opacity: earned ? 1 : 0.35 }}>
-                    <CrystalIcon
-                      color={earned ? crystalColors[i % crystalColors.length] : "hsl(228, 20%, 20%)"}
-                      size={20}
-                    />
                     <div className="flex-1 min-w-0">
                       <p className={`text-xs truncate ${earned ? "text-foreground" : "text-muted-foreground"}`}>
                         {badge.name}

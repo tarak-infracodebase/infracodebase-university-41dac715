@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { getLessonById, learningPaths } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
-import { CrystalIcon } from "@/components/DashboardWidgets";
+
 import { ArrowLeft, ArrowRight, BookOpen, AlertTriangle, Lightbulb, PenTool, ChevronRight, RefreshCw } from "lucide-react";
 import { useState } from "react";
 import TierSelectionCards from "@/components/lesson/TierSelectionCards";
@@ -14,10 +14,6 @@ import { ReflectionNotebook } from "@/components/lesson/ReflectionNotebook";
 import { ReflectionHint } from "@/components/lesson/ReflectionHint";
 import { LabScreenshot } from "@/components/lesson/LabScreenshot";
 
-const crystalColors = [
-  "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
-  "hsl(145, 60%, 45%)", "hsl(45, 85%, 55%)", "hsl(25, 85%, 55%)", "hsl(0, 72%, 55%)"
-];
 
 const LessonPage = () => {
   const { pathId, lessonId } = useParams<{ pathId: string; lessonId: string }>();
@@ -153,7 +149,7 @@ const LessonPage = () => {
                   <ul className="space-y-1.5">
                     {lesson.whatYoullLearn.map((item, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <CrystalIcon color={crystalColors[i % crystalColors.length]} size={14} />
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-1.5" />
                         {item}
                       </li>
                     ))}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { AppLayout } from "@/components/AppLayout";
-import { SkillBar, ProgressRing, CrystalIcon } from "@/components/DashboardWidgets";
+import { SkillBar, ProgressRing } from "@/components/DashboardWidgets";
 import { Link } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 
@@ -159,7 +159,7 @@ const Progress = () => {
             <div className="space-y-3">
               {milestones.map((m, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <CrystalIcon color={m.earned ? crystalColors[i % crystalColors.length] : "hsl(228, 20%, 20%)"} size={20} />
+                  
                   <div className="flex-1">
                     <p className={`text-xs ${m.earned ? 'text-foreground' : 'text-muted-foreground'}`}>{m.name}</p>
                     <p className="text-xs text-muted-foreground">+{m.xp} XP</p>

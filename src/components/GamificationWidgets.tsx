@@ -3,7 +3,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
-import { CrystalIcon } from "@/components/DashboardWidgets";
+
 import { LEVELS, BADGES } from "@/hooks/useGamification";
 import { Flame, Heart, Zap, Check, X, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -27,7 +27,6 @@ export function LevelCard() {
     <div className="glass-panel rounded-xl p-5">
       <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Level</span>
       <div className="mt-2 flex items-center gap-2">
-        <CrystalIcon color={crystalColors[levelIdx % crystalColors.length]} size={20} />
         <p className="text-base font-bold text-foreground">{levelName}</p>
       </div>
       <p className="text-[11px] text-muted-foreground mt-0.5">Level {levelIdx + 1}</p>
@@ -59,7 +58,6 @@ export function TotalXPCard() {
       <p className="text-3xl font-mono font-bold text-foreground">{state.totalXP.toLocaleString()}</p>
       <p className="text-xs text-muted-foreground mt-1">Total XP</p>
       <div className="mt-3 flex items-center justify-center gap-2">
-        <CrystalIcon color={crystalColors[levelIdx % crystalColors.length]} size={18} />
         <div className="text-left">
           <p className="text-sm font-medium leading-none">{levelName}</p>
           <p className="text-[10px] text-muted-foreground mt-0.5">Level {levelIdx + 1}</p>
@@ -574,9 +572,9 @@ export function BadgesGrid({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
       <div className="flex flex-wrap gap-2">
-        {earnedBadges.slice(0, 8).map((badge, i) => (
-          <span key={badge.id} title={badge.name}>
-            <CrystalIcon color={crystalColors[i % crystalColors.length]} size={24} />
+        {earnedBadges.slice(0, 8).map((badge) => (
+          <span key={badge.id} title={badge.name} className="text-xs font-semibold text-foreground">
+            {badge.name}
           </span>
         ))}
         {earnedBadges.length === 0 && (
@@ -595,9 +593,6 @@ export function BadgesGrid({ compact = false }: { compact?: boolean }) {
             key={badge.id}
             className={cn("glass-panel rounded-xl p-4 flex items-start gap-3 transition-all", !earned && "opacity-40 grayscale")}
           >
-            <div className="shrink-0 mt-0.5">
-              <CrystalIcon color={earned ? crystalColors[i % crystalColors.length] : "hsl(228,20%,30%)"} size={20} />
-            </div>
             <div>
               <p className={cn("text-xs font-semibold", earned ? "text-foreground" : "text-muted-foreground")}>
                 {badge.name}

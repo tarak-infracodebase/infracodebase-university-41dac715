@@ -2,38 +2,24 @@ import { AppLayout } from "@/components/AppLayout";
 import { Helmet } from "react-helmet-async";
 import { learningPaths } from "@/data/courseData";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BookOpen, Clock, ArrowRight, Search, HelpCircle, X } from "lucide-react";
 import { AzurePeriodicTablePill } from "@/components/AzurePeriodicTableLink";
 import { InfracodebaseDocsPill } from "@/components/InfracodebaseDocsLink";
-import { cn } from "@/lib/utils";
-import { CrystalIcon } from "@/components/DashboardWidgets";
+
+
 import { CurriculumGuidanceQuiz } from "@/components/CurriculumGuidanceQuiz";
 import { AudioPlayer } from "@/components/AudioPlayer";
 
-const BANNER_GRADIENT = "linear-gradient(135deg, #1a1a1a 0%, #c2410c 15%, #d97706 35%, #ca8a04 50%, #16a34a 68%, #0891b2 85%, #1a1a1a 100%)";
 const BANNER_DISMISSED_KEY = "curriculum-guidance-dismissed";
 
-const crystalColors = [
-  "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
-  "hsl(145, 60%, 45%)", "hsl(45, 85%, 55%)", "hsl(25, 85%, 55%)", "hsl(0, 72%, 55%)"
-];
-
-
-const PREREQ_COLOR = "hsl(235, 56%, 34%)";
-const PREREQ_TEXT_COLOR = "hsl(235, 56%, 70%)";
-
-function PathCard({ path, colorOverride }: { path: typeof learningPaths[number]; colorOverride?: string }) {
+function PathCard({ path }: { path: typeof learningPaths[number] }) {
   const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
   const isPrereq = path.color === "prerequisite";
-  const iconColor = colorOverride || (isPrereq ? PREREQ_COLOR : crystalColors[path.order % crystalColors.length]);
 
   return (
     <Link key={path.id} to={`/path/${path.id}`}
       className="group glass-panel-hover rounded-xl p-5 flex items-start gap-5 block">
-      <div className="shrink-0 mt-1">
-        <CrystalIcon color={iconColor} size={32} />
-      </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
           {isPrereq ? (

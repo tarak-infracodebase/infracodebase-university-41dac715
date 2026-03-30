@@ -1,8 +1,8 @@
 import { AppLayout } from "@/components/AppLayout";
-import { CrystalIcon } from "@/components/DashboardWidgets";
+
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Trophy, Medal } from "lucide-react";
+
 
 const crystalColors = [
   "hsl(45, 85%, 55%)", "hsl(220, 15%, 70%)", "hsl(25, 85%, 55%)"
@@ -62,7 +62,7 @@ const Leaderboard = () => {
                   )} style={{ background: 'hsl(var(--muted))' }}>
                     {user.avatar}
                   </div>
-                  <CrystalIcon color={crystalColors[isFirst ? 0 : i === 0 ? 1 : 2]} size={isFirst ? 22 : 18} />
+                  
                 </div>
                 <p className="text-xs font-medium mb-0.5">{user.name}</p>
                 <p className="text-xs text-muted-foreground mb-2">{user.xp.toLocaleString()} XP</p>
