@@ -11,17 +11,7 @@ import { InfracodebaseDocsPill } from "@/components/InfracodebaseDocsLink";
 import { CurriculumGuidanceQuiz } from "@/components/CurriculumGuidanceQuiz";
 import { AudioPlayer } from "@/components/AudioPlayer";
 
-const BANNER_GRADIENT = "linear-gradient(135deg, #1a1a1a 0%, #c2410c 15%, #d97706 35%, #ca8a04 50%, #16a34a 68%, #0891b2 85%, #1a1a1a 100%)";
 const BANNER_DISMISSED_KEY = "curriculum-guidance-dismissed";
-
-const crystalColors = [
-  "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
-  "hsl(145, 60%, 45%)", "hsl(45, 85%, 55%)", "hsl(25, 85%, 55%)", "hsl(0, 72%, 55%)"
-];
-
-
-const PREREQ_COLOR = "hsl(235, 56%, 34%)";
-const PREREQ_TEXT_COLOR = "hsl(235, 56%, 70%)";
 
 function PathCard({ path, colorOverride }: { path: typeof learningPaths[number]; colorOverride?: string }) {
   const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
