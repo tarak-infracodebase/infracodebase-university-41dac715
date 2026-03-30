@@ -119,7 +119,7 @@ const SectionPathMap = ({ t }: { t: ReturnType<typeof useTokens> }) => {
                 onMouseLeave={e => (e.currentTarget.style.background = t.bg)}
               >
                 <div className="flex items-center justify-between mb-3">
-                  <span style={{ ...fontMono, fontSize: 10, color: t.muted }}>{card.num}</span>
+                  <span style={{ ...fontMono, fontSize: 12, color: t.muted }}>{card.num}</span>
                   <span style={{
                     ...fontMono,
                     fontSize: 9,
@@ -131,7 +131,7 @@ const SectionPathMap = ({ t }: { t: ReturnType<typeof useTokens> }) => {
                   }}>{card.tag}</span>
                 </div>
                 <div style={{ ...fontDisplay, fontSize: 17, fontWeight: 700, color: t.heading }}>{card.title}</div>
-                <div className="mt-1" style={{ ...fontMono, fontSize: 10, color: t.accentEmber }}>{card.path}</div>
+                <div className="mt-1" style={{ ...fontMono, fontSize: 12, color: t.accentEmber }}>{card.path}</div>
                 <p className="mt-2" style={{ ...fontMono, fontSize: 14, lineHeight: 1.65, color: t.muted }}>{card.desc}</p>
                 <span className="inline-block mt-3 transition-colors duration-200 group-hover:!color-inherit" style={{ ...fontMono, fontSize: 13, color: t.muted }}>
                   <span className="group-hover:hidden">{card.arrow} →</span>
@@ -160,9 +160,9 @@ const SectionPathMap = ({ t }: { t: ReturnType<typeof useTokens> }) => {
                     <span style={{ ...fontMono, fontSize: 9, color: t.muted, flexShrink: 0, width: 16 }}>—</span>
                     <div>
                       <div style={{ ...fontDisplay, fontSize: 15, fontWeight: 700, color: t.heading }}>{card.title}</div>
-                      <div className="mt-1" style={{ ...fontMono, fontSize: 10, color: t.accentEmber }}>{card.path}</div>
+                      <div className="mt-1" style={{ ...fontMono, fontSize: 12, color: t.accentEmber }}>{card.path}</div>
                       <p className="mt-2" style={{ ...fontMono, fontSize: 14, lineHeight: 1.65, color: t.muted }}>{card.desc}</p>
-                      <span className="inline-block mt-3" style={{ ...fontMono, fontSize: 11, color: t.muted }}>
+                      <span className="inline-block mt-3" style={{ ...fontMono, fontSize: 12, color: t.muted }}>
                         <span className="group-hover:hidden">{card.arrow} →</span>
                         <span className="hidden group-hover:inline" style={{ color: t.accentEmber }}>{card.arrow} →</span>
                       </span>
@@ -240,7 +240,7 @@ const Index = () => {
             {/* eyebrow */}
             <div data-reveal className="flex items-center gap-4 justify-center mb-10" style={{ ...fontMono, animationDelay: "0s" }}>
               <span className="h-px flex-1 max-w-[60px]" style={{ background: t.subtleLine }} />
-              <span style={{ color: t.muted, fontSize: 11, letterSpacing: "0.25em" }}>INFRACODEBASE UNIVERSITY · 2026</span>
+              <span style={{ color: t.muted, fontSize: 12, letterSpacing: "0.25em" }}>INFRACODEBASE UNIVERSITY · 2026</span>
               <span className="h-px flex-1 max-w-[60px]" style={{ background: t.subtleLine }} />
             </div>
 
@@ -336,7 +336,7 @@ const Index = () => {
                         color: stat.accent ? t.accentEmber : t.heading,
                         fontStyle: stat.accent ? "italic" : "normal",
                       }}>{stat.value}</div>
-                      <div style={{ ...fontMono, fontSize: 11, color: t.muted, marginTop: 2 }}>{stat.label}</div>
+                      <div style={{ ...fontMono, fontSize: 12, color: t.muted, marginTop: 2 }}>{stat.label}</div>
                     </div>
                   ))}
                 </div>
@@ -346,12 +346,12 @@ const Index = () => {
 
                 {/* Top communities */}
                 <div>
-                  <span style={{ ...fontMono, fontSize: 10, color: t.heading, fontWeight: 700, letterSpacing: "0.05em" }}>Top communities</span>
+                  <span style={{ ...fontMono, fontSize: 12, color: t.heading, fontWeight: 700, letterSpacing: "0.05em" }}>Top communities</span>
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {["United States", "Australia", "France", "India", "Kenya", "United Kingdom", "Brazil", "Canada", "Japan"].map(c => (
                       <span key={c} className="inline-block" style={{
                         ...fontMono,
-                        fontSize: 10,
+                        fontSize: 12,
                         padding: "3px 8px",
                         borderRadius: 3,
                         border: `1px solid ${t.cardBorder}`,

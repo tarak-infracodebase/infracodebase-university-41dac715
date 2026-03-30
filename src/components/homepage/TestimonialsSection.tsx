@@ -102,7 +102,7 @@ export function TestimonialsSection() {
                 <AvatarWithFallback name={t.name} src={t.avatar} />
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 700, color: heading }}>{t.name}</div>
-                  <div style={{ ...fontMono, fontSize: 11, color: muted, marginTop: 1 }}>{t.role}</div>
+                  <div style={{ ...fontMono, fontSize: 12, color: muted, marginTop: 1 }}>{t.role}</div>
                 </div>
               </div>
             </div>

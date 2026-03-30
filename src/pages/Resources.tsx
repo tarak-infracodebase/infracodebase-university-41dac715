@@ -112,7 +112,7 @@ export default function Resources() {
       <div style={{ background: dark ? "#090907" : "#ffffff", padding: "36px 32px", minHeight: "100vh" }}>
 
         <p style={{
-          fontFamily: "'Courier New', monospace", fontSize: 10,
+          fontFamily: "'Courier New', monospace", fontSize: 12,
           letterSpacing: "0.2em", textTransform: "uppercase",
           color: dark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.35)", marginBottom: 6
         }}>
@@ -165,7 +165,7 @@ export default function Resources() {
                   display: "flex", alignItems: "center", justifyContent: "center",
                 }}>
                   <span style={{
-                    fontFamily: "'Courier New', monospace", fontSize: 11,
+                    fontFamily: "'Courier New', monospace", fontSize: 12,
                     color: "#fff", border: "1px solid rgba(255,255,255,0.7)",
                     padding: "7px 18px", borderRadius: 20,
                     background: "rgba(0,0,0,0.3)"
@@ -185,14 +185,14 @@ export default function Resources() {
                     {item.name}
                   </div>
                   <div style={{
-                    fontSize: 10, fontFamily: "'Courier New', monospace",
+                    fontSize: 12, fontFamily: "'Courier New', monospace",
                     color: dark ? "rgba(255,255,255,0.75)" : "rgba(0,0,0,0.4)", marginTop: 1
                   }}>
                     {item.url}
                   </div>
                 </div>
                 <div style={{
-                  fontSize: 10, fontFamily: "'Courier New', monospace",
+                  fontSize: 12, fontFamily: "'Courier New', monospace",
                   letterSpacing: "0.1em", textTransform: "uppercase",
                   padding: "2px 8px", borderRadius: 3, flexShrink: 0,
                   fontWeight: 700,
@@ -287,7 +287,7 @@ export default function Resources() {
                 <button
                   onClick={() => window.open(active.openUrl, "_blank")}
                   style={{
-                    fontFamily: "'Courier New', monospace", fontSize: 11,
+                    fontFamily: "'Courier New', monospace", fontSize: 12,
                     padding: "9px 18px", borderRadius: 6,
                     background: active.accent, color: "#fff",
                     border: "none", cursor: "pointer", fontWeight: 500

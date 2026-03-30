@@ -120,7 +120,7 @@ export function NotificationBell({
               background: "#f97316",
               border: "2px solid hsl(var(--background))",
               boxShadow: "0 0 10px rgba(249,115,22,0.55)",
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 700,
               color: "#fff",
               lineHeight: 1,
@@ -215,7 +215,7 @@ export function NotificationBell({
             {unreadCount > 0 && (
               <button
                 onClick={(e) => { e.stopPropagation(); markAllRead(); }}
-                style={{ fontSize: 11, color: "rgba(255,255,255,0.28)", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}
+                style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.28)")}
               >
@@ -345,7 +345,7 @@ function FeaturedCard({
 
         {thumb && (
           <>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 10, position: "relative", zIndex: 1 }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 10, position: "relative", zIndex: 1 }}>
               {thumb.eyebrow}
             </p>
             <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: 42, fontWeight: 400, color: "rgba(255,255,255,0.95)", lineHeight: 1.0, letterSpacing: "-0.02em", position: "relative", zIndex: 1 }}>

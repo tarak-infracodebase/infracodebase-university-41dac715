@@ -150,7 +150,7 @@ export function NotificationModal({ open, initialId, onClose }: NotificationModa
 
             {/* Tags */}
             <div className="absolute top-5 left-5 right-4 flex items-start justify-between">
-              <span className="flex items-center gap-1.5" style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", padding: "4px 12px", borderRadius: 20, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.14)", color: "rgba(255,255,255,0.65)" }}>
+              <span className="flex items-center gap-1.5" style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", padding: "4px 12px", borderRadius: 20, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.14)", color: "rgba(255,255,255,0.65)" }}>
                 <span style={{ width: 5, height: 5, borderRadius: "50%", background: cfg.accent, display: "inline-block" }} />
                 {m.tagLabel}
               </span>
@@ -168,7 +168,7 @@ export function NotificationModal({ open, initialId, onClose }: NotificationModa
 
             {/* Content */}
             <div className="relative z-10">
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 10 }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 10 }}>
                 {m.eyebrow}
               </p>
               <p style={{ fontFamily: "'DM Serif Display', serif", fontSize: 40, fontWeight: 400, lineHeight: 1.03, letterSpacing: "-0.025em", color: "#fff" }}>
@@ -181,7 +181,7 @@ export function NotificationModal({ open, initialId, onClose }: NotificationModa
               {m.speakers.length > 0 && (
                 <div className="flex flex-wrap gap-1.5" style={{ marginTop: 14 }}>
                   {m.speakers.map(s => (
-                    <span key={s} style={{ fontSize: 11, fontWeight: 500, color: "rgba(255,255,255,0.5)", padding: "3px 10px", borderRadius: 20, background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.1)" }}>{s}</span>
+                    <span key={s} style={{ fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.5)", padding: "3px 10px", borderRadius: 20, background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.1)" }}>{s}</span>
                   ))}
                 </div>
               )}
@@ -198,7 +198,7 @@ export function NotificationModal({ open, initialId, onClose }: NotificationModa
             </button>
 
             {/* Badge */}
-            <span className="self-start" style={{ fontSize: 10.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", padding: "4px 12px", borderRadius: 20, background: cfg.badgeBg, border: `1px solid ${cfg.badgeBorder}`, color: cfg.badgeText, marginBottom: 14, display: "inline-flex", width: "fit-content" }}>{m.badge}</span>
+            <span className="self-start" style={{ fontSize: 12, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", padding: "4px 12px", borderRadius: 20, background: cfg.badgeBg, border: `1px solid ${cfg.badgeBorder}`, color: cfg.badgeText, marginBottom: 14, display: "inline-flex", width: "fit-content" }}>{m.badge}</span>
 
             <h2 style={{ fontSize: 20, fontWeight: 600, color: "rgba(255,255,255,0.93)", letterSpacing: "-0.025em", lineHeight: 1.2, marginBottom: 8 }}>{m.title}</h2>
             <p style={{ fontSize: 13, color: "rgba(255,255,255,0.43)", lineHeight: 1.68 }}>{m.description}</p>
@@ -209,7 +209,7 @@ export function NotificationModal({ open, initialId, onClose }: NotificationModa
                 {m.meta.map(chip => {
                   const Icon = getIcon(chip.icon);
                   return (
-                    <span key={chip.text} className="flex items-center gap-1.5" style={{ fontSize: 11, padding: "5px 10px", borderRadius: 8, background: "rgba(255,255,255,0.055)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.45)" }}>
+                    <span key={chip.text} className="flex items-center gap-1.5" style={{ fontSize: 12, padding: "5px 10px", borderRadius: 8, background: "rgba(255,255,255,0.055)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.45)" }}>
                       <Icon className="h-3 w-3" />{chip.text}
                     </span>
                   );

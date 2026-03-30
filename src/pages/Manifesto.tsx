@@ -54,7 +54,7 @@ const communityStats = [
 
 function SectionEyebrow({ num, label, t }: { num: string; label: string; t: ReturnType<typeof useTokens> }) {
   return (
-    <span className="inline-block mb-4" style={{ ...fontMono, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: t.muted }}>
+    <span className="inline-block mb-4" style={{ ...fontMono, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: t.muted }}>
       {num} — {label}
     </span>
   );
@@ -161,7 +161,7 @@ const Manifesto = () => {
               <ArrowLeft className="h-3.5 w-3.5" /> Home
             </Link>
 
-            <div className="mb-3" style={{ ...fontMono, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: t.muted }}>
+            <div className="mb-3" style={{ ...fontMono, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: t.muted }}>
               INFRACODEBASE UNIVERSITY
             </div>
 
@@ -186,7 +186,7 @@ const Manifesto = () => {
             {/* Sticky TOC — left column */}
             <aside className="hidden lg:block shrink-0" style={{ width: 200 }}>
               <div className="sticky top-24">
-                <div className="mb-4" style={{ ...fontMono, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: t.muted }}>
+                <div className="mb-4" style={{ ...fontMono, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: t.muted }}>
                   ON THIS PAGE
                 </div>
                 <nav className="space-y-1">
@@ -248,7 +248,7 @@ const Manifesto = () => {
                 {/* Comparison cards */}
                 <div className="grid md:grid-cols-2 gap-4 my-8">
                   <div className="rounded-[10px] p-5" style={{ background: t.cardBg, border: `1px solid ${t.cardBorder}`, borderTop: `2px solid ${t.amber}` }}>
-                    <div className="mb-3" style={{ ...fontMono, fontSize: 11, color: t.amber, letterSpacing: "0.1em" }}>WHAT UNIVERSITY IS</div>
+                    <div className="mb-3" style={{ ...fontMono, fontSize: 12, color: t.amber, letterSpacing: "0.1em" }}>WHAT UNIVERSITY IS</div>
                     <ul className="space-y-2">
                       {["A structured, coherent curriculum", "Systems thinking from day one", "Real infrastructure, real tools", "Hands-on deployments you actually own", "A verifiable credential at the end"].map(item => (
                         <li key={item} className="flex items-start gap-2" style={{ fontSize: 14, color: t.heading }}>
@@ -258,7 +258,7 @@ const Manifesto = () => {
                     </ul>
                   </div>
                   <div className="rounded-[10px] p-5" style={{ background: t.cardBg, border: `1px solid ${t.cardBorder}`, borderTop: `2px solid ${t.muted}` }}>
-                    <div className="mb-3" style={{ ...fontMono, fontSize: 11, color: t.muted, letterSpacing: "0.1em" }}>WHAT IT IS NOT</div>
+                    <div className="mb-3" style={{ ...fontMono, fontSize: 12, color: t.muted, letterSpacing: "0.1em" }}>WHAT IT IS NOT</div>
                     <ul className="space-y-2">
                       {["A YouTube playlist", "A certification cram session", "Disconnected tutorials", "Something you click through for a badge", "Only for people who already have the title"].map(item => (
                         <li key={item} className="flex items-start gap-2" style={{ fontSize: 14, color: t.heading }}>

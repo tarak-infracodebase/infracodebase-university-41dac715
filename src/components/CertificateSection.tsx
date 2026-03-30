@@ -201,7 +201,7 @@ function Certificate({ cert, isMaster = false, locked = false, lockMessage }: Ce
             ) : (
               <div style={{ display: "inline-block", borderRadius: 8, padding: "12px 20px", marginBottom: 32, background: `linear-gradient(135deg, ${color}22, ${color}0a)`, border: `1px solid ${color}30` }}>
                 <p style={{ fontSize: 15, fontWeight: 600, color, margin: 0 }}>{cert.short}</p>
-                <p style={{ fontSize: 11, color: "#999", marginTop: 4, margin: "4px 0 0" }}>{cert.track}</p>
+                <p style={{ fontSize: 12, color: "#999", marginTop: 4, margin: "4px 0 0" }}>{cert.track}</p>
               </div>
             )}
           </div>
@@ -225,7 +225,7 @@ function Certificate({ cert, isMaster = false, locked = false, lockMessage }: Ce
           <div>
             <div style={{ width: 24, height: 2, background: "#444", marginBottom: 8 }} />
             <p style={{ fontSize: 13, fontWeight: 600, color: "#e0e0e0", margin: 0 }}>{cert.signedBy}</p>
-            <p style={{ fontSize: 11, color: "#666", margin: "2px 0 0" }}>Earned on {cert.date}</p>
+            <p style={{ fontSize: 12, color: "#666", margin: "2px 0 0" }}>Earned on {cert.date}</p>
           </div>
           <div style={{ textAlign: "right" }}>
             <p style={{ fontSize: 9, color: "#555", letterSpacing: 2, textTransform: "uppercase", margin: 0 }}>Credential ID</p>
@@ -267,7 +267,7 @@ function Certificate({ cert, isMaster = false, locked = false, lockMessage }: Ce
               </button>
             ))}
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 8, fontSize: 11, color: "#444", fontFamily: "monospace" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 8, fontSize: 12, color: "#444", fontFamily: "monospace" }}>
             <Shield size={10} />
             {verifyUrl}
           </div>
