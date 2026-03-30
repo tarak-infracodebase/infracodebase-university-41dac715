@@ -391,7 +391,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       // Sign up → always show
       autoShowFired.current = true;
       const timer = setTimeout(() => {
-        notif.openNotification(firstUnread);
+        notif.openModalIntro();
         sessionStorage.setItem("icbu_notif_modal_shown", "1");
       }, 600);
       return () => clearTimeout(timer);
@@ -402,7 +402,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     if (!alreadyShown && notif.unreadCount > 0) {
       autoShowFired.current = true;
       const timer = setTimeout(() => {
-        notif.openNotification(firstUnread);
+        notif.openModalIntro();
         sessionStorage.setItem("icbu_notif_modal_shown", "1");
       }, 600);
       return () => clearTimeout(timer);
