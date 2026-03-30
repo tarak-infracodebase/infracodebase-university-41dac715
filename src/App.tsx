@@ -8,6 +8,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { GamificationProvider } from "@/hooks/GamificationProvider";
+import { LevelUpCelebration } from "@/components/LevelUpCelebration";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import LearningPathPage from "./pages/LearningPathPage";
@@ -120,6 +121,7 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <ScrollToTop />
+              <LevelUpCelebration />
               <AnimatedRoutes />
             </BrowserRouter>
           </TooltipProvider>
