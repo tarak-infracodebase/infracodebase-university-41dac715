@@ -75,6 +75,7 @@ export interface GamState {
   monthlyXP: { month: string; xp: number }[];
   weeklyXP: number;
   weekStart: string;
+  dailyHistory: { date: string; xp: number }[];
   _migrated?: boolean;
 }
 
@@ -112,6 +113,7 @@ const DEFAULT_STATE: GamState = {
   monthlyXP: [],
   weeklyXP: 0,
   weekStart: thisMonday(),
+  dailyHistory: [],
 };
 
 const LS_KEY = "icbu_gamification";
@@ -143,6 +145,7 @@ function loadFromLS(): GamState {
     if (!Array.isArray(safe.watchedVideos)) safe.watchedVideos = [];
     if (!Array.isArray(safe.earnedBadgeIds)) safe.earnedBadgeIds = [];
     if (!Array.isArray(safe.monthlyXP)) safe.monthlyXP = [];
+    if (!Array.isArray(safe.dailyHistory)) safe.dailyHistory = [];
     if (typeof safe.totalXP !== "number") safe.totalXP = 0;
     if (typeof safe.streak !== "number") safe.streak = 0;
     if (typeof safe.hearts !== "number") safe.hearts = 5;
@@ -175,6 +178,22 @@ function updateMonthlyBucket(
     copy.push({ month: key, xp: amount });
   }
   return copy.slice(-6);
+}
+
+function updateDailyHistory(
+  history: GamState["dailyHistory"],
+  amount: number,
+  date: string = today()
+): GamState["dailyHistory"] {
+  const copy = [...(history ?? [])];
+  const idx = copy.findIndex(h => h.date === date);
+  if (idx >= 0) {
+    copy[idx] = { date, xp: copy[idx].xp + amount };
+  } else {
+    copy.push({ date, xp: amount });
+  }
+  copy.sort((a, b) => a.date.localeCompare(b.date));
+  return copy.slice(-14);
 }
 
 // ── Hook exports ──────────────────────────────────────────────────────────
@@ -295,6 +314,7 @@ export function useGamification(): GamificationHook {
         dailyXP: prev.dailyXP + xp,
         weeklyXP: prev.weeklyXP + xp,
         monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+        dailyHistory: updateDailyHistory(prev.dailyHistory, xp),
       };
     });
   }, [update]);
@@ -314,6 +334,7 @@ export function useGamification(): GamificationHook {
         dailyXP: prev.dailyXP + xp,
         weeklyXP: prev.weeklyXP + xp,
         monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+        dailyHistory: updateDailyHistory(prev.dailyHistory, xp),
         completedLessons: [...prev.completedLessons, key],
       };
       next = applyStreak(next);
@@ -337,6 +358,7 @@ export function useGamification(): GamificationHook {
         dailyXP: prev.dailyXP + xp,
         weeklyXP: prev.weeklyXP + xp,
         monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+        dailyHistory: updateDailyHistory(prev.dailyHistory, xp),
         watchedVideos: [...prev.watchedVideos, videoId],
       };
       next = applyStreak(next);
@@ -358,6 +380,7 @@ export function useGamification(): GamificationHook {
         dailyXP: prev.dailyXP + xp,
         weeklyXP: prev.weeklyXP + xp,
         monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+        dailyHistory: updateDailyHistory(prev.dailyHistory, xp),
         perfectChecks: perfect ? prev.perfectChecks + 1 : prev.perfectChecks,
       };
       next = applyStreak(next);
@@ -389,6 +412,7 @@ export function useGamification(): GamificationHook {
         dailyXP: prev.dailyXP + xp,
         weeklyXP: prev.weeklyXP + xp,
         monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+        dailyHistory: updateDailyHistory(prev.dailyHistory, xp),
         completedPaths: [...prev.completedPaths, pathId],
       };
       next = applyStreak(next);
