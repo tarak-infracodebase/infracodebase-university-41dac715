@@ -460,7 +460,8 @@ export function ShareModal({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
