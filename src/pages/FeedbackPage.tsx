@@ -353,7 +353,7 @@ function EditableFeedback() {
           {/* Q2 — Who */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">
+              <label htmlFor="feedback-who" className="text-sm font-semibold text-foreground">
                 What type of person would benefit most from this?
               </label>
               <SavedBadge visible={who.saved} />
@@ -362,6 +362,7 @@ function EditableFeedback() {
               Think about a colleague or someone in your network.
             </p>
             <Textarea
+              id="feedback-who"
               value={who.value}
               onChange={(e) => who.update(e.target.value)}
               className="min-h-[100px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
@@ -371,7 +372,7 @@ function EditableFeedback() {
           {/* Q3 — Benefit */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">
+              <label htmlFor="feedback-benefit" className="text-sm font-semibold text-foreground">
                 What is the main benefit you get from Infracodebase University?
               </label>
               <SavedBadge visible={benefit.saved} />
@@ -380,6 +381,7 @@ function EditableFeedback() {
               What would you lose if it disappeared tomorrow?
             </p>
             <Textarea
+              id="feedback-benefit"
               value={benefit.value}
               onChange={(e) => benefit.update(e.target.value)}
               className="min-h-[100px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
