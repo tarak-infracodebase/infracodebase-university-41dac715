@@ -1,13 +1,11 @@
 import { AppLayout } from "@/components/AppLayout";
-import { SkillBar } from "@/components/DashboardWidgets";
+import { SkillBar, CrystalIcon } from "@/components/DashboardWidgets";
 import { learningPaths } from "@/data/courseData";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
-  ArrowRight, BookOpen, Play,
-  ChevronRight, Zap, Layers, Shield
+  ArrowRight, BookOpen, Play, Zap
 } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
@@ -86,12 +84,6 @@ const Dashboard = () => {
     ? Math.round((completedCount / allCurrentLessons.length) * 100)
     : 0;
   const nextLesson = allCurrentLessons[completedCount];
-
-  const inProgress = learningPaths.filter(t => trackProgress[t.id]?.status === "in_progress");
-  const completed  = learningPaths.filter(t => trackProgress[t.id]?.status === "completed");
-  const notStarted = learningPaths.filter(
-    t => !trackProgress[t.id] || trackProgress[t.id]?.status === "not_started"
-  );
 
   const isNewUser = state.totalXP === 0 && state.completedLessons.length === 0;
 
@@ -465,13 +457,19 @@ const Dashboard = () => {
               Earned by learning consistently.
             </p>
             <div className="space-y-3">
-              {BADGES.map((badge) => {
+              {BADGES.map((badge, i) => {
                 const earned = earnedBadges.some(b => b.id === badge.id);
                 return (
                   <div
                     key={badge.id}
                     className={cn("flex items-center gap-3", !earned && "opacity-35")}
                   >
+                    <CrystalIcon
+                      color={earned
+                        ? crystalColors[i % crystalColors.length]
+                        : "hsl(228, 20%, 20%)"}
+                      size={18}
+                    />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-foreground truncate">{badge.name}</p>
                       <p className="text-[10px] text-muted-foreground">{badge.desc}</p>
@@ -504,133 +502,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* ── Track sections ── */}
-        <div className="space-y-6">
-
-          {inProgress.length > 0 && (
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <Layers className="h-4 w-4 text-primary" />
-                <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                  In Progress
-                </h2>
-              </div>
-              <div className="grid gap-3">
-                {inProgress.map(track => {
-                  const tp = trackProgress[track.id];
-                  const lessons = track.courses.flatMap(c => c.lessons);
-                  const pct = Math.round(((tp?.completed ?? 0) / lessons.length) * 100);
-                  return (
-                    <Link
-                      key={track.id}
-                      to={`/path/${track.id}`}
-                      className="glass-panel rounded-xl p-4 hover:border-primary/30 transition-all group"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                          <BookOpen className="h-4 w-4 text-primary" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-primary font-mono">Track {track.order}</p>
-                          <h3 className="text-sm font-semibold">{track.title}</h3>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Progress value={pct} className="h-1.5 flex-1 max-w-[180px] bg-muted" />
-                            <span className="text-[10px] font-mono text-muted-foreground">
-                              {tp?.completed}/{lessons.length}
-                            </span>
-                          </div>
-                        </div>
-                        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {completed.length > 0 && (
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <Shield className="h-4 w-4 text-muted-foreground" />
-                <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                  Completed
-                </h2>
-              </div>
-              <div className="grid gap-3">
-                {completed.map(track => {
-                  const lessons = track.courses.flatMap(c => c.lessons);
-                  return (
-                    <Link
-                      key={track.id}
-                      to={`/path/${track.id}`}
-                      className="glass-panel rounded-xl p-4 opacity-80 hover:opacity-100 transition-all group"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-lg bg-muted/50 flex items-center justify-center shrink-0">
-                          <BookOpen className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-muted-foreground font-mono">
-                            Track {track.order}
-                          </p>
-                          <h3 className="text-sm font-semibold text-muted-foreground">
-                            {track.title}
-                          </h3>
-                          <p className="text-[10px] text-muted-foreground mt-0.5">
-                            {lessons.length} lessons · Complete
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {notStarted.length > 0 && (
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <BookOpen className="h-4 w-4 text-muted-foreground" />
-                <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                  Not Started
-                </h2>
-              </div>
-              <div className="grid gap-3">
-                {notStarted.map(track => {
-                  const lessons = track.courses.flatMap(c => c.lessons);
-                  return (
-                    <Link
-                      key={track.id}
-                      to={`/path/${track.id}`}
-                      className="glass-panel rounded-xl p-4 opacity-60 hover:opacity-90 transition-all group"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="h-10 w-10 rounded-lg bg-muted/30 flex items-center justify-center shrink-0 border border-dashed border-border/50">
-                          <BookOpen className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-muted-foreground font-mono">
-                            Track {track.order}
-                          </p>
-                          <h3 className="text-sm font-semibold text-muted-foreground">
-                            {track.title}
-                          </h3>
-                          <p className="text-[10px] text-muted-foreground mt-0.5">
-                            {lessons.length} lessons
-                          </p>
-                        </div>
-                        <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-        </div>
       </div>
     </AppLayout>
   );
