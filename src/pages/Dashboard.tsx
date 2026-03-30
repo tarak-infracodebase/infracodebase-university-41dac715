@@ -89,7 +89,7 @@ const Dashboard = () => {
   const milestones = [
     { name: "First Lesson", earned: totalXP >= 50, xp: 50 },
     { name: "Track Complete", earned: tracksCompleted >= 1, xp: 500 },
-    { name: "5-Day Streak", earned: false, xp: 100 },
+    { name: "5-Day Streak", earned: streak.currentStreak >= 5 || streak.longestStreak >= 5, xp: 100 },
     { name: "10 Lessons", earned: totalXP >= 500, xp: 200 },
     { name: "Silver League", earned: false, xp: 300 },
     { name: "All Tracks", earned: tracksCompleted >= totalTracks, xp: 1000 },
