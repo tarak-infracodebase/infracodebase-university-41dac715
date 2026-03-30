@@ -3,7 +3,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
-import { CrystalIcon } from "@/components/DashboardWidgets";
+
 import { LEVELS, BADGES } from "@/hooks/useGamification";
 import { Flame, Heart, Zap, Check, X, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
