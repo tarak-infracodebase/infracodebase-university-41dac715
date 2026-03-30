@@ -83,7 +83,7 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
         {track.modules.map((_, i) => (
           <div
             key={i}
-            className="h-5 w-5 rounded-full flex items-center justify-center text-[8px] font-bold"
+            className="h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold"
             style={{ background: '#1e3a5f', color: '#7dd3fc', border: '1px solid #2a5080' }}
           >
             {i + 1}
@@ -248,7 +248,7 @@ const HandsOnExercises = () => {
                 {featuredTrack.modules.map((_, i) => (
                   <div
                     key={i}
-                    className="h-6 w-6 rounded-full flex items-center justify-center text-[9px] font-bold"
+                    className="h-6 w-6 rounded-full flex items-center justify-center text-xs font-bold"
                     style={{ background: '#1e3a5f', color: '#7dd3fc', border: '1px solid #2a5080' }}
                   >
                     {i + 1}

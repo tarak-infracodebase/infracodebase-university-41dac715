@@ -121,7 +121,7 @@ const Community = () => {
                     style={{ background: t.surface, border: `1px solid ${t.cardBorder}`, borderTop: `2px solid ${c.accentColor}` }}>
                     <div style={{ ...fontMono, fontSize: 10, letterSpacing: "0.12em", color: c.accentColor }}>{c.eyebrow}</div>
                     <div className="mt-2 text-sm font-semibold leading-snug" style={{ ...fontDisplay, color: t.heading }}>{c.title}</div>
-                    <span className="inline-block mt-3 text-[9px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: t.dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)", color: t.muted }}>{c.badge}</span>
+                    <span className="inline-block mt-3 text-xs px-2 py-0.5 rounded-full" style={{ ...fontMono, background: t.dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)", color: t.muted }}>{c.badge}</span>
                     {c.play && <div className="mt-3 text-lg opacity-50">▶</div>}
                     {c.extra && <div className="mt-2" style={{ ...fontMono, fontSize: 11, color: t.muted }}>{c.extra}</div>}
                     {c.arrow && <div className="mt-3 text-sm opacity-40">→</div>}

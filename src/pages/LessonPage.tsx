@@ -64,7 +64,7 @@ const LessonPage = () => {
                   className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs transition-colors ${
                     l.id === lesson.id ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}>
-                  <span className="font-mono text-[9px] w-3.5 text-center shrink-0">{i + 1}</span>
+                  <span className="font-mono text-xs w-3.5 text-center shrink-0">{i + 1}</span>
                   <span className="truncate">{l.title}</span>
                 </Link>
               ))}

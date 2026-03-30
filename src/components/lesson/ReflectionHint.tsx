@@ -14,7 +14,7 @@ export function ReflectionHint({ hint }: ReflectionHintProps) {
         className="font-mono text-xs text-primary/70 hover:text-primary bg-transparent border-none cursor-pointer p-0 flex items-center gap-1.5 transition-colors"
       >
         <span
-          className="text-[9px] inline-block transition-transform duration-150"
+          className="text-xs inline-block transition-transform duration-150"
           style={{ transform: open ? "rotate(90deg)" : "rotate(0deg)" }}
         >
           ▶

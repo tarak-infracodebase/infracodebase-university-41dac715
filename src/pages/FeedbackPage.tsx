@@ -115,7 +115,7 @@ function ReadOnlyView({ data }: { data: Record<string, string> }) {
         </div>
 
         <section className="space-y-6">
-          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">About Infracodebase University</p>
+          <p className="text-xs font-bold tracking-[0.12em] uppercase text-muted-foreground">About Infracodebase University</p>
           {sectionA.map((q) => (
             <div key={q.key} className="space-y-1.5">
               <p className="text-sm font-semibold text-foreground">{q.label}</p>
@@ -125,7 +125,7 @@ function ReadOnlyView({ data }: { data: Record<string, string> }) {
         </section>
 
         <section className="space-y-6">
-          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">Your experience so far</p>
+          <p className="text-xs font-bold tracking-[0.12em] uppercase text-muted-foreground">Your experience so far</p>
           {sectionB.map((q) => (
             <div key={q.key} className="space-y-1.5">
               <p className="text-sm font-semibold text-foreground">{q.label}</p>
@@ -325,7 +325,7 @@ function EditableFeedback() {
 
         {/* Section A */}
         <section className="space-y-8">
-          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">
+          <p className="text-xs font-bold tracking-[0.12em] uppercase text-muted-foreground">
             About Infracodebase University
           </p>
 
@@ -389,7 +389,7 @@ function EditableFeedback() {
 
         {/* Section B */}
         <section className="space-y-8">
-          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">
+          <p className="text-xs font-bold tracking-[0.12em] uppercase text-muted-foreground">
             Your experience so far
           </p>
 
