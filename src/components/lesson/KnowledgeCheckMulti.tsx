@@ -18,7 +18,7 @@ interface KnowledgeCheckMultiProps {
 const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) => {
   const storageKey = `icbu_kc_${moduleId}`;
   const { requireAuth, showGate, dismissGate } = useAuthGate();
-  const { earnXP, recordActivity } = useGamificationContext();
+  const { passKnowledgeCheck } = useGamificationContext();
 
   const [answers, setAnswers] = useState<(number | null)[]>(() => new Array(questions.length).fill(null));
   const [submitted, setSubmitted] = useState(false);
@@ -52,8 +52,8 @@ const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) 
       localStorage.setItem(storageKey, String(newBest));
     } catch {}
     // Award XP through the gamification system
-    earnXP(100, moduleId);
-    recordActivity();
+    const perfect = score === questions.length;
+    passKnowledgeCheck(moduleId, perfect);
   };
 
   const handleRetry = () => {

@@ -113,7 +113,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
   const type = inferType(exerciseDescription, exerciseType, exerciseTitle);
   const storageKey = getStorageKey(type, exerciseId);
   const { requireAuth, showGate, dismissGate } = useAuthGate();
-  const { earnXP, recordActivity } = useGamificationContext();
+  const { addXP } = useGamificationContext();
 
   // Multi-entry state for build-external
   const [entries, setEntries] = useState<string[]>([]);
@@ -195,8 +195,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
         localStorage.setItem(storageKey, JSON.stringify(payload));
       }
 
-      earnXP(50, exerciseId);
-      recordActivity();
+      addXP(50);
 
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
