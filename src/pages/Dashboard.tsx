@@ -111,44 +111,44 @@ const Dashboard = () => {
         {/* Identity + Stats Row */}
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           <div className="glass-panel rounded-xl p-5">
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Identity</span>
+            <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Identity</span>
             <div className="mt-2">
               <p className="text-lg font-bold text-foreground">{identity}</p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Level {currentLevel}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Level {currentLevel}</p>
             </div>
           </div>
           <div className="glass-panel rounded-xl p-5">
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Total XP</span>
+            <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Total XP</span>
             <div className="mt-2 flex items-baseline gap-1.5">
               <Zap className="h-4 w-4 text-primary" />
               <p className="text-lg font-mono font-bold text-foreground">{totalXP.toLocaleString()}</p>
             </div>
-            <p className="text-[11px] text-muted-foreground mt-0.5">{xpToNext} XP to Level {currentLevel + 1}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{xpToNext} XP to Level {currentLevel + 1}</p>
           </div>
           <div className="glass-panel rounded-xl p-5">
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Streak</span>
+            <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Streak</span>
             <div className="mt-2 flex items-baseline gap-1.5">
               <Flame className="h-4 w-4 text-orange-500" />
               <p className="text-lg font-mono font-bold text-foreground">{streak.currentStreak}</p>
             </div>
-            <p className="text-[11px] text-muted-foreground mt-0.5">
+            <p className="text-xs text-muted-foreground mt-0.5">
               {streak.currentStreak === 1 ? "day" : "days"} · best {streak.longestStreak}
             </p>
           </div>
           <div className="glass-panel rounded-xl p-5">
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Tracks</span>
+            <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Tracks</span>
             <div className="mt-2">
               <p className="text-lg font-mono font-bold text-foreground">{tracksCompleted} / {totalTracks}</p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">completed</p>
+              <p className="text-xs text-muted-foreground mt-0.5">completed</p>
             </div>
           </div>
           <div className="glass-panel rounded-xl p-5">
-            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Overall</span>
+            <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium">Overall</span>
             <div className="mt-2 flex items-center gap-3">
               <ProgressRing value={overallProgress} max={100} size={48} strokeWidth={5}>
                 <span className="text-xs font-mono font-bold">{overallProgress}%</span>
               </ProgressRing>
-              <p className="text-[11px] text-muted-foreground">curriculum<br />progress</p>
+              <p className="text-xs text-muted-foreground">curriculum<br />progress</p>
             </div>
           </div>
         </div>
@@ -162,7 +162,7 @@ const Dashboard = () => {
             </div>
             <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] text-primary font-mono mb-1">Track {currentTrack.order}</p>
+                <p className="text-xs text-primary font-mono mb-1">Track {currentTrack.order}</p>
                 <h3 className="text-lg font-bold mb-1">{currentTrack.title}</h3>
                 <p className="text-xs text-muted-foreground mb-3 max-w-xl">{currentTrack.description.substring(0, 140)}...</p>
                 <div className="flex items-center gap-3 mb-2">
@@ -203,7 +203,7 @@ const Dashboard = () => {
                       height: `${(d.xp / maxMonthly) * 100}%`,
                       background: `linear-gradient(to top, ${crystalColors[i % crystalColors.length]}, ${crystalColors[(i + 1) % crystalColors.length]})`
                     }} />
-                  <span className="text-[10px] text-muted-foreground">{d.month}</span>
+                  <span className="text-xs text-muted-foreground">{d.month}</span>
                 </div>
               ))}
             </div>
@@ -218,7 +218,7 @@ const Dashboard = () => {
                   <CrystalIcon color={m.earned ? crystalColors[i % crystalColors.length] : "hsl(228, 20%, 20%)"} size={20} />
                   <div className="flex-1">
                     <p className={`text-xs ${m.earned ? 'text-foreground' : 'text-muted-foreground'}`}>{m.name}</p>
-                    <p className="text-[10px] text-muted-foreground">+{m.xp} XP</p>
+                    <p className="text-xs text-muted-foreground">+{m.xp} XP</p>
                   </div>
                 </div>
               ))}
@@ -256,11 +256,11 @@ const Dashboard = () => {
                           <BookOpen className="h-4 w-4 text-primary" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-primary font-mono">Track {track.order}</p>
+                          <p className="text-xs text-primary font-mono">Track {track.order}</p>
                           <h3 className="text-sm font-semibold">{track.title}</h3>
                           <div className="flex items-center gap-2 mt-1">
                             <Progress value={pct} className="h-1.5 flex-1 max-w-[180px] bg-muted" />
-                            <span className="text-[10px] font-mono text-muted-foreground">{tp?.completed}/{lessons.length}</span>
+                            <span className="text-xs font-mono text-muted-foreground">{tp?.completed}/{lessons.length}</span>
                           </div>
                         </div>
                         <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
@@ -288,9 +288,9 @@ const Dashboard = () => {
                           <BookOpen className="h-4 w-4 text-muted-foreground" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-muted-foreground font-mono">Track {track.order}</p>
+                          <p className="text-xs text-muted-foreground font-mono">Track {track.order}</p>
                           <h3 className="text-sm font-semibold text-muted-foreground">{track.title}</h3>
-                          <p className="text-[10px] text-muted-foreground mt-0.5">{lessons.length} lessons - Complete</p>
+                          <p className="text-xs text-muted-foreground mt-0.5">{lessons.length} lessons - Complete</p>
                         </div>
                       </div>
                     </Link>
@@ -316,9 +316,9 @@ const Dashboard = () => {
                           <BookOpen className="h-4 w-4 text-muted-foreground" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-muted-foreground font-mono">Track {track.order}</p>
+                          <p className="text-xs text-muted-foreground font-mono">Track {track.order}</p>
                           <h3 className="text-sm font-semibold text-muted-foreground">{track.title}</h3>
-                          <p className="text-[10px] text-muted-foreground mt-0.5">{lessons.length} lessons</p>
+                          <p className="text-xs text-muted-foreground mt-0.5">{lessons.length} lessons</p>
                         </div>
                         <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>

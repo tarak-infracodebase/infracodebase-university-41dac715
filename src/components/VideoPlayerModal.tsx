@@ -76,7 +76,7 @@ export function VideoPlayerModal({ open, onClose, title, videoSrc, subtitle, vid
         <DialogTitle className="sr-only">{title}</DialogTitle>
         <div className="p-4 pb-2">
           <h3 className="text-sm font-bold leading-snug">{title}</h3>
-          {subtitle && <p className="text-[11px] text-muted-foreground mt-1">{subtitle}</p>}
+          {subtitle && <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>}
         </div>
         <div className="px-4 pb-4">
           <div className="aspect-video w-full rounded-lg overflow-hidden bg-black">

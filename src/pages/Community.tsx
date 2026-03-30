@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 
 const fontDisplay: React.CSSProperties = { fontFamily: "'Fraunces', serif" };
 const fontMono: React.CSSProperties = { fontFamily: "'DM Mono', monospace" };
-const sectionLabel = "text-[11px] tracking-[0.25em] uppercase mb-4 inline-block";
+const sectionLabel = "text-xs tracking-[0.25em] uppercase mb-4 inline-block";
 
 const useReveal = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -96,7 +96,7 @@ const Community = () => {
               <Link to={communityCards.tall.href} className={`${cardBase} ${cardHover} flex flex-col justify-between p-7 min-h-[420px] lg:row-span-2`}
                 style={{ background: t.surface, border: `1px solid ${t.cardBorder}`, borderTop: `2px solid ${communityCards.tall.accentColor}` }}>
                 <div>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${t.accentEmber}22`, color: t.accentEmber }}>{communityCards.tall.badge}</span>
+                  <span className="text-xs px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${t.accentEmber}22`, color: t.accentEmber }}>{communityCards.tall.badge}</span>
                   <div className="mt-4" style={{ ...fontMono, fontSize: 10, letterSpacing: "0.15em", color: t.muted }}>{communityCards.tall.eyebrow}</div>
                   <div className="mt-2 text-lg font-semibold leading-snug" style={{ ...fontDisplay, color: t.heading }}>{communityCards.tall.title}</div>
                   <p className="mt-3" style={{ ...fontMono, fontSize: 13, color: t.muted, lineHeight: 1.6 }}>{communityCards.tall.desc}</p>

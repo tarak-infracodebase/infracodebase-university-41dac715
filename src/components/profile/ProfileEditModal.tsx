@@ -178,10 +178,10 @@ function Field({ label, error, hint, children }: { label: string; error?: string
     <div>
       <div className="flex items-center justify-between mb-1.5">
         <label className="text-xs font-medium text-muted-foreground">{label}</label>
-        {hint && <span className="text-[10px] text-muted-foreground">{hint}</span>}
+        {hint && <span className="text-xs text-muted-foreground">{hint}</span>}
       </div>
       {children}
-      {error && <p className="text-[11px] text-destructive mt-1">{error}</p>}
+      {error && <p className="text-xs text-destructive mt-1">{error}</p>}
     </div>
   );
 }

@@ -33,7 +33,7 @@ export function ReflectionNotebook({ lessonId }: ReflectionNotebookProps) {
   return (
     <div className="mt-4">
       <AuthGateModal open={showGate} onOpenChange={dismissGate} />
-      <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground/50 mb-2">
+      <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground/50 mb-2">
         Your answer
       </p>
       <Textarea
@@ -48,7 +48,7 @@ export function ReflectionNotebook({ lessonId }: ReflectionNotebookProps) {
       />
       <div className="flex items-center justify-end gap-2.5 mt-2">
         {saved && (
-          <span className="font-mono text-[11px] text-[hsl(145,60%,45%)]">✓ Saved</span>
+          <span className="font-mono text-xs text-[hsl(145,60%,45%)]">✓ Saved</span>
         )}
         <Button onClick={handleSave} size="sm" variant="outline" className="text-xs font-mono">
           Save note

@@ -26,7 +26,7 @@ const useReveal = () => {
 /* ── shared styles ── */
 const fontDisplay: React.CSSProperties = { fontFamily: "'Fraunces', serif" };
 const fontMono: React.CSSProperties = { fontFamily: "'DM Mono', monospace" };
-const sectionLabel = "text-[11px] tracking-[0.25em] uppercase mb-4 inline-block";
+const sectionLabel = "text-xs tracking-[0.25em] uppercase mb-4 inline-block";
 
 const RAINBOW_CSS = "linear-gradient(90deg,#61bb46,#fdb827,#f5821f,#e03a3e,#963d97,#009ddc)";
 

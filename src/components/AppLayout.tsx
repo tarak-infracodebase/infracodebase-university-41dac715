@@ -99,7 +99,7 @@ function SidebarUserRow({ collapsed, xp }: { collapsed: boolean; xp: number }) {
         padding: collapsed ? "8px 6px" : "8px 10px",
       }}
     >
-      <div className="h-7 w-7 shrink-0 rounded-full bg-primary/20 text-primary flex items-center justify-center text-[11px] font-bold">
+      <div className="h-7 w-7 shrink-0 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-bold">
         {initials}
       </div>
       {!collapsed && (
@@ -107,9 +107,9 @@ function SidebarUserRow({ collapsed, xp }: { collapsed: boolean; xp: number }) {
           <p className="text-xs font-medium text-foreground truncate">{displayName}</p>
           <div className="flex items-center gap-1.5">
             <Zap className="h-2.5 w-2.5 text-crystal-yellow" />
-            <span className="text-[10px] text-muted-foreground">{xp} XP</span>
-            <span className="text-[10px] text-muted-foreground/50 mx-0.5">·</span>
-            <span className="text-[10px] text-muted-foreground">Learner</span>
+            <span className="text-xs text-muted-foreground">{xp} XP</span>
+            <span className="text-xs text-muted-foreground/50 mx-0.5">·</span>
+            <span className="text-xs text-muted-foreground">Learner</span>
           </div>
         </div>
       )}

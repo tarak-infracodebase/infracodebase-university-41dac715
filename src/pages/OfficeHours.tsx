@@ -805,7 +805,7 @@ function NotesEditor({
           .notes-readonly strong { color:hsl(var(--foreground)); font-weight:700; }
         `}</style>
         <div className="relative">
-          <span className="absolute top-3 right-3 text-[10px] font-mono text-muted-foreground/40 uppercase tracking-wider">Read only</span>
+          <span className="absolute top-3 right-3 text-xs font-mono text-muted-foreground/40 uppercase tracking-wider">Read only</span>
           <div
             className="notes-readonly border border-border/50 rounded-lg p-4 min-h-[300px] text-sm bg-card"
             dangerouslySetInnerHTML={{ __html: initialHTML }}

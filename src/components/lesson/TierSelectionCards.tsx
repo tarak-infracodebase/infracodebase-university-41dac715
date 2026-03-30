@@ -54,7 +54,7 @@ const TierSelectionCards = ({ recommendedTier }: TierSelectionCardsProps) => {
             >
               {isRecommended && (
                 <span
-                  className="absolute -top-2.5 right-4 text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded-full text-white"
+                  className="absolute -top-2.5 right-4 text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full text-white"
                   style={{ backgroundColor: tier.color }}
                 >
                   RECOMMENDED
@@ -63,7 +63,7 @@ const TierSelectionCards = ({ recommendedTier }: TierSelectionCardsProps) => {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <span
-                    className="text-[10px] font-mono font-bold tracking-wider"
+                    className="text-xs font-mono font-bold tracking-wider"
                     style={{ color: tier.color }}
                   >
                     {tier.label}

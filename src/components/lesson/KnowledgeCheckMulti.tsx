@@ -71,7 +71,7 @@ const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) 
       <AuthGateModal open={showGate} onOpenChange={dismissGate} />
       <h2 className="text-base font-bold mb-1">Knowledge Check</h2>
       {bestScore !== null && !submitted && (
-        <p className="text-[11px] text-muted-foreground mb-3 font-mono">
+        <p className="text-xs text-muted-foreground mb-3 font-mono">
           Best score: {bestScore} / {questions.length}
         </p>
       )}

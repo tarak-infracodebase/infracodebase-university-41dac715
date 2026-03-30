@@ -54,14 +54,14 @@ const LessonPage = () => {
         {/* Sidebar */}
         <aside className="hidden xl:block w-64 shrink-0 border-r border-border/30 bg-card/20 min-h-screen sticky top-0 overflow-y-auto custom-scrollbar">
           <div className="p-4">
-            <Link to={`/path/${path.id}`} className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-foreground mb-4">
+            <Link to={`/path/${path.id}`} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-4">
               <ArrowLeft className="h-3 w-3" /> {path.shortTitle}
             </Link>
-            <h3 className="font-mono text-[10px] text-muted-foreground mb-3 uppercase tracking-wider">{course.title}</h3>
+            <h3 className="font-mono text-xs text-muted-foreground mb-3 uppercase tracking-wider">{course.title}</h3>
             <nav className="space-y-0.5">
               {course.lessons.map((l, i) => (
                 <Link key={l.id} to={`/path/${path.id}/lesson/${l.id}`}
-                  className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-[11px] transition-colors ${
+                  className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs transition-colors ${
                     l.id === lesson.id ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}>
                   <span className="font-mono text-[9px] w-3.5 text-center shrink-0">{i + 1}</span>
@@ -82,7 +82,7 @@ const LessonPage = () => {
                   <ArrowLeft className="h-4 w-4" />
                 </Link>
                 <div className="min-w-0">
-                  <span className="text-[10px] font-mono text-primary block">Lesson {currentIndex + 1} of {allLessons.length}</span>
+                  <span className="text-xs font-mono text-primary block">Lesson {currentIndex + 1} of {allLessons.length}</span>
                   <h1 className="text-sm font-semibold truncate">{lesson.title}</h1>
                 </div>
               </div>
@@ -128,8 +128,8 @@ const LessonPage = () => {
               {/* Header */}
               <div className="mb-10">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[10px] font-mono text-primary">Lesson {currentIndex + 1} of {allLessons.length}</span>
-                  <span className="text-[10px] font-mono text-crystal-yellow">+50 XP</span>
+                  <span className="text-xs font-mono text-primary">Lesson {currentIndex + 1} of {allLessons.length}</span>
+                  <span className="text-xs font-mono text-crystal-yellow">+50 XP</span>
                 </div>
                 <h2 className="text-2xl lg:text-3xl font-bold mb-3">{lesson.title}</h2>
                 <div className="h-1 w-12 rounded-full bg-gradient-to-r from-primary to-secondary" />

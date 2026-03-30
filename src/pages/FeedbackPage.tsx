@@ -56,7 +56,7 @@ function SavedBadge({ visible }: { visible: boolean }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 text-[11px] font-medium text-accent transition-opacity duration-300",
+        "inline-flex items-center gap-1 text-xs font-medium text-accent transition-opacity duration-300",
         visible ? "opacity-100" : "opacity-0",
       )}
     >
@@ -316,7 +316,7 @@ function EditableFeedback() {
                   }}
                 />
               ))}
-              <span className="ml-1 font-mono text-[10px] text-muted-foreground/35">
+              <span className="ml-1 font-mono text-xs text-muted-foreground/35">
                 {answeredCount} of 7
               </span>
             </div>
@@ -440,7 +440,7 @@ function EditableFeedback() {
                         : [...prev, area]
                     )
                   }
-                  className="font-mono text-[11px] px-3 py-1.5 rounded-full border transition-all duration-150 cursor-pointer"
+                  className="font-mono text-xs px-3 py-1.5 rounded-full border transition-all duration-150 cursor-pointer"
                   style={{
                     borderColor: stuckAreas.includes(area)
                       ? "hsl(var(--accent) / 0.5)"

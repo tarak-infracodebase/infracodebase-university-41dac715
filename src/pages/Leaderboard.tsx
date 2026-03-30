@@ -65,7 +65,7 @@ const Leaderboard = () => {
                   <CrystalIcon color={crystalColors[isFirst ? 0 : i === 0 ? 1 : 2]} size={isFirst ? 22 : 18} />
                 </div>
                 <p className="text-xs font-medium mb-0.5">{user.name}</p>
-                <p className="text-[10px] text-muted-foreground mb-2">{user.xp.toLocaleString()} XP</p>
+                <p className="text-xs text-muted-foreground mb-2">{user.xp.toLocaleString()} XP</p>
                 <div className={cn("w-20 rounded-t-lg", podiumH)}
                   style={{ background: `linear-gradient(to top, hsl(var(--muted)), ${crystalColors[isFirst ? 0 : i === 0 ? 1 : 2]})` }}>
                   <div className="flex items-center justify-center h-8 text-sm font-mono font-bold">{user.rank}</div>
@@ -87,7 +87,7 @@ const Leaderboard = () => {
 
         {/* Table */}
         <div className="glass-panel rounded-xl overflow-hidden">
-          <div className="grid grid-cols-[3rem_1fr_4rem_5rem_4rem] gap-2 px-4 py-2.5 border-b border-border/50 text-[10px] text-muted-foreground uppercase tracking-wider font-medium">
+          <div className="grid grid-cols-[3rem_1fr_4rem_5rem_4rem] gap-2 px-4 py-2.5 border-b border-border/50 text-xs text-muted-foreground uppercase tracking-wider font-medium">
             <span>Rank</span><span>Learner</span><span className="text-right">XP</span><span className="text-center">League</span><span></span>
           </div>
           {leaderboardData.map(user => (
@@ -97,12 +97,12 @@ const Leaderboard = () => {
             )}>
               <span className="font-mono text-xs text-muted-foreground">{user.rank}</span>
               <div className="flex items-center gap-2.5">
-                <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-[10px] font-mono shrink-0">{user.avatar}</div>
+                <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-xs font-mono shrink-0">{user.avatar}</div>
                 <span className="text-xs font-medium">{user.name}</span>
                 <span className="text-xs">{user.country}</span>
               </div>
               <span className="text-xs font-mono text-right">{user.xp.toLocaleString()}</span>
-              <span className="text-[10px] text-center text-muted-foreground">{user.league}</span>
+              <span className="text-xs text-center text-muted-foreground">{user.league}</span>
               <span></span>
             </div>
           ))}

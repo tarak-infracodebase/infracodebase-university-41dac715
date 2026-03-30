@@ -218,7 +218,7 @@ const Profile = () => {
               {editing && (
                 <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center">
                   <Camera className="h-4 w-4 text-white" />
-                  <span className="text-white text-[10px] font-medium mt-0.5">Change photo</span>
+                  <span className="text-white text-xs font-medium mt-0.5">Change photo</span>
                 </div>
               )}
               <input
@@ -259,7 +259,7 @@ const Profile = () => {
                     />
                   </div>
                   {handleError && (
-                    <p className="text-[11px] text-destructive mt-0.5 pl-2">{handleError}</p>
+                    <p className="text-xs text-destructive mt-0.5 pl-2">{handleError}</p>
                   )}
                 </div>
               ) : (
@@ -360,7 +360,7 @@ const Profile = () => {
                 rows={3}
                 className="text-sm bg-transparent border-border/50 focus:border-primary/40 resize-none"
               />
-              <p className="text-[10px] text-muted-foreground mt-1 text-right">{draft.bio.length}/300</p>
+              <p className="text-xs text-muted-foreground mt-1 text-right">{draft.bio.length}/300</p>
             </div>
           ) : (
             bio && <p className="mt-3 text-sm text-foreground leading-relaxed max-w-xl">{bio}</p>
@@ -408,7 +408,7 @@ const Profile = () => {
                       <p className="text-xs text-muted-foreground mb-3">{p.desc}</p>
                       <div className="flex gap-1.5">
                         {p.tags.map(t => (
-                          <span key={t} className="text-[10px] px-2 py-0.5 rounded-full border border-border text-muted-foreground">{t}</span>
+                          <span key={t} className="text-xs px-2 py-0.5 rounded-full border border-border text-muted-foreground">{t}</span>
                         ))}
                       </div>
                     </div>

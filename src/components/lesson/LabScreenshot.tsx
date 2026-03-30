@@ -30,7 +30,7 @@ export function LabScreenshot({ stepId, label = "Attach your screenshot" }: LabS
 
   return (
     <div className="mt-4" onPaste={handlePaste}>
-      <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground/50 mb-2">
+      <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground/50 mb-2">
         {label}
       </p>
 
@@ -59,7 +59,7 @@ export function LabScreenshot({ stepId, label = "Attach your screenshot" }: LabS
           <p className="font-mono text-xs text-muted-foreground/60 mb-1">
             Drop, paste, or click to upload a screenshot
           </p>
-          <p className="font-mono text-[10px] text-muted-foreground/35">
+          <p className="font-mono text-xs text-muted-foreground/35">
             PNG, JPG, or GIF
           </p>
           <input

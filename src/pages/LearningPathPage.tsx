@@ -64,7 +64,7 @@ function IntroVideo({ pathId }: { pathId: string }) {
             : "This track will include an embedded introduction video to guide learners through the course overview and learning objectives."
           }
         </p>
-        <span className="inline-block mt-3 text-[10px] font-mono text-muted-foreground/50 border border-border/30 rounded-full px-3 py-1">
+        <span className="inline-block mt-3 text-xs font-mono text-muted-foreground/50 border border-border/30 rounded-full px-3 py-1">
           Video coming soon
         </span>
       </div>
@@ -75,7 +75,7 @@ function IntroVideo({ pathId }: { pathId: string }) {
 function TrackIntroBlock({ text }: { text: string }) {
   return (
     <div className="glass-panel rounded-xl p-6">
-      <h3 className="text-[10px] uppercase tracking-wider text-primary font-semibold mb-3">Where You Are</h3>
+      <h3 className="text-xs uppercase tracking-wider text-primary font-semibold mb-3">Where You Are</h3>
       <div className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
         {text}
       </div>
@@ -97,11 +97,11 @@ function ContinueLearningCard({
   return (
     <div className="glass-panel rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
       <div className="flex-1 min-w-0">
-        <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium mb-1">Continue Learning</p>
+        <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium mb-1">Continue Learning</p>
         <h3 className="text-sm font-semibold truncate">{nextLessonTitle}</h3>
         <div className="flex items-center gap-3 mt-2">
           <Progress value={0} className="h-1.5 flex-1 max-w-[160px] bg-muted" />
-          <span className="text-[10px] text-muted-foreground font-mono">0/{totalLessons} completed</span>
+          <span className="text-xs text-muted-foreground font-mono">0/{totalLessons} completed</span>
         </div>
       </div>
       <Link to={`/path/${pathId}/lesson/${firstLessonId}`}>
@@ -225,14 +225,14 @@ function ProgressSidebar({
 
           {/* Helpful Resources */}
           <div className="glass-panel rounded-xl p-5">
-            <h4 className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h4>
+            <h4 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h4>
             {isPrereq ? <AzurePeriodicTableCard /> : <InfracodebaseDocsCard trackId={currentTrackId} />}
           </div>
 
           {/* Up Next — secondary guidance */}
           {upNext && (
             <div className="glass-panel rounded-xl p-5">
-              <h4 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
               <p className="text-sm font-semibold mb-1">Track {upNext.trackNumber}: {upNext.title}</p>
               <p className="text-xs text-muted-foreground leading-relaxed mb-4">{upNext.description}</p>
               <Link to={`/path/${upNext.pathId}`}>
@@ -264,7 +264,7 @@ function ProgressSidebar({
 
           {/* Helpful Resources */}
           <div className="glass-panel rounded-xl p-5">
-            <h4 className="text-[10px] font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h4>
+            <h4 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h4>
             {isPrereq ? <AzurePeriodicTableCard /> : <InfracodebaseDocsCard trackId={currentTrackId} />}
           </div>
 
@@ -281,7 +281,7 @@ function ProgressSidebar({
             </div>
           ) : upNext ? (
             <div className="glass-panel rounded-xl p-5">
-              <h4 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
               <p className="text-sm font-semibold mb-1">Track {upNext.trackNumber}: {upNext.title}</p>
               <p className="text-xs text-muted-foreground leading-relaxed mb-4">{upNext.description}</p>
               <Link to={`/path/${upNext.pathId}`}>
@@ -336,7 +336,7 @@ const LearningPathPage = () => {
         <div className="flex items-start gap-4">
           <CrystalIcon color={path.color === "prerequisite" ? (path.accentColor || "hsl(235, 56%, 34%)") : crystalColors[(path.order - 1) % crystalColors.length]} size={40} />
           <div>
-            <div className="text-[10px] font-mono mb-1">
+            <div className="text-xs font-mono mb-1">
               {path.color === "prerequisite" ? (
                 <span className="px-2 py-0.5 rounded-full bg-[hsl(235,56%,34%)]/20 text-[hsl(235,56%,70%)] border border-[hsl(235,56%,34%)]/30">PREREQUISITE TRACK</span>
               ) : (
@@ -379,7 +379,7 @@ const LearningPathPage = () => {
                   <div>
                     <h2 className="text-lg font-bold mb-0.5">{course.title}</h2>
                   </div>
-                  <div className="hidden md:flex items-center gap-3 text-[10px] text-muted-foreground">
+                  <div className="hidden md:flex items-center gap-3 text-xs text-muted-foreground">
                     {course.estimatedTime && (
                       <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{course.estimatedTime}</span>
                     )}
@@ -400,16 +400,16 @@ const LearningPathPage = () => {
                         to={`/path/${path.id}/lesson/${lesson.id}`}
                         className="group flex items-center gap-3 glass-panel-hover rounded-xl p-4"
                       >
-                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted text-[10px] font-mono text-muted-foreground">
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-muted text-xs font-mono text-muted-foreground">
                           {globalIndex + 1}
                         </div>
                         <div className="min-w-0 flex-1">
                           <h3 className="text-sm font-medium">{lesson.title}</h3>
-                          <p className="text-[10px] text-muted-foreground line-clamp-1 mt-0.5">
+                          <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">
                             {lesson.whyThisMatters.substring(0, 100)}...
                           </p>
                         </div>
-                        <span className="text-[10px] font-mono text-crystal-yellow shrink-0">+50 XP</span>
+                        <span className="text-xs font-mono text-crystal-yellow shrink-0">+50 XP</span>
                         <ArrowRight className="h-3.5 w-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
                       </Link>
                     );

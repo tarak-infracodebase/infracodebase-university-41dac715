@@ -79,7 +79,7 @@ function EntryDisplay({ value }: { value: string }) {
       return (
         <div className="space-y-1">
           <img src={fData} alt={fName} className="max-w-full max-h-[200px] rounded-lg object-contain" />
-          <span className="text-[10px] text-muted-foreground">{fName}</span>
+          <span className="text-xs text-muted-foreground">{fName}</span>
         </div>
       );
     }
