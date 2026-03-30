@@ -244,7 +244,7 @@ const Profile = () => {
                   className="text-2xl font-bold h-auto py-1 px-2 bg-transparent border-border/50 focus:border-primary/40 max-w-xs"
                 />
               ) : (
-                <h1 className="text-2xl font-bold">{displayName}</h1>
+                <h1 className="text-2xl font-bold text-foreground">{displayName}</h1>
               )}
               {editing ? (
                 <div className="mt-1">
