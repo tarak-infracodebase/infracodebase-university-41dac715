@@ -1,5 +1,5 @@
 import { AppLayout } from "@/components/AppLayout";
-import { CrystalIcon } from "@/components/DashboardWidgets";
+
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Trophy, Medal } from "lucide-react";
