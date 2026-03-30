@@ -464,6 +464,7 @@ export function ShareModal({
               </button>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>
