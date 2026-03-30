@@ -195,9 +195,7 @@ const HandsOnSubmission = ({ exerciseId, exerciseType, exerciseDescription, exer
         localStorage.setItem(storageKey, JSON.stringify(payload));
       }
 
-      const currentXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
-      localStorage.setItem("icbu_xp", String(currentXP + 50));
-      window.dispatchEvent(new Event("icbu_xp_update"));
+      earnXP(50, exerciseId);
       recordActivity();
 
       setSaved(true);
