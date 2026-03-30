@@ -184,6 +184,7 @@ const VideoLibrary = () => {
           title={activeVideo?.title || ""}
           videoSrc={activeVideo?.src || ""}
           subtitle={activeVideo?.description}
+          videoId={activeVideo?.id}
         />
 
 
