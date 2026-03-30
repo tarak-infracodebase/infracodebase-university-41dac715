@@ -40,6 +40,11 @@ export const BADGES: Badge[] = [
 
 // ── State shape ─────────────────────────────────────────────────────────────
 
+export interface DailyXPEntry {
+  date: string;  // YYYY-MM-DD
+  xp: number;
+}
+
 export interface GamificationState {
   totalXP: number;
   completedLessons: string[];  // "trackId:lessonId"
@@ -58,6 +63,7 @@ export interface GamificationState {
   allTracksDone: boolean;
   streakFreezeCount: number;   // number of streak freezes available
   streakFreezeActive: boolean; // freeze is protecting today
+  dailyXPLog: DailyXPEntry[];  // rolling log of daily XP (last 30 days)
 }
 
 export const STREAK_FREEZE_COST = 200; // XP cost to buy a streak freeze
