@@ -40,6 +40,11 @@ export const BADGES: Badge[] = [
 
 // ── State shape ─────────────────────────────────────────────────────────────
 
+export interface DailyXPEntry {
+  date: string;  // YYYY-MM-DD
+  xp: number;
+}
+
 export interface GamificationState {
   totalXP: number;
   completedLessons: string[];  // "trackId:lessonId"
@@ -58,6 +63,7 @@ export interface GamificationState {
   allTracksDone: boolean;
   streakFreezeCount: number;   // number of streak freezes available
   streakFreezeActive: boolean; // freeze is protecting today
+  dailyXPLog: DailyXPEntry[];  // rolling log of daily XP (last 30 days)
 }
 
 export const STREAK_FREEZE_COST = 200; // XP cost to buy a streak freeze
@@ -80,6 +86,7 @@ const DEFAULT_STATE: GamificationState = {
   allTracksDone: false,
   streakFreezeCount: 0,
   streakFreezeActive: false,
+  dailyXPLog: [],
 };
 
 const STORAGE_KEY = "icbu_gamification";
@@ -116,11 +123,23 @@ function reducer(state: GamificationState, action: Action): GamificationState {
         ? state.dailyXPEarned + earned
         : earned;
 
-      const newState = {
+      // Update rolling daily XP log (keep last 30 days)
+      const existingLog = [...state.dailyXPLog];
+      const todayIdx = existingLog.findIndex(e => e.date === today);
+      if (todayIdx >= 0) {
+        existingLog[todayIdx] = { date: today, xp: existingLog[todayIdx].xp + earned };
+      } else {
+        existingLog.push({ date: today, xp: earned });
+      }
+      // Trim to last 30 entries
+      const trimmedLog = existingLog.slice(-30);
+
+      const newState: GamificationState = {
         ...state,
         totalXP: state.totalXP + earned,
         dailyXPEarned: dailyXP,
         dailyDate: today,
+        dailyXPLog: trimmedLog,
       };
 
       if (action.payload.lessonKey && !state.completedLessons.includes(action.payload.lessonKey)) {

@@ -8,13 +8,14 @@ import {
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
 import { BADGES } from "@/hooks/useGamification";
 import {
   LevelCard, StreakCard, DailyGoalRing, HeartsDisplay,
-  StreakRiskBanner, DoubleXPBanner
+  StreakRiskBanner, DoubleXPBanner, StreakFreezeCard
 } from "@/components/GamificationWidgets";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 // ── constants ──────────────────────────────────────────────────────────────
 
@@ -89,6 +90,21 @@ const Dashboard = () => {
 
   const monthlyData = state.monthlyXP.length > 0 ? state.monthlyXP : FALLBACK_MONTHLY;
   const maxMonthly = Math.max(...monthlyData.map(d => d.xp), 1);
+
+  // Build weekly XP data (last 7 days)
+  const weeklyXPData = useMemo(() => {
+    const days: Array<{ day: string; xp: number; isToday: boolean }> = [];
+    const today = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split("T")[0];
+      const dayLabel = i === 0 ? "Today" : d.toLocaleDateString("en-US", { weekday: "short" });
+      const entry = state.dailyXPLog?.find(e => e.date === dateStr);
+      days.push({ day: dayLabel, xp: entry?.xp ?? 0, isToday: i === 0 });
+    }
+    return days;
+  }, [state.dailyXPLog]);
 
   const currentTrack = learningPaths.find(p => trackProgress[p.id]?.status === "in_progress");
   const allCurrentLessons = currentTrack?.courses.flatMap(c => c.lessons) ?? [];
@@ -196,11 +212,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* ── Row 2: Streak · Daily goal · Hearts ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {/* ── Row 2: Streak · Daily goal · Hearts · Streak Freeze ── */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <StreakCard />
           <DailyGoalRing size={80} />
           <HeartsDisplay />
+          <StreakFreezeCard />
         </div>
 
         {/* ── Current workspace ── */}
@@ -266,10 +283,53 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* ── XP chart + Milestones ── */}
+        {/* ── Weekly XP Chart ── */}
+        <div className="glass-panel rounded-xl p-5">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
+            This Week's XP
+          </h2>
+          <div className="h-48">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={weeklyXPData} barCategoryGap="20%">
+                <XAxis
+                  dataKey="day"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+                  width={35}
+                />
+                <Tooltip
+                  cursor={{ fill: "hsl(var(--muted) / 0.3)" }}
+                  contentStyle={{
+                    background: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                    fontSize: "12px",
+                  }}
+                  formatter={(value: number) => [`${value} XP`, "Earned"]}
+                />
+                <Bar dataKey="xp" radius={[6, 6, 0, 0]}>
+                  {weeklyXPData.map((entry, index) => (
+                    <Cell
+                      key={index}
+                      fill={entry.isToday ? "hsl(var(--primary))" : "hsl(var(--primary) / 0.4)"}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* ── Monthly XP chart + Milestones ── */}
         <div className="grid lg:grid-cols-3 gap-6">
 
-          {/* XP Progression chart */}
+          {/* XP Progression chart (monthly) */}
           <div className="lg:col-span-2 glass-panel rounded-xl p-5">
             <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
               XP Progression
