@@ -3,6 +3,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { useAuthGate } from "@/hooks/useAuthGate";
 import AuthGateModal from "@/components/AuthGateModal";
+import { useStreakTracking } from "@/hooks/useStreakTracking";
 
 interface KCQuestion {
   question: string;
@@ -18,6 +19,7 @@ interface KnowledgeCheckMultiProps {
 const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) => {
   const storageKey = `icbu_kc_${moduleId}`;
   const { requireAuth, showGate, dismissGate } = useAuthGate();
+  const { recordActivity } = useStreakTracking();
 
   const [answers, setAnswers] = useState<(number | null)[]>(() => new Array(questions.length).fill(null));
   const [submitted, setSubmitted] = useState(false);
@@ -53,6 +55,7 @@ const KnowledgeCheckMulti = ({ questions, moduleId }: KnowledgeCheckMultiProps) 
       const currentXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
       localStorage.setItem("icbu_xp", String(currentXP + 100));
       window.dispatchEvent(new Event("icbu_xp_update"));
+      recordActivity();
     } catch {}
   };
 
