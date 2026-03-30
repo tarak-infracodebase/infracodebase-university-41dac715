@@ -13,9 +13,8 @@ import { useGamificationContext } from "@/hooks/GamificationProvider";
 import { BADGES } from "@/hooks/useGamification";
 import {
   LevelCard, StreakCard, DailyGoalRing, HeartsDisplay,
-  StreakRiskBanner, DoubleXPBanner, StreakFreezeCard
+  StreakRiskBanner, DoubleXPBanner
 } from "@/components/GamificationWidgets";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 // ── constants ──────────────────────────────────────────────────────────────
 
