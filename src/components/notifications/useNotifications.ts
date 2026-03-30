@@ -78,6 +78,7 @@ export function useNotifications() {
     markRead,
     markAllRead,
     openNotification,
+    openModalIntro,
     closeModal,
     togglePanel,
     closePanel,
