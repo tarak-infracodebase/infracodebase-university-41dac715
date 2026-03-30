@@ -484,8 +484,8 @@ export function StreakFreezeCard() {
               <Flame className="h-4 w-4 text-primary" />
             </div>
             <div>
-              <p className="text-sm font-semibold">Streak freeze</p>
-              <p className="text-[11px] text-muted-foreground">Protects your streak for 1 missed day</p>
+              <p className="text-sm font-semibold">Day off pass</p>
+              <p className="text-[11px] text-muted-foreground">Miss a day without losing your progress. Earned by sharing — activates automatically.</p>
             </div>
           </div>
           {state.freezeAvailable && (
