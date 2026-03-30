@@ -647,8 +647,9 @@ function CalendarDropdown() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const googleUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Shifting+Left+%E2%80%94+Building+a+Secure+AWS+Baseline&dates=20260401T160000Z/20260401T170000Z&details=Live+workshop+by+Infracodebase+University&location=https://university.infracodebase.com/workshops&recur=RRULE:FREQ%3DWEEKLY;BYDAY%3DWE";
-  const outlookUrl = "https://outlook.live.com/calendar/0/deeplink/compose?subject=Shifting+Left+%E2%80%94+Building+a+Secure+AWS+Baseline&startdt=2026-04-01T16:00:00Z&enddt=2026-04-01T17:00:00Z&body=Live+workshop+by+Infracodebase+University&allday=false";
+  const teamsUrl = "https://teams.microsoft.com/meet/2873768926095?p=24ECEiepy6bHQMKLa4";
+  const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Shifting+Left+%E2%80%94+Building+a+Secure+AWS+Baseline&dates=20260401T160000Z/20260401T170000Z&details=Live+workshop+by+Infracodebase+University.+Join:+${encodeURIComponent(teamsUrl)}&location=${encodeURIComponent(teamsUrl)}&recur=RRULE:FREQ%3DWEEKLY;BYDAY%3DWE`;
+  const outlookUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=Shifting+Left+%E2%80%94+Building+a+Secure+AWS+Baseline&startdt=2026-04-01T16:00:00Z&enddt=2026-04-01T17:00:00Z&body=Live+workshop+by+Infracodebase+University.+Join:+${encodeURIComponent(teamsUrl)}&location=${encodeURIComponent(teamsUrl)}&allday=false`;
 
   const handleICS = () => {
     const ics = [
@@ -659,8 +660,8 @@ function CalendarDropdown() {
       'DTSTART:20260401T160000Z',
       'DTEND:20260401T170000Z',
       'SUMMARY:Shifting Left — Building a Secure AWS Baseline',
-      'DESCRIPTION:Live workshop by Infracodebase University.',
-      'LOCATION:Online',
+      'DESCRIPTION:Live workshop by Infracodebase University. Join: https://teams.microsoft.com/meet/2873768926095?p=24ECEiepy6bHQMKLa4',
+      'LOCATION:https://teams.microsoft.com/meet/2873768926095?p=24ECEiepy6bHQMKLa4',
       'RRULE:FREQ=WEEKLY;BYDAY=WE',
       'END:VEVENT',
       'END:VCALENDAR'
