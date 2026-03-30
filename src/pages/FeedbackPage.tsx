@@ -426,13 +426,13 @@ function EditableFeedback() {
 
           {/* Q5 — Friction */}
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-foreground">
+            <label id="friction-label" className="text-sm font-semibold text-foreground">
               Where did you get stuck or confused?
             </label>
             <p className="text-xs text-muted-foreground">
               Select all areas where you experienced friction.
             </p>
-            <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex flex-wrap gap-2 mt-2" role="group" aria-labelledby="friction-label">
               {FRICTION_AREAS_LIST.map((area) => (
                 <button
                   key={area}
@@ -445,6 +445,8 @@ function EditableFeedback() {
                     )
                   }
                   className="font-mono text-xs px-3 py-1.5 rounded-full border transition-all duration-150 cursor-pointer"
+                  aria-label={`${stuckAreas.includes(area) ? "Deselect" : "Select"} ${area}`}
+                  aria-pressed={stuckAreas.includes(area)}
                   style={{
                     borderColor: stuckAreas.includes(area)
                       ? "hsl(var(--accent) / 0.5)"
@@ -466,7 +468,7 @@ function EditableFeedback() {
           {/* Q6 — Valuable */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">
+              <label htmlFor="feedback-valuable" className="text-sm font-semibold text-foreground">
                 What did you find most valuable?
               </label>
               <SavedBadge visible={valuable.saved} />
@@ -475,6 +477,7 @@ function EditableFeedback() {
               What would you miss most if it was removed?
             </p>
             <Textarea
+              id="feedback-valuable"
               value={valuable.value}
               onChange={(e) => valuable.update(e.target.value)}
               className="min-h-[100px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
@@ -484,7 +487,7 @@ function EditableFeedback() {
           {/* Q7 — Brutal */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">
+              <label htmlFor="feedback-brutal" className="text-sm font-semibold text-foreground">
                 Anything else? Be as direct as you want.
               </label>
               <SavedBadge visible={brutal.saved} />
@@ -493,6 +496,7 @@ function EditableFeedback() {
               No filter needed. If something feels off, say it.
             </p>
             <Textarea
+              id="feedback-brutal"
               value={brutal.value}
               onChange={(e) => brutal.update(e.target.value)}
               className="min-h-[160px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
@@ -502,17 +506,19 @@ function EditableFeedback() {
 
           {/* Q8 — Referral */}
           <div className="space-y-2 mt-8">
-            <label className="text-sm font-semibold text-foreground" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+            <label htmlFor="feedback-referral" className="text-sm font-semibold text-foreground" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
               Who would you most want to send this to?
             </label>
             <p className="text-xs font-mono text-muted-foreground/40">
               A colleague, a friend, someone in your team — just a name or role is fine.
             </p>
             <textarea
+              id="feedback-referral"
               value={referral}
               onChange={(e) => setReferral(e.target.value)}
               placeholder="e.g. My DevOps colleague who keeps asking me about Terraform..."
               rows={3}
+              aria-label="Who would you most want to send this to?"
               className="w-full rounded-lg border border-border/30 bg-muted/10 px-3.5 py-3 font-mono text-sm text-foreground resize-y outline-none focus:border-accent/30 transition-colors"
             />
           </div>
