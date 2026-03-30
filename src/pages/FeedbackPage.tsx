@@ -397,16 +397,18 @@ function EditableFeedback() {
 
           {/* Q4 — Rating */}
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-foreground">
+            <label id="rating-label" className="text-sm font-semibold text-foreground">
               How would you rate your experience so far?
             </label>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5" role="group" aria-labelledby="rating-label">
               {[1, 2, 3, 4, 5].map((n) => (
                 <button
                   key={n}
                   onClick={() => handleRating(n)}
                   onMouseEnter={() => setHoveredStar(n)}
                   onMouseLeave={() => setHoveredStar(0)}
+                  aria-label={`Rate ${n} out of 5 stars`}
+                  aria-pressed={n <= rating}
                   className="p-0.5 transition-transform hover:scale-110"
                 >
                   <Star
