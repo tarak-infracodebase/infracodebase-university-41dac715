@@ -113,6 +113,7 @@ const DEFAULT_STATE: GamState = {
   monthlyXP: [],
   weeklyXP: 0,
   weekStart: thisMonday(),
+  dailyHistory: [],
 };
 
 const LS_KEY = "icbu_gamification";
