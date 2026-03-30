@@ -4,7 +4,7 @@ import { learningPaths } from "@/data/courseData";
 import { Link } from "react-router-dom";
 import {
   ArrowRight, BookOpen, Play, ChevronRight,
-  Zap, Target, Layers, Shield, Flame, Heart
+  Zap, Target, Layers, Shield
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
