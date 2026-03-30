@@ -13,7 +13,7 @@ import { useGamificationContext } from "@/hooks/GamificationProvider";
 import { BADGES } from "@/hooks/useGamification";
 import {
   LevelCard, StreakCard, DailyGoalRing, HeartsDisplay,
-  StreakRiskBanner, DoubleXPBanner
+  StreakRiskBanner, DoubleXPBanner, StreakFreezeCard
 } from "@/components/GamificationWidgets";
 
 // ── constants ──────────────────────────────────────────────────────────────
@@ -89,9 +89,6 @@ const Dashboard = () => {
 
   const monthlyData = state.monthlyXP.length > 0 ? state.monthlyXP : FALLBACK_MONTHLY;
   const maxMonthly = Math.max(...monthlyData.map(d => d.xp), 1);
-
-
-
 
   const currentTrack = learningPaths.find(p => trackProgress[p.id]?.status === "in_progress");
   const allCurrentLessons = currentTrack?.courses.flatMap(c => c.lessons) ?? [];
@@ -199,11 +196,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* ── Row 2: Streak · Daily goal · Hearts · Streak Freeze ── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        {/* ── Row 2: Streak · Daily goal · Hearts ── */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <StreakCard />
           <DailyGoalRing size={80} />
           <HeartsDisplay />
+          <StreakFreezeCard />
         </div>
 
         {/* ── Current workspace ── */}
@@ -269,13 +267,10 @@ const Dashboard = () => {
           </div>
         )}
 
-
-
-
-        {/* ── Monthly XP chart + Milestones ── */}
+        {/* ── XP chart + Milestones ── */}
         <div className="grid lg:grid-cols-3 gap-6">
 
-          {/* XP Progression chart (monthly) */}
+          {/* XP Progression chart */}
           <div className="lg:col-span-2 glass-panel rounded-xl p-5">
             <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
               XP Progression

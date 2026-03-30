@@ -1,7 +1,10 @@
+// src/hooks/useGamification.ts
+
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useUser } from "@clerk/clerk-react";
 
 // ── Level definitions ──────────────────────────────────────────────────────
+// Calibrated so 2450 XP = index 6 = "Platform Engineer" = "Level 7"
 export const LEVELS = [
   { name: "Cloud Curious",          minXP: 0    },
   { name: "Cloud Explorer",         minXP: 150  },
@@ -59,7 +62,7 @@ export interface GamState {
   dailyXP: number;
   dailyGoal: number;
   dailyDate: string;
-  completedLessons: string[];
+  completedLessons: string[];   // "pathId:lessonId"
   completedPaths: string[];
   watchedVideos: string[];
   earnedBadgeIds: BadgeId[];
@@ -67,6 +70,8 @@ export interface GamState {
   doubleXP: boolean;
   doubleXPExpiry: string;
   freezeAvailable: boolean;
+  lastSharedAt: string;        // ISO date — enforces 7-day share-for-freeze cooldown
+  referralCount: number;       // total referrals who completed first lesson
   monthlyXP: { month: string; xp: number }[];
   weeklyXP: number;
   weekStart: string;
@@ -102,6 +107,8 @@ const DEFAULT_STATE: GamState = {
   doubleXP: false,
   doubleXPExpiry: "",
   freezeAvailable: false,
+  lastSharedAt: "",
+  referralCount: 0,
   monthlyXP: [],
   weeklyXP: 0,
   weekStart: thisMonday(),
@@ -113,6 +120,7 @@ function loadFromLS(): GamState {
   try {
     const raw = localStorage.getItem(LS_KEY);
     if (!raw) {
+      // One-time migration: seed XP from existing localStorage activity
       let seeded = 0;
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
@@ -170,6 +178,8 @@ export interface GamificationHook {
   setDailyGoal: (goal: 5 | 10 | 20) => void;
   activateDoubleXP: () => void;
   useFreeze: () => boolean;
+  earnFreezeBySharing: () => boolean;
+  canShareForFreeze: boolean;
   isLessonCompleted: (lessonId: string, pathId: string) => boolean;
   isVideoWatched: (videoId: string) => boolean;
   isPathCompleted: (pathId: string) => boolean;
@@ -179,6 +189,7 @@ export function useGamification(): GamificationHook {
   const { user } = useUser();
   const [state, setState] = useState<GamState>(loadFromLS);
 
+  // Sync from Clerk on mount — take whichever has higher XP
   useEffect(() => {
     if (!user?.unsafeMetadata?.gamification) return;
     try {
@@ -202,6 +213,7 @@ export function useGamification(): GamificationHook {
     }, 1500);
   }, [user]);
 
+  // Core updater — also handles day/week resets and doubleXP expiry
   const update = useCallback((updater: (prev: GamState) => GamState) => {
     setState(prev => {
       const t = today();
@@ -254,6 +266,8 @@ export function useGamification(): GamificationHook {
     };
     return { state: next, newBadges };
   };
+
+  // ── Actions ──────────────────────────────────────────────────────────────
 
   const addXP = useCallback((amount: number) => {
     update(prev => {
@@ -390,11 +404,36 @@ export function useGamification(): GamificationHook {
     return used;
   }, [update]);
 
+  // Called when the user shares and a referral completes their first lesson.
+  // In practice the referral webhook fires earnFreezeBySharing on the referrer's account.
+  // For now, the share action itself awards the freeze (optimistic — one per 7 days).
+  const earnFreezeBySharing = useCallback((): boolean => {
+    let earned = false;
+    update(prev => {
+      const last = prev.lastSharedAt;
+      const daysSince = last
+        ? Math.floor((Date.now() - new Date(last).getTime()) / 86_400_000)
+        : 999;
+      if (daysSince < 7) return prev; // cooldown not expired
+      earned = true;
+      return {
+        ...prev,
+        freezeAvailable: true,
+        lastSharedAt: today(),
+        referralCount: prev.referralCount + 1,
+      };
+    });
+    return earned;
+  }, [update]);
+
+  // Derived ─────────────────────────────────────────────────────────────────
   const levelIdx = getLevelIdx(state.totalXP);
   const levelName = LEVELS[levelIdx].name;
   const xpToNext = xpToNextLevel(state.totalXP);
   const earnedBadges = getEarnedBadges(state);
   const todayDone = state.dailyXP >= state.dailyGoal;
+  const canShareForFreeze = !state.lastSharedAt ||
+    Math.floor((Date.now() - new Date(state.lastSharedAt).getTime()) / 86_400_000) >= 7;
 
   return {
     state,
@@ -403,6 +442,7 @@ export function useGamification(): GamificationHook {
     xpToNext,
     earnedBadges,
     todayDone,
+    canShareForFreeze,
     addXP,
     completeLesson,
     watchVideo,
@@ -413,6 +453,7 @@ export function useGamification(): GamificationHook {
     setDailyGoal,
     activateDoubleXP,
     useFreeze,
+    earnFreezeBySharing,
     isLessonCompleted: (lessonId, pathId) =>
       state.completedLessons.includes(`${pathId}:${lessonId}`),
     isVideoWatched: (videoId) => state.watchedVideos.includes(videoId),
