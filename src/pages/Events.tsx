@@ -155,6 +155,7 @@ const speakerInitialColors: Record<string, string> = {
   Cameron: "hsl(var(--crystal-cyan))",
   Kurt: "hsl(var(--crystal-green))",
   Damien: "hsl(var(--crystal-violet))",
+  Anita: "hsl(var(--crystal-magenta))",
 };
 
 function SpeakerAvatar({ name }: { name: string }) {
