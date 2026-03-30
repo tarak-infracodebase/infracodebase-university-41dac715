@@ -320,7 +320,7 @@ function ReferralPill({ onClick, isOpen }: { onClick: () => void; isOpen: boolea
         className="whitespace-nowrap hidden sm:inline"
         style={{
           fontFamily: "'Sora', sans-serif",
-          fontSize: 11.5,
+          fontSize: 12,
           fontWeight: 700,
           color: "#fff",
         }}
