@@ -153,7 +153,7 @@ const LessonPage = () => {
                   <ul className="space-y-1.5">
                     {lesson.whatYoullLearn.map((item, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <CrystalIcon color={crystalColors[i % crystalColors.length]} size={14} />
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-1.5" />
                         {item}
                       </li>
                     ))}

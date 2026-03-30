@@ -62,7 +62,7 @@ const Leaderboard = () => {
                   )} style={{ background: 'hsl(var(--muted))' }}>
                     {user.avatar}
                   </div>
-                  <CrystalIcon color={crystalColors[isFirst ? 0 : i === 0 ? 1 : 2]} size={isFirst ? 22 : 18} />
+                  
                 </div>
                 <p className="text-xs font-medium mb-0.5">{user.name}</p>
                 <p className="text-xs text-muted-foreground mb-2">{user.xp.toLocaleString()} XP</p>

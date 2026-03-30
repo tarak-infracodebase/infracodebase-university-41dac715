@@ -31,9 +31,6 @@ function PathCard({ path, colorOverride }: { path: typeof learningPaths[number];
   return (
     <Link key={path.id} to={`/path/${path.id}`}
       className="group glass-panel-hover rounded-xl p-5 flex items-start gap-5 block">
-      <div className="shrink-0 mt-1">
-        <CrystalIcon color={iconColor} size={32} />
-      </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
           {isPrereq ? (

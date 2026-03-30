@@ -593,9 +593,6 @@ export function BadgesGrid({ compact = false }: { compact?: boolean }) {
             key={badge.id}
             className={cn("glass-panel rounded-xl p-4 flex items-start gap-3 transition-all", !earned && "opacity-40 grayscale")}
           >
-            <div className="shrink-0 mt-0.5">
-              <CrystalIcon color={earned ? crystalColors[i % crystalColors.length] : "hsl(228,20%,30%)"} size={20} />
-            </div>
             <div>
               <p className={cn("text-xs font-semibold", earned ? "text-foreground" : "text-muted-foreground")}>
                 {badge.name}
