@@ -8,13 +8,14 @@ import {
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
 import { BADGES } from "@/hooks/useGamification";
 import {
   LevelCard, StreakCard, DailyGoalRing, HeartsDisplay,
-  StreakRiskBanner, DoubleXPBanner
+  StreakRiskBanner, DoubleXPBanner, StreakFreezeCard
 } from "@/components/GamificationWidgets";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 // ── constants ──────────────────────────────────────────────────────────────
 
