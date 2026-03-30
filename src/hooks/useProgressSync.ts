@@ -8,13 +8,6 @@ import { useUser } from "@clerk/clerk-react";
  * On XP/progress changes: debounced save from localStorage → Clerk.
  */
 
-const SYNC_KEYS = [
-  "icbu_xp",
-  "icbu_level",
-  "icbu_track_progress",
-  "icbu_monthly_xp",
-] as const;
-
 const VIDEO_PREFIX = "vid-progress-";
 
 interface StreakData {
