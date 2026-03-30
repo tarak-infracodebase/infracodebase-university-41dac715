@@ -74,3 +74,35 @@ export function SkillBar({ label, value, max = 100, color }: SkillBarProps) {
   );
 }
 
+interface CrystalIconProps {
+  color: string;
+  size?: number;
+}
+
+export function CrystalIcon({ color, size = 18 }: CrystalIconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className="shrink-0">
+      <path
+        d="M12 2L4 9l8 13 8-13-8-7z"
+        fill={color}
+        fillOpacity={0.25}
+        stroke={color}
+        strokeWidth={1.5}
+        strokeLinejoin="round"
+      />
+      <path
+        d="M4 9h16"
+        stroke={color}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+      />
+      <path
+        d="M12 2v20"
+        stroke={color}
+        strokeWidth={1}
+        strokeOpacity={0.4}
+      />
+    </svg>
+  );
+}
+
