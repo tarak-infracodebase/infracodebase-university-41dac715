@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { AppLayout } from "@/components/AppLayout";
-import { SkillBar, ProgressRing, CrystalIcon } from "@/components/DashboardWidgets";
+import { SkillBar, ProgressRing } from "@/components/DashboardWidgets";
 import { Link } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 
