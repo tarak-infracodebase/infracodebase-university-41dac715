@@ -557,6 +557,7 @@ function EditableFeedback() {
               readOnly
               value={fallbackUrl}
               onFocus={(e) => e.target.select()}
+              aria-label="Shareable feedback link"
               className="w-full rounded-md border border-border/50 bg-muted/30 px-3 py-2 text-xs font-mono text-foreground"
             />
           )}
@@ -592,6 +593,7 @@ function EditableFeedback() {
                   We read every submission personally.
                 </p>
                 <button
+                  aria-label="Copy my feedback link to clipboard"
                   onClick={() => {
                     const url = window.location.href;
                     if (navigator.clipboard && navigator.clipboard.writeText) {
