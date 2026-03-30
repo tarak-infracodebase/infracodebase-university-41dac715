@@ -1,331 +1,400 @@
-/**
- * Core gamification logic: XP, levels, badges, hearts, daily goals, double XP.
- * State is persisted in localStorage under "icbu_gamification".
- */
+import { useState, useCallback, useRef, useEffect } from "react";
+import { useUser } from "@clerk/clerk-react";
 
-import { useCallback, useMemo, useReducer, useEffect } from "react";
-
-// ── Level thresholds ────────────────────────────────────────────────────────
-
+// ── Level definitions ──────────────────────────────────────────────────────
 export const LEVELS = [
-  { name: "Explorer",          minXP: 0 },
-  { name: "Apprentice",        minXP: 500 },
-  { name: "Builder",           minXP: 1200 },
-  { name: "Specialist",        minXP: 2500 },
-  { name: "Platform Engineer", minXP: 4500 },
-  { name: "Senior Engineer",   minXP: 7000 },
-  { name: "Staff Engineer",    minXP: 10000 },
-  { name: "Principal",         minXP: 14000 },
-  { name: "Distinguished",     minXP: 19000 },
-  { name: "Architect",         minXP: 25000 },
+  { name: "Cloud Curious",          minXP: 0    },
+  { name: "Cloud Explorer",         minXP: 150  },
+  { name: "Terraform Tinkerer",     minXP: 400  },
+  { name: "IaC Engineer",           minXP: 800  },
+  { name: "Pipeline Pro",           minXP: 1400 },
+  { name: "Security Practitioner",  minXP: 2000 },
+  { name: "Platform Engineer",      minXP: 2400 },
+  { name: "Infra Architect",        minXP: 3500 },
+  { name: "Cloud Native",           minXP: 5000 },
+  { name: "Infra Legend",           minXP: 7500 },
 ] as const;
 
-// ── Badges / Milestones ─────────────────────────────────────────────────────
-
-export interface Badge {
-  id: string;
-  name: string;
-  xp: number;
-  condition: (s: GamificationState) => boolean;
+export function getLevelIdx(xp: number): number {
+  let idx = 0;
+  for (let i = 0; i < LEVELS.length; i++) {
+    if (xp >= LEVELS[i].minXP) idx = i;
+  }
+  return idx;
 }
 
-export const BADGES: Badge[] = [
-  { id: "first_lesson",   name: "First Lesson",     xp: 50,   condition: s => s.completedLessons.length >= 1 },
-  { id: "track_complete", name: "Track Complete",    xp: 500,  condition: s => s.tracksCompleted >= 1 },
-  { id: "streak_5",       name: "5-Day Streak",      xp: 100,  condition: s => s.longestStreak >= 5 },
-  { id: "ten_lessons",    name: "10 Lessons",        xp: 200,  condition: s => s.completedLessons.length >= 10 },
-  { id: "streak_14",      name: "14-Day Streak",     xp: 300,  condition: s => s.longestStreak >= 14 },
-  { id: "all_tracks",     name: "All Tracks Done",   xp: 1000, condition: s => s.allTracksDone },
-];
-
-// ── State shape ─────────────────────────────────────────────────────────────
-
-export interface DailyXPEntry {
-  date: string;  // YYYY-MM-DD
-  xp: number;
+export function xpToNextLevel(xp: number): number {
+  const idx = getLevelIdx(xp);
+  if (idx >= LEVELS.length - 1) return 0;
+  return LEVELS[idx + 1].minXP - xp;
 }
 
-export interface GamificationState {
+// ── Badge definitions ──────────────────────────────────────────────────────
+export const BADGES = [
+  { id: "first_lesson",  name: "First Step",        icon: "first_lesson",  desc: "Complete your first lesson",           xp: 50,  check: (s: GamState) => s.completedLessons.length >= 1 },
+  { id: "streak_3",      name: "On a Roll",          icon: "streak_3",      desc: "Reach a 3-day streak",                 xp: 75,  check: (s: GamState) => s.streak >= 3 },
+  { id: "streak_7",      name: "Week Warrior",       icon: "streak_7",      desc: "Reach a 7-day streak",                 xp: 150, check: (s: GamState) => s.streak >= 7 },
+  { id: "lessons_10",    name: "Dedicated Learner",  icon: "lessons_10",    desc: "Complete 10 lessons",                  xp: 100, check: (s: GamState) => s.completedLessons.length >= 10 },
+  { id: "lessons_25",    name: "Deep Diver",         icon: "lessons_25",    desc: "Complete 25 lessons",                  xp: 200, check: (s: GamState) => s.completedLessons.length >= 25 },
+  { id: "xp_1000",       name: "Rising Engineer",    icon: "xp_1000",       desc: "Earn 1,000 XP",                        xp: 0,   check: (s: GamState) => s.totalXP >= 1000 },
+  { id: "xp_2500",       name: "Infrastructure Pro", icon: "xp_2500",       desc: "Earn 2,500 XP",                        xp: 0,   check: (s: GamState) => s.totalXP >= 2500 },
+  { id: "video_watcher", name: "Visual Learner",     icon: "video_watcher", desc: "Watch 3 full videos",                  xp: 60,  check: (s: GamState) => s.watchedVideos.length >= 3 },
+  { id: "path_complete", name: "Track Graduate",     icon: "path_complete", desc: "Complete a full learning track",       xp: 500, check: (s: GamState) => s.completedPaths.length >= 1 },
+  { id: "perfect_kc",    name: "First Try",          icon: "perfect_kc",    desc: "Perfect score on a knowledge check",  xp: 50,  check: (s: GamState) => s.perfectChecks >= 1 },
+] as const;
+
+export type BadgeId = typeof BADGES[number]["id"];
+
+export function getEarnedBadges(state: GamState) {
+  return BADGES.filter(b => b.check(state));
+}
+
+// ── State ──────────────────────────────────────────────────────────────────
+export interface GamState {
   totalXP: number;
-  completedLessons: string[];  // "trackId:lessonId"
-  currentStreak: number;
-  longestStreak: number;
-  lastActiveDate: string;      // ISO date string
-  hearts: number;              // max 5
-  dailyGoal: number;           // daily XP target (default 100)
-  dailyXPEarned: number;       // XP earned today
-  dailyDate: string;           // date for dailyXPEarned tracking
+  streak: number;
+  lastActiveDate: string;
+  hearts: number;
+  maxHearts: number;
+  dailyXP: number;
+  dailyGoal: number;
+  dailyDate: string;
+  completedLessons: string[];
+  completedPaths: string[];
+  watchedVideos: string[];
+  earnedBadgeIds: BadgeId[];
+  perfectChecks: number;
   doubleXP: boolean;
-  doubleXPExpiry: string;      // ISO timestamp
-  monthlyXP: Array<{ month: string; xp: number }>;
-  earnedBadgeIds: string[];
-  tracksCompleted: number;
-  allTracksDone: boolean;
-  streakFreezeCount: number;   // number of streak freezes available
-  streakFreezeActive: boolean; // freeze is protecting today
-  dailyXPLog: DailyXPEntry[];  // rolling log of daily XP (last 30 days)
+  doubleXPExpiry: string;
+  freezeAvailable: boolean;
+  monthlyXP: { month: string; xp: number }[];
+  weeklyXP: number;
+  weekStart: string;
+  _migrated?: boolean;
 }
 
-export const STREAK_FREEZE_COST = 200; // XP cost to buy a streak freeze
+const today = () => new Date().toISOString().slice(0, 10);
 
-const DEFAULT_STATE: GamificationState = {
-  totalXP: 0,
-  completedLessons: [],
-  currentStreak: 0,
-  longestStreak: 0,
-  lastActiveDate: "",
-  hearts: 5,
-  dailyGoal: 100,
-  dailyXPEarned: 0,
-  dailyDate: "",
-  doubleXP: false,
-  doubleXPExpiry: "",
-  monthlyXP: [],
-  earnedBadgeIds: [],
-  tracksCompleted: 0,
-  allTracksDone: false,
-  streakFreezeCount: 0,
-  streakFreezeActive: false,
-  dailyXPLog: [],
+const thisMonday = () => {
+  const d = new Date();
+  const day = d.getDay();
+  d.setDate(d.getDate() + (day === 0 ? -6 : 1 - day));
+  return d.toISOString().slice(0, 10);
 };
 
-const STORAGE_KEY = "icbu_gamification";
+const monthKey = () =>
+  new Date().toLocaleDateString("en-US", { month: "short" });
 
-// ── Actions ─────────────────────────────────────────────────────────────────
+const DEFAULT_STATE: GamState = {
+  totalXP: 0,
+  streak: 0,
+  lastActiveDate: "",
+  hearts: 5,
+  maxHearts: 5,
+  dailyXP: 0,
+  dailyGoal: 10,
+  dailyDate: today(),
+  completedLessons: [],
+  completedPaths: [],
+  watchedVideos: [],
+  earnedBadgeIds: [],
+  perfectChecks: 0,
+  doubleXP: false,
+  doubleXPExpiry: "",
+  freezeAvailable: false,
+  monthlyXP: [],
+  weeklyXP: 0,
+  weekStart: thisMonday(),
+};
 
-type Action =
-  | { type: "EARN_XP"; payload: { amount: number; lessonKey?: string } }
-  | { type: "COMPLETE_LESSON"; payload: string }
-  | { type: "SET_TRACKS_COMPLETED"; payload: { count: number; total: number } }
-  | { type: "RECORD_ACTIVITY" }
-  | { type: "ACTIVATE_DOUBLE_XP" }
-  | { type: "LOSE_HEART" }
-  | { type: "RESTORE_HEARTS" }
-  | { type: "SET_DAILY_GOAL"; payload: number }
-  | { type: "BUY_STREAK_FREEZE" }
-  | { type: "USE_STREAK_FREEZE" }
-  | { type: "HYDRATE"; payload: GamificationState };
+const LS_KEY = "icbu_gamification";
 
-function getToday() {
-  return new Date().toISOString().split("T")[0];
-}
-
-function reducer(state: GamificationState, action: Action): GamificationState {
-  switch (action.type) {
-    case "HYDRATE":
-      return action.payload;
-
-    case "EARN_XP": {
-      const today = getToday();
-      const multiplier = state.doubleXP && state.doubleXPExpiry > new Date().toISOString() ? 2 : 1;
-      const earned = action.payload.amount * multiplier;
-      const dailyXP = state.dailyDate === today
-        ? state.dailyXPEarned + earned
-        : earned;
-
-      // Update rolling daily XP log (keep last 30 days)
-      const existingLog = [...state.dailyXPLog];
-      const todayIdx = existingLog.findIndex(e => e.date === today);
-      if (todayIdx >= 0) {
-        existingLog[todayIdx] = { date: today, xp: existingLog[todayIdx].xp + earned };
-      } else {
-        existingLog.push({ date: today, xp: earned });
+function loadFromLS(): GamState {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) {
+      let seeded = 0;
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key?.startsWith("icbu_checklist_")) seeded += 50;
+        if (key?.startsWith("vid-progress-")) {
+          const pct = Number(localStorage.getItem(key) || 0);
+          if (pct >= 95) seeded += 20;
+        }
       }
-      // Trim to last 30 entries
-      const trimmedLog = existingLog.slice(-30);
-
-      const newState: GamificationState = {
-        ...state,
-        totalXP: state.totalXP + earned,
-        dailyXPEarned: dailyXP,
-        dailyDate: today,
-        dailyXPLog: trimmedLog,
-      };
-
-      if (action.payload.lessonKey && !state.completedLessons.includes(action.payload.lessonKey)) {
-        newState.completedLessons = [...state.completedLessons, action.payload.lessonKey];
+      if (seeded > 0) {
+        return { ...DEFAULT_STATE, totalXP: seeded, _migrated: true };
       }
-
-      return newState;
+      return { ...DEFAULT_STATE };
     }
-
-    case "COMPLETE_LESSON": {
-      if (state.completedLessons.includes(action.payload)) return state;
-      return {
-        ...state,
-        completedLessons: [...state.completedLessons, action.payload],
-      };
-    }
-
-    case "SET_TRACKS_COMPLETED":
-      return {
-        ...state,
-        tracksCompleted: action.payload.count,
-        allTracksDone: action.payload.count >= action.payload.total,
-      };
-
-    case "RECORD_ACTIVITY": {
-      const today = getToday();
-      if (state.lastActiveDate === today) return state;
-
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayStr = yesterday.toISOString().split("T")[0];
-
-      const isConsecutive = state.lastActiveDate === yesterdayStr;
-      // If streak would break but freeze is available, use it
-      const streakBroken = !isConsecutive && state.currentStreak > 0 && state.lastActiveDate !== "";
-      const useFreeze = streakBroken && state.streakFreezeCount > 0;
-
-      const newCurrent = isConsecutive || useFreeze ? state.currentStreak + 1 : 1;
-
-      return {
-        ...state,
-        currentStreak: newCurrent,
-        longestStreak: Math.max(state.longestStreak, newCurrent),
-        lastActiveDate: today,
-        streakFreezeCount: useFreeze ? state.streakFreezeCount - 1 : state.streakFreezeCount,
-        streakFreezeActive: useFreeze,
-      };
-    }
-
-    case "ACTIVATE_DOUBLE_XP": {
-      const expiry = new Date();
-      expiry.setHours(expiry.getHours() + 1);
-      return { ...state, doubleXP: true, doubleXPExpiry: expiry.toISOString() };
-    }
-
-    case "LOSE_HEART":
-      return { ...state, hearts: Math.max(0, state.hearts - 1) };
-
-    case "RESTORE_HEARTS":
-      return { ...state, hearts: 5 };
-
-    case "SET_DAILY_GOAL":
-      return { ...state, dailyGoal: action.payload };
-
-    case "BUY_STREAK_FREEZE": {
-      if (state.totalXP < STREAK_FREEZE_COST) return state;
-      return {
-        ...state,
-        totalXP: state.totalXP - STREAK_FREEZE_COST,
-        streakFreezeCount: state.streakFreezeCount + 1,
-      };
-    }
-
-    case "USE_STREAK_FREEZE": {
-      if (state.streakFreezeCount <= 0) return state;
-      return {
-        ...state,
-        streakFreezeCount: state.streakFreezeCount - 1,
-        streakFreezeActive: true,
-      };
-    }
-
-    default:
-      return state;
+    return { ...DEFAULT_STATE, ...JSON.parse(raw) };
+  } catch {
+    return { ...DEFAULT_STATE };
   }
 }
 
-// ── Hook ────────────────────────────────────────────────────────────────────
+function saveToLS(state: GamState) {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch {}
+}
 
-function loadState(): GamificationState {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      return { ...DEFAULT_STATE, ...parsed };
-    }
-  } catch {}
-
-  // Migrate from legacy keys
-  const legacyXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
-  if (legacyXP > 0) {
-    return { ...DEFAULT_STATE, totalXP: legacyXP };
+function updateMonthlyBucket(
+  buckets: GamState["monthlyXP"],
+  amount: number
+): GamState["monthlyXP"] {
+  const key = monthKey();
+  const copy = [...buckets];
+  const idx = copy.findIndex(b => b.month === key);
+  if (idx >= 0) {
+    copy[idx] = { month: key, xp: copy[idx].xp + amount };
+  } else {
+    copy.push({ month: key, xp: amount });
   }
-
-  return DEFAULT_STATE;
+  return copy.slice(-6);
 }
 
-function saveState(state: GamificationState) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    // Keep legacy keys in sync for backward compat
-    localStorage.setItem("icbu_xp", String(state.totalXP));
-    window.dispatchEvent(new Event("icbu_xp_update"));
-  } catch {}
+// ── Hook exports ──────────────────────────────────────────────────────────
+export interface GamificationHook {
+  state: GamState;
+  levelIdx: number;
+  levelName: string;
+  xpToNext: number;
+  earnedBadges: typeof BADGES[number][];
+  todayDone: boolean;
+  addXP: (amount: number) => void;
+  completeLesson: (lessonId: string, pathId: string) => { xpGained: number; newBadges: typeof BADGES[number][] };
+  watchVideo: (videoId: string) => { xpGained: number };
+  passKnowledgeCheck: (moduleId: string, perfect: boolean) => { xpGained: number; newBadges: typeof BADGES[number][] };
+  wrongAnswer: () => void;
+  restoreHeart: () => void;
+  completePath: (pathId: string) => { xpGained: number; newBadges: typeof BADGES[number][] };
+  setDailyGoal: (goal: 5 | 10 | 20) => void;
+  activateDoubleXP: () => void;
+  useFreeze: () => boolean;
+  isLessonCompleted: (lessonId: string, pathId: string) => boolean;
+  isVideoWatched: (videoId: string) => boolean;
+  isPathCompleted: (pathId: string) => boolean;
 }
 
-export function useGamification() {
-  const [state, dispatch] = useReducer(reducer, DEFAULT_STATE, loadState);
+export function useGamification(): GamificationHook {
+  const { user } = useUser();
+  const [state, setState] = useState<GamState>(loadFromLS);
 
-  // Persist on every state change
   useEffect(() => {
-    saveState(state);
-  }, [state]);
+    if (!user?.unsafeMetadata?.gamification) return;
+    try {
+      const remote = user.unsafeMetadata.gamification as GamState;
+      const ls = loadFromLS();
+      if (remote.totalXP > ls.totalXP) {
+        const merged = { ...DEFAULT_STATE, ...remote };
+        setState(merged);
+        saveToLS(merged);
+      }
+    } catch {}
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
-  // Compute level
-  const levelIdx = useMemo(() => {
-    let idx = 0;
-    for (let i = LEVELS.length - 1; i >= 0; i--) {
-      if (state.totalXP >= LEVELS[i].minXP) { idx = i; break; }
-    }
-    return idx;
-  }, [state.totalXP]);
+  const syncTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const syncToClerk = useCallback((s: GamState) => {
+    if (!user) return;
+    if (syncTimer.current) clearTimeout(syncTimer.current);
+    syncTimer.current = setTimeout(async () => {
+      try { await user.update({ unsafeMetadata: { gamification: s } }); } catch {}
+    }, 1500);
+  }, [user]);
 
-  const levelName = LEVELS[levelIdx].name;
-  const xpToNext = levelIdx < LEVELS.length - 1
-    ? LEVELS[levelIdx + 1].minXP - state.totalXP
-    : 0;
+  const update = useCallback((updater: (prev: GamState) => GamState) => {
+    setState(prev => {
+      const t = today();
+      const withDay = prev.dailyDate !== t ? { ...prev, dailyXP: 0, dailyDate: t } : prev;
+      const mon = thisMonday();
+      const withWeek = withDay.weekStart !== mon ? { ...withDay, weeklyXP: 0, weekStart: mon } : withDay;
+      const withExpiry =
+        withWeek.doubleXP &&
+        withWeek.doubleXPExpiry &&
+        new Date(withWeek.doubleXPExpiry) < new Date()
+          ? { ...withWeek, doubleXP: false }
+          : withWeek;
+      const next = updater(withExpiry);
+      saveToLS(next);
+      syncToClerk(next);
+      return next;
+    });
+  }, [syncToClerk]);
 
-  // Earned badges
-  const earnedBadges = useMemo(
-    () => BADGES.filter(b => b.condition(state)),
-    [state]
-  );
-
-  // Check streak risk (last active yesterday and not yet today)
-  const streakAtRisk = useMemo(() => {
-    if (state.currentStreak === 0) return false;
-    const today = getToday();
-    if (state.lastActiveDate === today) return false;
+  const applyStreak = (s: GamState): GamState => {
+    const t = today();
+    if (s.lastActiveDate === t) return s;
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
-    return state.lastActiveDate === yesterday.toISOString().split("T")[0];
-  }, [state.lastActiveDate, state.currentStreak]);
+    const yStr = yesterday.toISOString().slice(0, 10);
+    return {
+      ...s,
+      streak: s.lastActiveDate === yStr ? s.streak + 1 : 1,
+      lastActiveDate: t,
+    };
+  };
 
-  const earnXP = useCallback((amount: number, lessonKey?: string) => {
-    dispatch({ type: "EARN_XP", payload: { amount, lessonKey } });
-    dispatch({ type: "RECORD_ACTIVITY" });
-  }, []);
+  const applyBadgeCheck = (
+    s: GamState
+  ): { state: GamState; newBadges: typeof BADGES[number][] } => {
+    const newBadges: typeof BADGES[number][] = [];
+    let bonus = 0;
+    for (const badge of BADGES) {
+      if (!s.earnedBadgeIds.includes(badge.id) && badge.check(s)) {
+        newBadges.push(badge);
+        bonus += badge.xp;
+      }
+    }
+    if (newBadges.length === 0) return { state: s, newBadges: [] };
+    const next: GamState = {
+      ...s,
+      totalXP: s.totalXP + bonus,
+      earnedBadgeIds: [...s.earnedBadgeIds, ...newBadges.map(b => b.id as BadgeId)],
+      monthlyXP: bonus > 0 ? updateMonthlyBucket(s.monthlyXP, bonus) : s.monthlyXP,
+    };
+    return { state: next, newBadges };
+  };
 
-  const completeLesson = useCallback((key: string) => {
-    dispatch({ type: "COMPLETE_LESSON", payload: key });
-  }, []);
+  const addXP = useCallback((amount: number) => {
+    update(prev => {
+      const xp = amount * (prev.doubleXP ? 2 : 1);
+      return {
+        ...prev,
+        totalXP: prev.totalXP + xp,
+        dailyXP: prev.dailyXP + xp,
+        weeklyXP: prev.weeklyXP + xp,
+        monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+      };
+    });
+  }, [update]);
 
-  const setTracksCompleted = useCallback((count: number, total: number) => {
-    dispatch({ type: "SET_TRACKS_COMPLETED", payload: { count, total } });
-  }, []);
+  const completeLesson = useCallback((lessonId: string, pathId: string) => {
+    const key = `${pathId}:${lessonId}`;
+    let xpGained = 0;
+    let newBadges: typeof BADGES[number][] = [];
+
+    update(prev => {
+      if (prev.completedLessons.includes(key)) return prev;
+      const xp = 50 * (prev.doubleXP ? 2 : 1);
+      xpGained = xp;
+      let next: GamState = {
+        ...prev,
+        totalXP: prev.totalXP + xp,
+        dailyXP: prev.dailyXP + xp,
+        weeklyXP: prev.weeklyXP + xp,
+        monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+        completedLessons: [...prev.completedLessons, key],
+      };
+      next = applyStreak(next);
+      const { state: withBadges, newBadges: earned } = applyBadgeCheck(next);
+      newBadges = earned;
+      return withBadges;
+    });
+
+    return { xpGained, newBadges };
+  }, [update]);
+
+  const watchVideo = useCallback((videoId: string) => {
+    let xpGained = 0;
+    update(prev => {
+      if (prev.watchedVideos.includes(videoId)) return prev;
+      const xp = 20 * (prev.doubleXP ? 2 : 1);
+      xpGained = xp;
+      let next: GamState = {
+        ...prev,
+        totalXP: prev.totalXP + xp,
+        dailyXP: prev.dailyXP + xp,
+        weeklyXP: prev.weeklyXP + xp,
+        monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+        watchedVideos: [...prev.watchedVideos, videoId],
+      };
+      next = applyStreak(next);
+      const { state: withBadges } = applyBadgeCheck(next);
+      return withBadges;
+    });
+    return { xpGained };
+  }, [update]);
+
+  const passKnowledgeCheck = useCallback((moduleId: string, perfect: boolean) => {
+    let xpGained = 0;
+    let newBadges: typeof BADGES[number][] = [];
+    update(prev => {
+      const xp = (perfect ? 30 : 15) * (prev.doubleXP ? 2 : 1);
+      xpGained = xp;
+      let next: GamState = {
+        ...prev,
+        totalXP: prev.totalXP + xp,
+        dailyXP: prev.dailyXP + xp,
+        weeklyXP: prev.weeklyXP + xp,
+        monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+        perfectChecks: perfect ? prev.perfectChecks + 1 : prev.perfectChecks,
+      };
+      next = applyStreak(next);
+      const { state: withBadges, newBadges: earned } = applyBadgeCheck(next);
+      newBadges = earned;
+      return withBadges;
+    });
+    return { xpGained, newBadges };
+  }, [update]);
+
+  const wrongAnswer = useCallback(() => {
+    update(prev => ({ ...prev, hearts: Math.max(0, prev.hearts - 1) }));
+  }, [update]);
+
+  const restoreHeart = useCallback(() => {
+    update(prev => ({ ...prev, hearts: Math.min(prev.maxHearts, prev.hearts + 1) }));
+  }, [update]);
+
+  const completePath = useCallback((pathId: string) => {
+    let xpGained = 0;
+    let newBadges: typeof BADGES[number][] = [];
+    update(prev => {
+      if (prev.completedPaths.includes(pathId)) return prev;
+      const xp = 500 * (prev.doubleXP ? 2 : 1);
+      xpGained = xp;
+      let next: GamState = {
+        ...prev,
+        totalXP: prev.totalXP + xp,
+        dailyXP: prev.dailyXP + xp,
+        weeklyXP: prev.weeklyXP + xp,
+        monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+        completedPaths: [...prev.completedPaths, pathId],
+      };
+      next = applyStreak(next);
+      const { state: withBadges, newBadges: earned } = applyBadgeCheck(next);
+      newBadges = earned;
+      return withBadges;
+    });
+    return { xpGained, newBadges };
+  }, [update]);
+
+  const setDailyGoal = useCallback((goal: 5 | 10 | 20) => {
+    update(prev => ({ ...prev, dailyGoal: goal }));
+  }, [update]);
 
   const activateDoubleXP = useCallback(() => {
-    dispatch({ type: "ACTIVATE_DOUBLE_XP" });
-  }, []);
+    update(prev => {
+      const expiry = new Date();
+      expiry.setHours(expiry.getHours() + 24);
+      return { ...prev, doubleXP: true, doubleXPExpiry: expiry.toISOString() };
+    });
+  }, [update]);
 
-  const loseHeart = useCallback(() => {
-    dispatch({ type: "LOSE_HEART" });
-  }, []);
+  const useFreeze = useCallback((): boolean => {
+    let used = false;
+    update(prev => {
+      if (!prev.freezeAvailable) return prev;
+      used = true;
+      return { ...prev, freezeAvailable: false };
+    });
+    return used;
+  }, [update]);
 
-  const restoreHearts = useCallback(() => {
-    dispatch({ type: "RESTORE_HEARTS" });
-  }, []);
-
-  const recordActivity = useCallback(() => {
-    dispatch({ type: "RECORD_ACTIVITY" });
-  }, []);
-
-  const buyStreakFreeze = useCallback(() => {
-    dispatch({ type: "BUY_STREAK_FREEZE" });
-  }, []);
+  const levelIdx = getLevelIdx(state.totalXP);
+  const levelName = LEVELS[levelIdx].name;
+  const xpToNext = xpToNextLevel(state.totalXP);
+  const earnedBadges = getEarnedBadges(state);
+  const todayDone = state.dailyXP >= state.dailyGoal;
 
   return {
     state,
@@ -333,14 +402,20 @@ export function useGamification() {
     levelName,
     xpToNext,
     earnedBadges,
-    streakAtRisk,
-    earnXP,
+    todayDone,
+    addXP,
     completeLesson,
-    setTracksCompleted,
+    watchVideo,
+    passKnowledgeCheck,
+    wrongAnswer,
+    restoreHeart,
+    completePath,
+    setDailyGoal,
     activateDoubleXP,
-    loseHeart,
-    restoreHearts,
-    recordActivity,
-    buyStreakFreeze,
+    useFreeze,
+    isLessonCompleted: (lessonId, pathId) =>
+      state.completedLessons.includes(`${pathId}:${lessonId}`),
+    isVideoWatched: (videoId) => state.watchedVideos.includes(videoId),
+    isPathCompleted: (pathId) => state.completedPaths.includes(pathId),
   };
 }
