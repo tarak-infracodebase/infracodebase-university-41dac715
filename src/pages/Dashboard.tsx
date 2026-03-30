@@ -322,7 +322,11 @@ const Dashboard = () => {
                       opacity: d.xp > 0 ? 1 : 0.25,
                     }}
                   />
-                  {i % 2 === 0 && <span className="text-[8px] text-muted-foreground whitespace-nowrap">{d.label}</span>}
+                  {i % 3 === 0 && (
+                    <span className="text-[9px] text-muted-foreground">
+                      {d.label.replace(/\D/g, "")}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
