@@ -76,7 +76,7 @@ export function TestimonialsSection() {
   return (
     <section style={{ background: dark ? "#0d0f11" : "#f8f9fa", borderTop: `1px solid ${cardBorder}`, borderBottom: `1px solid ${cardBorder}` }}>
       <div className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
-        <span className="text-[11px] tracking-[0.25em] uppercase mb-4 inline-block" style={{ ...fontMono, color: muted }}>FROM THE COMMUNITY</span>
+        <span className="text-xs tracking-[0.25em] uppercase mb-4 inline-block" style={{ ...fontMono, color: muted }}>FROM THE COMMUNITY</span>
         <h2 style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, lineHeight: 1.15, color: heading }}>
           Learn infrastructure.{" "}
           <em className="font-light" style={{ color: "#e86030" }}>Differently.</em>
@@ -102,7 +102,7 @@ export function TestimonialsSection() {
                 <AvatarWithFallback name={t.name} src={t.avatar} />
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 700, color: heading }}>{t.name}</div>
-                  <div style={{ ...fontMono, fontSize: 11, color: muted, marginTop: 1 }}>{t.role}</div>
+                  <div style={{ ...fontMono, fontSize: 12, color: muted, marginTop: 1 }}>{t.role}</div>
                 </div>
               </div>
             </div>

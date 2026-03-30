@@ -160,7 +160,7 @@ const speakerInitialColors: Record<string, string> = {
 function SpeakerAvatar({ name }: { name: string }) {
   const bg = speakerInitialColors[name] || "hsl(var(--muted))";
   return (
-    <div className="h-7 w-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shrink-0 ring-2 ring-background" style={{ backgroundColor: bg }}>
+    <div className="h-7 w-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0 ring-2 ring-background" style={{ backgroundColor: bg }}>
       {name[0]}
     </div>
   );
@@ -192,7 +192,7 @@ function SegmentedSelector<T extends string>({
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider shrink-0">{label}</span>
+      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider shrink-0">{label}</span>
       <div
         ref={containerRef}
         className="relative flex items-center rounded-full bg-muted/40 border border-border/50 p-1 backdrop-blur-sm shadow-[0_0_12px_-4px_hsl(var(--primary)/0.15)]"
@@ -258,11 +258,11 @@ function EventCard({ event, onOpen }: { event: EventItem; onOpen: (e: EventItem)
         <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
         {/* Badges row */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5">
-          <span className={cn("text-[10px] px-2.5 py-1 rounded-full border backdrop-blur-sm font-medium", typeColors[event.type])}>
+          <span className={cn("text-xs px-2.5 py-1 rounded-full border backdrop-blur-sm font-medium", typeColors[event.type])}>
             {event.type}
           </span>
           {event.format === "podcast" && (
-            <span className={cn("text-[10px] px-2.5 py-1 rounded-full border backdrop-blur-sm font-medium flex items-center gap-1", formatColors.podcast)}>
+            <span className={cn("text-xs px-2.5 py-1 rounded-full border backdrop-blur-sm font-medium flex items-center gap-1", formatColors.podcast)}>
               <Headphones className="h-2.5 w-2.5" />
               Podcast
             </span>
@@ -288,7 +288,7 @@ function EventCard({ event, onOpen }: { event: EventItem; onOpen: (e: EventItem)
           <div className="flex -space-x-1.5">
             {event.speakers.map(s => <SpeakerAvatar key={s.name} name={s.name} />)}
           </div>
-          <span className="text-[11px] text-muted-foreground truncate">
+          <span className="text-xs text-muted-foreground truncate">
             {event.speakers.map(s => s.name).join(", ")}
           </span>
         </div>
@@ -312,9 +312,9 @@ function EventVideoModal({ event, open, onClose }: { event: EventItem | null; op
         <DialogTitle className="sr-only">{event.title}</DialogTitle>
         <div className="p-4 pb-2 flex items-start justify-between gap-4">
           <div>
-            <span className={cn("text-[10px] px-2 py-0.5 rounded-full border inline-block mb-1.5", typeColors[event.type])}>{event.type}</span>
+            <span className={cn("text-xs px-2 py-0.5 rounded-full border inline-block mb-1.5", typeColors[event.type])}>{event.type}</span>
             <h3 className="text-sm font-bold leading-snug">{event.title}</h3>
-            <p className="text-[11px] text-muted-foreground mt-1">{event.speakers.map(s => s.name).join(", ")}</p>
+            <p className="text-xs text-muted-foreground mt-1">{event.speakers.map(s => s.name).join(", ")}</p>
           </div>
         </div>
         {hasEmbed ? (
@@ -399,7 +399,7 @@ const Events = () => {
       <div className="max-w-5xl mx-auto px-6 lg:px-8 py-8 space-y-12">
         {/* Hero */}
         <div className="text-center max-w-2xl mx-auto">
-          <span className="inline-block text-[11px] font-medium px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary mb-4">Sessions</span>
+          <span className="inline-block text-xs font-medium px-3 py-1 rounded-full border border-primary/30 bg-primary/10 text-primary mb-4">Sessions</span>
           <h1 className="text-3xl lg:text-4xl font-bold mb-3">Learn. Build. Grow.</h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
             Every week we share technical lectures, engineering conversations, and podcast episodes so builders can learn from real systems and grow together.
@@ -447,7 +447,7 @@ const Events = () => {
           <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">Inside a Session</h2>
           <div className="flex flex-wrap gap-2 mb-6">
             {["Real architecture discussions", "Hands-on problem solving", "Open technical questions", "Shared learning from real experiences", "Builders helping builders"].map(chip => (
-              <span key={chip} className="text-[11px] px-3 py-1.5 rounded-full border border-border bg-muted/50 text-muted-foreground">{chip}</span>
+              <span key={chip} className="text-xs px-3 py-1.5 rounded-full border border-border bg-muted/50 text-muted-foreground">{chip}</span>
             ))}
           </div>
           <div className="grid sm:grid-cols-3 gap-3">
@@ -479,7 +479,7 @@ const Events = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/80 hidden md:block" />
               </div>
               <div className="flex-1 flex flex-col justify-center p-6">
-                <span className={cn("text-[10px] px-2 py-0.5 rounded-full border w-fit mb-3", typeColors[featured.type])}>{featured.type}</span>
+                <span className={cn("text-xs px-2 py-0.5 rounded-full border w-fit mb-3", typeColors[featured.type])}>{featured.type}</span>
                 <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{featured.title}</h3>
                 <div className="flex items-center gap-2 mb-4">
                   <div className="flex -space-x-1.5">

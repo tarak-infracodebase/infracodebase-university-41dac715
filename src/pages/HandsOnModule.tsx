@@ -77,21 +77,21 @@ const HandsOnModulePage = () => {
         {/* Sidebar */}
         <aside className="hidden xl:block w-64 shrink-0 border-r min-h-screen sticky top-0 overflow-y-auto custom-scrollbar" style={{ background: 'var(--bg-card)', borderColor: 'var(--border-themed)' }}>
           <div className="p-4">
-            <Link to={`/hands-on/${track.id}`} className="flex items-center gap-1 text-[10px] text-muted-foreground hover:text-foreground mb-4">
+            <Link to={`/hands-on/${track.id}`} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-4">
               <ArrowLeft className="h-3 w-3" /> {track.title}
             </Link>
-            <h3 className="font-mono text-[10px] mb-3 uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>Modules</h3>
+            <h3 className="font-mono text-xs mb-3 uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>Modules</h3>
             <nav className="space-y-0.5">
               {track.modules.map((m, i) => (
                 <Link
                   key={m.id}
                   to={`/hands-on/${track.id}/${m.id}`}
-                  className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-[11px] transition-colors ${
+                  className={`flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs transition-colors ${
                     m.id === mod.id ? "bg-primary/10 text-primary font-medium" : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}
                 >
                   <span
-                    className="font-mono text-[9px] w-5 h-5 rounded flex items-center justify-center shrink-0"
+                    className="font-mono text-xs w-5 h-5 rounded flex items-center justify-center shrink-0"
                     style={{ background: 'var(--border-themed)', color: 'var(--text-link)', border: '1px solid var(--border-themed)' }}
                   >
                     {i + 1}
@@ -113,7 +113,7 @@ const HandsOnModulePage = () => {
             {/* Header */}
             <div className="mb-10">
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-[10px] font-mono" style={{ color: 'var(--text-link)' }}>
+                <span className="text-xs font-mono" style={{ color: 'var(--text-link)' }}>
                   Module {moduleIndex + 1} of {track.modules.length}
                 </span>
               </div>

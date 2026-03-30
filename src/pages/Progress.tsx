@@ -125,7 +125,7 @@ const Progress = () => {
                       background: `linear-gradient(to top, ${crystalColors[i % crystalColors.length]}, ${crystalColors[(i + 1) % crystalColors.length]})`,
                       minHeight: d.xp > 0 ? '4px' : '0',
                     }} />
-                  <span className="text-[10px] text-muted-foreground">{d.month}</span>
+                  <span className="text-xs text-muted-foreground">{d.month}</span>
                 </div>
               ))}
             </div>
@@ -137,7 +137,7 @@ const Progress = () => {
             <ProgressRing value={completedCount} max={TOTAL_LESSONS} size={120} strokeWidth={10}>
               <div className="text-center">
                 <span className="text-xl font-mono font-bold">{overallPct}%</span>
-                <p className="text-[10px] text-muted-foreground">Complete</p>
+                <p className="text-xs text-muted-foreground">Complete</p>
               </div>
             </ProgressRing>
             <p className="text-xs text-muted-foreground mt-3">{completedCount} of {TOTAL_LESSONS} lessons completed</p>
@@ -162,9 +162,9 @@ const Progress = () => {
                   <CrystalIcon color={m.earned ? crystalColors[i % crystalColors.length] : "hsl(228, 20%, 20%)"} size={20} />
                   <div className="flex-1">
                     <p className={`text-xs ${m.earned ? 'text-foreground' : 'text-muted-foreground'}`}>{m.name}</p>
-                    <p className="text-[10px] text-muted-foreground">+{m.xp} XP</p>
+                    <p className="text-xs text-muted-foreground">+{m.xp} XP</p>
                   </div>
-                  {m.earned && <span className="text-[10px] text-crystal-green">✓</span>}
+                  {m.earned && <span className="text-xs text-crystal-green">✓</span>}
                 </div>
               ))}
             </div>

@@ -28,7 +28,7 @@ export function ProgressBar({ title, steps, currentStepIndex, completedCount }: 
         </span>
         <span
           className="font-mono"
-          style={{ fontSize: 10, color: "rgba(255,255,255,0.28)" }}
+          style={{ fontSize: 12, color: "rgba(255,255,255,0.28)" }}
         >
           {completedCount} / {steps.length} complete
         </span>

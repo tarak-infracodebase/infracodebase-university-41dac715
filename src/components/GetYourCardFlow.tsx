@@ -53,7 +53,7 @@ const css = `
 .gcf-secondary-btn {
   width: 100%; padding: 14px; border-radius: 14px;
   background: transparent; color: #aaa;
-  font-family: 'Space Mono', monospace; font-size: 11px;
+  font-family: 'Space Mono', monospace; font-size: 12px;
   letter-spacing: 0.08em; text-transform: uppercase;
   border: 1px solid rgba(255,255,255,0.1); cursor: pointer;
   transition: border-color 0.2s, color 0.2s;
@@ -90,7 +90,7 @@ const css = `
 .gcf-share-btn {
   display: flex; align-items: center; justify-content: center;
   gap: 8px; padding: 12px 16px; border-radius: 12px; cursor: pointer;
-  font-family: 'Space Mono', monospace; font-size: 10px;
+  font-family: 'Space Mono', monospace; font-size: 12px;
   letter-spacing: 0.08em; text-transform: uppercase;
   border: 1px solid rgba(255,255,255,0.1);
   background: rgba(255,255,255,0.04); color: #ccc;

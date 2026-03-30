@@ -19,7 +19,7 @@ export function AzurePeriodicTablePill() {
       style={{ background: GRADIENT }}
     >
       <span
-        className="flex items-center gap-[5px] rounded-[6px] px-[9px] py-1 text-[11px] whitespace-nowrap transition-colors"
+        className="flex items-center gap-[5px] rounded-[6px] px-[9px] py-1 text-xs whitespace-nowrap transition-colors"
         style={{ background: "#12131f", color: "rgba(255,255,255,0.7)" }}
         onMouseEnter={(e) => { e.currentTarget.style.background = "#1a1d2e"; e.currentTarget.style.color = "#fff"; }}
         onMouseLeave={(e) => { e.currentTarget.style.background = "#12131f"; e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}
@@ -49,10 +49,10 @@ export function AzurePeriodicTableCard() {
       >
         <AzureLogo size={20} />
         <div className="flex-1 min-w-0">
-          <p className="text-[11px] font-medium" style={{ color: "rgba(255,255,255,0.82)" }}>Azure Periodic Table</p>
-          <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.3)" }}>azureperiodictable.com</p>
+          <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.82)" }}>Azure Periodic Table</p>
+          <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>azureperiodictable.com</p>
         </div>
-        <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.22)" }}>↗</span>
+        <span className="text-xs" style={{ color: "rgba(255,255,255,0.22)" }}>↗</span>
       </span>
     </a>
   );

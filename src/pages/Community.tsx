@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 
 const fontDisplay: React.CSSProperties = { fontFamily: "'Fraunces', serif" };
 const fontMono: React.CSSProperties = { fontFamily: "'DM Mono', monospace" };
-const sectionLabel = "text-[11px] tracking-[0.25em] uppercase mb-4 inline-block";
+const sectionLabel = "text-xs tracking-[0.25em] uppercase mb-4 inline-block";
 
 const useReveal = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -96,8 +96,8 @@ const Community = () => {
               <Link to={communityCards.tall.href} className={`${cardBase} ${cardHover} flex flex-col justify-between p-7 min-h-[420px] lg:row-span-2`}
                 style={{ background: t.surface, border: `1px solid ${t.cardBorder}`, borderTop: `2px solid ${communityCards.tall.accentColor}` }}>
                 <div>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${t.accentEmber}22`, color: t.accentEmber }}>{communityCards.tall.badge}</span>
-                  <div className="mt-4" style={{ ...fontMono, fontSize: 10, letterSpacing: "0.15em", color: t.muted }}>{communityCards.tall.eyebrow}</div>
+                  <span className="text-xs px-2 py-0.5 rounded-full" style={{ ...fontMono, background: `${t.accentEmber}22`, color: t.accentEmber }}>{communityCards.tall.badge}</span>
+                  <div className="mt-4" style={{ ...fontMono, fontSize: 12, letterSpacing: "0.15em", color: t.muted }}>{communityCards.tall.eyebrow}</div>
                   <div className="mt-2 text-lg font-semibold leading-snug" style={{ ...fontDisplay, color: t.heading }}>{communityCards.tall.title}</div>
                   <p className="mt-3" style={{ ...fontMono, fontSize: 13, color: t.muted, lineHeight: 1.6 }}>{communityCards.tall.desc}</p>
                 </div>
@@ -108,7 +108,7 @@ const Community = () => {
                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ background: `linear-gradient(135deg,${t.accentEmber},${t.accentPrism})` }}>J</div>
                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ background: `linear-gradient(135deg,${t.accentAurora},${t.accentNavy})` }}>T</div>
                     </div>
-                    <span style={{ ...fontMono, fontSize: 11, color: t.muted }}>Justin & Tarak</span>
+                    <span style={{ ...fontMono, fontSize: 12, color: t.muted }}>Justin & Tarak</span>
                   </div>
                   <span style={{ ...fontMono, fontSize: 12, fontWeight: 500, color: t.accentEmber }}>{communityCards.tall.cta}</span>
                 </div>
@@ -119,11 +119,11 @@ const Community = () => {
                 {communityCards.grid.map((c, i) => (
                   <Link key={i} to={c.href} className={`${cardBase} ${cardHover} block p-5`}
                     style={{ background: t.surface, border: `1px solid ${t.cardBorder}`, borderTop: `2px solid ${c.accentColor}` }}>
-                    <div style={{ ...fontMono, fontSize: 10, letterSpacing: "0.12em", color: c.accentColor }}>{c.eyebrow}</div>
+                    <div style={{ ...fontMono, fontSize: 12, letterSpacing: "0.12em", color: c.accentColor }}>{c.eyebrow}</div>
                     <div className="mt-2 text-sm font-semibold leading-snug" style={{ ...fontDisplay, color: t.heading }}>{c.title}</div>
-                    <span className="inline-block mt-3 text-[9px] px-2 py-0.5 rounded-full" style={{ ...fontMono, background: t.dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)", color: t.muted }}>{c.badge}</span>
+                    <span className="inline-block mt-3 text-xs px-2 py-0.5 rounded-full" style={{ ...fontMono, background: t.dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)", color: t.muted }}>{c.badge}</span>
                     {c.play && <div className="mt-3 text-lg opacity-50">▶</div>}
-                    {c.extra && <div className="mt-2" style={{ ...fontMono, fontSize: 11, color: t.muted }}>{c.extra}</div>}
+                    {c.extra && <div className="mt-2" style={{ ...fontMono, fontSize: 12, color: t.muted }}>{c.extra}</div>}
                     {c.arrow && <div className="mt-3 text-sm opacity-40">→</div>}
                   </Link>
                 ))}

@@ -57,11 +57,11 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
       style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}
     >
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
+        <span className="text-xs font-mono text-muted-foreground tracking-wider">
           {typeof label === "number" ? `Track ${label}` : label}
         </span>
         <span className="text-muted-foreground/30">·</span>
-        <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(track.level)}`}>
+        <span className={`text-xs font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(track.level)}`}>
           {track.level}
         </span>
       </div>
@@ -69,7 +69,7 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
       <p className="text-xs leading-relaxed mb-4 line-clamp-2" style={{ color: '#94a3b8' }}>
         {track.description}
       </p>
-      <div className="flex items-center justify-between text-[11px]" style={{ color: '#64748b' }}>
+      <div className="flex items-center justify-between text-xs" style={{ color: '#64748b' }}>
         <span className="flex items-center gap-1">
           <BookOpen className="h-3 w-3" />
           {track.moduleCount} Modules
@@ -83,7 +83,7 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
         {track.modules.map((_, i) => (
           <div
             key={i}
-            className="h-5 w-5 rounded-full flex items-center justify-center text-[8px] font-bold"
+            className="h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold"
             style={{ background: '#1e3a5f', color: '#7dd3fc', border: '1px solid #2a5080' }}
           >
             {i + 1}
@@ -217,16 +217,16 @@ const HandsOnExercises = () => {
             }}
           >
              <div className="flex items-center gap-2 mb-3">
-               <span className="text-[10px] font-mono text-muted-foreground tracking-wider">
+               <span className="text-xs font-mono text-muted-foreground tracking-wider">
                  {trackNumberMap[featuredTrack.id]}
                </span>
                <span className="text-muted-foreground/30">·</span>
-               <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(featuredTrack.level)}`}>
+               <span className={`text-xs font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(featuredTrack.level)}`}>
                  {featuredTrack.level}
                </span>
              </div>
              <span
-               className="text-[10px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full inline-block mb-2"
+               className="text-xs font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full inline-block mb-2"
                style={{ color: '#94a3b8', border: '1px solid #94a3b8', background: 'transparent' }}
              >
                Your Learning Path
@@ -248,7 +248,7 @@ const HandsOnExercises = () => {
                 {featuredTrack.modules.map((_, i) => (
                   <div
                     key={i}
-                    className="h-6 w-6 rounded-full flex items-center justify-center text-[9px] font-bold"
+                    className="h-6 w-6 rounded-full flex items-center justify-center text-xs font-bold"
                     style={{ background: '#1e3a5f', color: '#7dd3fc', border: '1px solid #2a5080' }}
                   >
                     {i + 1}
@@ -272,9 +272,9 @@ const HandsOnExercises = () => {
                 className="rounded-xl p-4 text-center"
                 style={{ background: 'var(--bg-card)', border: '1px solid var(--border-themed)' }}
               >
-                <div className="text-[10px] font-mono mb-1" style={{ color: 'var(--text-muted)' }}>Step {i + 1}</div>
+                <div className="text-xs font-mono mb-1" style={{ color: 'var(--text-muted)' }}>Step {i + 1}</div>
                 <div className="text-sm font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>{step.label}</div>
-                <div className="text-[11px] leading-snug" style={{ color: 'var(--text-secondary)' }}>{step.description}</div>
+                <div className="text-xs leading-snug" style={{ color: 'var(--text-secondary)' }}>{step.description}</div>
               </div>
             ))}
           </div>
@@ -284,7 +284,7 @@ const HandsOnExercises = () => {
         {prereqTracks.length > 0 && (
           <>
             <div className="flex items-center gap-3 mb-5">
-              <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Cloud & Infrastructure Prerequisites</span>
+              <span className="text-xs font-mono uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Cloud & Infrastructure Prerequisites</span>
               <div className="flex-1 h-px bg-border/50" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-10">
@@ -297,7 +297,7 @@ const HandsOnExercises = () => {
 
         {/* Divider */}
         <div className="flex items-center gap-3 mb-5">
-          <span className="text-[10px] font-mono uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Infracodebase Hands-On Training — begin after completing prerequisites</span>
+          <span className="text-xs font-mono uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Infracodebase Hands-On Training — begin after completing prerequisites</span>
           <div className="flex-1 h-px bg-border/50" />
         </div>
 

@@ -53,7 +53,7 @@ const HandsOnTrack = () => {
             style={{ background: track.color }}
           />
           <div className="flex items-center gap-2 mb-3">
-            <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(track.level)}`}>
+            <span className={`text-xs font-mono font-medium px-2 py-0.5 rounded-full border ${getLevelColor(track.level)}`}>
               {track.level}
             </span>
           </div>
@@ -94,7 +94,7 @@ const HandsOnTrack = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-mono" style={{ color: 'var(--text-muted)' }}>
+                    <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
                       Module {i + 1} / {track.moduleCount}
                     </span>
                   </div>
@@ -104,7 +104,7 @@ const HandsOnTrack = () => {
                   <p className="text-xs leading-relaxed line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
                     {mod.sections.whyThisMatters.split('\n')[0]}
                   </p>
-                  <div className="flex items-center gap-4 mt-3 text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                  <div className="flex items-center gap-4 mt-3 text-xs" style={{ color: 'var(--text-muted)' }}>
                     <span className="flex items-center gap-1">
                       <CheckCircle2 className="h-3 w-3" />
                       {mod.sections.validationChecklist.length} Checkpoints

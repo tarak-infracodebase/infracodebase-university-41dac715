@@ -98,7 +98,7 @@ function NavRow({ title, path, icon: Icon, onNavigate }: NavRowProps) {
         <div style={{ ...fontDisplay, fontSize: 15, fontWeight: 700, color: "var(--text-primary, #f8fafc)" }}>
           {title}
         </div>
-        <div style={{ ...fontMono, fontSize: 10, color: "#c87040", marginTop: 1 }}>
+        <div style={{ ...fontMono, fontSize: 12, color: "#c87040", marginTop: 1 }}>
           {path}
         </div>
       </div>

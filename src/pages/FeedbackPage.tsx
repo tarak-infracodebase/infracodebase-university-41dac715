@@ -56,7 +56,7 @@ function SavedBadge({ visible }: { visible: boolean }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 text-[11px] font-medium text-accent transition-opacity duration-300",
+        "inline-flex items-center gap-1 text-xs font-medium text-accent transition-opacity duration-300",
         visible ? "opacity-100" : "opacity-0",
       )}
     >
@@ -115,7 +115,7 @@ function ReadOnlyView({ data }: { data: Record<string, string> }) {
         </div>
 
         <section className="space-y-6">
-          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">About Infracodebase University</p>
+          <p className="text-xs font-bold tracking-[0.12em] uppercase text-muted-foreground">About Infracodebase University</p>
           {sectionA.map((q) => (
             <div key={q.key} className="space-y-1.5">
               <p className="text-sm font-semibold text-foreground">{q.label}</p>
@@ -125,7 +125,7 @@ function ReadOnlyView({ data }: { data: Record<string, string> }) {
         </section>
 
         <section className="space-y-6">
-          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">Your experience so far</p>
+          <p className="text-xs font-bold tracking-[0.12em] uppercase text-muted-foreground">Your experience so far</p>
           {sectionB.map((q) => (
             <div key={q.key} className="space-y-1.5">
               <p className="text-sm font-semibold text-foreground">{q.label}</p>
@@ -316,7 +316,7 @@ function EditableFeedback() {
                   }}
                 />
               ))}
-              <span className="ml-1 font-mono text-[10px] text-muted-foreground/35">
+              <span className="ml-1 font-mono text-xs text-muted-foreground/35">
                 {answeredCount} of 7
               </span>
             </div>
@@ -325,16 +325,16 @@ function EditableFeedback() {
 
         {/* Section A */}
         <section className="space-y-8">
-          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">
+          <p className="text-xs font-bold tracking-[0.12em] uppercase text-muted-foreground">
             About Infracodebase University
           </p>
 
           {/* Q1 — Disappointment */}
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-foreground">
+            <label htmlFor="disappointment-group" className="text-sm font-semibold text-foreground">
               How would you feel if you could no longer use Infracodebase University?
             </label>
-            <RadioGroup value={disappointment} onValueChange={handleDisappointment} className="space-y-2">
+            <RadioGroup id="disappointment-group" aria-label="How would you feel if you could no longer use Infracodebase University?" value={disappointment} onValueChange={handleDisappointment} className="space-y-2">
               {[
                 { value: "very", label: "Very disappointed" },
                 { value: "somewhat", label: "Somewhat disappointed" },
@@ -353,7 +353,7 @@ function EditableFeedback() {
           {/* Q2 — Who */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">
+              <label htmlFor="feedback-who" className="text-sm font-semibold text-foreground">
                 What type of person would benefit most from this?
               </label>
               <SavedBadge visible={who.saved} />
@@ -362,6 +362,7 @@ function EditableFeedback() {
               Think about a colleague or someone in your network.
             </p>
             <Textarea
+              id="feedback-who"
               value={who.value}
               onChange={(e) => who.update(e.target.value)}
               className="min-h-[100px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
@@ -371,7 +372,7 @@ function EditableFeedback() {
           {/* Q3 — Benefit */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">
+              <label htmlFor="feedback-benefit" className="text-sm font-semibold text-foreground">
                 What is the main benefit you get from Infracodebase University?
               </label>
               <SavedBadge visible={benefit.saved} />
@@ -380,6 +381,7 @@ function EditableFeedback() {
               What would you lose if it disappeared tomorrow?
             </p>
             <Textarea
+              id="feedback-benefit"
               value={benefit.value}
               onChange={(e) => benefit.update(e.target.value)}
               className="min-h-[100px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
@@ -389,22 +391,24 @@ function EditableFeedback() {
 
         {/* Section B */}
         <section className="space-y-8">
-          <p className="text-[9px] font-bold tracking-[0.12em] uppercase text-muted-foreground">
+          <p className="text-xs font-bold tracking-[0.12em] uppercase text-muted-foreground">
             Your experience so far
           </p>
 
           {/* Q4 — Rating */}
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-foreground">
+            <label id="rating-label" className="text-sm font-semibold text-foreground">
               How would you rate your experience so far?
             </label>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5" role="group" aria-labelledby="rating-label">
               {[1, 2, 3, 4, 5].map((n) => (
                 <button
                   key={n}
                   onClick={() => handleRating(n)}
                   onMouseEnter={() => setHoveredStar(n)}
                   onMouseLeave={() => setHoveredStar(0)}
+                  aria-label={`Rate ${n} out of 5 stars`}
+                  aria-pressed={n <= rating}
                   className="p-0.5 transition-transform hover:scale-110"
                 >
                   <Star
@@ -422,13 +426,13 @@ function EditableFeedback() {
 
           {/* Q5 — Friction */}
           <div className="space-y-2">
-            <label className="text-sm font-semibold text-foreground">
+            <label id="friction-label" className="text-sm font-semibold text-foreground">
               Where did you get stuck or confused?
             </label>
             <p className="text-xs text-muted-foreground">
               Select all areas where you experienced friction.
             </p>
-            <div className="flex flex-wrap gap-2 mt-2">
+            <div className="flex flex-wrap gap-2 mt-2" role="group" aria-labelledby="friction-label">
               {FRICTION_AREAS_LIST.map((area) => (
                 <button
                   key={area}
@@ -440,7 +444,9 @@ function EditableFeedback() {
                         : [...prev, area]
                     )
                   }
-                  className="font-mono text-[11px] px-3 py-1.5 rounded-full border transition-all duration-150 cursor-pointer"
+                  className="font-mono text-xs px-3 py-1.5 rounded-full border transition-all duration-150 cursor-pointer"
+                  aria-label={`${stuckAreas.includes(area) ? "Deselect" : "Select"} ${area}`}
+                  aria-pressed={stuckAreas.includes(area)}
                   style={{
                     borderColor: stuckAreas.includes(area)
                       ? "hsl(var(--accent) / 0.5)"
@@ -462,7 +468,7 @@ function EditableFeedback() {
           {/* Q6 — Valuable */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">
+              <label htmlFor="feedback-valuable" className="text-sm font-semibold text-foreground">
                 What did you find most valuable?
               </label>
               <SavedBadge visible={valuable.saved} />
@@ -471,6 +477,7 @@ function EditableFeedback() {
               What would you miss most if it was removed?
             </p>
             <Textarea
+              id="feedback-valuable"
               value={valuable.value}
               onChange={(e) => valuable.update(e.target.value)}
               className="min-h-[100px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
@@ -480,7 +487,7 @@ function EditableFeedback() {
           {/* Q7 — Brutal */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-sm font-semibold text-foreground">
+              <label htmlFor="feedback-brutal" className="text-sm font-semibold text-foreground">
                 Anything else? Be as direct as you want.
               </label>
               <SavedBadge visible={brutal.saved} />
@@ -489,6 +496,7 @@ function EditableFeedback() {
               No filter needed. If something feels off, say it.
             </p>
             <Textarea
+              id="feedback-brutal"
               value={brutal.value}
               onChange={(e) => brutal.update(e.target.value)}
               className="min-h-[160px] bg-muted/30 border-border/50 font-mono text-sm resize-y"
@@ -498,17 +506,19 @@ function EditableFeedback() {
 
           {/* Q8 — Referral */}
           <div className="space-y-2 mt-8">
-            <label className="text-sm font-semibold text-foreground" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
+            <label htmlFor="feedback-referral" className="text-sm font-semibold text-foreground" style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}>
               Who would you most want to send this to?
             </label>
             <p className="text-xs font-mono text-muted-foreground/40">
               A colleague, a friend, someone in your team — just a name or role is fine.
             </p>
             <textarea
+              id="feedback-referral"
               value={referral}
               onChange={(e) => setReferral(e.target.value)}
               placeholder="e.g. My DevOps colleague who keeps asking me about Terraform..."
               rows={3}
+              aria-label="Who would you most want to send this to?"
               className="w-full rounded-lg border border-border/30 bg-muted/10 px-3.5 py-3 font-mono text-sm text-foreground resize-y outline-none focus:border-accent/30 transition-colors"
             />
           </div>
@@ -547,6 +557,7 @@ function EditableFeedback() {
               readOnly
               value={fallbackUrl}
               onFocus={(e) => e.target.select()}
+              aria-label="Shareable feedback link"
               className="w-full rounded-md border border-border/50 bg-muted/30 px-3 py-2 text-xs font-mono text-foreground"
             />
           )}
@@ -582,6 +593,7 @@ function EditableFeedback() {
                   We read every submission personally.
                 </p>
                 <button
+                  aria-label="Copy my feedback link to clipboard"
                   onClick={() => {
                     const url = window.location.href;
                     if (navigator.clipboard && navigator.clipboard.writeText) {

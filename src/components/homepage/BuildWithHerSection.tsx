@@ -23,7 +23,7 @@ export function BuildWithHerSection() {
   return (
     <section style={{ background: bg, borderTop: `1px solid ${border}`, borderBottom: `1px solid ${border}` }}>
       <div className="max-w-6xl mx-auto px-6 lg:px-12 py-24">
-        <span className="text-[11px] tracking-[0.25em] uppercase mb-4 inline-block" style={{ ...fontMono, color: muted }}>BUILD WITH HER</span>
+        <span className="text-xs tracking-[0.25em] uppercase mb-4 inline-block" style={{ ...fontMono, color: muted }}>BUILD WITH HER</span>
         <h2 style={{ ...fontDisplay, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 700, lineHeight: 1.15, color: heading }}>
           Learning is easier{" "}
           <em className="font-light" style={{ color: amber }}>with others.</em>

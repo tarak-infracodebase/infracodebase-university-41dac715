@@ -70,7 +70,7 @@ function ReferralExpandedContent({
       <p
         style={{
           fontFamily: "'DM Mono', monospace",
-          fontSize: 10,
+          fontSize: 12,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
           color: "rgba(255,255,255,0.28)",
@@ -185,7 +185,7 @@ function ReferralExpandedContent({
           className="flex-1 min-w-0 truncate flex items-center"
           style={{
             fontFamily: "'DM Mono', monospace",
-            fontSize: 10.5,
+            fontSize: 12,
             color: "rgba(255,255,255,0.48)",
             background: "rgba(255,255,255,0.05)",
             border: "0.5px solid rgba(255,255,255,0.1)",
@@ -219,7 +219,7 @@ function ReferralExpandedContent({
         className="flex items-end justify-between gap-4"
         style={{ paddingTop: 14, borderTop: "0.5px solid rgba(255,255,255,0.07)" }}
       >
-        <div style={{ fontFamily: "'Sora', sans-serif", fontSize: 11, color: "rgba(255,255,255,0.24)", lineHeight: 1.55 }}>
+        <div style={{ fontFamily: "'Sora', sans-serif", fontSize: 12, color: "rgba(255,255,255,0.24)", lineHeight: 1.55 }}>
           <p>Link never expires · unlimited shares</p>
           <p>
             <a href="#" className="underline transition-colors hover:text-white/50" style={{ color: "rgba(255,255,255,0.36)" }}>

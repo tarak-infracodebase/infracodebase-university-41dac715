@@ -103,11 +103,11 @@ function VideoCard({ video, onPlay }: { video: VideoItem; onPlay: (v: VideoItem)
         <h3 className="text-sm font-semibold line-clamp-2">{video.title}</h3>
         <p className="text-xs text-muted-foreground line-clamp-2">{video.description}</p>
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium border border-primary/20">
+          <span className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20">
             {video.category}
           </span>
           {video.badge && (
-            <span className="px-2 py-0.5 rounded-full bg-muted/50 text-muted-foreground text-[10px] font-medium border border-border/30">
+            <span className="px-2 py-0.5 rounded-full bg-muted/50 text-muted-foreground text-xs font-medium border border-border/30">
               {video.badge}
             </span>
           )}
@@ -115,7 +115,7 @@ function VideoCard({ video, onPlay }: { video: VideoItem; onPlay: (v: VideoItem)
         <Link
           to={video.trackPath}
           onClick={e => e.stopPropagation()}
-          className="text-[10px] text-muted-foreground hover:text-primary transition-colors block pt-1"
+          className="text-xs text-muted-foreground hover:text-primary transition-colors block pt-1"
         >
           Used in: {video.trackLabel}
         </Link>
@@ -204,7 +204,7 @@ const VideoLibrary = () => {
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm font-semibold">{v.title}</h3>
                       <Progress value={p} className="h-1.5 mt-2 max-w-[200px] bg-muted" />
-                      <span className="text-[10px] text-muted-foreground font-mono mt-1 block">{p}% watched</span>
+                      <span className="text-xs text-muted-foreground font-mono mt-1 block">{p}% watched</span>
                     </div>
                     <Button size="sm" className="gap-1.5 text-xs shrink-0">
                       <Play className="h-3 w-3" /> Resume
@@ -223,6 +223,7 @@ const VideoLibrary = () => {
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
+              aria-label="Search videos"
               className="w-full rounded-lg border border-border bg-muted/50 pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
               placeholder="Search videos..."
             />

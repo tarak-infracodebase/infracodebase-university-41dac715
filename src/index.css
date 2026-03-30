@@ -33,7 +33,7 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
     --border-themed: #1e3a5f;
     --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    --text-muted: #7e8ea2;
     --text-accent: #5eead4;
     --text-link: #7dd3fc;
 
@@ -131,7 +131,7 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
     --border-themed: #e2e8f0;
     --text-primary: #0f172a;
     --text-secondary: #475569;
-    --text-muted: #94a3b8;
+    --text-muted: #64748b;
     --text-accent: #0f766e;
     --text-link: #0369a1;
   }

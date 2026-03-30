@@ -805,7 +805,7 @@ function NotesEditor({
           .notes-readonly strong { color:hsl(var(--foreground)); font-weight:700; }
         `}</style>
         <div className="relative">
-          <span className="absolute top-3 right-3 text-[10px] font-mono text-muted-foreground/40 uppercase tracking-wider">Read only</span>
+          <span className="absolute top-3 right-3 text-xs font-mono text-muted-foreground/40 uppercase tracking-wider">Read only</span>
           <div
             className="notes-readonly border border-border/50 rounded-lg p-4 min-h-[300px] text-sm bg-card"
             dangerouslySetInnerHTML={{ __html: initialHTML }}
@@ -1117,7 +1117,7 @@ function SessionModal({
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '2px' }}>
           <span style={{ fontSize: '13px', fontWeight: 700, color: 'hsl(var(--foreground))' }}>{c.name}</span>
-          <span style={{ fontSize: '11px', color: 'hsl(var(--muted-foreground))' }}>{c.date}</span>
+          <span style={{ fontSize: '12px', color: 'hsl(var(--muted-foreground))' }}>{c.date}</span>
         </div>
         <p style={{ fontSize: '13px', color: 'hsl(var(--muted-foreground))', lineHeight: 1.7, margin: 0 }}>{c.text}</p>
       </div>
@@ -1138,8 +1138,8 @@ function SessionModal({
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '13px', fontWeight: 700, color: 'hsl(var(--foreground))' }}>{c.name}</span>
-            <span style={{ fontSize: '11px', color: 'hsl(var(--muted-foreground))' }}>{c.date}</span>
-            {c.answered && <span style={{ fontSize: '10px', color: '#22d3ee', background: 'rgba(34,211,238,0.1)', padding: '1px 6px', borderRadius: '4px' }}>Answered at {c.answered}</span>}
+            <span style={{ fontSize: '12px', color: 'hsl(var(--muted-foreground))' }}>{c.date}</span>
+            {c.answered && <span style={{ fontSize: '12px', color: '#22d3ee', background: 'rgba(34,211,238,0.1)', padding: '1px 6px', borderRadius: '4px' }}>Answered at {c.answered}</span>}
           </div>
           <p style={{ fontSize: '13px', color: 'hsl(var(--muted-foreground))', lineHeight: 1.7, margin: '0 0 6px' }}>{c.text}</p>
           <button style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: 'hsl(var(--muted-foreground))', background: 'none', border: 'none', cursor: 'pointer' }}>▲ {c.upvotes}</button>
@@ -1155,7 +1155,7 @@ function SessionModal({
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: '13px', fontWeight: 700, color: 'hsl(var(--foreground))' }}>{c.reply.name}</span>
-                <span style={{ fontSize: '10px', padding: '2px 7px', borderRadius: '99px', background: c.reply.badgeColor, color: '#fff', fontWeight: 600 }}>{c.reply.badge}</span>
+                <span style={{ fontSize: '12px', padding: '2px 7px', borderRadius: '99px', background: c.reply.badgeColor, color: '#fff', fontWeight: 600 }}>{c.reply.badge}</span>
               </div>
               <p style={{ fontSize: '13px', color: 'hsl(var(--muted-foreground))', lineHeight: 1.7, margin: '0 0 6px' }}>{c.reply.text}</p>
               <button style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: 'hsl(var(--muted-foreground))', background: 'none', border: 'none', cursor: 'pointer' }}>▲ {c.reply.upvotes}</button>
@@ -1237,18 +1237,18 @@ function WorkshopCard({
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '20px' }}>
           <span style={{ display: 'inline-block', width: '2px', height: '10px', background: 'rgba(255,255,255,0.5)', borderRadius: '1px' }} />
-          <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.7)' }}>Weekly Workshop</span>
+          <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)' }}>Weekly Workshop</span>
         </div>
-        <h4 style={{
+        <h3 style={{
           fontSize: '24px', fontWeight: 700, color: '#fff',
           fontFamily: 'Fraunces, Georgia, serif',
           lineHeight: 1.2, flex: 1, marginBottom: '20px',
         }}>
           {thumbTitle}
-        </h4>
+        </h3>
         <div>
-          <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.8)', marginBottom: '2px' }}>{date}</p>
-          <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.65)' }}>{duration}</p>
+          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)', marginBottom: '2px' }}>{date}</p>
+          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.65)' }}>{duration}</p>
         </div>
       </div>
 
@@ -1261,12 +1261,12 @@ function WorkshopCard({
         }}>
           {detailTitle}
         </p>
-        <p style={{ fontSize: '11px', color: 'hsl(var(--muted-foreground))', marginBottom: '10px' }}>
+        <p style={{ fontSize: '12px', color: 'hsl(var(--muted-foreground))', marginBottom: '10px' }}>
           {facilitators}
         </p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={tagStyle}>{tagLabel}</span>
-          <span style={{ fontSize: '11px', color: '#8b9cff', fontWeight: 500 }}>View session →</span>
+          <span style={{ fontSize: '12px', color: '#8b9cff', fontWeight: 500 }}>View session →</span>
         </div>
       </div>
 
@@ -1489,7 +1489,7 @@ export default function OfficeHours() {
               detailTitle="Build with Her — Migrating Azure to AWS and GCP"
               facilitators="Tarak & Justin O'Connor"
               tagLabel="Cross-cloud"
-              tagStyle={{ background: 'rgba(91,106,245,0.15)', color: '#8b9cff', border: '0.5px solid rgba(91,106,245,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '10px', fontWeight: 500 }}
+              tagStyle={{ background: 'rgba(91,106,245,0.15)', color: '#8b9cff', border: '0.5px solid rgba(91,106,245,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '12px', fontWeight: 500 }}
               onClick={() => setModal2Open(true)}
             />
 
@@ -1502,7 +1502,7 @@ export default function OfficeHours() {
               detailTitle="Build with Her — ClickOps to IaC: Azure Infrastructure Modernization"
               facilitators="Tarak & Justin O'Connor"
               tagLabel="Azure"
-              tagStyle={{ background: 'rgba(0,120,212,0.15)', color: '#60a9ff', border: '0.5px solid rgba(0,120,212,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '10px', fontWeight: 500 }}
+              tagStyle={{ background: 'rgba(0,120,212,0.15)', color: '#60a9ff', border: '0.5px solid rgba(0,120,212,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '12px', fontWeight: 500 }}
               onClick={() => setModalOpen(true)}
             />
           </div>

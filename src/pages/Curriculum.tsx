@@ -38,17 +38,17 @@ function PathCard({ path, colorOverride }: { path: typeof learningPaths[number];
         <div className="flex items-center gap-2 mb-1">
           {isPrereq ? (
             <>
-              <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-[hsl(235,56%,34%)]/20 text-[hsl(235,56%,70%)] border border-[hsl(235,56%,34%)]/30">Prerequisite</span>
-              <span className="text-[10px] text-muted-foreground/60 font-mono">Complete before Track 1</span>
+              <span className="text-xs font-mono uppercase px-2 py-0.5 rounded-full bg-[hsl(235,56%,34%)]/20 text-[hsl(235,56%,70%)] border border-[hsl(235,56%,34%)]/30">Prerequisite</span>
+              <span className="text-xs text-muted-foreground/60 font-mono">Complete before Track 1</span>
             </>
           ) : (
-            <span className="text-[10px] font-mono text-muted-foreground uppercase">Track {path.order}</span>
+            <span className="text-xs font-mono text-muted-foreground uppercase">Track {path.order}</span>
           )}
-          <span className="text-[10px] px-2 py-0.5 rounded-full crystal-badge text-primary">{path.courses[0]?.difficulty || "beginner"}</span>
+          <span className="text-xs px-2 py-0.5 rounded-full crystal-badge text-primary">{path.courses[0]?.difficulty || "beginner"}</span>
         </div>
         <h3 className="text-base font-semibold text-foreground mb-1">{path.title}</h3>
         <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{path.description}</p>
-        <div className="flex items-center gap-4 text-[10px] text-muted-foreground">
+        <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1"><BookOpen className="h-3 w-3" /> {totalLessons} lessons</span>
           <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {path.courses[0]?.estimatedTime || "~2 hrs"}</span>
           <span className="text-crystal-yellow font-mono">+{totalLessons * 50} XP</span>
@@ -147,6 +147,7 @@ const Curriculum = () => {
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input value={search} onChange={e => setSearch(e.target.value)}
+              aria-label="Search courses and lessons"
               className="w-full rounded-lg border border-border bg-muted/50 pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
               placeholder="Search courses, lessons..." />
           </div>
@@ -157,7 +158,7 @@ const Curriculum = () => {
           {prereqPaths.length > 0 && (
             <>
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[hsl(235,56%,70%)]">Cloud & Infrastructure Prerequisites</span>
+                <span className="text-xs font-mono uppercase tracking-wider text-[hsl(235,56%,70%)]">Cloud & Infrastructure Prerequisites</span>
                 <div className="flex-1 h-px bg-[hsl(235,56%,34%)]/30" />
               </div>
               {prereqPaths.map(path => (
@@ -165,7 +166,7 @@ const Curriculum = () => {
               ))}
               {curriculumPaths.length > 0 && (
                 <div className="flex items-center gap-3 mt-8 mb-2">
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Infracodebase Curriculum</span>
+                  <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">Infracodebase Curriculum</span>
                   <div className="flex-1 h-px bg-border/50" />
                 </div>
               )}
