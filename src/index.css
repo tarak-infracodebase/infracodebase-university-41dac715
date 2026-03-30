@@ -43,7 +43,7 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
     --popover: 228 24% 10%;
     --popover-foreground: 210 20% 96%;
 
-    --primary: 260 70% 58%;
+    --primary: 260 70% 65%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 330 65% 55%;
@@ -60,23 +60,23 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
 
     --border: 228 16% 16%;
     --input: 228 16% 16%;
-    --ring: 260 70% 58%;
+    --ring: 260 70% 65%;
 
     --radius: 0.75rem;
 
     --sidebar-background: 228 26% 8%;
     --sidebar-foreground: 210 20% 96%;
-    --sidebar-primary: 260 70% 58%;
+    --sidebar-primary: 260 70% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 228 20% 14%;
     --sidebar-accent-foreground: 210 20% 96%;
     --sidebar-border: 228 16% 14%;
-    --sidebar-ring: 260 70% 58%;
+    --sidebar-ring: 260 70% 65%;
 
     --surface: 228 24% 10%;
 
     /* Crystal spectrum */
-    --crystal-violet: 260 70% 58%;
+    --crystal-violet: 260 70% 65%;
     --crystal-magenta: 330 65% 55%;
     --crystal-cyan: 185 70% 48%;
     --crystal-green: 145 60% 45%;
@@ -98,16 +98,16 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
     --primary: 260 70% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 330 65% 48%;
+    --secondary: 330 65% 42%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 220 14% 92%;
-    --muted-foreground: 220 10% 36%;
+    --muted-foreground: 220 10% 35%;
 
-    --accent: 185 80% 32%;
+    --accent: 185 70% 28%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 50%;
+    --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 220 13% 87%;
@@ -116,14 +116,23 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
 
     --sidebar-background: 0 0% 97%;
     --sidebar-foreground: 228 20% 12%;
-    --sidebar-primary: 260 70% 58%;
+    --sidebar-primary: 260 70% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 14% 92%;
     --sidebar-accent-foreground: 228 20% 12%;
     --sidebar-border: 220 13% 87%;
-    --sidebar-ring: 260 70% 58%;
+    --sidebar-ring: 260 70% 50%;
 
     --surface: 0 0% 100%;
+
+    /* Crystal colors — darkened for light mode text use */
+    --crystal-violet: 260 70% 42%;
+    --crystal-magenta: 330 65% 38%;
+    --crystal-cyan: 185 70% 28%;
+    --crystal-green: 145 60% 28%;
+    --crystal-yellow: 45 75% 30%;
+    --crystal-orange: 25 75% 32%;
+    --crystal-red: 0 65% 38%;
 
     --bg-primary: #f8fafc;
     --bg-secondary: #f1f5f9;
