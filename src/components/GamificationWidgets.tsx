@@ -3,7 +3,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
-
+import { CrystalIcon } from "@/components/DashboardWidgets";
 import { LEVELS, BADGES } from "@/hooks/useGamification";
 import { Flame, Heart, Zap, Check, X, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -25,15 +25,17 @@ export function LevelCard() {
 
   return (
     <div className="glass-panel rounded-xl p-5">
-      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Level</span>
-      <div className="mt-2 flex items-center gap-2">
+      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Progress rank</p>
+      <p className="text-[11px] text-muted-foreground mt-0.5 mb-2">How far you've come — 10 ranks from Cloud Curious to Infra Legend.</p>
+      <div className="flex items-center gap-2">
+        <CrystalIcon color={crystalColors[levelIdx % crystalColors.length]} size={20} />
         <p className="text-base font-bold text-foreground">{levelName}</p>
       </div>
-      <p className="text-[11px] text-muted-foreground mt-0.5">Level {levelIdx + 1}</p>
+      <p className="text-[11px] text-muted-foreground mt-0.5">Rank {levelIdx + 1} of 10</p>
       <div className="mt-3">
         <div className="flex justify-between text-[10px] text-muted-foreground font-mono mb-1">
-          <span>{state.totalXP.toLocaleString()} XP</span>
-          {!isMax && <span>{xpToNext} to next</span>}
+          <span>{state.totalXP.toLocaleString()} points</span>
+          {!isMax && <span>{xpToNext} to next rank</span>}
         </div>
         <div className="h-1.5 rounded-full bg-muted overflow-hidden">
           <div
@@ -49,22 +51,24 @@ export function LevelCard() {
   );
 }
 
-// ── TotalXPCard — replaces Profile's hardcoded "2,450 XP · Level 7" ───────
+// ── TotalXPCard ─────────────────────────────────────────────────────────────
 export function TotalXPCard() {
   const { state, levelIdx, levelName, xpToNext } = useGamificationContext();
   const isMax = levelIdx >= LEVELS.length - 1;
   return (
     <div className="glass-panel rounded-xl p-5 text-center">
       <p className="text-3xl font-mono font-bold text-foreground">{state.totalXP.toLocaleString()}</p>
-      <p className="text-xs text-muted-foreground mt-1">Total XP</p>
-      <div className="mt-3 flex items-center justify-center gap-2">
+      <p className="text-xs text-muted-foreground mt-1">Learning points</p>
+      <p className="text-[11px] text-muted-foreground mt-1 mb-3">Lessons +50 · Videos +20 · Knowledge checks +15–30 · Tracks +500</p>
+      <div className="flex items-center justify-center gap-2">
+        <CrystalIcon color={crystalColors[levelIdx % crystalColors.length]} size={18} />
         <div className="text-left">
           <p className="text-sm font-medium leading-none">{levelName}</p>
-          <p className="text-[10px] text-muted-foreground mt-0.5">Level {levelIdx + 1}</p>
+          <p className="text-[10px] text-muted-foreground mt-0.5">Rank {levelIdx + 1} of 10</p>
         </div>
       </div>
       {!isMax && (
-        <p className="text-[10px] text-muted-foreground mt-2">{xpToNext} XP to Level {levelIdx + 2}</p>
+        <p className="text-[10px] text-muted-foreground mt-2">{xpToNext} points to next rank</p>
       )}
     </div>
   );
@@ -75,14 +79,15 @@ export function StreakCard() {
   const { state, todayDone } = useGamificationContext();
   return (
     <div className="glass-panel rounded-xl p-5">
-      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Streak</span>
-      <div className="mt-2 flex items-center gap-2">
+      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Learning habit</p>
+      <p className="text-[11px] text-muted-foreground mt-0.5 mb-2">Days in a row you've completed at least one lesson.</p>
+      <div className="flex items-center gap-2">
         <Flame className={cn("h-5 w-5", state.streak > 0 ? "text-crystal-orange" : "text-muted-foreground")} />
         <p className="text-2xl font-mono font-bold text-foreground">{state.streak}</p>
-        <span className="text-xs text-muted-foreground">days</span>
+        <span className="text-xs text-muted-foreground">days in a row</span>
       </div>
       <p className="text-[11px] text-muted-foreground mt-0.5">
-        {todayDone ? "✓ Today's goal complete" : "Keep going today!"}
+        {todayDone ? "✓ Done for today" : state.streak > 0 ? "Complete a lesson today to keep going" : "Complete a lesson to start your habit"}
       </p>
     </div>
   );
@@ -90,7 +95,8 @@ export function StreakCard() {
 
 // ── DailyGoalRing ──────────────────────────────────────────────────────────
 export function DailyGoalRing({ size = 80 }: { size?: number }) {
-  const { state, todayDone } = useGamificationContext();
+  const { state, todayDone, setDailyGoal } = useGamificationContext();
+  const [showPicker, setShowPicker] = React.useState(false);
   const pct = Math.min((state.dailyXP / state.dailyGoal) * 100, 100);
   const strokeWidth = 6;
   const radius = (size - strokeWidth) / 2;
@@ -98,8 +104,39 @@ export function DailyGoalRing({ size = 80 }: { size?: number }) {
   const offset = circumference * (1 - pct / 100);
 
   return (
-    <div className="glass-panel rounded-xl p-5 flex flex-col items-center gap-3">
-      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium self-start">Daily target</span>
+    <div className="glass-panel rounded-xl p-5 flex flex-col items-center gap-3 relative">
+      <div className="flex items-center justify-between w-full">
+        <div>
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Daily target</p>
+          <p className="text-[11px] text-muted-foreground mt-0.5">Points to earn today to keep your learning habit going.</p>
+        </div>
+        <button
+          onClick={() => setShowPicker(v => !v)}
+          className="text-[10px] text-primary hover:underline font-medium shrink-0 ml-2"
+        >
+          Change
+        </button>
+      </div>
+
+      {showPicker && (
+        <div className="w-full flex gap-2">
+          {([5, 10, 20] as const).map(g => (
+            <button
+              key={g}
+              onClick={() => { setDailyGoal(g); setShowPicker(false); }}
+              className={cn(
+                "flex-1 rounded-lg border py-1.5 text-xs font-mono font-medium transition-all",
+                state.dailyGoal === g
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+              )}
+            >
+              {g} pts
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="-rotate-90">
           <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="hsl(var(--muted))" strokeWidth={strokeWidth} />
@@ -120,8 +157,19 @@ export function DailyGoalRing({ size = 80 }: { size?: number }) {
         </div>
       </div>
       <p className="text-[10px] text-muted-foreground">
-        {todayDone ? "Goal reached!" : `${Math.max(0, state.dailyGoal - state.dailyXP)} XP to go`}
+        {todayDone ? "Target reached for today!" : `${Math.max(0, state.dailyGoal - state.dailyXP)} points to go`}
       </p>
+      <div className="w-full pt-2 border-t border-border/40 flex items-center gap-2">
+        <Flame className={cn("h-3.5 w-3.5 shrink-0", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")} />
+        <div>
+          <p className={cn("text-xs font-medium", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")}>
+            {state.streak} days in a row
+          </p>
+          <p className="text-[10px] text-muted-foreground">
+            {todayDone ? "Done for today ✓" : state.streak > 0 ? "Complete a lesson to keep going" : "Complete a lesson today to start your habit"}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -131,8 +179,9 @@ export function HeartsDisplay() {
   const { state } = useGamificationContext();
   return (
     <div className="glass-panel rounded-xl p-5">
-      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Lives</span>
-      <div className="mt-2 flex items-center gap-1.5">
+      <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Lives</p>
+      <p className="text-[11px] text-muted-foreground mt-0.5 mb-2">Wrong answers cost 1 life. They restore over time.</p>
+      <div className="flex items-center gap-1.5">
         {Array.from({ length: state.maxHearts }).map((_, i) => (
           <Heart
             key={i}
@@ -227,11 +276,11 @@ export function ShareModal({
                 Infracodebase University &middot; {new Date().getFullYear()}
               </p>
               <h2 className="text-3xl font-semibold leading-tight mb-2 text-center">
-                Earn a <span className="text-[hsl(260,70%,62%)]">streak freeze</span>{" "}
+                Earn a <span className="text-[hsl(260,70%,62%)]">day off pass</span>{" "}
                 for every <span className="text-[hsl(185,65%,50%)]">referral.</span>
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6 text-center max-w-lg mx-auto">
-                Share with as many people as you like — every colleague who completes their first lesson earns you a freeze.
+                Share with as many people as you like — every colleague who completes their first lesson earns you a day off pass.
               </p>
 
               <div className="h-px bg-border mb-6" />
@@ -239,10 +288,10 @@ export function ShareModal({
               {/* Two-column body */}
               <div className="grid grid-cols-2 gap-6 mb-6">
 
-                {/* LEFT — what is a streak freeze */}
+                {/* LEFT — what is a day off pass */}
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground mb-3">
-                    What is a streak freeze?
+                    What is a day off pass?
                   </p>
                   <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
                     <div className="flex items-center gap-3 mb-4">
@@ -250,8 +299,8 @@ export function ShareModal({
                         <Flame className="h-4 w-4 text-primary" />
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-foreground">Streak freeze</p>
-                        <p className="text-xs text-muted-foreground">A shield for your learning streak</p>
+                        <p className="text-sm font-semibold text-foreground">Day off pass</p>
+                        <p className="text-xs text-muted-foreground">A free pass for one missed day</p>
                       </div>
                     </div>
                     {/* 7-day visual */}
@@ -300,7 +349,7 @@ export function ShareModal({
                       {([
                         "Activates automatically if you miss a day.",
                         "Covers one missed day — won't work two days in a row.",
-                        "Free — no XP cost, earned by sharing.",
+                        "Earned by sharing — no cost, no points required.",
                       ] as string[]).map((text, i) => (
                         <div key={i} className="flex items-start gap-2">
                           <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
@@ -327,7 +376,7 @@ export function ShareModal({
                           text: "They complete their first lesson" },
                         { bg: "bg-primary/10", color: "text-primary",
                           icon: <Flame className="h-3.5 w-3.5" />,
-                          text: "You earn 1 streak freeze" },
+                          text: "You earn 1 day off pass" },
                       ].map((s, i) => (
                         <div key={i} className="flex items-center gap-3">
                           <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center shrink-0", s.bg, s.color)}>
@@ -344,7 +393,7 @@ export function ShareModal({
                     {[
                       { val: state.referralCount ?? 0, label: "Signed up",     color: "text-primary" },
                       { val: state.referralCount ?? 0, label: "Completed",      color: "text-primary" },
-                      { val: state.referralCount ?? 0, label: "Freezes",        color: "text-teal-500" },
+                      { val: state.referralCount ?? 0, label: "Passes earned",        color: "text-teal-500" },
                     ].map((s, i) => (
                       <div key={i} className="rounded-xl border border-border bg-muted/30 p-2.5 text-center">
                         <p className={cn("font-mono text-xl font-semibold mb-0.5", s.color)}>{s.val}</p>
@@ -407,7 +456,7 @@ export function ShareModal({
               {state.freezeAvailable ? (
                 <div className="w-full rounded-xl py-3.5 text-center text-sm border border-primary/30 bg-primary/5 text-primary font-medium flex items-center justify-center gap-2">
                   <Flame className="h-4 w-4" />
-                  You already have a freeze — use it before earning another
+                  You already have a day off pass — miss a day to use it, then earn another
                 </div>
               ) : (
                 <button
@@ -419,11 +468,11 @@ export function ShareModal({
                     <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
                     <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
                   </svg>
-                  Share and earn a freeze
+                  Share and earn a day off pass
                 </button>
               )}
               <p className="text-xs text-muted-foreground text-center mt-3">
-                Share with as many people as you like &middot; 1 freeze per completed referral
+                Share with as many people as you like &middot; 1 day off pass per completed referral
               </p>
             </div>
           ) : (
@@ -431,10 +480,10 @@ export function ShareModal({
               <div className="h-16 w-16 rounded-full border-2 border-green-500/30 bg-green-500/10 flex items-center justify-center mx-auto mb-5">
                 <Check className="h-8 w-8 text-green-500" />
               </div>
-              <h3 className="text-2xl font-semibold text-foreground mb-3">Streak freeze earned</h3>
+              <h3 className="text-2xl font-semibold text-foreground mb-3">Day off pass earned</h3>
               <p className="text-base text-muted-foreground leading-relaxed max-w-xs mx-auto mb-7">
                 Your {state.streak}-day streak is protected. If you miss a day this week,
-                the freeze activates automatically.
+                your progress is protected automatically.
               </p>
               <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/30 p-4 text-left mb-6">
                 <Flame className="h-5 w-5 text-orange-400 shrink-0" />
@@ -464,7 +513,6 @@ export function ShareModal({
 }
 
 // ── StreakFreezeCard ────────────────────────────────────────────────────────
-// Sidebar card showing freeze status. Replaces the old "buy for 200 XP" mechanic.
 export function StreakFreezeCard() {
   const { state } = useGamificationContext();
   const [showModal, setShowModal] = React.useState(false);
@@ -472,51 +520,65 @@ export function StreakFreezeCard() {
   return (
     <>
       <div
-        className="glass-panel rounded-xl p-5"
-        style={state.freezeAvailable ? {
-          background: "rgba(124,92,230,0.06)",
-          borderColor: "rgba(124,92,230,0.25)",
-        } : undefined}
+        className="rounded-xl p-5"
+        style={{
+          background: "linear-gradient(135deg, #2e1065, #4c1d95 55%, #7c3aed)",
+        }}
       >
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-              <Flame className="h-4 w-4 text-primary" />
-            </div>
-            <div>
-              <p className="text-sm font-semibold">Day off pass</p>
-              <p className="text-[11px] text-muted-foreground">Miss a day without losing your progress. Earned by sharing — activates automatically.</p>
-            </div>
-          </div>
-          {state.freezeAvailable && (
-            <span className="flex items-center gap-1 text-[10px] font-medium text-green-400 bg-green-400/10 border border-green-400/20 px-2.5 py-1 rounded-full">
-              <Check className="h-2.5 w-2.5" /> 1 available
-            </span>
-          )}
-        </div>
+        <p className="text-[10px] uppercase tracking-widest font-medium mb-1"
+          style={{ color: "rgba(255,255,255,0.65)" }}>
+          Day off pass
+        </p>
+        <p className="text-[11px] leading-relaxed mb-4"
+          style={{ color: "rgba(255,255,255,0.55)" }}>
+          Miss a day without losing your progress. Earned by sharing the university with a colleague who completes their first lesson.
+        </p>
 
-        {state.freezeAvailable ? (
-          <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-            If you miss a day, your progress is kept automatically. Does not cover two missed days in a row.
-          </p>
-        ) : (
-          <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-            You don't have a freeze. Share the university to earn one — free, no XP cost.
-          </p>
-        )}
+        <div className="flex items-center gap-3 mb-4">
+          <div style={{
+            width: "42px", height: "42px", borderRadius: "50%",
+            background: "rgba(255,255,255,0.12)",
+            display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0
+          }}>
+            <Flame className="h-5 w-5" style={{ color: "rgba(255,255,255,0.85)" }} />
+          </div>
+          <div>
+            {state.freezeAvailable ? (
+              <>
+                <p className="font-mono font-semibold" style={{ fontSize: "20px", color: "#fff" }}>
+                  1 pass ready
+                </p>
+                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)", marginTop: "1px" }}>
+                  Your progress is protected if you miss a day
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="font-mono font-semibold" style={{ fontSize: "16px", color: "#fff" }}>
+                  No pass yet
+                </p>
+                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)", marginTop: "1px" }}>
+                  Share to earn your first one — free
+                </p>
+              </>
+            )}
+          </div>
+        </div>
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full rounded-lg border border-border/50 bg-transparent px-4 py-2 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors flex items-center justify-center gap-1.5"
+          className="w-full rounded-xl py-2.5 text-xs font-medium flex items-center justify-center gap-1.5 transition-all"
+          style={{
+            border: "0.5px solid rgba(255,255,255,0.2)",
+            background: "rgba(255,255,255,0.08)",
+            color: "rgba(255,255,255,0.8)",
+          }}
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
             <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
             <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
           </svg>
-          {state.freezeAvailable
-            ? "Earn another — share the university"
-            : "Share the university to earn a day off pass"
-          }
+          Earn another — share the university
         </button>
       </div>
       <ShareModal open={showModal} onClose={() => setShowModal(false)} />
@@ -534,15 +596,15 @@ export function StreakRiskBanner() {
       <div className="rounded-xl border border-orange-500/30 bg-orange-500/5 px-4 py-3 flex items-center gap-3">
         <Flame className="h-4 w-4 text-orange-400 shrink-0" />
         <p className="text-xs text-foreground flex-1">
-          Your <span className="font-semibold text-orange-400">{state.streak}-day streak</span> is at
-          risk — complete any lesson today to keep it alive.
+          Your <span className="font-semibold text-orange-400">{state.streak}-day streak</span> is at risk —
+          complete a lesson today to keep it going.
         </p>
         {!state.freezeAvailable && (
           <button
             onClick={() => setShowModal(true)}
             className="shrink-0 rounded-lg border border-primary/30 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary hover:bg-primary/20 transition-colors whitespace-nowrap"
           >
-            Protect streak
+            Get a day off pass
           </button>
         )}
       </div>
@@ -559,7 +621,7 @@ export function DoubleXPBanner() {
     <div className="rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 flex items-center gap-3">
       <Zap className="h-4 w-4 text-primary shrink-0" />
       <p className="text-xs text-foreground">
-        <span className="font-semibold text-primary">Double XP active</span> — welcome back! All XP earned is doubled for 24 hours.
+        <span className="font-semibold text-primary">Double points active</span> — welcome back! All points earned are doubled for 24 hours.
       </p>
     </div>
   );
@@ -572,9 +634,9 @@ export function BadgesGrid({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
       <div className="flex flex-wrap gap-2">
-        {earnedBadges.slice(0, 8).map((badge) => (
-          <span key={badge.id} title={badge.name} className="text-xs font-semibold text-foreground">
-            {badge.name}
+        {earnedBadges.slice(0, 8).map((badge, i) => (
+          <span key={badge.id} title={badge.name}>
+            <CrystalIcon color={crystalColors[i % crystalColors.length]} size={24} />
           </span>
         ))}
         {earnedBadges.length === 0 && (
@@ -593,13 +655,16 @@ export function BadgesGrid({ compact = false }: { compact?: boolean }) {
             key={badge.id}
             className={cn("glass-panel rounded-xl p-4 flex items-start gap-3 transition-all", !earned && "opacity-40 grayscale")}
           >
+            <div className="shrink-0 mt-0.5">
+              <CrystalIcon color={earned ? crystalColors[i % crystalColors.length] : "hsl(228,20%,30%)"} size={20} />
+            </div>
             <div>
               <p className={cn("text-xs font-semibold", earned ? "text-foreground" : "text-muted-foreground")}>
                 {badge.name}
               </p>
               <p className="text-[10px] text-muted-foreground mt-0.5">{badge.desc}</p>
               {badge.xp > 0 && (
-                <p className="text-[10px] font-mono text-yellow-400 mt-1">+{badge.xp} XP</p>
+                <p className="text-[10px] font-mono text-yellow-400 mt-1">+{badge.xp} pts</p>
               )}
             </div>
           </div>
@@ -626,7 +691,7 @@ export function XPStatsCard() {
         : "—",
     },
     {
-      label: "Current streak",
+      label: "Days in a row",
       value: state.streak > 0 ? `${state.streak} days` : "—",
     },
     {
