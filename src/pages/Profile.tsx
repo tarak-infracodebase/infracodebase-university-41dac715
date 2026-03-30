@@ -816,12 +816,12 @@ const Profile = () => {
                   className="h-7 text-sm py-0 px-2 bg-transparent border-border/50 w-48" />
               </span>
             ) : (
-              {location && (
+              location ? (
                 <span className="flex items-center gap-1">
                   <MapPin className="h-3.5 w-3.5" />
                   {location}
                 </span>
-              )}
+              ) : null
             )}
             {joinedDate && (
               <span className="flex items-center gap-1">
