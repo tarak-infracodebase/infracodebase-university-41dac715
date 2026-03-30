@@ -283,10 +283,53 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* ── XP chart + Milestones ── */}
+        {/* ── Weekly XP Chart ── */}
+        <div className="glass-panel rounded-xl p-5">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
+            This Week's XP
+          </h2>
+          <div className="h-48">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={weeklyXPData} barCategoryGap="20%">
+                <XAxis
+                  dataKey="day"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+                  width={35}
+                />
+                <Tooltip
+                  cursor={{ fill: "hsl(var(--muted) / 0.3)" }}
+                  contentStyle={{
+                    background: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                    fontSize: "12px",
+                  }}
+                  formatter={(value: number) => [`${value} XP`, "Earned"]}
+                />
+                <Bar dataKey="xp" radius={[6, 6, 0, 0]}>
+                  {weeklyXPData.map((entry, index) => (
+                    <Cell
+                      key={index}
+                      fill={entry.isToday ? "hsl(var(--primary))" : "hsl(var(--primary) / 0.4)"}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* ── Monthly XP chart + Milestones ── */}
         <div className="grid lg:grid-cols-3 gap-6">
 
-          {/* XP Progression chart */}
+          {/* XP Progression chart (monthly) */}
           <div className="lg:col-span-2 glass-panel rounded-xl p-5">
             <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
               XP Progression
