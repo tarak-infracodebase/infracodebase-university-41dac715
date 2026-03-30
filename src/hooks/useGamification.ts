@@ -56,7 +56,11 @@ export interface GamificationState {
   earnedBadgeIds: string[];
   tracksCompleted: number;
   allTracksDone: boolean;
+  streakFreezeCount: number;   // number of streak freezes available
+  streakFreezeActive: boolean; // freeze is protecting today
 }
+
+export const STREAK_FREEZE_COST = 200; // XP cost to buy a streak freeze
 
 const DEFAULT_STATE: GamificationState = {
   totalXP: 0,
@@ -74,6 +78,8 @@ const DEFAULT_STATE: GamificationState = {
   earnedBadgeIds: [],
   tracksCompleted: 0,
   allTracksDone: false,
+  streakFreezeCount: 0,
+  streakFreezeActive: false,
 };
 
 const STORAGE_KEY = "icbu_gamification";
@@ -89,6 +95,8 @@ type Action =
   | { type: "LOSE_HEART" }
   | { type: "RESTORE_HEARTS" }
   | { type: "SET_DAILY_GOAL"; payload: number }
+  | { type: "BUY_STREAK_FREEZE" }
+  | { type: "USE_STREAK_FREEZE" }
   | { type: "HYDRATE"; payload: GamificationState };
 
 function getToday() {
@@ -146,13 +154,19 @@ function reducer(state: GamificationState, action: Action): GamificationState {
       const yesterdayStr = yesterday.toISOString().split("T")[0];
 
       const isConsecutive = state.lastActiveDate === yesterdayStr;
-      const newCurrent = isConsecutive ? state.currentStreak + 1 : 1;
+      // If streak would break but freeze is available, use it
+      const streakBroken = !isConsecutive && state.currentStreak > 0 && state.lastActiveDate !== "";
+      const useFreeze = streakBroken && state.streakFreezeCount > 0;
+
+      const newCurrent = isConsecutive || useFreeze ? state.currentStreak + 1 : 1;
 
       return {
         ...state,
         currentStreak: newCurrent,
         longestStreak: Math.max(state.longestStreak, newCurrent),
         lastActiveDate: today,
+        streakFreezeCount: useFreeze ? state.streakFreezeCount - 1 : state.streakFreezeCount,
+        streakFreezeActive: useFreeze,
       };
     }
 
@@ -170,6 +184,24 @@ function reducer(state: GamificationState, action: Action): GamificationState {
 
     case "SET_DAILY_GOAL":
       return { ...state, dailyGoal: action.payload };
+
+    case "BUY_STREAK_FREEZE": {
+      if (state.totalXP < STREAK_FREEZE_COST) return state;
+      return {
+        ...state,
+        totalXP: state.totalXP - STREAK_FREEZE_COST,
+        streakFreezeCount: state.streakFreezeCount + 1,
+      };
+    }
+
+    case "USE_STREAK_FREEZE": {
+      if (state.streakFreezeCount <= 0) return state;
+      return {
+        ...state,
+        streakFreezeCount: state.streakFreezeCount - 1,
+        streakFreezeActive: true,
+      };
+    }
 
     default:
       return state;
@@ -272,6 +304,10 @@ export function useGamification() {
     dispatch({ type: "RECORD_ACTIVITY" });
   }, []);
 
+  const buyStreakFreeze = useCallback(() => {
+    dispatch({ type: "BUY_STREAK_FREEZE" });
+  }, []);
+
   return {
     state,
     levelIdx,
@@ -286,5 +322,6 @@ export function useGamification() {
     loseHeart,
     restoreHearts,
     recordActivity,
+    buyStreakFreeze,
   };
 }
