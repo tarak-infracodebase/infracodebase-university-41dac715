@@ -4,10 +4,11 @@ import { ProgressRing, SkillBar, CrystalIcon } from "@/components/DashboardWidge
 import { learningPaths } from "@/data/courseData";
 import { Link, useSearchParams } from "react-router-dom";
 import {
-  ArrowRight, BookOpen, Play, ChevronRight, Zap, Target, Layers, Shield
+  ArrowRight, BookOpen, Play, ChevronRight, Zap, Target, Layers, Shield, Flame
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { useStreakTracking } from "@/hooks/useStreakTracking";
 
 const tracks = learningPaths;
 
