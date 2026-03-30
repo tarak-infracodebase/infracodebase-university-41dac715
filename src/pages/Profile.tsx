@@ -4,7 +4,7 @@ import CertificateSection from "@/components/CertificateSection";
 import {
   MapPin, Calendar, Flame, Award, Pencil,
   Globe, ExternalLink, Camera, X, Check,
-  ChevronRight,
+  ArrowRight, ChevronRight,
 } from "lucide-react";
 import { useUser } from "@clerk/clerk-react";
 import { useProfileData, isHandleTaken } from "@/hooks/useProfileData";
@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
-import { BADGES } from "@/hooks/useGamification";
+import { LEVELS, BADGES, getEarnedBadges } from "@/hooks/useGamification";
 import { learningPaths } from "@/data/courseData";
 import { TotalXPCard, XPStatsCard } from "@/components/GamificationWidgets";
 
@@ -23,9 +23,14 @@ import { TotalXPCard, XPStatsCard } from "@/components/GamificationWidgets";
 const defaultBannerGradient =
   "linear-gradient(135deg, hsl(260 70% 30%) 0%, hsl(330 65% 25%) 40%, hsl(185 70% 20%) 70%, hsl(228 30% 10%) 100%)";
 
-const KNOT_WHITE = "/logos/knot-white.png";
-const KNOT_DARK  = "/logos/knot-dark.png";
+// ── Knot logo — one mark, three colour treatments via CSS filter ───────────
+// Place both PNGs in /public/logos/ (or wherever your static assets live)
+const KNOT_WHITE = "/logos/knot-white.png"; // white knot on transparent/black bg
+const KNOT_DARK  = "/logos/knot-dark.png";  // dark knot for light surfaces
 
+// ICB Platform  — neutral (white knot, no filter)
+// ICB University — hue-rotate(245deg) saturate(3) brightness(1.3) → indigo/violet
+// Build With Her — hue-rotate(275deg) saturate(4) brightness(1.5) → deep purple
 function KnotLogo({
   variant = "neutral",
   size = 32,
@@ -69,57 +74,58 @@ function KnotLogo({
   );
 }
 
-// ── Badge SVG icon map ────────────────────────────────────────────────────
+
+// ── Badge SVG icon map — no emoji anywhere ────────────────────────────────
 const BADGE_ICONS: Record<string, React.ReactNode> = {
   first_lesson: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
     </svg>
   ),
   streak_3: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 2c0 0 4.5 4 3 8 3-3 6-1 5 3 2-2 3 0 3 2 0 4.5-5 7-9 7-4 0-9-2.5-9-7 0-2 3-4 3-6 1.5 1.5 1.5 3 1 4.5C11 11.5 12.5 10 12 8c0-2-1-5 0-6z"/>
     </svg>
   ),
   streak_7: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
     </svg>
   ),
   lessons_10: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
     </svg>
   ),
   lessons_25: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
     </svg>
   ),
   xp_1000: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/>
     </svg>
   ),
   xp_2500: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
       <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
     </svg>
   ),
   video_watcher: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
     </svg>
   ),
   path_complete: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
     </svg>
   ),
   perfect_kc: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="20 6 9 17 4 12"/>
     </svg>
   ),
@@ -140,7 +146,7 @@ function BadgeIcon({ id, size = 16, className = "" }: { id: string; size?: numbe
   );
 }
 
-// ── AchievementsCard ──────────────────────────────────────────────────────
+// ── AchievementsCard — meaningful progress toward each badge ──────────────
 function AchievementsCard() {
   const { state, earnedBadges } = useGamificationContext();
 
@@ -149,6 +155,7 @@ function AchievementsCard() {
     "hsl(145,60%,45%)", "hsl(45,85%,55%)", "hsl(25,85%,55%)", "hsl(0,72%,55%)",
   ];
 
+  // For each badge, compute progress and the next milestone hint
   const badgesWithProgress = [...BADGES].map((badge, i) => {
     const earned = earnedBadges.some(b => b.id === badge.id);
     let progress = 0;
@@ -217,6 +224,7 @@ function AchievementsCard() {
         </span>
       </div>
 
+      {/* Earned */}
       {earned.length > 0 && (
         <div className="space-y-2 mb-4">
           {earned.map(badge => (
@@ -227,13 +235,14 @@ function AchievementsCard() {
                 <p className="text-[10px] text-muted-foreground">{badge.desc}</p>
               </div>
               {badge.xp > 0 && (
-                <span className="text-[10px] font-mono text-crystal-yellow shrink-0">+{badge.xp} XP</span>
+                <span className="text-[10px] font-mono text-yellow-400 shrink-0">+{badge.xp} XP</span>
               )}
             </div>
           ))}
         </div>
       )}
 
+      {/* In progress */}
       {inProgress.length > 0 && (
         <div className="space-y-2 mb-4">
           {inProgress.map(badge => (
@@ -254,6 +263,7 @@ function AchievementsCard() {
         </div>
       )}
 
+      {/* Locked */}
       {locked.length > 0 && (
         <div className="space-y-1.5">
           {locked.slice(0, 3).map(badge => (
@@ -279,10 +289,17 @@ function AchievementsCard() {
   );
 }
 
-// ── ActivityHeatmap ──────────────────────────────────────────────────────
+// ── ActivityHeatmap — driven by real university activity ──────────────────
+// Builds a 52×7 grid seeded from state.completedLessons, watchedVideos, monthlyXP.
+// Each cell represents a calendar day; intensity = activity that day.
+// Since we store counts not dates, we spread activity realistically across
+// recent weeks proportional to the user's actual progress.
 function ActivityHeatmap() {
   const { state } = useGamificationContext();
 
+  // Build a sparse activity map: week → day → intensity (0-3)
+  // We use monthlyXP to know *when* activity happened, then distribute
+  // within each month's weeks.
   const grid: number[][] = Array.from({ length: 52 }, () => Array(7).fill(0));
 
   const totalLessons = state.completedLessons.length;
@@ -290,6 +307,7 @@ function ActivityHeatmap() {
   const totalEvents  = totalLessons + totalVideos;
 
   if (totalEvents > 0) {
+    // Spread events across the last N weeks, weighted toward recent weeks
     const activeWeeks = Math.max(Math.ceil(totalEvents / 3), 2);
     const startWeek = 52 - activeWeeks;
     let remaining = totalEvents;
@@ -304,6 +322,7 @@ function ActivityHeatmap() {
     }
   }
 
+  // Color scale: 0 = muted, 1-3 = increasing violet intensity
   const colors = [
     "hsl(var(--muted))",
     "hsl(260 70% 58% / 0.3)",
@@ -311,6 +330,7 @@ function ActivityHeatmap() {
     "hsl(260 70% 58% / 0.85)",
   ];
 
+  // Month labels: approximate positions
   const monthLabels = [
     { week: 0, label: "Apr" }, { week: 4, label: "May" }, { week: 8, label: "Jun" },
     { week: 13, label: "Jul" }, { week: 17, label: "Aug" }, { week: 22, label: "Sep" },
@@ -329,6 +349,7 @@ function ActivityHeatmap() {
         </span>
       </div>
 
+      {/* Month labels */}
       <div className="relative overflow-x-auto">
         <div className="flex gap-[3px] mb-1 pl-0" style={{ minWidth: 680 }}>
           {Array.from({ length: 52 }, (_, wi) => {
@@ -362,6 +383,7 @@ function ActivityHeatmap() {
         </div>
       </div>
 
+      {/* Legend */}
       <div className="flex items-center gap-1.5 mt-3 justify-end">
         <span className="text-[10px] text-muted-foreground">Less</span>
         {colors.map((c, i) => (
@@ -379,14 +401,15 @@ function ActivityHeatmap() {
   );
 }
 
-// ── UniversityProgress ───────────────────────────────────────────────────
+// ── UniversityProgress — shows real learning activity from state ───────────
 function UniversityProgress() {
-  const { state, levelIdx, levelName } = useGamificationContext();
+  const { state, levelIdx, levelName, xpToNext } = useGamificationContext();
 
   const totalLessons = state.completedLessons.length;
   const totalVideos  = state.watchedVideos.length;
   const totalXP      = state.totalXP;
 
+  // Build per-track progress from completed lessons
   const trackProgress = learningPaths.map(path => {
     const lessons = path.courses.flatMap((c: any) => c.lessons);
     const completed = lessons.filter((l: any) =>
@@ -428,6 +451,7 @@ function UniversityProgress() {
         University Progress
       </h2>
 
+      {/* XP + level strip */}
       <div className="flex items-center gap-6 py-3 border-b border-border/30 mb-4">
         <div className="flex flex-col gap-0.5">
           <span className="text-lg font-mono font-bold">{totalXP.toLocaleString()} XP</span>
@@ -451,6 +475,7 @@ function UniversityProgress() {
         )}
       </div>
 
+      {/* In-progress tracks */}
       {inProgress.length > 0 && (
         <div className="mb-4">
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium mb-2">
@@ -480,6 +505,7 @@ function UniversityProgress() {
         </div>
       )}
 
+      {/* Completed tracks */}
       {completed.length > 0 && (
         <div>
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium mb-2">
@@ -489,7 +515,7 @@ function UniversityProgress() {
             {completed.map(t => (
               <span
                 key={t.id}
-                className="text-[11px] px-2.5 py-1 rounded-full border border-crystal-green/30 text-crystal-green bg-crystal-green/5"
+                className="text-[11px] px-2.5 py-1 rounded-full border border-[hsl(145,60%,45%)]/30 text-[hsl(145,60%,45%)] bg-[hsl(145,60%,45%)]/5"
               >
                 Track {t.order} · {t.title}
               </span>
@@ -508,76 +534,68 @@ function EcosystemSection() {
         Ecosystem
       </p>
 
-      <div className="rounded-xl border border-border/30 p-4 mb-3">
-        <div className="flex items-center gap-3 mb-3">
-          <KnotLogo variant="neutral" size={30} rounded={7} />
-          <div>
-            <p className="text-sm font-semibold">Infracodebase Templates</p>
-            <p className="text-[11px] text-muted-foreground">infracodebase.com</p>
+      <div className="grid sm:grid-cols-2 gap-3">
+
+        {/* Infracodebase Templates */}
+        <div className="rounded-xl border border-border/30 p-4 flex flex-col gap-3">
+          <div className="flex items-center gap-2.5">
+            <KnotLogo variant="neutral" size={28} rounded={7} />
+            <div>
+              <p className="text-sm font-semibold">Infracodebase Templates</p>
+              <p className="text-[11px] text-muted-foreground">infracodebase.com</p>
+            </div>
           </div>
-        </div>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-          Real infrastructure templates built by the community. The best way to apply what you're
-          learning here — build your own workspace and showcase your work.
-        </p>
-        <div className="space-y-0">
-          <div className="flex items-center justify-between py-2 border-t border-border/20">
-            <span className="text-xs text-muted-foreground">Browse community templates</span>
+          <p className="text-xs text-muted-foreground leading-relaxed flex-1">
+            Apply what you're learning. Build real infrastructure and showcase your work.
+          </p>
+          <div className="flex flex-col gap-1 pt-2 border-t border-border/20">
             <a
               href="https://infracodebase.com/templates"
               target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
             >
-              Explore <ChevronRight className="h-3 w-3" />
+              Browse templates <ChevronRight className="h-3 w-3" />
             </a>
-          </div>
-          <div className="flex items-center justify-between py-2 border-t border-border/20">
-            <span className="text-xs text-muted-foreground">Build your own portfolio</span>
             <a
               href="https://infracodebase.com"
               target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
             >
-              Start building <ChevronRight className="h-3 w-3" />
+              Build your portfolio <ChevronRight className="h-3 w-3" />
             </a>
           </div>
         </div>
-      </div>
 
-      <div className="rounded-xl border border-purple-500/20 p-4">
-        <div className="flex items-center gap-3 mb-3">
-          <KnotLogo variant="community" size={30} rounded={7} />
-          <div>
-            <p className="text-sm font-semibold">Build With Her</p>
-            <p className="text-[11px] text-muted-foreground">buildwithher.infracodebase.com</p>
+        {/* Build With Her */}
+        <div className="rounded-xl border border-purple-500/20 p-4 flex flex-col gap-3">
+          <div className="flex items-center gap-2.5">
+            <KnotLogo variant="community" size={28} rounded={7} />
+            <div>
+              <p className="text-sm font-semibold">Build With Her</p>
+              <p className="text-[11px] text-muted-foreground">buildwithher.infracodebase.com</p>
+            </div>
           </div>
-        </div>
-        <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-          A community for women in cloud — and for everyone who believes in gender equality in tech.
-          Connect with builders, share your progress, and grow together.
-        </p>
-        <div className="space-y-0">
-          <div className="flex items-center justify-between py-2 border-t border-border/20">
-            <span className="text-xs text-muted-foreground">See who's building</span>
+          <p className="text-xs text-muted-foreground leading-relaxed flex-1">
+            Community for women in cloud — and everyone who believes in gender equality in tech.
+          </p>
+          <div className="flex flex-col gap-1 pt-2 border-t border-border/20">
             <a
               href="https://buildwithher.infracodebase.com/meet-the-builders"
               target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-purple-300 hover:text-purple-200"
+              className="inline-flex items-center gap-1 text-xs text-purple-400 hover:text-purple-300"
             >
               Builder wall <ChevronRight className="h-3 w-3" />
             </a>
-          </div>
-          <div className="flex items-center justify-between py-2 border-t border-border/20">
-            <span className="text-xs text-muted-foreground">Not in the community yet?</span>
             <a
               href="https://buildwithher.infracodebase.com/join-the-builders"
               target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-purple-300 hover:text-purple-200"
+              className="inline-flex items-center gap-1 text-xs text-purple-400 hover:text-purple-300"
             >
               Join the builders <ChevronRight className="h-3 w-3" />
             </a>
           </div>
         </div>
+
       </div>
     </div>
   );
@@ -606,6 +624,7 @@ const Profile = () => {
     urlUsername === clerkHandle;
   const viewedHandle = urlUsername || resolvedHandle;
 
+  // ── Edit draft ────────────────────────────────────────────────────────────
   const [draft, setDraft] = useState({
     displayName: "", bio: "", location: "", website: "",
     bannerUrl: null as string | null,
@@ -670,6 +689,7 @@ const Profile = () => {
     reader.readAsDataURL(file);
   };
 
+  // ── Resolved display values ───────────────────────────────────────────────
   const displayName  = editing ? draft.displayName  : profileData.displayName || user?.fullName || user?.firstName || "Your Name";
   const bio          = editing ? draft.bio          : profileData.bio;
   const location     = editing ? draft.location     : profileData.location;
@@ -698,6 +718,7 @@ const Profile = () => {
     );
   }
 
+  // ── Render ────────────────────────────────────────────────────────────────
   return (
     <AppLayout>
       <div className="max-w-5xl mx-auto pb-16">
@@ -725,6 +746,7 @@ const Profile = () => {
         <div className="px-6 lg:px-8 -mt-16 relative z-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5">
 
+            {/* Avatar */}
             <div className={`relative shrink-0 group ${editing ? "cursor-pointer" : ""}`}
               onClick={() => editing && avatarRef.current?.click()}>
               {avatarUrl
@@ -740,6 +762,7 @@ const Profile = () => {
                 onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f, "customAvatarUrl"); }} />
             </div>
 
+            {/* Name */}
             <div className="flex-1 pb-2">
               {editing
                 ? <Input value={draft.displayName} onChange={e => setDraft(d => ({ ...d, displayName: e.target.value }))}
@@ -761,6 +784,7 @@ const Profile = () => {
               )}
             </div>
 
+            {/* Buttons */}
             <div className="flex items-center gap-2 pb-2">
               {isOwner && !editing && (
                 <button onClick={startEditing}
@@ -782,7 +806,7 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Meta row */}
+          {/* Meta row — all live from gamification context */}
           <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             {editing ? (
               <span className="flex items-center gap-1.5">
@@ -805,12 +829,14 @@ const Profile = () => {
                 Joined {joinedDate}
               </span>
             )}
+            {/* Live streak */}
             <span className="flex items-center gap-1">
               <Flame className={`h-3.5 w-3.5 ${state.streak > 0 ? "text-orange-400" : ""}`} />
               {state.streak > 0 ? `${state.streak} day streak` : "Start your streak"}
             </span>
+            {/* Live level name — replaces hardcoded "Explorer" / "Silver League" */}
             <span className="flex items-center gap-1">
-              <Award className={`h-3.5 w-3.5 ${levelIdx >= 6 ? "text-crystal-yellow" : ""}`} />
+              <Award className={`h-3.5 w-3.5 ${levelIdx >= 6 ? "text-yellow-400" : ""}`} />
               {levelName}
             </span>
             {editing ? (
@@ -830,7 +856,7 @@ const Profile = () => {
             ) : null}
           </div>
 
-          {/* Bio */}
+          {/* Bio / description — always visible, editable, fallback when empty */}
           {editing ? (
             <div className="mt-3 max-w-xl">
               <Textarea value={draft.bio} onChange={e => setDraft(d => ({ ...d, bio: e.target.value }))}
@@ -854,22 +880,29 @@ const Profile = () => {
               {levelName} on Infracodebase University.
             </p>
           )}
+
+
         </div>
 
-        {/* Main + sidebar */}
-        <div className="px-6 lg:px-8 mt-8 grid lg:grid-cols-[1fr_300px] gap-6 items-start">
-          <div className="space-y-8">
+        {/* ── Main + sidebar ── */}
+        <div className="px-6 lg:px-8 mt-6 grid lg:grid-cols-[1fr_280px] gap-6 items-start">
+
+          {/* Left column — university data + ecosystem */}
+          <div className="space-y-6">
             <UniversityProgress />
             <ActivityHeatmap />
+            <EcosystemSection />
           </div>
+
+          {/* Right sidebar — XP, stats, achievements */}
           <div className="space-y-4">
             <TotalXPCard />
             <XPStatsCard />
             <AchievementsCard />
-            <EcosystemSection />
           </div>
         </div>
 
+        {/* Certificates */}
         <div className="px-6 lg:px-8 max-w-[900px]">
           <CertificateSection />
         </div>
