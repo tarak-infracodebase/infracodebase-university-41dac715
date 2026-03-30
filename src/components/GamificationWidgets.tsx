@@ -203,7 +203,7 @@ export function ShareModal({
       href: `mailto:?subject=Join%20me%20on%20Infracodebase%20University&body=${emailBody}` },
   ];
 
-  return (
+  return ReactDOM.createPortal(
     <div
       className="fixed inset-0 z-[9999] flex items-start justify-center p-4 overflow-y-auto"
       style={{ backgroundColor: "rgba(0,0,0,0.75)" }}
