@@ -58,7 +58,6 @@ export function TotalXPCard() {
       <p className="text-3xl font-mono font-bold text-foreground">{state.totalXP.toLocaleString()}</p>
       <p className="text-xs text-muted-foreground mt-1">Total XP</p>
       <div className="mt-3 flex items-center justify-center gap-2">
-        <CrystalIcon color={crystalColors[levelIdx % crystalColors.length]} size={18} />
         <div className="text-left">
           <p className="text-sm font-medium leading-none">{levelName}</p>
           <p className="text-[10px] text-muted-foreground mt-0.5">Level {levelIdx + 1}</p>
