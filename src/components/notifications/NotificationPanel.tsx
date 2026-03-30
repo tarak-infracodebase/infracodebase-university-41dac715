@@ -362,12 +362,12 @@ function FeaturedCard({
 
         {/* Status badge top right */}
         {item.status === "upcoming" && (
-          <div style={{ position: "absolute", top: 10, right: 10, padding: "3px 10px", borderRadius: 20, background: "rgba(249,115,22,0.25)", border: "1px solid rgba(249,115,22,0.45)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#fdba74", zIndex: 2 }}>
+          <div style={{ position: "absolute", top: 10, right: 10, padding: "3px 10px", borderRadius: 20, background: "rgba(249,115,22,0.25)", border: "1px solid rgba(249,115,22,0.45)", fontSize: 12, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#fdba74", zIndex: 2 }}>
             Upcoming
           </div>
         )}
         {item.status === "replay" && (
-          <div style={{ position: "absolute", top: 10, right: 10, padding: "3px 10px", borderRadius: 20, background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.22)", fontSize: 9.5, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "rgba(255,255,255,0.72)", zIndex: 2 }}>
+          <div style={{ position: "absolute", top: 10, right: 10, padding: "3px 10px", borderRadius: 20, background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.22)", fontSize: 12, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "rgba(255,255,255,0.72)", zIndex: 2 }}>
             Replay
           </div>
         )}
@@ -524,7 +524,7 @@ function ListItem({
             style={{
               background: "rgba(0,0,0,0.65)",
               padding: "3px 0",
-              fontSize: 8,
+              fontSize: 12,
               fontWeight: 700,
               textTransform: "uppercase",
               letterSpacing: "0.05em",

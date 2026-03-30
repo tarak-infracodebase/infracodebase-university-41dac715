@@ -144,7 +144,7 @@ export function MobileDrawer() {
             <div key={section.label}>
               <div style={{
                 ...fontMono,
-                fontSize: 9,
+                fontSize: 12,
                 fontWeight: 700,
                 letterSpacing: "0.16em",
                 textTransform: "uppercase",

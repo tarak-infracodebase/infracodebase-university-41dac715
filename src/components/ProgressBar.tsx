@@ -22,7 +22,7 @@ export function ProgressBar({ title, steps, currentStepIndex, completedCount }: 
       <div className="flex items-center justify-between mb-2">
         <span
           className="uppercase font-sans"
-          style={{ fontSize: 9, letterSpacing: "0.1em", color: "rgba(255,255,255,0.3)" }}
+          style={{ fontSize: 12, letterSpacing: "0.1em", color: "rgba(255,255,255,0.3)" }}
         >
           {title}
         </span>
@@ -68,7 +68,7 @@ export function ProgressBar({ title, steps, currentStepIndex, completedCount }: 
               <span
                 className="text-center leading-tight"
                 style={{
-                  fontSize: 8,
+                  fontSize: 12,
                   maxWidth: 48,
                   color: done
                     ? "rgba(200,112,64,0.6)"

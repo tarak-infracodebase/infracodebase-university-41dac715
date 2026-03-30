@@ -959,7 +959,7 @@ function SessionModal({
                           onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
                           onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
                         >
-                          <span style={{ color: '#fff', fontSize: '8px', fontWeight: 700 }}>EDIT</span>
+                          <span style={{ color: '#fff', fontSize: '12px', fontWeight: 700 }}>EDIT</span>
                         </div>
                         <input ref={av.ref} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleAvatarUpload(e, av.key, av.setter)} />
                       </>
@@ -1456,7 +1456,7 @@ export default function OfficeHours() {
                             onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
                             onClick={() => document.getElementById(host.uploadId)?.click()}
                           >
-                            <span style={{ color: '#fff', fontSize: '9px', fontWeight: 700 }}>EDIT</span>
+                            <span style={{ color: '#fff', fontSize: '12px', fontWeight: 700 }}>EDIT</span>
                           </div>
                           <input id={host.uploadId} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handlePhotoUpload(e, host.setter)} />
                         </>

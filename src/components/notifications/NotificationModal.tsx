@@ -156,7 +156,7 @@ export function NotificationModal({ open, initialId, onClose }: NotificationModa
               </span>
               {m.statusTag && (
                 <span style={{
-                  padding: "4px 10px", borderRadius: 20, fontSize: 9.5, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase",
+                  padding: "4px 10px", borderRadius: 20, fontSize: 12, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase",
                   ...(m.statusTag.type === "upcoming"
                     ? { background: "rgba(249,115,22,0.25)", border: "1px solid rgba(249,115,22,0.45)", color: "#fdba74" }
                     : { background: "rgba(0,0,0,0.5)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.72)" }),

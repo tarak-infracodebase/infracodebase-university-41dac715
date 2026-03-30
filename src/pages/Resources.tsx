@@ -260,7 +260,7 @@ export default function Resources() {
 
               <div style={{ padding: "20px 22px 22px" }}>
                 <p style={{
-                  fontFamily: "'Courier New', monospace", fontSize: 9,
+                  fontFamily: "'Courier New', monospace", fontSize: 12,
                   letterSpacing: "0.18em", textTransform: "uppercase",
                   color: dark ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.4)", marginBottom: 5
                 }}>

@@ -153,7 +153,7 @@ function ReferralExpandedContent({
             <p
               style={{
                 fontFamily: "'DM Mono', monospace",
-                fontSize: 8.5,
+                fontSize: 12,
                 letterSpacing: "0.09em",
                 textTransform: "uppercase",
                 color: "rgba(255,255,255,0.26)",
@@ -170,7 +170,7 @@ function ReferralExpandedContent({
       <p
         style={{
           fontFamily: "'DM Mono', monospace",
-          fontSize: 9.5,
+          fontSize: 12,
           letterSpacing: "0.1em",
           textTransform: "uppercase",
           color: "rgba(255,255,255,0.28)",
