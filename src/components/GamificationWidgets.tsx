@@ -27,7 +27,6 @@ export function LevelCard() {
     <div className="glass-panel rounded-xl p-5">
       <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Level</span>
       <div className="mt-2 flex items-center gap-2">
-        <CrystalIcon color={crystalColors[levelIdx % crystalColors.length]} size={20} />
         <p className="text-base font-bold text-foreground">{levelName}</p>
       </div>
       <p className="text-[11px] text-muted-foreground mt-0.5">Level {levelIdx + 1}</p>
