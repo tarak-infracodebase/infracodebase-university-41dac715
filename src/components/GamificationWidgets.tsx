@@ -211,20 +211,21 @@ export function ShareModal({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-      <div
-        className="relative w-full max-w-lg rounded-[20px] p-[2px]"
-        style={{ background: "linear-gradient(135deg,hsl(260,70%,55%),hsl(185,70%,45%),hsl(330,65%,50%))" }}
-      >
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 z-10 h-8 w-8 rounded-lg border border-border/40 bg-card flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+    <div className="fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto bg-black/70 backdrop-blur-sm" onClick={onClose}>
+      <div className="my-8" onClick={e => e.stopPropagation()}>
+        <div
+          className="relative w-full max-w-lg rounded-[20px] p-[2px]"
+          style={{ background: "linear-gradient(135deg,hsl(260,70%,55%),hsl(185,70%,45%),hsl(330,65%,50%))" }}
         >
-          <X className="h-4 w-4" />
-        </button>
+          {/* Close */}
+          <button
+            onClick={onClose}
+            className="absolute top-3 right-3 z-10 h-8 w-8 rounded-lg border border-border/40 bg-card flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          >
+            <X className="h-4 w-4" />
+          </button>
 
-        <div className="bg-card rounded-[18px] overflow-hidden max-h-[90vh] overflow-y-auto">
+          <div className="bg-card rounded-[18px] overflow-hidden max-h-[90vh] overflow-y-auto">
           {step === "share" ? (
             <div className="p-7">
 
