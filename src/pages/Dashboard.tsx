@@ -48,6 +48,8 @@ const Dashboard = () => {
   ]);
   const [searchParams] = useSearchParams();
   const highlightProgress = searchParams.get("tab") === "progress";
+  const { getStreak } = useStreakTracking();
+  const streak = getStreak();
 
   useEffect(() => {
     try {
