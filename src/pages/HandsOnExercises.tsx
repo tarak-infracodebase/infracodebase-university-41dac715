@@ -53,8 +53,7 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
     <Link
       key={track.id}
       to={`/hands-on/${track.id}`}
-      className="group rounded-xl p-6 transition-all hover:shadow-md"
-      style={{ background: '#141f2e', border: '1px solid #1e3a5f' }}
+      className="group glass-panel-hover rounded-xl p-6 transition-all hover:shadow-md"
     >
       <div className="flex items-center gap-2 mb-4">
         <span className="text-xs font-mono text-muted-foreground tracking-wider">
@@ -65,11 +64,11 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
           {track.level}
         </span>
       </div>
-      <h3 className="font-bold text-base mb-2" style={{ color: 'var(--text-primary)' }}>{track.title}</h3>
-      <p className="text-xs leading-relaxed mb-4 line-clamp-2" style={{ color: '#94a3b8' }}>
+      <h3 className="font-bold text-base mb-2 text-foreground">{track.title}</h3>
+      <p className="text-xs leading-relaxed mb-4 line-clamp-2 text-muted-foreground">
         {track.description}
       </p>
-      <div className="flex items-center justify-between text-xs" style={{ color: '#64748b' }}>
+      <div className="flex items-center justify-between text-xs text-muted-foreground">
         <span className="flex items-center gap-1">
           <BookOpen className="h-3 w-3" />
           {track.moduleCount} Modules
@@ -83,8 +82,7 @@ function TrackCard({ track }: { track: typeof handsOnTracks[number] }) {
         {track.modules.map((_, i) => (
           <div
             key={i}
-            className="h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold"
-            style={{ background: '#1e3a5f', color: '#7dd3fc', border: '1px solid #2a5080' }}
+            className="h-5 w-5 rounded-full flex items-center justify-center text-xs font-bold bg-muted text-primary border border-border"
           >
             {i + 1}
           </div>
@@ -226,18 +224,17 @@ const HandsOnExercises = () => {
                </span>
              </div>
              <span
-               className="text-xs font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full inline-block mb-2"
-               style={{ color: '#94a3b8', border: '1px solid #94a3b8', background: 'transparent' }}
+               className="text-xs font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded-full inline-block mb-2 text-muted-foreground border border-muted-foreground/30"
              >
                Your Learning Path
              </span>
-            <h2 className="text-2xl lg:text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-2xl lg:text-3xl font-bold mb-2 text-foreground">
               {featuredTrack.title}
             </h2>
-             <p className="text-sm mb-5 max-w-xl" style={{ color: '#94a3b8' }}>
+             <p className="text-sm mb-5 max-w-xl text-muted-foreground">
               {featuredTrack.description}
             </p>
-             <div className="flex items-center gap-6 text-xs mb-6" style={{ color: '#64748b' }}>
+             <div className="flex items-center gap-6 text-xs mb-6 text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <Layers className="h-3.5 w-3.5" />
                 Module 1 / {featuredTrack.moduleCount} — {featuredTrack.modules[0]?.title}
@@ -248,8 +245,7 @@ const HandsOnExercises = () => {
                 {featuredTrack.modules.map((_, i) => (
                   <div
                     key={i}
-                    className="h-6 w-6 rounded-full flex items-center justify-center text-xs font-bold"
-                    style={{ background: '#1e3a5f', color: '#7dd3fc', border: '1px solid #2a5080' }}
+                    className="h-6 w-6 rounded-full flex items-center justify-center text-xs font-bold bg-muted text-primary border border-border"
                   >
                     {i + 1}
                   </div>
