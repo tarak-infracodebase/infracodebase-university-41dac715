@@ -6,7 +6,7 @@ import { useState } from "react";
 import { BookOpen, Clock, ArrowRight, Search, HelpCircle, X } from "lucide-react";
 import { AzurePeriodicTablePill } from "@/components/AzurePeriodicTableLink";
 import { InfracodebaseDocsPill } from "@/components/InfracodebaseDocsLink";
-import { cn } from "@/lib/utils";
+
 
 import { CurriculumGuidanceQuiz } from "@/components/CurriculumGuidanceQuiz";
 import { AudioPlayer } from "@/components/AudioPlayer";
