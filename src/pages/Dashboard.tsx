@@ -197,11 +197,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* ── Row 2: Streak · Daily goal · Hearts ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {/* ── Row 2: Streak · Daily goal · Hearts · Streak Freeze ── */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <StreakCard />
           <DailyGoalRing size={80} />
           <HeartsDisplay />
+          <StreakFreezeCard />
         </div>
 
         {/* ── Current workspace ── */}
