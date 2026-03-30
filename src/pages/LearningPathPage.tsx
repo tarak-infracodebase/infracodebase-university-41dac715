@@ -189,7 +189,7 @@ function ProgressSidebar({
     <div className="space-y-5">
       {/* Course Progress */}
       <div className="glass-panel rounded-xl p-5">
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Course Progress</h4>
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Course Progress</h3>
         <Progress value={0} className="h-2 bg-muted mb-2" />
         <p className="text-xs text-muted-foreground font-mono">0%</p>
       </div>
@@ -198,7 +198,7 @@ function ProgressSidebar({
         <>
           {/* Next Step — onboarding action block */}
           <div className="glass-panel rounded-xl p-5">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Next Step</h4>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Next Step</h3>
             {isPrereq && upNext ? (
               <>
                 <p className="text-xs text-muted-foreground mb-3">{upNext.description}</p>
@@ -225,14 +225,14 @@ function ProgressSidebar({
 
           {/* Helpful Resources */}
           <div className="glass-panel rounded-xl p-5">
-            <h4 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h4>
+            <h3 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h3>
             {isPrereq ? <AzurePeriodicTableCard /> : <InfracodebaseDocsCard trackId={currentTrackId} />}
           </div>
 
           {/* Up Next — secondary guidance */}
           {upNext && (
             <div className="glass-panel rounded-xl p-5">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h3>
               <p className="text-sm font-semibold mb-1">Track {upNext.trackNumber}: {upNext.title}</p>
               <p className="text-xs text-muted-foreground leading-relaxed mb-4">{upNext.description}</p>
               <Link to={`/path/${upNext.pathId}`}>
@@ -247,7 +247,7 @@ function ProgressSidebar({
         <>
           {/* Assessment */}
           <div className="glass-panel rounded-xl p-5">
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Assessment</h4>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Assessment</h3>
             <p className="text-xs text-muted-foreground mb-3">Test your understanding by applying what you learned.</p>
             {matchingHandsOn ? (
               <Link to={`/hands-on/${matchingHandsOn.id}`}>
@@ -264,14 +264,14 @@ function ProgressSidebar({
 
           {/* Helpful Resources */}
           <div className="glass-panel rounded-xl p-5">
-            <h4 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h4>
+            <h3 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground/70 mb-3">Helpful Resources</h3>
             {isPrereq ? <AzurePeriodicTableCard /> : <InfracodebaseDocsCard trackId={currentTrackId} />}
           </div>
 
           {/* Up Next / Completion */}
           {isLastTrack ? (
             <div className="glass-panel rounded-xl p-5">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Completion</h4>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Completion</h3>
               <p className="text-xs text-muted-foreground mb-3">You have completed the full learning path.</p>
               <Link to="/dashboard">
                 <Button size="sm" className="w-full gap-1.5 text-xs">
@@ -281,7 +281,7 @@ function ProgressSidebar({
             </div>
           ) : upNext ? (
             <div className="glass-panel rounded-xl p-5">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h4>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70 mb-3">Up Next</h3>
               <p className="text-sm font-semibold mb-1">Track {upNext.trackNumber}: {upNext.title}</p>
               <p className="text-xs text-muted-foreground leading-relaxed mb-4">{upNext.description}</p>
               <Link to={`/path/${upNext.pathId}`}>
