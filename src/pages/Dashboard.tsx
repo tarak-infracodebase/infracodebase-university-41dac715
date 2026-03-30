@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
 import { BADGES } from "@/hooks/useGamification";
 import {
