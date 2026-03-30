@@ -46,6 +46,12 @@ export function useNotifications() {
     [markRead]
   );
 
+  const openModalIntro = useCallback(() => {
+    setModalInitialId(null);
+    setModalOpen(true);
+    setPanelOpen(false);
+  }, []);
+
   const closeModal = useCallback(() => {
     setModalOpen(false);
     setModalInitialId(null);
@@ -72,6 +78,7 @@ export function useNotifications() {
     markRead,
     markAllRead,
     openNotification,
+    openModalIntro,
     closeModal,
     togglePanel,
     closePanel,
