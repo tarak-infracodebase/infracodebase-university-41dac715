@@ -1,6 +1,7 @@
 // src/components/GamificationWidgets.tsx
 
 import React from "react";
+import ReactDOM from "react-dom";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
 import { CrystalIcon } from "@/components/DashboardWidgets";
 import { LEVELS, BADGES } from "@/hooks/useGamification";
