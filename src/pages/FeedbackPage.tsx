@@ -331,10 +331,10 @@ function EditableFeedback() {
 
           {/* Q1 — Disappointment */}
           <div className="space-y-3">
-            <label className="text-sm font-semibold text-foreground">
+            <label htmlFor="disappointment-group" className="text-sm font-semibold text-foreground">
               How would you feel if you could no longer use Infracodebase University?
             </label>
-            <RadioGroup value={disappointment} onValueChange={handleDisappointment} className="space-y-2">
+            <RadioGroup id="disappointment-group" aria-label="How would you feel if you could no longer use Infracodebase University?" value={disappointment} onValueChange={handleDisappointment} className="space-y-2">
               {[
                 { value: "very", label: "Very disappointed" },
                 { value: "somewhat", label: "Somewhat disappointed" },
