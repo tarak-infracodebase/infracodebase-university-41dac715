@@ -135,8 +135,25 @@ function loadFromLS(): GamState {
       }
       return { ...DEFAULT_STATE };
     }
-    return { ...DEFAULT_STATE, ...JSON.parse(raw) };
+    const parsed = JSON.parse(raw);
+    // Ensure arrays are never null/undefined from stale schemas
+    const safe: GamState = { ...DEFAULT_STATE, ...parsed };
+    if (!Array.isArray(safe.completedLessons)) safe.completedLessons = [];
+    if (!Array.isArray(safe.completedPaths)) safe.completedPaths = [];
+    if (!Array.isArray(safe.watchedVideos)) safe.watchedVideos = [];
+    if (!Array.isArray(safe.earnedBadgeIds)) safe.earnedBadgeIds = [];
+    if (!Array.isArray(safe.monthlyXP)) safe.monthlyXP = [];
+    if (typeof safe.totalXP !== "number") safe.totalXP = 0;
+    if (typeof safe.streak !== "number") safe.streak = 0;
+    if (typeof safe.hearts !== "number") safe.hearts = 5;
+    if (typeof safe.dailyXP !== "number") safe.dailyXP = 0;
+    if (typeof safe.weeklyXP !== "number") safe.weeklyXP = 0;
+    if (typeof safe.perfectChecks !== "number") safe.perfectChecks = 0;
+    if (typeof safe.referralCount !== "number") safe.referralCount = 0;
+    return safe;
   } catch {
+    // Corrupted data — nuke and start fresh
+    try { localStorage.removeItem(LS_KEY); } catch {}
     return { ...DEFAULT_STATE };
   }
 }
