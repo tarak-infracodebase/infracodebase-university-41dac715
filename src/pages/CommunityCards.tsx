@@ -22,7 +22,7 @@ const css = `
 
   .nav-link {
     font-family: 'Space Mono', monospace;
-    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
     color: #666; text-decoration: none; cursor: pointer;
     transition: color 0.2s;
   }
