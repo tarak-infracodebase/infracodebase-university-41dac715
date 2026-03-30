@@ -185,10 +185,10 @@ function Certificate({ cert, isMaster = false, locked = false, lockMessage }: Ce
               <CrystalGem size={36} />
               <div>
                 <p style={{ fontSize: 14, fontWeight: 600, color: "#e0e0e0", letterSpacing: 1, margin: 0 }}>Infracodebase</p>
-                <p style={{ fontSize: 10, color: "#666", letterSpacing: 2, margin: 0, textTransform: "uppercase" }}>University</p>
+                <p style={{ fontSize: 12, color: "#666", letterSpacing: 2, margin: 0, textTransform: "uppercase" }}>University</p>
               </div>
             </div>
-            <p style={{ fontSize: 10, color: "#22d3ee", textTransform: "uppercase", letterSpacing: 3, marginBottom: 12, fontWeight: 600 }}>
+            <p style={{ fontSize: 12, color: "#22d3ee", textTransform: "uppercase", letterSpacing: 3, marginBottom: 12, fontWeight: 600 }}>
               {isMaster ? "Master Certificate" : "Certificate of Completion"}
             </p>
             <p style={{ fontSize: 32, fontWeight: 700, color: "#f0f0f0", marginBottom: 8 }}>{cert.name}</p>
@@ -228,7 +228,7 @@ function Certificate({ cert, isMaster = false, locked = false, lockMessage }: Ce
             <p style={{ fontSize: 12, color: "#666", margin: "2px 0 0" }}>Earned on {cert.date}</p>
           </div>
           <div style={{ textAlign: "right" }}>
-            <p style={{ fontSize: 9, color: "#555", letterSpacing: 2, textTransform: "uppercase", margin: 0 }}>Credential ID</p>
+            <p style={{ fontSize: 12, color: "#555", letterSpacing: 2, textTransform: "uppercase", margin: 0 }}>Credential ID</p>
             <p style={{ fontSize: 12, color: "#888", fontFamily: "monospace", margin: "2px 0 0" }}>{cert.credId}</p>
           </div>
         </div>

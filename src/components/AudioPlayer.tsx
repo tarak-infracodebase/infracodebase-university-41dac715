@@ -129,7 +129,7 @@ export function AudioPlayer({ src, label = "Listen to the introduction", footer 
                    stroke="rgba(255,255,255,0.9)" strokeWidth="1.6">
                 <path d="M12 5V2L7 7l5 5V9a7 7 0 110 7"/>
               </svg>
-              <span style={{fontSize:"8px",color:"rgba(255,255,255,0.25)"}}>15</span>
+              <span style={{fontSize:"12px",color:"rgba(255,255,255,0.25)"}}>15</span>
             </button>
 
             {/* Play / pause */}

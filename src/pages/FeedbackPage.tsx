@@ -577,7 +577,7 @@ function EditableFeedback() {
                   fontFamily: "Georgia, serif",
                   fontSize: 16,
                   fontWeight: 700,
-                  color: "#f0ece3",
+                  color: "var(--text-primary)",
                   marginBottom: 6,
                 }}>
                   ✓ Your feedback has been saved.
@@ -585,7 +585,7 @@ function EditableFeedback() {
                 <p style={{
                   fontFamily: "'Courier New', monospace",
                   fontSize: 13,
-                  color: "rgba(255,255,255,0.55)",
+                  color: "var(--text-secondary)",
                   lineHeight: 1.7,
                   marginBottom: 16,
                 }}>
@@ -617,7 +617,7 @@ function EditableFeedback() {
                     padding: "11px 24px",
                     borderRadius: 6,
                     background: "#e86030",
-                    color: "#fff",
+                    color: "#1a1a1a",
                     border: "none",
                     cursor: "pointer",
                   }}

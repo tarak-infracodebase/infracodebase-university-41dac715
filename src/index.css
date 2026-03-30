@@ -95,24 +95,24 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
     --popover: 0 0% 100%;
     --popover-foreground: 228 20% 12%;
 
-    --primary: 260 70% 58%;
+    --primary: 260 70% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 330 65% 55%;
+    --secondary: 330 65% 48%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 220 14% 92%;
-    --muted-foreground: 220 10% 40%;
+    --muted-foreground: 220 10% 36%;
 
-    --accent: 185 70% 48%;
+    --accent: 185 80% 32%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 55%;
+    --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 220 13% 87%;
     --input: 220 13% 87%;
-    --ring: 260 70% 58%;
+    --ring: 260 70% 50%;
 
     --sidebar-background: 0 0% 97%;
     --sidebar-foreground: 228 20% 12%;

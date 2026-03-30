@@ -122,7 +122,7 @@ const SectionPathMap = ({ t }: { t: ReturnType<typeof useTokens> }) => {
                   <span style={{ ...fontMono, fontSize: 12, color: t.muted }}>{card.num}</span>
                   <span style={{
                     ...fontMono,
-                    fontSize: 9,
+                    fontSize: 12,
                     padding: "2px 7px",
                     borderRadius: 3,
                     border: `1px solid ${card.tagAccent ? t.accentEmber : t.cardBorder}`,
@@ -157,7 +157,7 @@ const SectionPathMap = ({ t }: { t: ReturnType<typeof useTokens> }) => {
                   onMouseLeave={e => (e.currentTarget.style.background = t.bg)}
                 >
                   <div className="flex gap-3">
-                    <span style={{ ...fontMono, fontSize: 9, color: t.muted, flexShrink: 0, width: 16 }}>—</span>
+                    <span style={{ ...fontMono, fontSize: 12, color: t.muted, flexShrink: 0, width: 16 }}>—</span>
                     <div>
                       <div style={{ ...fontDisplay, fontSize: 15, fontWeight: 700, color: t.heading }}>{card.title}</div>
                       <div className="mt-1" style={{ ...fontMono, fontSize: 12, color: t.accentEmber }}>{card.path}</div>

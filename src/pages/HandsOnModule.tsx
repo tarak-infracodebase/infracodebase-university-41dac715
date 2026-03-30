@@ -117,7 +117,7 @@ const HandsOnModulePage = () => {
                   Module {moduleIndex + 1} of {track.modules.length}
                 </span>
               </div>
-              <h1 className="text-2xl lg:text-3xl font-bold mb-3 font-mono" style={{ color: 'var(--text-accent)' }}>{mod.title}</h1>
+              <h1 className="text-2xl lg:text-3xl font-bold mb-3 font-mono" style={{ color: 'var(--text-primary)' }}>{mod.title}</h1>
               <div className="h-1 w-12 rounded-full" style={{ background: track.color }} />
             </div>
 
@@ -220,7 +220,7 @@ const HandsOnModulePage = () => {
                     window.scrollTo(0, 0);
                   }}
                   className="flex items-center gap-2 text-xs font-medium transition-colors"
-                  style={{ color: 'var(--text-accent)' }}
+                  style={{ color: 'var(--text-link)' }}
                 >
                   Continue my training <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
@@ -229,7 +229,7 @@ const HandsOnModulePage = () => {
                   to={`/hands-on/${nextTrack.id}`}
                   onClick={() => window.scrollTo(0, 0)}
                   className="flex items-center gap-2 text-xs font-medium transition-colors"
-                  style={{ color: 'var(--text-accent)' }}
+                  style={{ color: 'var(--text-link)' }}
                 >
                   Continue my training → {nextTrack.title} <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
