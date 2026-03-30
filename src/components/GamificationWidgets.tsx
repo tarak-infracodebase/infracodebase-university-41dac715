@@ -1,5 +1,3 @@
-// src/components/GamificationWidgets.tsx
-
 import React from "react";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
 import { CrystalIcon } from "@/components/DashboardWidgets";
