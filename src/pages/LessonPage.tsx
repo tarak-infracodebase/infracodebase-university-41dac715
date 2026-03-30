@@ -14,10 +14,6 @@ import { ReflectionNotebook } from "@/components/lesson/ReflectionNotebook";
 import { ReflectionHint } from "@/components/lesson/ReflectionHint";
 import { LabScreenshot } from "@/components/lesson/LabScreenshot";
 
-const crystalColors = [
-  "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
-  "hsl(145, 60%, 45%)", "hsl(45, 85%, 55%)", "hsl(25, 85%, 55%)", "hsl(0, 72%, 55%)"
-];
 
 const LessonPage = () => {
   const { pathId, lessonId } = useParams<{ pathId: string; lessonId: string }>();

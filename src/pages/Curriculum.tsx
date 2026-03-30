@@ -13,10 +13,9 @@ import { AudioPlayer } from "@/components/AudioPlayer";
 
 const BANNER_DISMISSED_KEY = "curriculum-guidance-dismissed";
 
-function PathCard({ path, colorOverride }: { path: typeof learningPaths[number]; colorOverride?: string }) {
+function PathCard({ path }: { path: typeof learningPaths[number] }) {
   const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
   const isPrereq = path.color === "prerequisite";
-  const iconColor = colorOverride || (isPrereq ? PREREQ_COLOR : crystalColors[path.order % crystalColors.length]);
 
   return (
     <Link key={path.id} to={`/path/${path.id}`}

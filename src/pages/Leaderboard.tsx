@@ -2,7 +2,7 @@ import { AppLayout } from "@/components/AppLayout";
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Trophy, Medal } from "lucide-react";
+
 
 const crystalColors = [
   "hsl(45, 85%, 55%)", "hsl(220, 15%, 70%)", "hsl(25, 85%, 55%)"
