@@ -189,7 +189,7 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
               <div
                 style={{
                   fontFamily: "'DM Mono', monospace",
-                  fontSize: "9.5px",
+                  fontSize: "12px",
                   fontWeight: 700,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase" as const,
@@ -348,7 +348,7 @@ function XpPill() {
           border: "1px solid rgba(34,211,238,0.2)",
           padding: "4px 10px",
           borderRadius: "9999px",
-          fontSize: "11px",
+          fontSize: "12px",
           fontWeight: 600,
           color: "#22d3ee",
         }}
