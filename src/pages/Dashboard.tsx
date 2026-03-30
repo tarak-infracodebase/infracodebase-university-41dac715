@@ -109,7 +109,7 @@ const Dashboard = () => {
         </div>
 
         {/* Identity + Stats Row */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           <div className="glass-panel rounded-xl p-5">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Identity</span>
             <div className="mt-2">
@@ -124,6 +124,16 @@ const Dashboard = () => {
               <p className="text-lg font-mono font-bold text-foreground">{totalXP.toLocaleString()}</p>
             </div>
             <p className="text-[11px] text-muted-foreground mt-0.5">{xpToNext} XP to Level {currentLevel + 1}</p>
+          </div>
+          <div className="glass-panel rounded-xl p-5">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Streak</span>
+            <div className="mt-2 flex items-baseline gap-1.5">
+              <Flame className="h-4 w-4 text-orange-500" />
+              <p className="text-lg font-mono font-bold text-foreground">{streak.currentStreak}</p>
+            </div>
+            <p className="text-[11px] text-muted-foreground mt-0.5">
+              {streak.currentStreak === 1 ? "day" : "days"} · best {streak.longestStreak}
+            </p>
           </div>
           <div className="glass-panel rounded-xl p-5">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Tracks</span>
