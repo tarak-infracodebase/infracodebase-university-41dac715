@@ -17,12 +17,19 @@ const SYNC_KEYS = [
 
 const VIDEO_PREFIX = "vid-progress-";
 
+interface StreakData {
+  currentStreak: number;
+  longestStreak: number;
+  lastActivityDate: string;
+}
+
 interface ClerkProgressData {
   xp: number;
   level: number;
   trackProgress: Record<string, unknown>;
   monthlyXp: Array<{ month: string; xp: number }>;
   videoProgress: Record<string, number>;
+  streak: StreakData;
   lastSynced: string;
 }
 
@@ -42,6 +49,12 @@ function readLocalProgress(): ClerkProgressData {
     if (raw) monthlyXp = JSON.parse(raw);
   } catch {}
 
+  let streak: StreakData = { currentStreak: 0, longestStreak: 0, lastActivityDate: "" };
+  try {
+    const raw = localStorage.getItem("icbu_streak");
+    if (raw) streak = JSON.parse(raw);
+  } catch {}
+
   // Collect video progress
   const videoProgress: Record<string, number> = {};
   for (let i = 0; i < localStorage.length; i++) {
@@ -52,7 +65,7 @@ function readLocalProgress(): ClerkProgressData {
     }
   }
 
-  return { xp, level, trackProgress, monthlyXp, videoProgress, lastSynced: new Date().toISOString() };
+  return { xp, level, trackProgress, monthlyXp, videoProgress, streak, lastSynced: new Date().toISOString() };
 }
 
 function writeLocalProgress(data: ClerkProgressData) {
