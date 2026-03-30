@@ -86,6 +86,7 @@ const DEFAULT_STATE: GamificationState = {
   allTracksDone: false,
   streakFreezeCount: 0,
   streakFreezeActive: false,
+  dailyXPLog: [],
 };
 
 const STORAGE_KEY = "icbu_gamification";
