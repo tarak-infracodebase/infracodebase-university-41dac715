@@ -167,11 +167,8 @@ const Dashboard = () => {
                     <div className="h-full rounded-full" style={{ width: `${overallProgress}%`, background: "hsl(var(--primary))" }} />
                   </div>
                   <p className="text-[10px] text-muted-foreground">{tracksCompleted} of {totalTracks} tracks completed</p>
-                  <Link
-                    to={nextLesson ? `/path/${currentTrack.id}/lesson/${nextLesson.id}` : `/path/${currentTrack.id}`}
-                    className="mt-1"
-                  >
-                    <Button size="sm" variant="outline" className="text-xs gap-1">
+                  <Link to={nextLesson ? `/path/${currentTrack.id}/lesson/${nextLesson.id}` : `/path/${currentTrack.id}`}>
+                    <Button size="sm" className="w-full text-xs gap-1">
                       Continue learning <ArrowRight className="h-3 w-3" />
                     </Button>
                   </Link>
@@ -322,7 +319,11 @@ const Dashboard = () => {
                       opacity: d.xp > 0 ? 1 : 0.25,
                     }}
                   />
-                  {i % 2 === 0 && <span className="text-[8px] text-muted-foreground whitespace-nowrap">{d.label}</span>}
+                  {i % 3 === 0 && (
+                    <span className="text-[9px] text-muted-foreground">
+                      {d.label.replace(/\D/g, "")}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
