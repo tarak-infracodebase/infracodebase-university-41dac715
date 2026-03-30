@@ -145,6 +145,7 @@ function loadFromLS(): GamState {
     if (!Array.isArray(safe.watchedVideos)) safe.watchedVideos = [];
     if (!Array.isArray(safe.earnedBadgeIds)) safe.earnedBadgeIds = [];
     if (!Array.isArray(safe.monthlyXP)) safe.monthlyXP = [];
+    if (!Array.isArray(safe.dailyHistory)) safe.dailyHistory = [];
     if (typeof safe.totalXP !== "number") safe.totalXP = 0;
     if (typeof safe.streak !== "number") safe.streak = 0;
     if (typeof safe.hearts !== "number") safe.hearts = 5;
