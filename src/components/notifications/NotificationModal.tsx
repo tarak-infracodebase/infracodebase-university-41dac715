@@ -170,15 +170,19 @@ export function NotificationModal({ open, initialId, onClose }: NotificationModa
         </p>
 
         {/* YouTube embed */}
-        <div style={{ width: "100%", aspectRatio: "16 / 9", borderRadius: 10, overflow: "hidden", marginBottom: 16, flex: "none" }}>
-          <iframe
-            src="https://www.youtube.com/embed/rpgCpSshV1c"
-            style={{ width: "100%", height: "100%", border: "none", borderRadius: 10 }}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title="Infracodebase University Intro"
-          />
-        </div>
+        <video
+          src="/videos/Agentic_Architecture_Design.mp4"
+          controls
+          style={{
+            width: "100%",
+            aspectRatio: "16 / 9",
+            borderRadius: "10px",
+            border: "none",
+            display: "block",
+            backgroundColor: "#000",
+            marginBottom: 16,
+          }}
+        />
 
         {/* Divider + actions */}
         <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "4px 0 16px" }} />
