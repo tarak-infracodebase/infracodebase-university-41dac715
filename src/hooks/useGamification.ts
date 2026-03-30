@@ -180,6 +180,22 @@ function updateMonthlyBucket(
   return copy.slice(-6);
 }
 
+function updateDailyHistory(
+  history: GamState["dailyHistory"],
+  amount: number,
+  date: string = today()
+): GamState["dailyHistory"] {
+  const copy = [...(history ?? [])];
+  const idx = copy.findIndex(h => h.date === date);
+  if (idx >= 0) {
+    copy[idx] = { date, xp: copy[idx].xp + amount };
+  } else {
+    copy.push({ date, xp: amount });
+  }
+  copy.sort((a, b) => a.date.localeCompare(b.date));
+  return copy.slice(-14);
+}
+
 // ── Hook exports ──────────────────────────────────────────────────────────
 export interface GamificationHook {
   state: GamState;
