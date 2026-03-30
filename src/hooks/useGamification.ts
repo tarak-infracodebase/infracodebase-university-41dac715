@@ -314,6 +314,7 @@ export function useGamification(): GamificationHook {
         dailyXP: prev.dailyXP + xp,
         weeklyXP: prev.weeklyXP + xp,
         monthlyXP: updateMonthlyBucket(prev.monthlyXP, xp),
+        dailyHistory: updateDailyHistory(prev.dailyHistory, xp),
       };
     });
   }, [update]);
