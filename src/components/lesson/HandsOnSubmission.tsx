@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Upload, FileText, X, ExternalLink, Plus } from "lucide-react";
 import { useAuthGate } from "@/hooks/useAuthGate";
 import AuthGateModal from "@/components/AuthGateModal";
-import { useStreakTracking } from "@/hooks/useStreakTracking";
+import { useGamificationContext } from "@/hooks/GamificationProvider";
 
 type ExerciseType = "writing" | "build-external" | "build-platform";
 
