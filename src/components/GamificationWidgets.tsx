@@ -497,7 +497,7 @@ export function StreakFreezeCard() {
 
         {state.freezeAvailable ? (
           <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-            Auto-activates if you miss a day. Won't work two days in a row.
+            If you miss a day, your progress is kept automatically. Does not cover two missed days in a row.
           </p>
         ) : (
           <p className="text-xs text-muted-foreground leading-relaxed mb-3">
