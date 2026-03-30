@@ -200,6 +200,12 @@ html[data-theme="light"], html[data-theme="light"] body, html[data-theme="light"
     @apply bg-card/60 backdrop-blur-xl border border-border/50;
   }
 
+  [data-theme="light"] .glass-panel,
+  .light .glass-panel {
+    @apply bg-card border border-border/70;
+    backdrop-filter: none;
+  }
+
   .glass-panel-hover {
     @apply glass-panel hover:border-primary/30 hover:shadow-glow-sm transition-all duration-300;
   }
