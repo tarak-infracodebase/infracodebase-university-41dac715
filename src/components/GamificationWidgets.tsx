@@ -99,7 +99,7 @@ export function DailyGoalRing({ size = 80 }: { size?: number }) {
 
   return (
     <div className="glass-panel rounded-xl p-5 flex flex-col items-center gap-3">
-      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium self-start">Daily Goal</span>
+      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium self-start">Daily target</span>
       <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="-rotate-90">
           <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="hsl(var(--muted))" strokeWidth={strokeWidth} />
@@ -484,8 +484,8 @@ export function StreakFreezeCard() {
               <Flame className="h-4 w-4 text-primary" />
             </div>
             <div>
-              <p className="text-sm font-semibold">Streak freeze</p>
-              <p className="text-[11px] text-muted-foreground">Protects your streak for 1 missed day</p>
+              <p className="text-sm font-semibold">Day off pass</p>
+              <p className="text-[11px] text-muted-foreground">Miss a day without losing your progress. Earned by sharing — activates automatically.</p>
             </div>
           </div>
           {state.freezeAvailable && (
@@ -497,7 +497,7 @@ export function StreakFreezeCard() {
 
         {state.freezeAvailable ? (
           <p className="text-xs text-muted-foreground leading-relaxed mb-3">
-            Auto-activates if you miss a day. Won't work two days in a row.
+            If you miss a day, your progress is kept automatically. Does not cover two missed days in a row.
           </p>
         ) : (
           <p className="text-xs text-muted-foreground leading-relaxed mb-3">
@@ -514,8 +514,8 @@ export function StreakFreezeCard() {
             <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
           </svg>
           {state.freezeAvailable
-            ? "Share to earn your next freeze"
-            : "Share the university to earn a freeze"
+            ? "Earn another — share the university"
+            : "Share the university to earn a day off pass"
           }
         </button>
       </div>
