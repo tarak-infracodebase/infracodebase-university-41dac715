@@ -243,61 +243,95 @@ const Dashboard = () => {
 
         ) : isNewUser ? (
           <div className="glass-panel rounded-xl p-6">
-            <h2 className="text-xl font-semibold mb-2 leading-snug">
-              Learn to{" "}
-              <span className="text-primary">code</span>,{" "}
-              <span className="text-primary">design</span>,{" "}
-              <span className="text-primary">ship</span>, and{" "}
-              <span className="text-primary">operate</span>{" "}
-              cloud infrastructure.
-            </h2>
-            <p className="text-sm text-muted-foreground mb-5 max-w-2xl leading-relaxed">
-              Every track and hands-on exercise builds toward real infrastructure skills you can
-              apply immediately. Start with the first track — no prior experience required.
-            </p>
-            <Link to="/curriculum">
-              <Button size="sm" className="gap-1.5 text-xs">
-                <BookOpen className="h-3.5 w-3.5" /> Start learning
-              </Button>
-            </Link>
+            <div className="flex items-start gap-6 flex-wrap">
+              <div className="flex-1 min-w-[240px]">
+                <h2 className="text-xl font-semibold mb-2 leading-snug">
+                  Learn to{" "}
+                  <span className="text-primary">code</span>,{" "}
+                  <span className="text-primary">design</span>,{" "}
+                  <span className="text-primary">ship</span>, and{" "}
+                  <span className="text-primary">operate</span>{" "}
+                  cloud infrastructure.
+                </h2>
+                <p className="text-sm text-muted-foreground mb-5 max-w-2xl leading-relaxed">
+                  Every track and hands-on exercise builds toward real infrastructure skills you can
+                  apply immediately. Start with the first track — no prior experience required.
+                </p>
+                <Link to="/curriculum">
+                  <Button size="sm" className="gap-1.5 text-xs">
+                    <BookOpen className="h-3.5 w-3.5" /> Start learning
+                  </Button>
+                </Link>
+              </div>
+              <div className="shrink-0 w-44 glass-panel rounded-xl p-4 text-center border-primary/20">
+                <p className="text-3xl font-mono font-bold text-foreground">{overallProgress}%</p>
+                <p className="text-xs text-muted-foreground mt-1">of full curriculum</p>
+                <div className="h-1.5 rounded-full bg-muted overflow-hidden my-3">
+                  <div className="h-full rounded-full bg-primary transition-all duration-700" style={{ width: `${overallProgress}%` }} />
+                </div>
+                <p className="text-[11px] text-muted-foreground mb-3">{tracksCompleted} of {totalTracks} tracks completed</p>
+                <Link to="/curriculum">
+                  <Button size="sm" className="w-full text-xs gap-1">
+                    Start learning <ArrowRight className="h-3 w-3" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
 
         ) : (
           <div className="glass-panel rounded-xl p-6">
-            <h2 className="text-xl font-semibold mb-2 leading-snug">
-              Learn to{" "}
-              <span className="text-primary">code</span>,{" "}
-              <span className="text-primary">design</span>,{" "}
-              <span className="text-primary">ship</span>, and{" "}
-              <span className="text-primary">operate</span>{" "}
-              cloud infrastructure.
-            </h2>
-            <div className="mb-4">
-              <div className="flex justify-between text-[11px] text-muted-foreground mb-1.5">
-                <span>{tracksCompleted} of {totalTracks} tracks completed</span>
-                <span className="font-mono">{overallProgress}%</span>
+            <div className="flex items-start gap-6 flex-wrap">
+              <div className="flex-1 min-w-[240px]">
+                <h2 className="text-xl font-semibold mb-2 leading-snug">
+                  Learn to{" "}
+                  <span className="text-primary">code</span>,{" "}
+                  <span className="text-primary">design</span>,{" "}
+                  <span className="text-primary">ship</span>, and{" "}
+                  <span className="text-primary">operate</span>{" "}
+                  cloud infrastructure.
+                </h2>
+                <div className="mb-4">
+                  <div className="flex justify-between text-[11px] text-muted-foreground mb-1.5">
+                    <span>{tracksCompleted} of {totalTracks} tracks completed</span>
+                    <span className="font-mono">{overallProgress}%</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-muted overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all duration-700"
+                      style={{
+                        width: `${overallProgress}%`,
+                        background: "linear-gradient(to right, hsl(var(--primary)), hsl(185,70%,48%))"
+                      }}
+                    />
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mb-5">
+                  {tracksCompleted > 0
+                    ? `You've completed ${tracksCompleted} track${tracksCompleted > 1 ? "s" : ""}. Pick up the next one to keep building.`
+                    : "Pick up where you left off or start something new."
+                  }
+                </p>
+                <Link to="/curriculum">
+                  <Button size="sm" variant="outline" className="gap-1.5 text-xs">
+                    <BookOpen className="h-3.5 w-3.5" /> Browse curriculum
+                  </Button>
+                </Link>
               </div>
-              <div className="h-2 rounded-full bg-muted overflow-hidden">
-                <div
-                  className="h-full rounded-full transition-all duration-700"
-                  style={{
-                    width: `${overallProgress}%`,
-                    background: "linear-gradient(to right, hsl(var(--primary)), hsl(185,70%,48%))"
-                  }}
-                />
+              <div className="shrink-0 w-44 glass-panel rounded-xl p-4 text-center border-primary/20">
+                <p className="text-3xl font-mono font-bold text-foreground">{overallProgress}%</p>
+                <p className="text-xs text-muted-foreground mt-1">of full curriculum</p>
+                <div className="h-1.5 rounded-full bg-muted overflow-hidden my-3">
+                  <div className="h-full rounded-full bg-primary transition-all duration-700" style={{ width: `${overallProgress}%` }} />
+                </div>
+                <p className="text-[11px] text-muted-foreground mb-3">{tracksCompleted} of {totalTracks} tracks completed</p>
+                <Link to="/curriculum">
+                  <Button size="sm" className="w-full text-xs gap-1">
+                    Continue learning <ArrowRight className="h-3 w-3" />
+                  </Button>
+                </Link>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground mb-5">
-              {tracksCompleted > 0
-                ? `You've completed ${tracksCompleted} track${tracksCompleted > 1 ? "s" : ""}. Pick up the next one to keep building.`
-                : "Pick up where you left off or start something new."
-              }
-            </p>
-            <Link to="/curriculum">
-              <Button size="sm" variant="outline" className="gap-1.5 text-xs">
-                <BookOpen className="h-3.5 w-3.5" /> Browse curriculum
-              </Button>
-            </Link>
           </div>
         )}
 
