@@ -189,7 +189,6 @@ function loadState(): GamificationState {
 
   // Migrate from legacy keys
   const legacyXP = parseInt(localStorage.getItem("icbu_xp") || "0", 10);
-  const legacyLevel = parseInt(localStorage.getItem("icbu_level") || "1", 10);
   if (legacyXP > 0) {
     return { ...DEFAULT_STATE, totalXP: legacyXP };
   }
