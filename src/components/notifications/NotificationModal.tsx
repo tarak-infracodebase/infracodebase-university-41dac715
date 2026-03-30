@@ -46,11 +46,15 @@ export function NotificationModal({ open, initialId, onClose }: NotificationModa
   const total = NOTIFICATIONS.length + 1;
   const [index, setIndex] = useState(0);
 
-  // Sync index when modal opens with a specific notification
+  // Reset to slide 0 (intro) when modal opens; jump to specific notification if requested
   useEffect(() => {
-    if (!open || initialId === null) return;
-    const i = NOTIFICATIONS.findIndex(n => n.id === initialId);
-    setIndex(i >= 0 ? i + 1 : 0); // offset by 1 for intro slide
+    if (!open) return;
+    if (initialId !== null) {
+      const i = NOTIFICATIONS.findIndex(n => n.id === initialId);
+      setIndex(i >= 0 ? i + 1 : 0);
+    } else {
+      setIndex(0);
+    }
   }, [open, initialId]);
 
   const hasPrev = index > 0;
