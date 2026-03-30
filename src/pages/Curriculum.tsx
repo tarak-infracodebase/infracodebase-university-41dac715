@@ -2,7 +2,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { Helmet } from "react-helmet-async";
 import { learningPaths } from "@/data/courseData";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BookOpen, Clock, ArrowRight, Search, HelpCircle, X } from "lucide-react";
 import { AzurePeriodicTablePill } from "@/components/AzurePeriodicTableLink";
 import { InfracodebaseDocsPill } from "@/components/InfracodebaseDocsLink";
