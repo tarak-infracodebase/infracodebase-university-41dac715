@@ -1,5 +1,5 @@
 import { AppLayout } from "@/components/AppLayout";
-import { SkillBar, CrystalIcon } from "@/components/DashboardWidgets";
+import { SkillBar } from "@/components/DashboardWidgets";
 import { learningPaths } from "@/data/courseData";
 import { Link } from "react-router-dom";
 import {
