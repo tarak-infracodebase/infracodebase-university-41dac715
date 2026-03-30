@@ -572,9 +572,9 @@ export function BadgesGrid({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
       <div className="flex flex-wrap gap-2">
-        {earnedBadges.slice(0, 8).map((badge, i) => (
-          <span key={badge.id} title={badge.name}>
-            <CrystalIcon color={crystalColors[i % crystalColors.length]} size={24} />
+        {earnedBadges.slice(0, 8).map((badge) => (
+          <span key={badge.id} title={badge.name} className="text-xs font-semibold text-foreground">
+            {badge.name}
           </span>
         ))}
         {earnedBadges.length === 0 && (
