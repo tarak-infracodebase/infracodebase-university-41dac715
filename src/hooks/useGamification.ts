@@ -123,11 +123,23 @@ function reducer(state: GamificationState, action: Action): GamificationState {
         ? state.dailyXPEarned + earned
         : earned;
 
-      const newState = {
+      // Update rolling daily XP log (keep last 30 days)
+      const existingLog = [...state.dailyXPLog];
+      const todayIdx = existingLog.findIndex(e => e.date === today);
+      if (todayIdx >= 0) {
+        existingLog[todayIdx] = { date: today, xp: existingLog[todayIdx].xp + earned };
+      } else {
+        existingLog.push({ date: today, xp: earned });
+      }
+      // Trim to last 30 entries
+      const trimmedLog = existingLog.slice(-30);
+
+      const newState: GamificationState = {
         ...state,
         totalXP: state.totalXP + earned,
         dailyXPEarned: dailyXP,
         dailyDate: today,
+        dailyXPLog: trimmedLog,
       };
 
       if (action.payload.lessonKey && !state.completedLessons.includes(action.payload.lessonKey)) {
