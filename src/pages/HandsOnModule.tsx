@@ -215,6 +215,7 @@ const HandsOnModulePage = () => {
                       const totalModules = track.modules.length;
                       progress[key] = { completed: Math.min(completedSet.size, totalModules), completedLessons: Array.from(completedSet), status: "in_progress" };
                       localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
+                      window.dispatchEvent(new Event("icbu_xp_update"));
                     } catch {}
                     window.scrollTo(0, 0);
                   }}

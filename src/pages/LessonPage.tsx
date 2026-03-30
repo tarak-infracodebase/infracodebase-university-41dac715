@@ -105,6 +105,7 @@ const LessonPage = () => {
                       completedSet.add(lesson.id);
                       progress[key] = { completed: Math.min(completedSet.size, allLessons.length), completedLessons: Array.from(completedSet), status: "in_progress" };
                       localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
+                      window.dispatchEvent(new Event("icbu_xp_update"));
                     } catch {}
                     window.scrollTo(0, 0);
                   }}
@@ -320,6 +321,7 @@ const LessonPage = () => {
                       completedSet.add(lesson.id);
                       progress[key] = { completed: Math.min(completedSet.size, allLessons.length), completedLessons: Array.from(completedSet), status: "in_progress" };
                       localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
+                      window.dispatchEvent(new Event("icbu_xp_update"));
                     } catch {}
                     window.scrollTo(0, 0);
                   }}

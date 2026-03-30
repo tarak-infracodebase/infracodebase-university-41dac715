@@ -15,6 +15,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { NotificationBell } from "./notifications/NotificationPanel";
 import { NotificationModal } from "./notifications/NotificationModal";
 import { useNotifications } from "./notifications/useNotifications";
+import { useProgressSync } from "@/hooks/useProgressSync";
 
 import { ExternalLink } from "lucide-react";
 
@@ -407,6 +408,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       return () => clearTimeout(timer);
     }
   }, [isLoaded, isSignedIn, user, notif.allNotifications, notif.unreadCount, notif.openNotification]);
+
+  // Sync progress between localStorage and Clerk unsafeMetadata
+  useProgressSync();
 
   const [collapsed, setCollapsed] = useState(false);
 
