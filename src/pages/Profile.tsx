@@ -184,11 +184,11 @@ function AchievementsCard() {
         break;
       case "xp_1000":
         progress = Math.min(state.totalXP / 1000, 1);
-        hint = !earned ? `${Math.max(0, 1000 - state.totalXP)} XP to go` : "";
+        hint = !earned ? `${Math.max(0, 1000 - state.totalXP)} pts to go` : "";
         break;
       case "xp_2500":
         progress = Math.min(state.totalXP / 2500, 1);
-        hint = !earned ? `${Math.max(0, 2500 - state.totalXP)} XP to go` : "";
+        hint = !earned ? `${Math.max(0, 2500 - state.totalXP)} pts to go` : "";
         break;
       case "video_watcher":
         progress = Math.min(state.watchedVideos.length / 3, 1);
@@ -235,7 +235,7 @@ function AchievementsCard() {
                 <p className="text-[10px] text-muted-foreground">{badge.desc}</p>
               </div>
               {badge.xp > 0 && (
-                <span className="text-[10px] font-mono text-yellow-400 shrink-0">+{badge.xp} XP</span>
+                <span className="text-[10px] font-mono text-yellow-400 shrink-0">+{badge.xp} pts</span>
               )}
             </div>
           ))}
@@ -454,8 +454,8 @@ function UniversityProgress() {
       {/* XP + level strip */}
       <div className="flex items-center gap-6 py-3 border-b border-border/30 mb-4">
         <div className="flex flex-col gap-0.5">
-          <span className="text-lg font-mono font-bold">{totalXP.toLocaleString()} XP</span>
-          <span className="text-[11px] text-muted-foreground">{levelName} · Level {levelIdx + 1}</span>
+          <span className="text-lg font-mono font-bold">{totalXP.toLocaleString()} points</span>
+          <span className="text-[11px] text-muted-foreground">{levelName} · Rank {levelIdx + 1} of 10</span>
         </div>
         <div className="flex flex-col gap-0.5">
           <span className="text-lg font-mono font-bold">{totalLessons}</span>
@@ -832,12 +832,12 @@ const Profile = () => {
             {/* Live streak */}
             <span className="flex items-center gap-1">
               <Flame className={`h-3.5 w-3.5 ${state.streak > 0 ? "text-orange-400" : ""}`} />
-              {state.streak > 0 ? `${state.streak} day streak` : "Start your streak"}
+              {state.streak > 0 ? `${state.streak} days in a row` : "Start your habit"}
             </span>
             {/* Live level name — replaces hardcoded "Explorer" / "Silver League" */}
             <span className="flex items-center gap-1">
               <Award className={`h-3.5 w-3.5 ${levelIdx >= 6 ? "text-yellow-400" : ""}`} />
-              {levelName}
+              {levelName} · Rank {levelIdx + 1} of 10
             </span>
             {editing ? (
               <span className="flex items-center gap-1.5">
