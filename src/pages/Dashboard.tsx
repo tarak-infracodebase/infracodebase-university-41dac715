@@ -33,6 +33,38 @@ const Dashboard = () => {
     state, activateDoubleXP, earnedBadges,
   } = useGamificationContext();
 
+  // ── Challenge data ────────────────────────────────────────────────────────
+  const { progress: challengeProgress } = useChallenge();
+  const completedDays = challengeProgress.completedDays ?? [];
+  const comp = completedDays.length;
+  const challengeComplete = comp >= 30;
+  const challengeStreak = calculateChallengeStreak(completedDays);
+
+  function phaseProgress(start: number, end: number): number {
+    const phaseDays = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    const done = phaseDays.filter(d => completedDays.includes(d)).length;
+    return Math.round((done / phaseDays.length) * 100);
+  }
+
+  const foundationPct = phaseProgress(1, 7);
+  const designPct = phaseProgress(8, 13);
+  const validatePct = phaseProgress(14, 20);
+  const masteryPct = phaseProgress(21, 30);
+
+  const skills = [
+    { label: "Infrastructure Architecture", value: Math.max(0, Math.round(foundationPct * 0.4 + designPct * 0.6)), color: crystalColors[0] },
+    { label: "Networking & Routing",         value: Math.max(0, Math.round(validatePct * 0.5)), color: crystalColors[1] },
+    { label: "Identity & Access Management", value: Math.max(0, Math.round(validatePct * 0.6)), color: crystalColors[2] },
+    { label: "Configuration Automation",     value: foundationPct, color: crystalColors[3] },
+    { label: "Infrastructure Debugging",     value: validatePct, color: crystalColors[4] },
+    { label: "Environment Management",       value: Math.max(0, Math.round(foundationPct * 0.5)), color: crystalColors[5] },
+    { label: "Governance & Rulesets",        value: validatePct, color: crystalColors[6] },
+    { label: "Architecture Documentation",   value: designPct, color: crystalColors[0] },
+    { label: "Platform Engineering",         value: masteryPct, color: crystalColors[1] },
+    { label: "Resilience & Scaling",         value: masteryPct, color: crystalColors[2] },
+    { label: "Infrastructure Operations",    value: masteryPct, color: crystalColors[3] },
+  ];
+
   useEffect(() => {
     if (!state.lastActiveDate || state.doubleXP) return;
     const diffDays = Math.floor(
