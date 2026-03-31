@@ -454,8 +454,8 @@ function UniversityProgress() {
       {/* XP + level strip */}
       <div className="flex items-center gap-6 py-3 border-b border-border/30 mb-4">
         <div className="flex flex-col gap-0.5">
-          <span className="text-lg font-mono font-bold">{totalXP.toLocaleString()} XP</span>
-          <span className="text-[11px] text-muted-foreground">{levelName} · Level {levelIdx + 1}</span>
+          <span className="text-lg font-mono font-bold">{totalXP.toLocaleString()} points</span>
+          <span className="text-[11px] text-muted-foreground">{levelName} · Rank {levelIdx + 1} of 10</span>
         </div>
         <div className="flex flex-col gap-0.5">
           <span className="text-lg font-mono font-bold">{totalLessons}</span>
