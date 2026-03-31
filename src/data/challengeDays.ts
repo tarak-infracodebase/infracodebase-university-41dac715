@@ -4,7 +4,7 @@ export interface ChallengeDay {
   name: string;
   where: string;
   ref: string | null;
-  steps: [string, string, string];
+  steps: string[];
 }
 
 export const PHASE_COLORS: Record<ChallengeDay['phase'], string> = {

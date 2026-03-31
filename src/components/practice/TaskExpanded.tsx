@@ -91,7 +91,8 @@ export function TaskExpanded({ day, where, ref: refUrl, steps, onComplete }: Tas
               </p>
             </div>
           </button>
-        ))}
+          );
+        })}
       </div>
 
       {/* Reference link */}

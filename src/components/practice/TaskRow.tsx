@@ -25,7 +25,11 @@ export function TaskRow({ day, status, onComplete }: TaskRowProps) {
           opacity: status === "locked" ? 0.5 : 1,
         }}
         onClick={() => {
-          if (status === "active") setExpanded(!expanded);
+          try {
+            if (status === "active") setExpanded(!expanded);
+          } catch (err) {
+            console.log("TaskRow onClick error:", err);
+          }
         }}
         onMouseEnter={(e) => {
           if (status !== "locked") (e.currentTarget.style.background = "#252548");
