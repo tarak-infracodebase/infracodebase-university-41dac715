@@ -105,7 +105,7 @@ export function TaskRow({ day, status, onComplete }: TaskRowProps) {
         <TaskExpanded
           day={day.day}
           where={day.where}
-          ref={day.ref}
+          refUrl={day.ref}
           steps={day.steps}
           onComplete={onComplete}
         />

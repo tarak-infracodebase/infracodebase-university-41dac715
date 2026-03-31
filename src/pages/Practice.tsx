@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, Component, ReactNode } from "react";
 import { AppLayout } from "@/components/AppLayout";
 import { useChallenge } from "@/hooks/useChallenge";
 import { MILESTONE_DAYS } from "@/data/milestones";
@@ -7,6 +7,28 @@ import { StatsGrid } from "@/components/practice/StatsGrid";
 import { TaskList } from "@/components/practice/TaskList";
 import { LockedAdvancedCard } from "@/components/practice/LockedAdvancedCard";
 import { MilestoneBadgeModal } from "@/components/practice/MilestoneBadgeModal";
+
+class PracticeErrorBoundary extends Component<
+  { children: ReactNode },
+  { hasError: boolean; error: string }
+> {
+  state = { hasError: false, error: "" };
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error: error.message };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-8 text-red-400 space-y-2">
+          <p className="font-bold text-lg">Practice page error</p>
+          <p className="text-sm font-mono bg-red-950/30 p-4 rounded">{this.state.error}</p>
+          <p className="text-xs text-muted-foreground">Check the browser console for the full stack trace.</p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 const PracticePage = () => {
   const { progress, completeDay } = useChallenge();

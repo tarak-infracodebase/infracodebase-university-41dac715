@@ -5,12 +5,12 @@ import { useState } from "react";
 interface TaskExpandedProps {
   day: number;
   where: string;
-  ref: string | null;
+  refUrl: string | null;
   steps: string[];
   onComplete: () => void;
 }
 
-export function TaskExpanded({ day, where, ref: refUrl, steps, onComplete }: TaskExpandedProps) {
+export function TaskExpanded({ day, where, refUrl, steps, onComplete }: TaskExpandedProps) {
   const safeSteps = Array.isArray(steps) ? steps : [];
   const [checked, setChecked] = useState<boolean[]>(() => safeSteps.map(() => false));
 
