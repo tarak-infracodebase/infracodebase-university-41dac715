@@ -61,6 +61,15 @@ const videos: VideoItem[] = [
     trackLabel: "Track 5 — Enterprise Governance & Platform Engineering",
     trackPath: "/path/enterprise-governance",
   },
+  {
+    id: "advanced-architecture",
+    title: "Advanced Infrastructure Architecture",
+    src: "/videos/Track_6_veed.mp4",
+    category: "Infrastructure Architecture",
+    description: "Design resilient, multi-region infrastructure systems that handle scale, failure, and complexity.",
+    trackLabel: "Track 6 — Advanced Infrastructure Architecture",
+    trackPath: "/path/advanced-architecture",
+  },
 ];
 
 function getProgress(id: string): number {
