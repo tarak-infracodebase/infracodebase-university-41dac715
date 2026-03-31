@@ -26,6 +26,15 @@ interface VideoItem {
 
 const videos: VideoItem[] = [
   {
+    id: "cloud-foundations-intro",
+    title: "Cloud & Infrastructure Training — Foundations",
+    src: "/videos/Cloud_Foundations_1_veed.mp4",
+    category: "Getting Started",
+    description: "Learn what the cloud actually is, how compute, storage, networking, and identity work together, and build your first real infrastructure environment step by step.",
+    trackLabel: "Prerequisite — Cloud & Infrastructure Training: Foundations",
+    trackPath: "/path/prereq-foundations",
+  },
+  {
     id: "intro",
     title: "Introduction to Infracodebase",
     src: "/assets/Introduction.mp4",
