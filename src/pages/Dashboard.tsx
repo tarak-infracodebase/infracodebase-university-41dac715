@@ -109,9 +109,17 @@ const Dashboard = () => {
     : 0;
   const nextLesson = allCurrentLessons[completedCount];
 
-  const isNewUser = state.totalXP === 0 && state.completedLessons.length === 0;
+  const isNewUser = state.totalXP === 0 && state.completedLessons.length === 0 && comp === 0;
 
-  // ── Daily chart — last 14 days ────────────────────────────────────────────
+  // ── Daily chart — last 14 days (blend XP + challenge completions) ─────────
+  const challengeDateCounts: Record<string, number> = {};
+  if (challengeProgress.completionDates) {
+    Object.values(challengeProgress.completionDates).forEach((iso) => {
+      const dateStr = iso.slice(0, 10);
+      challengeDateCounts[dateStr] = (challengeDateCounts[dateStr] ?? 0) + 10;
+    });
+  }
+
   const dailyChartData = (() => {
     const days: { label: string; xp: number }[] = [];
     for (let i = 13; i >= 0; i--) {
@@ -122,7 +130,8 @@ const Dashboard = () => {
       const entry = (state.dailyHistory ?? []).find(
         (h: { date: string; xp: number }) => h.date === dateStr
       );
-      days.push({ label: dayNum, xp: entry?.xp ?? 0 });
+      const challengePts = challengeDateCounts[dateStr] ?? 0;
+      days.push({ label: dayNum, xp: (entry?.xp ?? 0) + challengePts });
     }
     return days;
   })();
