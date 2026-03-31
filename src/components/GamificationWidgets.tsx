@@ -96,6 +96,8 @@ export function StreakCard() {
 // ── DailyGoalRing ──────────────────────────────────────────────────────────
 export function DailyGoalRing({ size = 80 }: { size?: number }) {
   const { state, todayDone, setDailyGoal } = useGamificationContext();
+  const { progress } = useChallenge();
+  const challengeStreak = calculateChallengeStreak(progress.completedDays);
   const [showPicker, setShowPicker] = React.useState(false);
   const pct = Math.min((state.dailyXP / state.dailyGoal) * 100, 100);
   const strokeWidth = 6;
