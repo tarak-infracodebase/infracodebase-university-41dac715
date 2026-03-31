@@ -7,6 +7,7 @@ import { CrystalIcon } from "@/components/DashboardWidgets";
 import { LEVELS, BADGES } from "@/hooks/useGamification";
 import { Flame, Heart, Zap, Check, X, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useChallenge, calculateChallengeStreak } from "@/hooks/useChallenge";
 
 const crystalColors = [
   "hsl(260, 70%, 58%)", "hsl(330, 65%, 55%)", "hsl(185, 70%, 48%)",
@@ -95,6 +96,8 @@ export function StreakCard() {
 // ── DailyGoalRing ──────────────────────────────────────────────────────────
 export function DailyGoalRing({ size = 80 }: { size?: number }) {
   const { state, todayDone, setDailyGoal } = useGamificationContext();
+  const { progress } = useChallenge();
+  const challengeStreak = calculateChallengeStreak(progress.completedDays);
   const [showPicker, setShowPicker] = React.useState(false);
   const pct = Math.min((state.dailyXP / state.dailyGoal) * 100, 100);
   const strokeWidth = 6;
@@ -158,16 +161,31 @@ export function DailyGoalRing({ size = 80 }: { size?: number }) {
       <p className="text-[10px] text-muted-foreground">
         {todayDone ? "Target reached for today!" : `${Math.max(0, state.dailyGoal - state.dailyXP)} points to go`}
       </p>
-      <div className="w-full pt-2 border-t border-border/40 flex items-center gap-2">
-        <Flame className={cn("h-3.5 w-3.5 shrink-0", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")} />
-        <div>
-          <p className={cn("text-xs font-medium", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")}>
-            {state.streak} days in a row
-          </p>
-          <p className="text-[10px] text-muted-foreground">
-            {todayDone ? "Done for today ✓" : state.streak > 0 ? "Complete a lesson to keep going" : "Complete a lesson today to start your habit"}
-          </p>
+      <div className="w-full pt-2 border-t border-border/40 space-y-2">
+        <div className="flex items-center gap-2">
+          <Flame className={cn("h-3.5 w-3.5 shrink-0", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")} />
+          <div>
+            <p className={cn("text-xs font-medium", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")}>
+              {state.streak} days in a row
+            </p>
+            <p className="text-[10px] text-muted-foreground">
+              {todayDone ? "Done for today ✓" : state.streak > 0 ? "Complete a lesson to keep going" : "Complete a lesson today to start your habit"}
+            </p>
+          </div>
         </div>
+        {challengeStreak > 0 && (
+          <div className="flex items-center gap-2">
+            <Zap className="h-3.5 w-3.5 shrink-0 text-primary" />
+            <div>
+              <p className="text-xs font-medium text-primary">
+                {challengeStreak}-day challenge streak
+              </p>
+              <p className="text-[10px] text-muted-foreground">
+                {progress.completedDays.length >= 30 ? "Challenge complete! 🎉" : `Day ${progress.completedDays.length + 1} is next`}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
