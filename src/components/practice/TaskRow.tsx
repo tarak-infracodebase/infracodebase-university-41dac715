@@ -1,4 +1,4 @@
-import { Check, Lock } from "lucide-react";
+import { Check, Lock, ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TaskExpanded } from "./TaskExpanded";
@@ -15,24 +15,25 @@ interface TaskRowProps {
 export function TaskRow({ day, status, onComplete }: TaskRowProps) {
   const [expanded, setExpanded] = useState(false);
   const phaseColor = PHASE_COLORS[day.phase];
+  const isClickable = status === "active" || status === "done";
 
   return (
     <div>
       <div
-        className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors cursor-pointer"
+        className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isClickable ? "cursor-pointer" : ""}`}
         style={{
           background: status === "active" ? "#1e1e38" : "#1e1e32",
           opacity: status === "locked" ? 0.5 : 1,
         }}
         onClick={() => {
           try {
-            if (status === "active") setExpanded(!expanded);
+            if (isClickable) setExpanded((prev) => !prev);
           } catch (err) {
             console.log("TaskRow onClick error:", err);
           }
         }}
         onMouseEnter={(e) => {
-          if (status !== "locked") (e.currentTarget.style.background = "#252548");
+          if (isClickable) e.currentTarget.style.background = "#252548";
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.background =
@@ -60,8 +61,8 @@ export function TaskRow({ day, status, onComplete }: TaskRowProps) {
           <p
             className="text-sm font-medium truncate"
             style={{
-              color: status === "done" ? "#6b6b78" : status === "locked" ? "#4a4a65" : "#e8e6e0",
-              textDecoration: status === "done" ? "line-through" : "none",
+              color: status === "done" ? "#a0a0a8" : status === "locked" ? "#4a4a65" : "#e8e6e0",
+              textDecoration: "none",
             }}
           >
             Day {day.day}: {day.name}
@@ -73,9 +74,9 @@ export function TaskRow({ day, status, onComplete }: TaskRowProps) {
           {status === "done" ? (
             <Badge
               variant="outline"
-              className="text-green-400 border-green-400/30 bg-green-400/10 text-xs"
+              className="text-green-400 border-green-400/30 bg-green-400/10 text-xs gap-1"
             >
-              Done
+              Done <ChevronDown className={`h-3 w-3 transition-transform ${expanded ? "rotate-180" : ""}`} />
             </Badge>
           ) : status === "active" ? (
             <Button
@@ -100,13 +101,14 @@ export function TaskRow({ day, status, onComplete }: TaskRowProps) {
         </div>
       </div>
 
-      {/* Expanded view */}
-      {expanded && status === "active" && (
+      {/* Expanded view — active or completed */}
+      {expanded && isClickable && (
         <TaskExpanded
           day={day.day}
           where={day.where}
           refUrl={day.ref}
           steps={day.steps}
+          isCompleted={status === "done"}
           onComplete={onComplete}
         />
       )}
