@@ -53,7 +53,7 @@ export function LevelCard() {
 
 // ── TotalXPCard ─────────────────────────────────────────────────────────────
 export function TotalXPCard() {
-  const { state, levelIdx, levelName, xpToNext } = useGamificationContext();
+  const { state, levelIdx, xpToNext } = useGamificationContext();
   const isMax = levelIdx >= LEVELS.length - 1;
   return (
     <div className="glass-panel rounded-xl p-5 text-center">
@@ -63,8 +63,7 @@ export function TotalXPCard() {
       <div className="flex items-center justify-center gap-2">
         <CrystalIcon color={crystalColors[levelIdx % crystalColors.length]} size={18} />
         <div className="text-left">
-          <p className="text-sm font-medium leading-none">{levelName}</p>
-          <p className="text-[10px] text-muted-foreground mt-0.5">Rank {levelIdx + 1} of 10</p>
+          <p className="text-sm font-medium leading-none">Rank {levelIdx + 1} of 10</p>
         </div>
       </div>
       {!isMax && (

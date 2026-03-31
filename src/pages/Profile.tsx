@@ -403,7 +403,7 @@ function ActivityHeatmap() {
 
 // ── UniversityProgress — shows real learning activity from state ───────────
 function UniversityProgress() {
-  const { state, levelIdx, levelName, xpToNext } = useGamificationContext();
+  const { state, levelIdx } = useGamificationContext();
 
   const totalLessons = state.completedLessons.length;
   const totalVideos  = state.watchedVideos.length;
@@ -455,7 +455,7 @@ function UniversityProgress() {
       <div className="flex items-center gap-6 py-3 border-b border-border/30 mb-4">
         <div className="flex flex-col gap-0.5">
           <span className="text-lg font-mono font-bold">{totalXP.toLocaleString()} points</span>
-          <span className="text-[11px] text-muted-foreground">{levelName} · Rank {levelIdx + 1} of 10</span>
+          <span className="text-[11px] text-muted-foreground">Rank {levelIdx + 1} of 10</span>
         </div>
         <div className="flex flex-col gap-0.5">
           <span className="text-lg font-mono font-bold">{totalLessons}</span>
@@ -611,7 +611,7 @@ const Profile = () => {
   const [handleError, setHandleError] = useState("");
 
   const { profileData, saveProfile } = useProfileData(user?.id);
-  const { state, levelIdx, levelName } = useGamificationContext();
+  const { state, levelIdx } = useGamificationContext();
 
   const clerkHandle =
     user?.username ||
@@ -834,10 +834,9 @@ const Profile = () => {
               <Flame className={`h-3.5 w-3.5 ${state.streak > 0 ? "text-orange-400" : ""}`} />
               {state.streak > 0 ? `${state.streak} days in a row` : "Start your habit"}
             </span>
-            {/* Live level name — replaces hardcoded "Explorer" / "Silver League" */}
             <span className="flex items-center gap-1">
               <Award className={`h-3.5 w-3.5 ${levelIdx >= 6 ? "text-yellow-400" : ""}`} />
-              {levelName} · Rank {levelIdx + 1} of 10
+              Rank {levelIdx + 1} of 10
             </span>
             {editing ? (
               <span className="flex items-center gap-1.5">
@@ -877,7 +876,7 @@ const Profile = () => {
             </button>
           ) : (
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-xl">
-              {levelName} on Infracodebase University.
+              Learning on Infracodebase University.
             </p>
           )}
 
