@@ -834,10 +834,9 @@ const Profile = () => {
               <Flame className={`h-3.5 w-3.5 ${state.streak > 0 ? "text-orange-400" : ""}`} />
               {state.streak > 0 ? `${state.streak} days in a row` : "Start your habit"}
             </span>
-            {/* Live level name — replaces hardcoded "Explorer" / "Silver League" */}
             <span className="flex items-center gap-1">
               <Award className={`h-3.5 w-3.5 ${levelIdx >= 6 ? "text-yellow-400" : ""}`} />
-              {levelName} · Rank {levelIdx + 1} of 10
+              Rank {levelIdx + 1} of 10
             </span>
             {editing ? (
               <span className="flex items-center gap-1.5">
