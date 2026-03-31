@@ -3,9 +3,10 @@ import { useUser } from "@clerk/clerk-react";
 
 export interface UserProgress {
   completedDays: number[];
+  completionDates: Record<number, string>; // day number → ISO date string
 }
 
-const DEFAULT_PROGRESS: UserProgress = { completedDays: [] };
+const DEFAULT_PROGRESS: UserProgress = { completedDays: [], completionDates: {} };
 
 export function useChallenge() {
   const { user } = useUser();
@@ -16,7 +17,14 @@ export function useChallenge() {
   const [progress, setProgress] = useState<UserProgress>(() => {
     try {
       const stored = localStorage.getItem(storageKey);
-      return stored ? JSON.parse(stored) : { ...DEFAULT_PROGRESS };
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        return {
+          completedDays: parsed.completedDays ?? [],
+          completionDates: parsed.completionDates ?? {},
+        };
+      }
+      return { ...DEFAULT_PROGRESS };
     } catch {
       return { ...DEFAULT_PROGRESS };
     }
@@ -26,8 +34,15 @@ export function useChallenge() {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(storageKey);
-      if (stored) setProgress(JSON.parse(stored));
-      else setProgress({ ...DEFAULT_PROGRESS });
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setProgress({
+          completedDays: parsed.completedDays ?? [],
+          completionDates: parsed.completionDates ?? {},
+        });
+      } else {
+        setProgress({ ...DEFAULT_PROGRESS });
+      }
     } catch {}
   }, [storageKey]);
 
@@ -45,7 +60,13 @@ export function useChallenge() {
     (day: number) => {
       setProgress((prev) => {
         if (prev.completedDays.includes(day)) return prev;
-        const next = { completedDays: [...prev.completedDays, day].sort((a, b) => a - b) };
+        const next: UserProgress = {
+          completedDays: [...prev.completedDays, day].sort((a, b) => a - b),
+          completionDates: {
+            ...prev.completionDates,
+            [day]: new Date().toISOString(),
+          },
+        };
         try {
           localStorage.setItem(storageKey, JSON.stringify(next));
         } catch {}
@@ -71,4 +92,20 @@ export function getDayStatus(
   if (completedDays.includes(day)) return "done";
   if (day === getActiveDay(completedDays)) return "active";
   return "locked";
+}
+
+export function calculateChallengeStreak(completedDays: number[]): number {
+  if (completedDays.length === 0) return 0;
+  const sorted = [...completedDays].sort((a, b) => b - a);
+  let streak = 0;
+  let expected = sorted[0];
+  for (const day of sorted) {
+    if (day === expected) {
+      streak++;
+      expected--;
+    } else {
+      break;
+    }
+  }
+  return streak;
 }

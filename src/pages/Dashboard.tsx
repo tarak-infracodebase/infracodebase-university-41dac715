@@ -15,6 +15,7 @@ import {
   DailyGoalRing,
   StreakRiskBanner, DoubleXPBanner, StreakFreezeCard
 } from "@/components/GamificationWidgets";
+import { useChallenge, calculateChallengeStreak } from "@/hooks/useChallenge";
 
 // ── constants ──────────────────────────────────────────────────────────────
 
@@ -23,19 +24,7 @@ const crystalColors = [
   "hsl(145, 60%, 45%)", "hsl(45, 85%, 55%)", "hsl(25, 85%, 55%)", "hsl(0, 72%, 55%)"
 ];
 
-const skills = [
-  { label: "Infrastructure Architecture", value: 72, color: crystalColors[0] },
-  { label: "Networking & Routing",         value: 65, color: crystalColors[1] },
-  { label: "Identity & Access Management", value: 45, color: crystalColors[2] },
-  { label: "Configuration Automation",     value: 58, color: crystalColors[3] },
-  { label: "Infrastructure Debugging",     value: 40, color: crystalColors[4] },
-  { label: "Environment Management",       value: 35, color: crystalColors[5] },
-  { label: "Governance & Rulesets",        value: 25, color: crystalColors[6] },
-  { label: "Architecture Documentation",   value: 30, color: crystalColors[0] },
-  { label: "Platform Engineering",         value: 20, color: crystalColors[1] },
-  { label: "Resilience & Scaling",         value: 15, color: crystalColors[2] },
-  { label: "Infrastructure Operations",    value: 50, color: crystalColors[3] },
-];
+// Skills will be computed dynamically inside the component
 
 // ── Dashboard ──────────────────────────────────────────────────────────────
 
@@ -43,6 +32,38 @@ const Dashboard = () => {
   const {
     state, activateDoubleXP, earnedBadges,
   } = useGamificationContext();
+
+  // ── Challenge data ────────────────────────────────────────────────────────
+  const { progress: challengeProgress } = useChallenge();
+  const completedDays = challengeProgress.completedDays ?? [];
+  const comp = completedDays.length;
+  const challengeComplete = comp >= 30;
+  const challengeStreak = calculateChallengeStreak(completedDays);
+
+  function phaseProgress(start: number, end: number): number {
+    const phaseDays = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    const done = phaseDays.filter(d => completedDays.includes(d)).length;
+    return Math.round((done / phaseDays.length) * 100);
+  }
+
+  const foundationPct = phaseProgress(1, 7);
+  const designPct = phaseProgress(8, 13);
+  const validatePct = phaseProgress(14, 20);
+  const masteryPct = phaseProgress(21, 30);
+
+  const skills = [
+    { label: "Infrastructure Architecture", value: Math.max(0, Math.round(foundationPct * 0.4 + designPct * 0.6)), color: crystalColors[0] },
+    { label: "Networking & Routing",         value: Math.max(0, Math.round(validatePct * 0.5)), color: crystalColors[1] },
+    { label: "Identity & Access Management", value: Math.max(0, Math.round(validatePct * 0.6)), color: crystalColors[2] },
+    { label: "Configuration Automation",     value: foundationPct, color: crystalColors[3] },
+    { label: "Infrastructure Debugging",     value: validatePct, color: crystalColors[4] },
+    { label: "Environment Management",       value: Math.max(0, Math.round(foundationPct * 0.5)), color: crystalColors[5] },
+    { label: "Governance & Rulesets",        value: validatePct, color: crystalColors[6] },
+    { label: "Architecture Documentation",   value: designPct, color: crystalColors[0] },
+    { label: "Platform Engineering",         value: masteryPct, color: crystalColors[1] },
+    { label: "Resilience & Scaling",         value: masteryPct, color: crystalColors[2] },
+    { label: "Infrastructure Operations",    value: masteryPct, color: crystalColors[3] },
+  ];
 
   useEffect(() => {
     if (!state.lastActiveDate || state.doubleXP) return;
@@ -72,10 +93,12 @@ const Dashboard = () => {
     };
   });
 
-  const totalTracks = learningPaths.length;
-  const tracksCompleted = Object.values(trackProgress).filter(t => t.status === "completed").length;
+  const totalTracks = learningPaths.length + 1; // +1 for 30-Day Challenge track
+  const existingTracksCompleted = Object.values(trackProgress).filter(t => t.status === "completed").length;
+  const tracksCompleted = challengeComplete ? existingTracksCompleted + 1 : existingTracksCompleted;
+  const challengeContribution = (comp / 30) * (1 / totalTracks);
   const overallProgress = totalTracks > 0
-    ? Math.round((tracksCompleted / totalTracks) * 100)
+    ? Math.min(100, Math.round(((existingTracksCompleted / totalTracks) + challengeContribution) * 100))
     : 0;
 
   const currentTrack = learningPaths.find(p => trackProgress[p.id]?.status === "in_progress");
@@ -86,9 +109,17 @@ const Dashboard = () => {
     : 0;
   const nextLesson = allCurrentLessons[completedCount];
 
-  const isNewUser = state.totalXP === 0 && state.completedLessons.length === 0;
+  const isNewUser = state.totalXP === 0 && state.completedLessons.length === 0 && comp === 0;
 
-  // ── Daily chart — last 14 days ────────────────────────────────────────────
+  // ── Daily chart — last 14 days (blend XP + challenge completions) ─────────
+  const challengeDateCounts: Record<string, number> = {};
+  if (challengeProgress.completionDates) {
+    Object.values(challengeProgress.completionDates).forEach((iso) => {
+      const dateStr = iso.slice(0, 10);
+      challengeDateCounts[dateStr] = (challengeDateCounts[dateStr] ?? 0) + 10;
+    });
+  }
+
   const dailyChartData = (() => {
     const days: { label: string; xp: number }[] = [];
     for (let i = 13; i >= 0; i--) {
@@ -99,7 +130,8 @@ const Dashboard = () => {
       const entry = (state.dailyHistory ?? []).find(
         (h: { date: string; xp: number }) => h.date === dateStr
       );
-      days.push({ label: dayNum, xp: entry?.xp ?? 0 });
+      const challengePts = challengeDateCounts[dateStr] ?? 0;
+      days.push({ label: dayNum, xp: (entry?.xp ?? 0) + challengePts });
     }
     return days;
   })();
@@ -362,7 +394,7 @@ const Dashboard = () => {
                 {
                   icon: <Zap className="h-3.5 w-3.5 text-[hsl(45,85%,55%)]" />,
                   label: "Hands-on exercises",
-                  value: state.completedLessons.filter(
+                  value: comp + state.completedLessons.filter(
                     (id: string) => id.startsWith("hands-on")
                   ).length,
                 },
@@ -493,7 +525,19 @@ const Dashboard = () => {
             </p>
             <div className="space-y-3">
               {BADGES.map((badge, i) => {
-                const earned = earnedBadges.some(b => b.id === badge.id);
+                // Blend gamification badges with challenge-based milestones
+                const challengeEarned = (() => {
+                  if (badge.id === "first_lesson") return comp >= 1;
+                  if (badge.id === "streak_3") return challengeStreak >= 3;
+                  if (badge.id === "streak_7") return completedDays.includes(7);
+                  if (badge.id === "lessons_10") return comp >= 10;
+                  if (badge.id === "lessons_25") return comp >= 25;
+                  if (badge.id === "xp_1000") return completedDays.includes(21);
+                  if (badge.id === "xp_2500") return completedDays.includes(30);
+                  if (badge.id === "path_complete") return completedDays.includes(30);
+                  return false;
+                })();
+                const earned = earnedBadges.some(b => b.id === badge.id) || challengeEarned;
                 return (
                   <div
                     key={badge.id}
