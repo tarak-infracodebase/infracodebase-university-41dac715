@@ -24,19 +24,7 @@ const crystalColors = [
   "hsl(145, 60%, 45%)", "hsl(45, 85%, 55%)", "hsl(25, 85%, 55%)", "hsl(0, 72%, 55%)"
 ];
 
-const skills = [
-  { label: "Infrastructure Architecture", value: 72, color: crystalColors[0] },
-  { label: "Networking & Routing",         value: 65, color: crystalColors[1] },
-  { label: "Identity & Access Management", value: 45, color: crystalColors[2] },
-  { label: "Configuration Automation",     value: 58, color: crystalColors[3] },
-  { label: "Infrastructure Debugging",     value: 40, color: crystalColors[4] },
-  { label: "Environment Management",       value: 35, color: crystalColors[5] },
-  { label: "Governance & Rulesets",        value: 25, color: crystalColors[6] },
-  { label: "Architecture Documentation",   value: 30, color: crystalColors[0] },
-  { label: "Platform Engineering",         value: 20, color: crystalColors[1] },
-  { label: "Resilience & Scaling",         value: 15, color: crystalColors[2] },
-  { label: "Infrastructure Operations",    value: 50, color: crystalColors[3] },
-];
+// Skills will be computed dynamically inside the component
 
 // ── Dashboard ──────────────────────────────────────────────────────────────
 
