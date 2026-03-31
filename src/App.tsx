@@ -102,6 +102,14 @@ const AnimatedRoutes = () => {
         <Route path="/hands-on/:trackId/:moduleId" element={<HandsOnModule />} />
         <Route path="/workshops" element={<OfficeHours />} />
         <Route path="/office-hours" element={<Navigate to="/workshops" replace />} />
+        <Route
+          path="/practice"
+          element={
+            <ProtectedRoute>
+              <PracticePage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Public username profile route */}
         <Route path="/:username" element={<Profile />} />

@@ -33,6 +33,7 @@ const navGroups = [
       { path: "/training", label: "Training", icon: Compass },
       { path: "/hands-on", label: "Hands-On Training", icon: Hammer },
       { path: "/videos", label: "Video Library", icon: Play },
+      { path: "/practice", label: "Practice", icon: Trophy },
     ],
   },
   {
