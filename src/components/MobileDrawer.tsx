@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { SignedOut } from "@clerk/clerk-react";
-import { LogIn, Home, FileText, Compass, Hammer, Play, Radio, Calendar, LayoutDashboard, MessageSquare, User, FolderOpen } from "lucide-react";
+import { LogIn, Home, FileText, Compass, Hammer, Play, Radio, Calendar, LayoutDashboard, MessageSquare, User, FolderOpen, Target } from "lucide-react";
 
 const sections = [
   {
@@ -33,6 +33,7 @@ const sections = [
     label: "ME",
     items: [
       { title: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+      { title: "Practice", path: "/practice", icon: Target },
       { title: "Feedback", path: "/feedback", icon: MessageSquare },
       { title: "Profile", path: "/profile", icon: User },
       { title: "Resources", path: "/resources", icon: FolderOpen },
