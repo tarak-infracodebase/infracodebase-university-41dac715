@@ -24,6 +24,7 @@ export function TaskList({ completedDays, onComplete, onMilestoneShare }: TaskLi
       {PHASES.map((phase, pi) => {
         const phaseDays = DAYS.filter((d) => d.phase === phase);
         const lastDay = phaseDays[phaseDays.length - 1]?.day;
+        const doneCount = phaseDays.filter((d) => completedDays.includes(d.day)).length;
 
         return (
           <div key={phase}>
@@ -41,6 +42,9 @@ export function TaskList({ completedDays, onComplete, onMilestoneShare }: TaskLi
               </span>
               <span className="text-xs text-muted-foreground">
                 Days {phaseDays[0]?.day}–{lastDay}
+              </span>
+              <span className="text-xs text-muted-foreground/60 ml-auto">
+                {doneCount}/{phaseDays.length}
               </span>
             </div>
 
