@@ -101,17 +101,27 @@ export function TaskRow({ day, status, onComplete }: TaskRowProps) {
         </div>
       </div>
 
-      {/* Expanded view — active or completed */}
-      {expanded && isClickable && (
-        <TaskExpanded
-          day={day.day}
-          where={day.where}
-          refUrl={day.ref}
-          steps={day.steps}
-          isCompleted={status === "done"}
-          onComplete={onComplete}
-        />
-      )}
+      {/* Animated expanded view */}
+      <div
+        className="transition-[grid-template-rows] duration-250 ease-out"
+        style={{
+          display: "grid",
+          gridTemplateRows: expanded && isClickable ? "1fr" : "0fr",
+        }}
+      >
+        <div className="overflow-hidden">
+          {isClickable && (
+            <TaskExpanded
+              day={day.day}
+              where={day.where}
+              refUrl={day.ref}
+              steps={day.steps}
+              isCompleted={status === "done"}
+              onComplete={onComplete}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
