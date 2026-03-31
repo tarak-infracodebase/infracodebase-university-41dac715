@@ -15,6 +15,7 @@ import {
   DailyGoalRing,
   StreakRiskBanner, DoubleXPBanner, StreakFreezeCard
 } from "@/components/GamificationWidgets";
+import { useChallenge, calculateChallengeStreak } from "@/hooks/useChallenge";
 
 // ── constants ──────────────────────────────────────────────────────────────
 
