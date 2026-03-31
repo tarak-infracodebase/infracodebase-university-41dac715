@@ -876,7 +876,7 @@ const Profile = () => {
             </button>
           ) : (
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed max-w-xl">
-              {levelName} on Infracodebase University.
+              Learning on Infracodebase University.
             </p>
           )}
 
