@@ -6,14 +6,15 @@ interface TaskExpandedProps {
   day: number;
   where: string;
   ref: string | null;
-  steps: [string, string, string];
+  steps: string[];
   onComplete: () => void;
 }
 
 export function TaskExpanded({ day, where, ref: refUrl, steps, onComplete }: TaskExpandedProps) {
-  const [checked, setChecked] = useState([false, false, false]);
+  const safeSteps = Array.isArray(steps) ? steps : [];
+  const [checked, setChecked] = useState<boolean[]>(() => safeSteps.map(() => false));
 
-  const allChecked = checked.every(Boolean);
+  const allChecked = safeSteps.length > 0 && checked.every(Boolean);
 
   const toggle = (idx: number) => {
     setChecked((prev) => {
