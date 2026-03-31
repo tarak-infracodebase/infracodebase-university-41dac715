@@ -385,7 +385,7 @@ const Dashboard = () => {
                 {
                   icon: <Zap className="h-3.5 w-3.5 text-[hsl(45,85%,55%)]" />,
                   label: "Hands-on exercises",
-                  value: state.completedLessons.filter(
+                  value: comp + state.completedLessons.filter(
                     (id: string) => id.startsWith("hands-on")
                   ).length,
                 },
