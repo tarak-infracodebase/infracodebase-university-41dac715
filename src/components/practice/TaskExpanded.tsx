@@ -61,36 +61,38 @@ export function TaskExpanded({ day, where, ref: refUrl, steps, onComplete }: Tas
 
       {/* Steps */}
       <div className="space-y-3">
-        {steps.map((step, i) => (
-          <button
-            key={i}
-            className="flex items-start gap-3 text-left w-full group"
-            onClick={() => toggle(i)}
-          >
-            <div
-              className="shrink-0 w-5 h-5 mt-0.5 rounded border flex items-center justify-center transition-colors"
-              style={{
-                borderColor: checked[i] ? "#4ade80" : "#4a4a65",
-                background: checked[i] ? "#4ade80" : "transparent",
-              }}
+        {safeSteps.map((step, i) => {
+          if (!step) return null;
+          return (
+            <button
+              key={i}
+              className="flex items-start gap-3 text-left w-full group"
+              onClick={() => toggle(i)}
             >
-              {checked[i] && <Check className="h-3 w-3 text-black" />}
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-medium mb-0.5">
-                Step {i + 1}
-              </p>
-              <p
-                className="text-sm leading-relaxed"
+              <div
+                className="shrink-0 w-5 h-5 mt-0.5 rounded border flex items-center justify-center transition-colors"
                 style={{
-                  color: checked[i] ? "#6b6b78" : "#d0d0d8",
-                  textDecoration: checked[i] ? "line-through" : "none",
+                  borderColor: checked[i] ? "#4ade80" : "#4a4a65",
+                  background: checked[i] ? "#4ade80" : "transparent",
                 }}
               >
-                {step}
-              </p>
-            </div>
-          </button>
+                {checked[i] && <Check className="h-3 w-3 text-black" />}
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground font-medium mb-0.5">
+                  Step {i + 1}
+                </p>
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{
+                    color: checked[i] ? "#6b6b78" : "#d0d0d8",
+                    textDecoration: checked[i] ? "line-through" : "none",
+                  }}
+                >
+                  {step}
+                </p>
+              </div>
+            </button>
           );
         })}
       </div>
