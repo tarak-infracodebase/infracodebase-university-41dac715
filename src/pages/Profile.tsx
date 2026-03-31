@@ -832,7 +832,7 @@ const Profile = () => {
             {/* Live streak */}
             <span className="flex items-center gap-1">
               <Flame className={`h-3.5 w-3.5 ${state.streak > 0 ? "text-orange-400" : ""}`} />
-              {state.streak > 0 ? `${state.streak} day streak` : "Start your streak"}
+              {state.streak > 0 ? `${state.streak} days in a row` : "Start your habit"}
             </span>
             {/* Live level name — replaces hardcoded "Explorer" / "Silver League" */}
             <span className="flex items-center gap-1">
