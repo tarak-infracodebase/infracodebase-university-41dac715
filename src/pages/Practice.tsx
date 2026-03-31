@@ -84,4 +84,10 @@ const PracticePage = () => {
   );
 };
 
-export default PracticePage;
+export default function Practice() {
+  return (
+    <PracticeErrorBoundary>
+      <PracticePage />
+    </PracticeErrorBoundary>
+  );
+}
