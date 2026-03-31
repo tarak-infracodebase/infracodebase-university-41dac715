@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useGamificationContext } from "@/hooks/GamificationProvider";
 import { BADGES } from "@/hooks/useGamification";
+import { ChallengeWidget } from "@/components/dashboard/ChallengeWidget";
 import {
   DailyGoalRing,
   StreakRiskBanner, DoubleXPBanner, StreakFreezeCard
