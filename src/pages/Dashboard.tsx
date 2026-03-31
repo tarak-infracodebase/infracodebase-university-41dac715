@@ -527,14 +527,14 @@ const Dashboard = () => {
               {BADGES.map((badge, i) => {
                 // Blend gamification badges with challenge-based milestones
                 const challengeEarned = (() => {
-                  if (badge.id === "first_step") return comp >= 1;
-                  if (badge.id === "on_a_roll") return challengeStreak >= 3;
-                  if (badge.id === "week_warrior") return completedDays.includes(7);
-                  if (badge.id === "dedicated") return comp >= 10;
-                  if (badge.id === "deep_diver") return comp >= 25;
-                  if (badge.id === "rising_eng") return completedDays.includes(21);
-                  if (badge.id === "infra_pro") return completedDays.includes(30);
-                  if (badge.id === "track_grad") return completedDays.includes(30);
+                  if (badge.id === "first_lesson") return comp >= 1;
+                  if (badge.id === "streak_3") return challengeStreak >= 3;
+                  if (badge.id === "streak_7") return completedDays.includes(7);
+                  if (badge.id === "lessons_10") return comp >= 10;
+                  if (badge.id === "lessons_25") return comp >= 25;
+                  if (badge.id === "xp_1000") return completedDays.includes(21);
+                  if (badge.id === "xp_2500") return completedDays.includes(30);
+                  if (badge.id === "path_complete") return completedDays.includes(30);
                   return false;
                 })();
                 const earned = earnedBadges.some(b => b.id === badge.id) || challengeEarned;
