@@ -74,7 +74,7 @@ export function ActiveChallengeCard({ completedCount }: ActiveChallengeCardProps
       </div>
 
       <p className="text-sm text-muted-foreground mt-4 font-medium">
-        Progress: <span className="text-foreground">{completedCount}/30 Tasks</span>
+        Progress: <span className="text-foreground">{completedCount}/30 tasks · {pct}%</span>
       </p>
     </Card>
   );

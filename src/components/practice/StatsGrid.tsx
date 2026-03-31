@@ -26,7 +26,7 @@ const stats = [
     label: "Unlocked",
     color: "#8880e0",
     tooltip: "Days available to start (only one at a time).",
-    getValue: () => 0,
+    getValue: (c: number) => (c >= 30 ? 0 : 1),
   },
   {
     label: "Locked",
