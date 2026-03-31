@@ -13,6 +13,8 @@ export function MilestoneRow({ day, earned, onShare }: MilestoneRowProps) {
   const milestone = MILESTONES[day];
   if (!milestone) return null;
 
+  const accentColor = milestone.color.achName;
+
   return (
     <div
       className="flex items-center gap-3 px-4 py-3 rounded-lg"
@@ -23,10 +25,10 @@ export function MilestoneRow({ day, earned, onShare }: MilestoneRowProps) {
     >
       <Star
         className="h-5 w-5 shrink-0"
-        style={{ color: milestone.color, fill: earned ? milestone.color : "transparent" }}
+        style={{ color: accentColor, fill: earned ? accentColor : "transparent" }}
       />
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold" style={{ color: milestone.color }}>
+        <p className="text-sm font-semibold" style={{ color: accentColor }}>
           Day {day} — {milestone.name}
         </p>
         <p className="text-xs text-muted-foreground mt-0.5">{milestone.description}</p>
@@ -36,9 +38,9 @@ export function MilestoneRow({ day, earned, onShare }: MilestoneRowProps) {
           variant="outline"
           className="text-xs"
           style={{
-            color: earned ? milestone.color : "#6b6b78",
-            borderColor: earned ? milestone.color + "40" : "#2a2a45",
-            background: earned ? milestone.color + "15" : "transparent",
+            color: earned ? accentColor : "#6b6b78",
+            borderColor: earned ? accentColor + "40" : "#2a2a45",
+            background: earned ? accentColor + "15" : "transparent",
           }}
         >
           {earned ? "Earned" : "Badge"}
