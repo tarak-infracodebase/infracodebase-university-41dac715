@@ -40,8 +40,8 @@ function IntroVideo({ pathId }: { pathId: string }) {
     );
   }
 
-  // For tracks without a video (excluding advanced-architecture which has none)
-  if (pathId === "advanced-architecture") return null;
+  // Tracks with no video and no placeholder
+  if (pathId === "advanced-architecture" || pathId === "cloud-infrastructure-intro" || pathId === "welcome-orientation") return null;
 
   return (
     <div className="rounded-2xl border border-border/30 bg-muted/30 aspect-video flex flex-col items-center justify-center gap-4 shadow-lg shadow-primary/5">
