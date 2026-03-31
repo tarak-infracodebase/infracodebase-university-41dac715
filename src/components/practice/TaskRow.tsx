@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { TaskExpanded } from "./TaskExpanded";
 import { PHASE_COLORS, type ChallengeDay } from "@/data/challengeDays";
 import type { getDayStatus } from "@/hooks/useChallenge";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface TaskRowProps {
   day: ChallengeDay;
