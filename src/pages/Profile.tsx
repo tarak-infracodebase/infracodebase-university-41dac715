@@ -235,7 +235,7 @@ function AchievementsCard() {
                 <p className="text-[10px] text-muted-foreground">{badge.desc}</p>
               </div>
               {badge.xp > 0 && (
-                <span className="text-[10px] font-mono text-yellow-400 shrink-0">+{badge.xp} XP</span>
+                <span className="text-[10px] font-mono text-yellow-400 shrink-0">+{badge.xp} pts</span>
               )}
             </div>
           ))}
