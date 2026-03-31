@@ -32,6 +32,7 @@ import SignUpPage from "./pages/SignUp";
 import OfficeHours from "./pages/OfficeHours";
 import CommunityCards from "./pages/CommunityCards";
 import Community from "./pages/Community";
+import PracticePage from "./pages/Practice";
 
 const CLERK_PUBLISHABLE_KEY = "pk_live_Y2xlcmsuaW5mcmFjb2RlYmFzZS5jb20k";
 
@@ -101,6 +102,14 @@ const AnimatedRoutes = () => {
         <Route path="/hands-on/:trackId/:moduleId" element={<HandsOnModule />} />
         <Route path="/workshops" element={<OfficeHours />} />
         <Route path="/office-hours" element={<Navigate to="/workshops" replace />} />
+        <Route
+          path="/practice"
+          element={
+            <ProtectedRoute>
+              <PracticePage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Public username profile route */}
         <Route path="/:username" element={<Profile />} />
