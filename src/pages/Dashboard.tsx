@@ -93,10 +93,12 @@ const Dashboard = () => {
     };
   });
 
-  const totalTracks = learningPaths.length;
-  const tracksCompleted = Object.values(trackProgress).filter(t => t.status === "completed").length;
+  const totalTracks = learningPaths.length + 1; // +1 for 30-Day Challenge track
+  const existingTracksCompleted = Object.values(trackProgress).filter(t => t.status === "completed").length;
+  const tracksCompleted = challengeComplete ? existingTracksCompleted + 1 : existingTracksCompleted;
+  const challengeContribution = (comp / 30) * (1 / totalTracks);
   const overallProgress = totalTracks > 0
-    ? Math.round((tracksCompleted / totalTracks) * 100)
+    ? Math.min(100, Math.round(((existingTracksCompleted / totalTracks) + challengeContribution) * 100))
     : 0;
 
   const currentTrack = learningPaths.find(p => trackProgress[p.id]?.status === "in_progress");
