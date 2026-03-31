@@ -53,7 +53,7 @@ export function LevelCard() {
 
 // ── TotalXPCard ─────────────────────────────────────────────────────────────
 export function TotalXPCard() {
-  const { state, levelIdx, levelName, xpToNext } = useGamificationContext();
+  const { state, levelIdx, xpToNext } = useGamificationContext();
   const isMax = levelIdx >= LEVELS.length - 1;
   return (
     <div className="glass-panel rounded-xl p-5 text-center">

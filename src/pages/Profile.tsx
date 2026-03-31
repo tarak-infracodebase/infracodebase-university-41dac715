@@ -611,7 +611,7 @@ const Profile = () => {
   const [handleError, setHandleError] = useState("");
 
   const { profileData, saveProfile } = useProfileData(user?.id);
-  const { state, levelIdx, levelName } = useGamificationContext();
+  const { state, levelIdx } = useGamificationContext();
 
   const clerkHandle =
     user?.username ||
