@@ -403,7 +403,7 @@ function ActivityHeatmap() {
 
 // ── UniversityProgress — shows real learning activity from state ───────────
 function UniversityProgress() {
-  const { state, levelIdx, levelName, xpToNext } = useGamificationContext();
+  const { state, levelIdx } = useGamificationContext();
 
   const totalLessons = state.completedLessons.length;
   const totalVideos  = state.watchedVideos.length;
