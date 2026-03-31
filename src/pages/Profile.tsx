@@ -184,11 +184,11 @@ function AchievementsCard() {
         break;
       case "xp_1000":
         progress = Math.min(state.totalXP / 1000, 1);
-        hint = !earned ? `${Math.max(0, 1000 - state.totalXP)} XP to go` : "";
+        hint = !earned ? `${Math.max(0, 1000 - state.totalXP)} pts to go` : "";
         break;
       case "xp_2500":
         progress = Math.min(state.totalXP / 2500, 1);
-        hint = !earned ? `${Math.max(0, 2500 - state.totalXP)} XP to go` : "";
+        hint = !earned ? `${Math.max(0, 2500 - state.totalXP)} pts to go` : "";
         break;
       case "video_watcher":
         progress = Math.min(state.watchedVideos.length / 3, 1);
