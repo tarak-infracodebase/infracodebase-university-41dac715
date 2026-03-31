@@ -21,12 +21,9 @@ const PHASES: ChallengeDay["phase"][] = [
 export function TaskList({ completedDays, onComplete, onMilestoneShare }: TaskListProps) {
   return (
     <div className="space-y-2">
-      {PHASES.map((phase) => {
+      {PHASES.map((phase, pi) => {
         const phaseDays = DAYS.filter((d) => d.phase === phase);
         const lastDay = phaseDays[phaseDays.length - 1]?.day;
-        const milestoneDay = MILESTONE_DAYS.find(
-          (ms) => phaseDays.some((d) => d.day === ms)
-        );
 
         return (
           <div key={phase}>
@@ -47,30 +44,29 @@ export function TaskList({ completedDays, onComplete, onMilestoneShare }: TaskLi
               </span>
             </div>
 
-            {/* Task rows */}
+            {/* Task rows with inline milestones */}
             <div className="space-y-1">
               {phaseDays.map((day) => (
-                <TaskRow
-                  key={day.day}
-                  day={day}
-                  status={getDayStatus(day.day, completedDays)}
-                  onComplete={() => onComplete(day.day)}
-                />
+                <div key={day.day}>
+                  <TaskRow
+                    day={day}
+                    status={getDayStatus(day.day, completedDays)}
+                    onComplete={() => onComplete(day.day)}
+                  />
+                  {(MILESTONE_DAYS as readonly number[]).includes(day.day) && (
+                    <div className="mt-1 mb-1">
+                      <MilestoneRow
+                        day={day.day}
+                        earned={completedDays.includes(day.day)}
+                        onShare={() => onMilestoneShare(day.day)}
+                      />
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
 
-            {/* Milestone row after phase */}
-            {milestoneDay && (
-              <div className="mt-1 mb-2">
-                <MilestoneRow
-                  day={milestoneDay}
-                  earned={completedDays.includes(milestoneDay)}
-                  onShare={() => onMilestoneShare(milestoneDay)}
-                />
-              </div>
-            )}
-
-            <Separator className="my-2 opacity-20" />
+            {pi < PHASES.length - 1 && <Separator className="my-2 opacity-20" />}
           </div>
         );
       })}
