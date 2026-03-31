@@ -17,6 +17,7 @@ const trackVideoMap: Record<string, string> = {
   "architecture-diagrams": "/assets/Architecture_Diagrams.mp4",
   "enterprise-governance": "/assets/Scaling_infra_-_veed.mp4",
   "advanced-architecture": "/videos/Track_6_veed.mp4",
+  "prereq-foundations": "/videos/Cloud_Foundations_1_veed.mp4",
 };
 
 
