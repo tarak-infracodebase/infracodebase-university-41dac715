@@ -22,6 +22,23 @@ const LessonPage = () => {
   const { toasts, showXp, dismiss } = useXpToast();
   const { trackLesson } = useProgressHistory();
 
+  // Track lesson visit in history (must be before early return)
+  useEffect(() => {
+    if (!result) return;
+    const { lesson: l, course: c, path: p } = result;
+    trackLesson({
+      lessonId: l.id,
+      lessonTitle: l.title,
+      moduleTitle: c.title,
+      moduleId: c.id,
+      coursePath: `/path/${p.id}/lesson/${l.id}`,
+      cloudProvider: "general",
+      totalLessons: c.lessons.length,
+      completedLessons: 0,
+      status: "in_progress",
+    });
+  }, [lessonId]);
+
   if (!result) {
     return (
       <AppLayout>
@@ -44,22 +61,6 @@ const LessonPage = () => {
   const nextPath = currentPathIndex < learningPaths.length - 1 ? learningPaths[currentPathIndex + 1] : null;
 
   const isStartingPoint = lesson.artifact.title === "Starting Point Statement";
-
-  // Track lesson visit in history
-  useEffect(() => {
-    if (!lesson || !course) return;
-    trackLesson({
-      lessonId: lesson.id,
-      lessonTitle: lesson.title,
-      moduleTitle: course.title,
-      moduleId: course.id,
-      coursePath: `/path/${path.id}/lesson/${lesson.id}`,
-      cloudProvider: "general",
-      totalLessons: course.lessons.length,
-      completedLessons: 0,
-      status: "in_progress",
-    });
-  }, [lesson?.id]);
 
   return (
     <AppLayout>
