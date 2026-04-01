@@ -33,6 +33,7 @@ import OfficeHours from "./pages/OfficeHours";
 import CommunityCards from "./pages/CommunityCards";
 import Community from "./pages/Community";
 import PracticePage from "./pages/Practice";
+import History from "./pages/History";
 
 const CLERK_PUBLISHABLE_KEY = "pk_live_Y2xlcmsuaW5mcmFjb2RlYmFzZS5jb20k";
 
@@ -107,6 +108,14 @@ const AnimatedRoutes = () => {
           element={
             <ProtectedRoute>
               <PracticePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <History />
             </ProtectedRoute>
           }
         />

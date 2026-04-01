@@ -3,7 +3,8 @@ import { getLessonById, learningPaths } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
 
 import { ArrowLeft, ArrowRight, BookOpen, AlertTriangle, Lightbulb, PenTool, ChevronRight, RefreshCw } from "lucide-react";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useProgressHistory } from "@/hooks/useProgressHistory";
 import TierSelectionCards from "@/components/lesson/TierSelectionCards";
 import ValidationChecklist from "@/components/lesson/ValidationChecklist";
 import StartingPointStatement from "@/components/lesson/StartingPointStatement";
@@ -19,6 +20,24 @@ const LessonPage = () => {
   const { pathId, lessonId } = useParams<{ pathId: string; lessonId: string }>();
   const result = getLessonById(pathId || "", lessonId || "");
   const { toasts, showXp, dismiss } = useXpToast();
+  const { trackLesson } = useProgressHistory();
+
+  // Track lesson visit in history (must be before early return)
+  useEffect(() => {
+    if (!result) return;
+    const { lesson: l, course: c, path: p } = result;
+    trackLesson({
+      lessonId: l.id,
+      lessonTitle: l.title,
+      moduleTitle: c.title,
+      moduleId: c.id,
+      coursePath: `/path/${p.id}/lesson/${l.id}`,
+      cloudProvider: "general",
+      totalLessons: c.lessons.length,
+      completedLessons: 0,
+      status: "in_progress",
+    });
+  }, [lessonId]);
 
   if (!result) {
     return (
