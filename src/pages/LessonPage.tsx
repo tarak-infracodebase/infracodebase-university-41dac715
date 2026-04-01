@@ -45,6 +45,22 @@ const LessonPage = () => {
 
   const isStartingPoint = lesson.artifact.title === "Starting Point Statement";
 
+  // Track lesson visit in history
+  useEffect(() => {
+    if (!lesson || !course) return;
+    trackLesson({
+      lessonId: lesson.id,
+      lessonTitle: lesson.title,
+      moduleTitle: course.title,
+      moduleId: course.id,
+      coursePath: `/path/${path.id}/lesson/${lesson.id}`,
+      cloudProvider: "general",
+      totalLessons: course.lessons.length,
+      completedLessons: 0,
+      status: "in_progress",
+    });
+  }, [lesson?.id]);
+
   return (
     <AppLayout>
       <XpToastContainer toasts={toasts} onDismiss={dismiss} />
