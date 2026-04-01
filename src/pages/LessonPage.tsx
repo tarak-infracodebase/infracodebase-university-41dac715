@@ -3,7 +3,7 @@ import { getLessonById, learningPaths } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
 
 import { ArrowLeft, ArrowRight, BookOpen, AlertTriangle, Lightbulb, PenTool, ChevronRight, RefreshCw } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useProgressHistory } from "@/hooks/useProgressHistory";
 import TierSelectionCards from "@/components/lesson/TierSelectionCards";
 import ValidationChecklist from "@/components/lesson/ValidationChecklist";
