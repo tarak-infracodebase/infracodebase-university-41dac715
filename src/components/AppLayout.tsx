@@ -3,7 +3,7 @@ import {
   Home, LayoutDashboard, Calendar,
   MessageSquare, Play, ChevronLeft, ChevronRight,
   FolderOpen, Hammer, User, Radio, Compass,
-  Sun, Moon, Zap, FileText, Trophy,
+  Sun, Moon, Zap, FileText, Trophy, Clock,
 } from "lucide-react";
 import { MobileDrawer } from "./MobileDrawer";
 import { useState, useEffect, useRef } from "react";
