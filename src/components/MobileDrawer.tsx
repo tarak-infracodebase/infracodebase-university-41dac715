@@ -34,6 +34,7 @@ const sections = [
     items: [
       { title: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
       { title: "Practice", path: "/practice", icon: Target },
+      { title: "History", path: "/history", icon: Clock },
       { title: "Feedback", path: "/feedback", icon: MessageSquare },
       { title: "Profile", path: "/profile", icon: User },
       { title: "Resources", path: "/resources", icon: FolderOpen },
