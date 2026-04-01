@@ -111,6 +111,14 @@ const AnimatedRoutes = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <History />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Public username profile route */}
         <Route path="/:username" element={<Profile />} />
