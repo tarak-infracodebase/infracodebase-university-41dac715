@@ -421,7 +421,7 @@ const Dashboard = () => {
           </div>
 
           {/* Daily Target */}
-          <DailyGoalRing size={80} />
+          <DailyGoalRing size={80} isNewUser={isNewUser} />
 
           {/* Day Off Pass */}
           <StreakFreezeCard />
