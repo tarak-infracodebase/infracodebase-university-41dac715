@@ -42,6 +42,7 @@ const queryClient = new QueryClient();
 
 const AnimatedRoutes = () => {
   const location = useLocation();
+  useBackfillHistory();
 
   return (
     <div key={location.pathname} className="animate-fade-in">
