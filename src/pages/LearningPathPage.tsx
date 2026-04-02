@@ -223,20 +223,23 @@ function ProgressSidebar({
   currentTrackId,
 }: {
   currentTrackId: string;
+  completedCount?: number;
+  totalLessons?: number;
 }) {
   const matchingHandsOn = handsOnTracks.find(t => t.curriculumTrackId === currentTrackId);
   const upNext = upNextContent[currentTrackId];
   const isLastTrack = currentTrackId === "advanced-architecture";
   const isPrereq = currentTrackId === "cloud-infrastructure-intro" || currentTrackId.startsWith("prereq-");
   const isOnboarding = currentTrackId === "welcome-orientation" || isPrereq;
+  const pct = (totalLessons && totalLessons > 0) ? Math.round(((completedCount ?? 0) / totalLessons) * 100) : 0;
 
   return (
     <div className="space-y-5">
       {/* Course Progress */}
       <div className="glass-panel rounded-xl p-5">
         <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Course Progress</h3>
-        <Progress value={0} className="h-2 bg-muted mb-2" />
-        <p className="text-xs text-muted-foreground font-mono">0%</p>
+        <Progress value={pct} className="h-2 bg-muted mb-2" />
+        <p className="text-xs text-muted-foreground font-mono">{pct}%</p>
       </div>
 
       {isOnboarding ? (
