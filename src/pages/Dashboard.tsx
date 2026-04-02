@@ -386,17 +386,17 @@ const Dashboard = () => {
                 {
                   icon: <BookOpen className="h-3.5 w-3.5 text-primary" />,
                   label: "Lessons completed",
-                  value: state.completedLessons.length,
+                  value: isNewUser ? "—" : state.completedLessons.length,
                 },
                 {
                   icon: <Play className="h-3.5 w-3.5 text-[hsl(145,60%,45%)]" />,
                   label: "Videos watched",
-                  value: state.watchedVideos.length,
+                  value: isNewUser ? "—" : state.watchedVideos.length,
                 },
                 {
                   icon: <Zap className="h-3.5 w-3.5 text-[hsl(45,85%,55%)]" />,
                   label: "Hands-on exercises",
-                  value: comp + state.completedLessons.filter(
+                  value: isNewUser ? "—" : comp + state.completedLessons.filter(
                     (id: string) => id.startsWith("hands-on")
                   ).length,
                 },
@@ -413,6 +413,11 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
+            {isNewUser && (
+              <p className="text-xs text-blue-400 mt-2.5">
+                Complete a lesson to see your stats
+              </p>
+            )}
           </div>
 
           {/* Daily Target */}
