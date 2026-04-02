@@ -311,7 +311,7 @@ const LessonPage = () => {
                   </Link>
                 ) : <div />}
                 {nextLesson ? (
-                  <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={() => {
+                  <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={async () => {
                     try {
                       const raw = localStorage.getItem("icbu_track_progress");
                       const progress = raw ? JSON.parse(raw) : {};
@@ -324,6 +324,22 @@ const LessonPage = () => {
                       localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
                       window.dispatchEvent(new Event("icbu_xp_update"));
                       updateLessonStatus(lesson.id, "completed", newCount);
+
+                      // Immediately sync trackProgress to Clerk
+                      if (user) {
+                        const existing = (user.unsafeMetadata ?? {}) as Record<string, unknown>;
+                        const currentTP = (existing.progress as Record<string, unknown>)?.trackProgress as Record<string, unknown> ?? {};
+                        user.update({
+                          unsafeMetadata: {
+                            ...existing,
+                            progress: {
+                              ...(existing.progress as Record<string, unknown> ?? {}),
+                              trackProgress: { ...currentTP, ...progress },
+                              lastSynced: new Date().toISOString(),
+                            },
+                          },
+                        }).catch(console.warn);
+                      }
                     } catch {}
                     window.scrollTo(0, 0);
                   }}
