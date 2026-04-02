@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { getLessonById, learningPaths } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
+import { useUser } from "@clerk/clerk-react";
 
 import { ArrowLeft, ArrowRight, BookOpen, AlertTriangle, Lightbulb, PenTool, ChevronRight, RefreshCw } from "lucide-react";
 import { useEffect } from "react";
