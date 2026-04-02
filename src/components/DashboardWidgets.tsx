@@ -64,7 +64,7 @@ export function SkillBar({ label, value, max = 100, color }: SkillBarProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1.5">
-        <span className="text-xs text-muted-foreground">{label}</span>
+        <span className="text-xs dark:text-white text-muted-foreground">{label}</span>
         <span className="text-xs font-mono text-foreground">{value}%</span>
       </div>
       <div className="h-2 rounded-full bg-muted overflow-hidden">

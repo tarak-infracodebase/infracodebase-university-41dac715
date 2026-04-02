@@ -110,8 +110,8 @@ export function DailyGoalRing({ size = 80, isNewUser = false }: { size?: number;
     <div className="glass-panel rounded-xl p-5 flex flex-col items-center gap-3 relative">
       <div className="flex items-center justify-between w-full">
         <div>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Daily target</p>
-          <p className="text-[11px] text-muted-foreground mt-0.5">Points to earn today to keep your learning habit going.</p>
+          <p className="text-[10px] uppercase tracking-widest dark:text-white/65 text-muted-foreground font-medium">Daily target</p>
+          <p className="text-[11px] dark:text-white/85 text-muted-foreground mt-0.5">Points to earn today to keep your learning habit going.</p>
         </div>
         <button
           onClick={() => setShowPicker(v => !v)}
@@ -155,21 +155,21 @@ export function DailyGoalRing({ size = 80, isNewUser = false }: { size?: number;
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-sm font-mono font-bold">{displayXP}</span>
-          <span className="text-[9px] text-muted-foreground">/{state.dailyGoal}</span>
+          <span className="text-sm font-mono font-bold dark:text-white">{displayXP}</span>
+          <span className="text-[9px] dark:text-white/70 text-muted-foreground">/{state.dailyGoal}</span>
         </div>
       </div>
-      <p className="text-[10px] text-muted-foreground">
+      <p className="text-[10px] dark:text-white text-muted-foreground">
         {isNewUser ? "Complete one lesson today" : todayDone ? "Target reached for today!" : `${Math.max(0, state.dailyGoal - state.dailyXP)} points to go`}
       </p>
       <div className="w-full pt-2 border-t border-border/40 space-y-2">
         <div className="flex items-center gap-2">
           <Flame className={cn("h-3.5 w-3.5 shrink-0", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")} />
           <div>
-            <p className={cn("text-xs font-medium", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")}>
+            <p className={cn("text-xs font-medium", state.streak > 0 ? "text-orange-500" : "dark:text-white text-muted-foreground")}>
               {isNewUser ? "Your streak starts the day you start." : `${state.streak} days in a row`}
             </p>
-            <p className="text-[10px] text-muted-foreground">
+            <p className="text-[10px] dark:text-white/70 text-muted-foreground">
               {isNewUser ? "Complete a lesson today to start your habit" : todayDone ? "Done for today ✓" : state.streak > 0 ? "Complete a lesson to keep going" : "Complete a lesson today to start your habit"}
             </p>
           </div>

@@ -20,25 +20,25 @@ export function ChallengeWidget() {
     <Card>
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
-          <span className="font-semibold text-sm">30-Day Infracodebase Challenge</span>
+          <span className="font-semibold text-sm dark:text-white">30-Day Infracodebase Challenge</span>
           {comp >= 30 && (
             <span className="text-xs text-green-500 font-semibold">Complete ✓</span>
           )}
         </div>
-        <p className="text-xs text-muted-foreground mt-1">
+        <p className="text-xs dark:text-white/85 text-muted-foreground mt-1">
           {isNewUser
             ? "Complete each day to unlock the next and earn 4 LinkedIn badges — at Day 7, 14, 21, and 30. Start whenever you're ready."
             : "Complete daily tasks to earn milestone badges and build your streak."}
         </p>
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="flex justify-between text-xs text-muted-foreground">
+        <div className="flex justify-between text-xs dark:text-white/70 text-muted-foreground">
           <span>{comp} / 30 tasks</span>
           <span className="font-semibold text-primary">{pct}%</span>
         </div>
         <Progress value={pct} className="h-1.5" />
         {comp < 30 && (
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs dark:text-white/70 text-muted-foreground">
             Next badge:{" "}
             <span className="text-primary font-medium">Day {nextMs}</span> in{" "}
             {daysLeft} day{daysLeft !== 1 ? "s" : ""}

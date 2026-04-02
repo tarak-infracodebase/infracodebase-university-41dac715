@@ -327,7 +327,7 @@ const Dashboard = () => {
                   cloud infrastructure.
                 </h2>
                 <div className="mb-4">
-                  <div className="flex justify-between text-[11px] text-muted-foreground mb-1.5">
+                  <div className="flex justify-between text-[11px] dark:text-white/85 text-muted-foreground mb-1.5">
                     <span>{tracksCompleted} of {totalTracks} tracks completed</span>
                     <span className="font-mono">{overallProgress}%</span>
                   </div>
@@ -341,7 +341,7 @@ const Dashboard = () => {
                     />
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground mb-5">
+                <p className="text-sm dark:text-white/85 text-muted-foreground mb-5">
                   {tracksCompleted > 0
                     ? `You've completed ${tracksCompleted} track${tracksCompleted > 1 ? "s" : ""}. Pick up the next one to keep building.`
                     : "Pick up where you left off or start something new."
@@ -355,11 +355,11 @@ const Dashboard = () => {
               </div>
               <div className="shrink-0 w-44 glass-panel rounded-xl p-4 text-center border-primary/20">
                 <p className="text-3xl font-mono font-bold text-foreground">{overallProgress}%</p>
-                <p className="text-xs text-muted-foreground mt-1">of full curriculum</p>
+                <p className="text-xs dark:text-white/70 text-muted-foreground mt-1">of full curriculum</p>
                 <div className="h-1.5 rounded-full bg-muted overflow-hidden my-3">
                   <div className="h-full rounded-full bg-primary transition-all duration-700" style={{ width: `${overallProgress}%` }} />
                 </div>
-                <p className="text-[11px] text-muted-foreground mb-3">{tracksCompleted} of {totalTracks} tracks completed</p>
+                <p className="text-[11px] dark:text-white/70 text-muted-foreground mb-3">{tracksCompleted} of {totalTracks} tracks completed</p>
                 <Link to="/curriculum">
                   <Button size="sm" className="w-full text-xs gap-1">
                     Continue learning <ArrowRight className="h-3 w-3" />
@@ -375,10 +375,10 @@ const Dashboard = () => {
 
           {/* Your Activity */}
           <div className="glass-panel rounded-xl p-5">
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+            <p className="text-[10px] uppercase tracking-widest font-medium dark:text-white/65 text-muted-foreground">
               Your activity
             </p>
-            <p className="text-[11px] text-muted-foreground mt-0.5 mb-4">
+            <p className="text-[11px] dark:text-white/85 text-muted-foreground mt-0.5 mb-4">
               What you've completed so far.
             </p>
             <div className="space-y-2">
@@ -407,9 +407,9 @@ const Dashboard = () => {
                 >
                   <div className="flex items-center gap-2">
                     {row.icon}
-                    <span className="text-xs text-muted-foreground">{row.label}</span>
+                    <span className="text-xs dark:text-white text-muted-foreground">{row.label}</span>
                   </div>
-                  <span className="text-sm font-mono font-bold text-foreground">{row.value}</span>
+                  <span className={cn("text-sm font-mono font-bold", isNewUser ? "dark:text-white/40 text-muted-foreground" : "text-foreground")}>{row.value}</span>
                 </div>
               ))}
             </div>
@@ -483,7 +483,7 @@ const Dashboard = () => {
                   <p className="text-xl font-semibold font-mono" style={{ color: s.color }}>
                     {s.val}
                   </p>
-                  <p className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.55)" }}>
+                  <p className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.70)" }}>
                     {s.label}
                   </p>
                 </div>
@@ -493,10 +493,10 @@ const Dashboard = () => {
 
           {/* Learning points over time — daily */}
           <div className="glass-panel rounded-xl p-5">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-1">
+            <h2 className="text-sm font-bold uppercase tracking-wider dark:text-white/65 text-muted-foreground mb-1">
               Learning points over time
             </h2>
-            <p className="text-[11px] text-muted-foreground mb-4">
+            <p className="text-[11px] dark:text-white/85 text-muted-foreground mb-4">
               Points earned each day — last 14 days.
             </p>
             {isNewUser ? (
@@ -513,7 +513,7 @@ const Dashboard = () => {
                 {dailyChartData.map((d, i) => (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
                     <span
-                      className="text-[9px] font-mono text-muted-foreground"
+                      className="text-[9px] font-mono dark:text-white/70 text-muted-foreground"
                       style={{ minHeight: "12px" }}
                     >
                       {d.xp > 0 ? d.xp : ""}
@@ -530,7 +530,7 @@ const Dashboard = () => {
                       }}
                     />
                     {i % 3 === 0 && (
-                      <span className="text-[9px] text-muted-foreground">{d.label}</span>
+                      <span className="text-[9px] dark:text-white/70 text-muted-foreground">{d.label}</span>
                     )}
                   </div>
                 ))}
@@ -540,10 +540,10 @@ const Dashboard = () => {
 
           {/* Milestones */}
           <div className="glass-panel rounded-xl p-5">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+            <h2 className="text-sm font-bold uppercase tracking-wider dark:text-white/65 text-muted-foreground">
               Milestones
             </h2>
-            <p className="text-[11px] text-muted-foreground mt-0.5 mb-4">
+            <p className="text-[11px] dark:text-white/85 text-muted-foreground mt-0.5 mb-4">
               Earned by learning consistently.
             </p>
             <div className="space-y-3">
@@ -564,7 +564,7 @@ const Dashboard = () => {
                 return (
                   <div
                     key={badge.id}
-                    className={cn("flex items-center gap-3", !earned && !isFirstAndNewUser && "opacity-35")}
+                    className={cn("flex items-center gap-3", !earned && !isFirstAndNewUser && "opacity-40")}
                   >
                     <CrystalIcon
                       color={earned
@@ -575,15 +575,15 @@ const Dashboard = () => {
                       size={18}
                     />
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-foreground truncate">{badge.name}</p>
-                      <p className="text-[10px] text-muted-foreground">{badge.desc}</p>
+                      <p className="text-xs font-medium dark:text-white text-foreground truncate">{badge.name}</p>
+                      <p className="text-[10px] dark:text-white/70 text-muted-foreground">{badge.desc}</p>
                     </div>
                     {isFirstAndNewUser ? (
                       <span className="text-xs font-bold font-mono text-blue-400">up next</span>
                     ) : badge.xp > 0 ? (
                       <span className={cn(
                         "text-[11px] font-mono shrink-0",
-                        earned ? "text-[hsl(145,60%,45%)]" : "text-muted-foreground"
+                        earned ? "text-[hsl(145,60%,45%)]" : "dark:text-white/70 text-muted-foreground"
                       )}>
                         +{badge.xp}
                       </span>
@@ -600,7 +600,7 @@ const Dashboard = () => {
         <div className="grid lg:grid-cols-3 gap-6">
           <ChallengeWidget />
           <div className="lg:col-span-2 glass-panel rounded-xl p-5">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-wider dark:text-white/65 text-muted-foreground mb-4">
               Skill Development
             </h2>
             {isNewUser ? (
