@@ -483,7 +483,7 @@ const Dashboard = () => {
                   <p className="text-xl font-semibold font-mono" style={{ color: s.color }}>
                     {s.val}
                   </p>
-                  <p className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.55)" }}>
+                  <p className="text-[10px] mt-1" style={{ color: "rgba(255,255,255,0.70)" }}>
                     {s.label}
                   </p>
                 </div>
