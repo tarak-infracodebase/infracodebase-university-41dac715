@@ -446,34 +446,39 @@ const Dashboard = () => {
             </p>
             <p
               className="text-[11px] mb-5 leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.55)" }}
+              style={{ color: "rgba(255,255,255,0.80)" }}
             >
-              Test yourself as you learn. Getting it right on the first try shows you've
-              understood the concept — not just read it.
+              {isNewUser
+                ? "After each track, a quick check tests whether you understood — not just read. Getting it right on the first try is what counts."
+                : "Test yourself as you learn. Getting it right on the first try shows you've understood the concept — not just read it."}
             </p>
             <div className="grid grid-cols-3 gap-2">
               {[
                 {
-                  val: state.completedLessons.length > 0
+                  val: isNewUser ? "—" : (state.completedLessons.length > 0
                     ? state.perfectChecks +
                       Math.max(0, state.completedLessons.length - state.perfectChecks)
-                    : 0,
+                    : 0),
                   label: "Attempted",
                   color: "#fff",
                 },
-                { val: state.perfectChecks, label: "First try", color: "hsl(160,60%,65%)" },
+                { val: isNewUser ? "—" : state.perfectChecks, label: "First try", color: "hsl(160,60%,65%)" },
                 {
-                  val: state.completedLessons.length > 0
+                  val: isNewUser ? "—" : (state.completedLessons.length > 0
                     ? `${Math.round((state.perfectChecks / state.completedLessons.length) * 100)}%`
-                    : "—",
+                    : "—"),
                   label: "Accuracy",
                   color: "#fff",
                 },
               ].map((s, i) => (
                 <div
                   key={i}
-                  className="text-center rounded-xl p-3"
-                  style={{ background: "rgba(255,255,255,0.08)" }}
+                  className={isNewUser
+                    ? "text-center rounded-xl p-3 bg-transparent border border-dashed"
+                    : "text-center rounded-xl p-3"}
+                  style={isNewUser
+                    ? { borderColor: "rgba(255,255,255,0.25)" }
+                    : { background: "rgba(255,255,255,0.08)" }}
                 >
                   <p className="text-xl font-semibold font-mono" style={{ color: s.color }}>
                     {s.val}
