@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Clock, CheckCircle2, PlayCircle, Loader2 } from "lucide-react";
+import { Clock, CheckCircle2, PlayCircle, Loader2, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProgressHistory, LessonHistoryEntry } from "@/hooks/useProgressHistory";
 import { AppLayout } from "@/components/AppLayout";
+import { toast } from "@/hooks/use-toast";
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
