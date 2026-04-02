@@ -123,27 +123,35 @@ function TrackIntroBlock({ text }: { text: string }) {
 function ContinueLearningCard({
   nextLessonTitle,
   totalLessons,
+  completedCount,
   pathId,
-  firstLessonId,
+  resumeLessonId,
 }: {
   nextLessonTitle: string;
   totalLessons: number;
+  completedCount: number;
   pathId: string;
-  firstLessonId: string;
+  resumeLessonId: string;
 }) {
+  const pct = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
+  const hasStarted = completedCount > 0;
+  const allDone = completedCount >= totalLessons;
+
   return (
     <div className="glass-panel rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
       <div className="flex-1 min-w-0">
-        <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium mb-1">Continue Learning</p>
+        <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium mb-1">
+          {allDone ? "Review" : hasStarted ? "Continue Learning" : "Start Learning"}
+        </p>
         <h3 className="text-sm font-semibold truncate">{nextLessonTitle}</h3>
         <div className="flex items-center gap-3 mt-2">
-          <Progress value={0} className="h-1.5 flex-1 max-w-[160px] bg-muted" />
-          <span className="text-xs text-muted-foreground font-mono">0/{totalLessons} completed</span>
+          <Progress value={pct} className="h-1.5 flex-1 max-w-[160px] bg-muted" />
+          <span className="text-xs text-muted-foreground font-mono">{completedCount}/{totalLessons} completed</span>
         </div>
       </div>
-      <Link to={`/path/${pathId}/lesson/${firstLessonId}`}>
+      <Link to={`/path/${pathId}/lesson/${resumeLessonId}`}>
         <Button size="sm" className="gap-1.5 text-xs">
-          <Play className="h-3 w-3" /> Start Learning
+          <Play className="h-3 w-3" /> {allDone ? "Review" : hasStarted ? "Continue" : "Start Learning"}
         </Button>
       </Link>
     </div>
