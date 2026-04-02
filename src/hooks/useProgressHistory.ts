@@ -94,6 +94,11 @@ export function useProgressHistory() {
     return readHistory().filter((h) => h.status === "completed");
   }, [readHistory]);
 
+  const clearHistory = useCallback(async () => {
+    if (!user) return;
+    await writeHistory([]);
+  }, [user, writeHistory]);
+
   return {
     isLoaded,
     trackLesson,
@@ -101,5 +106,6 @@ export function useProgressHistory() {
     getInProgress,
     getRecentlyVisited,
     getCompleted,
+    clearHistory,
   };
 }

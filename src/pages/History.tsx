@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Clock, CheckCircle2, PlayCircle, Loader2 } from "lucide-react";
+import { Clock, CheckCircle2, PlayCircle, Loader2, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProgressHistory, LessonHistoryEntry } from "@/hooks/useProgressHistory";
 import { AppLayout } from "@/components/AppLayout";
+import { toast } from "@/hooks/use-toast";
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -121,12 +123,26 @@ function EmptyState({
 // ── page ──────────────────────────────────────────────────────────────────────
 
 export default function History() {
-  const { isLoaded, getInProgress, getRecentlyVisited, getCompleted } =
+  const { isLoaded, getInProgress, getRecentlyVisited, getCompleted, clearHistory } =
     useProgressHistory();
+  const [clearing, setClearing] = useState(false);
 
   const inProgress = getInProgress();
   const recent = getRecentlyVisited();
   const completed = getCompleted();
+  const hasAny = inProgress.length + recent.length + completed.length > 0;
+
+  const handleClear = async () => {
+    setClearing(true);
+    try {
+      await clearHistory();
+      toast({ title: "History cleared", description: "Your lesson history has been reset." });
+    } catch {
+      toast({ title: "Error", description: "Failed to clear history. Try again.", variant: "destructive" });
+    } finally {
+      setClearing(false);
+    }
+  };
 
   if (!isLoaded) {
     return (
@@ -141,11 +157,29 @@ export default function History() {
   return (
     <AppLayout>
       <div className="max-w-3xl mx-auto px-6 py-8">
-        <div className="mb-6">
-          <h1 className="text-xl font-semibold text-foreground">History</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Pick up where you left off
-          </p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-semibold text-foreground">History</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Pick up where you left off
+            </p>
+          </div>
+          {hasAny && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-xs text-muted-foreground hover:text-destructive"
+              onClick={handleClear}
+              disabled={clearing}
+            >
+              {clearing ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />
+              ) : (
+                <Trash2 className="w-3.5 h-3.5 mr-1" />
+              )}
+              Clear history
+            </Button>
+          )}
         </div>
 
         <Tabs defaultValue="in_progress">
