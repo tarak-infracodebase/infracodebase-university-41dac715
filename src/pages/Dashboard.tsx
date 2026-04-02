@@ -600,7 +600,7 @@ const Dashboard = () => {
         <div className="grid lg:grid-cols-3 gap-6">
           <ChallengeWidget />
           <div className="lg:col-span-2 glass-panel rounded-xl p-5">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-wider dark:text-white/65 text-muted-foreground mb-4">
               Skill Development
             </h2>
             {isNewUser ? (

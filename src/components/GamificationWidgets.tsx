@@ -169,7 +169,7 @@ export function DailyGoalRing({ size = 80, isNewUser = false }: { size?: number;
             <p className={cn("text-xs font-medium", state.streak > 0 ? "text-orange-500" : "dark:text-white text-muted-foreground")}>
               {isNewUser ? "Your streak starts the day you start." : `${state.streak} days in a row`}
             </p>
-            <p className="text-[10px] text-muted-foreground">
+            <p className="text-[10px] dark:text-white/70 text-muted-foreground">
               {isNewUser ? "Complete a lesson today to start your habit" : todayDone ? "Done for today ✓" : state.streak > 0 ? "Complete a lesson to keep going" : "Complete a lesson today to start your habit"}
             </p>
           </div>
