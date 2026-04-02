@@ -57,7 +57,7 @@ export const prereqFoundations: LearningPath = {
         {
           id: "p1-lesson-2",
           title: "The Core Building Blocks of Infrastructure",
-          whyThisMatters: "AWS alone has hundreds of services. Azure and GCP do too. That can overwhelm you quickly. But underneath that complexity, most systems are built from a small set of repeating ideas. If you understand those ideas first, you can make sense of any cloud platform much faster.",
+          whyThisMatters: "Those providers — AWS, Azure, and GCP — each have hundreds of services. That can overwhelm you quickly. But underneath that complexity, most systems are built from a small set of repeating ideas. If you understand those ideas first, you can make sense of any cloud platform much faster.",
           coreConcepts: "Every infrastructure environment is built from five core categories:\n\n- Compute: Something runs code — virtual machines, containers, serverless functions\n- Storage: Something stores data — object storage, block disks, databases\n- Networking: Something connects components and controls traffic — virtual networks, subnets, routing, load balancers, firewalls\n- Identity and Access: Something determines who or what is allowed to do what — users, service accounts, roles, policies\n- Observability: Something helps you understand system behavior — metrics, logs, traces, dashboards, alerts\n\nThese categories show up on every cloud platform. The service names differ. The roles do not.",
           comparisonTables: [
             {
