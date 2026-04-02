@@ -353,8 +353,8 @@ function FeaturedCard({
           <div
             style={{
               fontSize: 15,
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.95)",
+              fontWeight: item.read ? 400 : 700,
+              color: item.read ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.95)",
               letterSpacing: "-0.01em",
               marginBottom: 4,
             }}
