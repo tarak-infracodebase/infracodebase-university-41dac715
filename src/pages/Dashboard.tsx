@@ -375,10 +375,10 @@ const Dashboard = () => {
 
           {/* Your Activity */}
           <div className="glass-panel rounded-xl p-5">
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+            <p className="text-[10px] uppercase tracking-widest font-medium dark:text-white/65 text-muted-foreground">
               Your activity
             </p>
-            <p className="text-[11px] text-muted-foreground mt-0.5 mb-4">
+            <p className="text-[11px] dark:text-white/85 text-muted-foreground mt-0.5 mb-4">
               What you've completed so far.
             </p>
             <div className="space-y-2">
@@ -407,9 +407,9 @@ const Dashboard = () => {
                 >
                   <div className="flex items-center gap-2">
                     {row.icon}
-                    <span className="text-xs text-muted-foreground">{row.label}</span>
+                    <span className="text-xs dark:text-white text-muted-foreground">{row.label}</span>
                   </div>
-                  <span className="text-sm font-mono font-bold text-foreground">{row.value}</span>
+                  <span className={cn("text-sm font-mono font-bold", isNewUser ? "dark:text-white/40 text-muted-foreground" : "text-foreground")}>{row.value}</span>
                 </div>
               ))}
             </div>
