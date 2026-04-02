@@ -20,7 +20,7 @@ const LessonPage = () => {
   const { pathId, lessonId } = useParams<{ pathId: string; lessonId: string }>();
   const result = getLessonById(pathId || "", lessonId || "");
   const { toasts, showXp, dismiss } = useXpToast();
-  const { trackLesson } = useProgressHistory();
+  const { trackLesson, updateLessonStatus } = useProgressHistory();
 
   // Track lesson visit in history (must be before early return)
   useEffect(() => {
