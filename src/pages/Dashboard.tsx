@@ -603,11 +603,39 @@ const Dashboard = () => {
             <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
               Skill Development
             </h2>
-            <div className="grid lg:grid-cols-2 gap-x-8 gap-y-3">
-              {skills.map((s, i) => (
-                <SkillBar key={i} label={s.label} value={s.value} color={s.color} />
-              ))}
-            </div>
+            {isNewUser ? (
+              <div>
+                <p className="text-sm font-medium text-foreground mb-1">
+                  Skills appear as you learn
+                </p>
+                <p className="text-xs mb-2.5" style={{ color: "rgba(255,255,255,0.70)" }}>
+                  Each track builds a score across 12 skill areas.
+                </p>
+                {skills.map((s, i) => (
+                  <div key={i} className="flex items-center gap-2 mb-2">
+                    <span className="text-xs flex-1" style={{ color: "rgba(255,255,255,0.85)" }}>
+                      {s.label}
+                    </span>
+                    <div
+                      className="flex-1 h-0.5 rounded"
+                      style={{ background: "rgba(255,255,255,0.12)" }}
+                    />
+                    <span
+                      className="text-xs font-mono w-4 text-right"
+                      style={{ color: "rgba(255,255,255,0.40)" }}
+                    >
+                      —
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid lg:grid-cols-2 gap-x-8 gap-y-3">
+                {skills.map((s, i) => (
+                  <SkillBar key={i} label={s.label} value={s.value} color={s.color} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
