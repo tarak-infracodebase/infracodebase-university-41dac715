@@ -123,12 +123,26 @@ function EmptyState({
 // ── page ──────────────────────────────────────────────────────────────────────
 
 export default function History() {
-  const { isLoaded, getInProgress, getRecentlyVisited, getCompleted } =
+  const { isLoaded, getInProgress, getRecentlyVisited, getCompleted, clearHistory } =
     useProgressHistory();
+  const [clearing, setClearing] = useState(false);
 
   const inProgress = getInProgress();
   const recent = getRecentlyVisited();
   const completed = getCompleted();
+  const hasAny = inProgress.length + recent.length + completed.length > 0;
+
+  const handleClear = async () => {
+    setClearing(true);
+    try {
+      await clearHistory();
+      toast({ title: "History cleared", description: "Your lesson history has been reset." });
+    } catch {
+      toast({ title: "Error", description: "Failed to clear history. Try again.", variant: "destructive" });
+    } finally {
+      setClearing(false);
+    }
+  };
 
   if (!isLoaded) {
     return (
