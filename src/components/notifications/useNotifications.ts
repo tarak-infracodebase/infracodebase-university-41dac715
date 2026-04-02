@@ -1,12 +1,30 @@
 import { useState, useCallback } from "react";
 import { NOTIFICATIONS, NotificationItem, NotificationCategory } from "@/data/notifications";
 
+const LS_KEY = "icbu_read_notifications";
+
+function getSavedReadIds(): number[] {
+  try {
+    return JSON.parse(localStorage.getItem(LS_KEY) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function persistReadIds(ids: number[]) {
+  localStorage.setItem(LS_KEY, JSON.stringify(ids));
+}
+
 type TabFilter = "all" | NotificationCategory;
 
 export function useNotifications() {
-  const [notifications, setNotifications] = useState<NotificationItem[]>(
-    () => NOTIFICATIONS.map((n) => ({ ...n }))
-  );
+  const [notifications, setNotifications] = useState<NotificationItem[]>(() => {
+    const savedIds = getSavedReadIds();
+    return NOTIFICATIONS.map((n) => ({
+      ...n,
+      read: n.read || savedIds.includes(n.id),
+    }));
+  });
   const [panelOpen, setPanelOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<TabFilter>("all");
   const [modalOpen, setModalOpen] = useState(false);
@@ -30,10 +48,16 @@ export function useNotifications() {
     setNotifications((prev) =>
       prev.map((n) => (n.id === id ? { ...n, read: true } : n))
     );
+    const existing = getSavedReadIds();
+    persistReadIds(Array.from(new Set([...existing, id])));
   }, []);
 
   const markAllRead = useCallback(() => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    setNotifications((prev) => {
+      const allIds = prev.map((n) => n.id);
+      persistReadIds(allIds);
+      return prev.map((n) => ({ ...n, read: true }));
+    });
   }, []);
 
   const openNotification = useCallback(
