@@ -1141,7 +1141,7 @@ export const prereqExpert: LearningPath = {
     {
       id: "mod16-governance",
       title: "Module 16 — Governance and Organizational-Scale Infrastructure",
-      description: "Landing zones, organizational hierarchies, service control policies, and platform engineering.",
+      description: "Landing zones, organizational hierarchies, service control policies, platform engineering, and Site Reliability Engineering (SRE).",
       difficulty: "advanced",
       estimatedTime: "20 min",
       lessons: [

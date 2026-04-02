@@ -170,6 +170,9 @@ const LessonPage = () => {
                     if (para.startsWith('- ')) {
                       return <div key={i} className="flex items-start gap-2 ml-2 my-1"><ChevronRight className="h-3 w-3 text-primary shrink-0 mt-1" /><span>{para.substring(2)}</span></div>;
                     }
+                    if (para.startsWith('Modules:')) {
+                      return <p key={i} className="mb-2.5"><span className="font-semibold text-primary">Modules:</span>{para.substring(8)}</p>;
+                    }
                     return para ? <p key={i} className="mb-2.5">{para.replace(/\*\*/g, '')}</p> : null;
                   })}
                 </div>
