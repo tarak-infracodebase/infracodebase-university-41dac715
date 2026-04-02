@@ -84,6 +84,7 @@ export function NotificationBell({
     return () => document.removeEventListener("keydown", keyHandler);
   }, [panelOpen, closePanel]);
 
+  const allRead = notifications.every((n) => n.read);
   const featured = notifications[0];
   const rest = notifications.slice(1);
 
@@ -212,12 +213,16 @@ export function NotificationBell({
           {/* Header */}
           <div style={{ padding: "14px 18px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <span style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.87)" }}>Notifications</span>
-            {unreadCount > 0 && (
+            {allRead ? (
+              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
+                All caught up
+              </span>
+            ) : (
               <button
                 onClick={(e) => { e.stopPropagation(); markAllRead(); }}
-                style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.28)")}
+                style={{ fontSize: 12, color: "#60A5FA", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#93bbfd")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#60A5FA")}
               >
                 Mark all read
               </button>
@@ -226,12 +231,50 @@ export function NotificationBell({
 
           {/* Content */}
           <div style={{ padding: "0 18px 18px" }}>
+            {/* All caught up banner */}
+            {allRead && (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                background: 'rgba(29, 158, 117, 0.12)',
+                border: '0.5px solid rgba(29, 158, 117, 0.25)',
+                borderRadius: '10px',
+                padding: '10px 14px',
+                marginTop: '14px',
+                marginBottom: '14px',
+              }}>
+                <div style={{
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%',
+                  background: 'rgba(29, 158, 117, 0.2)',
+                  border: '0.5px solid rgba(29, 158, 117, 0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}>
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path d="M2 5.5l2 2 4-4" stroke="#1D9E75" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4, margin: 0 }}>
+                  <strong style={{ color: '#fff', fontWeight: 500 }}>You're all caught up.</strong>
+                  {' '}New notifications will appear here.
+                </p>
+              </div>
+            )}
+
             {/* Featured card */}
             {featured && (
-              <FeaturedCard
-                item={featured}
-                onClick={() => openNotification(featured)}
-              />
+              <div style={{ opacity: allRead ? 0.6 : 1, transition: 'opacity 0.2s' }}>
+                <FeaturedCard
+                  item={featured}
+                  onClick={() => openNotification(featured)}
+                />
+              </div>
             )}
 
             {/* List items */}
@@ -282,23 +325,36 @@ function FeaturedCard({
       {/* Text section */}
       <div className="flex items-start gap-2.5">
         {/* Unread dot */}
-        <span
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: 999,
-            background: item.read ? "rgba(255,255,255,0.15)" : "#f97316",
-            boxShadow: item.read ? "none" : "0 0 8px rgba(249,115,22,0.6)",
-            flexShrink: 0,
-            marginTop: 5,
-          }}
-        />
+        {item.read ? (
+          <span
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 999,
+              border: '1.5px solid rgba(255,255,255,0.2)',
+              flexShrink: 0,
+              marginTop: 5,
+            }}
+          />
+        ) : (
+          <span
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 999,
+              background: "#f97316",
+              boxShadow: "0 0 8px rgba(249,115,22,0.6)",
+              flexShrink: 0,
+              marginTop: 5,
+            }}
+          />
+        )}
         <div className="flex-1 min-w-0">
           <div
             style={{
               fontSize: 15,
-              fontWeight: 700,
-              color: "rgba(255,255,255,0.95)",
+              fontWeight: item.read ? 400 : 700,
+              color: item.read ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.95)",
               letterSpacing: "-0.01em",
               marginBottom: 4,
             }}
@@ -420,25 +476,38 @@ function ListItem({
       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
     >
       {/* Dot */}
-      <span
-        style={{
-          width: 8,
-          height: 8,
-          borderRadius: 999,
-          background: item.read ? "rgba(255,255,255,0.15)" : "#f97316",
-          boxShadow: item.read ? "none" : "0 0 8px rgba(249,115,22,0.6)",
-          flexShrink: 0,
-          marginTop: 5,
-        }}
-      />
+      {item.read ? (
+        <span
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: 999,
+            border: '1.5px solid rgba(255,255,255,0.2)',
+            flexShrink: 0,
+            marginTop: 5,
+          }}
+        />
+      ) : (
+        <span
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: 999,
+            background: "#f97316",
+            boxShadow: "0 0 8px rgba(249,115,22,0.6)",
+            flexShrink: 0,
+            marginTop: 5,
+          }}
+        />
+      )}
 
       {/* Text */}
       <div className="flex-1 min-w-0">
         <div
           style={{
             fontSize: 14.5,
-            fontWeight: 700,
-            color: "rgba(255,255,255,0.92)",
+            fontWeight: item.read ? 400 : 700,
+            color: item.read ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.92)",
             marginBottom: 3,
           }}
         >
@@ -490,6 +559,8 @@ function ListItem({
           flexDirection: "column",
           justifyContent: "flex-end",
           padding: "9px 10px",
+          opacity: item.read ? 0.5 : 1,
+          transition: "opacity 0.2s",
         }}
       >
         {/* Glow */}
