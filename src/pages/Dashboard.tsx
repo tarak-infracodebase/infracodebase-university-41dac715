@@ -327,7 +327,7 @@ const Dashboard = () => {
                   cloud infrastructure.
                 </h2>
                 <div className="mb-4">
-                  <div className="flex justify-between text-[11px] text-muted-foreground mb-1.5">
+                  <div className="flex justify-between text-[11px] dark:text-white/85 text-muted-foreground mb-1.5">
                     <span>{tracksCompleted} of {totalTracks} tracks completed</span>
                     <span className="font-mono">{overallProgress}%</span>
                   </div>
