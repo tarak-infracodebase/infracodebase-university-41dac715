@@ -157,11 +157,29 @@ export default function History() {
   return (
     <AppLayout>
       <div className="max-w-3xl mx-auto px-6 py-8">
-        <div className="mb-6">
-          <h1 className="text-xl font-semibold text-foreground">History</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Pick up where you left off
-          </p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-semibold text-foreground">History</h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              Pick up where you left off
+            </p>
+          </div>
+          {hasAny && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-xs text-muted-foreground hover:text-destructive"
+              onClick={handleClear}
+              disabled={clearing}
+            >
+              {clearing ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />
+              ) : (
+                <Trash2 className="w-3.5 h-3.5 mr-1" />
+              )}
+              Clear history
+            </Button>
+          )}
         </div>
 
         <Tabs defaultValue="in_progress">
