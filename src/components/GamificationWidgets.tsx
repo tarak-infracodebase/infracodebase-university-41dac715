@@ -548,7 +548,7 @@ export function StreakFreezeCard() {
           Day off pass
         </p>
         <p className="text-[11px] leading-relaxed mb-4"
-          style={{ color: "rgba(255,255,255,0.55)" }}>
+          style={{ color: "#ffffff" }}>
           Miss a day without losing your progress. Earned by sharing the university with a colleague who completes their first lesson.
         </p>
 
@@ -566,7 +566,7 @@ export function StreakFreezeCard() {
                 <p className="font-mono font-semibold" style={{ fontSize: "20px", color: "#fff" }}>
                   1 pass ready
                 </p>
-                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)", marginTop: "1px" }}>
+                <p className="text-[11px]" style={{ color: "#ffffff", opacity: 0.85, marginTop: "1px" }}>
                   Your progress is protected if you miss a day
                 </p>
               </>
@@ -575,7 +575,7 @@ export function StreakFreezeCard() {
                 <p className="font-mono font-semibold" style={{ fontSize: "16px", color: "#fff" }}>
                   No pass yet
                 </p>
-                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)", marginTop: "1px" }}>
+                <p className="text-[11px]" style={{ color: "#ffffff", opacity: 0.85, marginTop: "1px" }}>
                   Share to earn your first one — free
                 </p>
               </>
