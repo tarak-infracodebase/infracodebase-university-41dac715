@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ProgressBar } from "@/components/ProgressBar";
 import { getLearningPathById } from "@/data/courseData";
@@ -9,6 +10,44 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { AzurePeriodicTableCard } from "@/components/AzurePeriodicTableLink";
 import { InfracodebaseDocsCard } from "@/components/InfracodebaseDocsLink";
+
+interface TrackProgressEntry {
+  completed?: number;
+  completedLessons?: string[];
+  status?: string;
+}
+
+function useTrackProgress(pathId: string, allLessons: { id: string; title: string }[]) {
+  const [completedSet, setCompletedSet] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const load = () => {
+      try {
+        const raw = localStorage.getItem("icbu_track_progress");
+        if (!raw) return;
+        const progress = JSON.parse(raw) as Record<string, TrackProgressEntry>;
+        const entry = progress[pathId];
+        if (entry?.completedLessons) {
+          setCompletedSet(new Set(entry.completedLessons));
+        }
+      } catch {}
+    };
+    load();
+    window.addEventListener("icbu_xp_update", load);
+    window.addEventListener("storage", load);
+    return () => {
+      window.removeEventListener("icbu_xp_update", load);
+      window.removeEventListener("storage", load);
+    };
+  }, [pathId]);
+
+  const completedCount = completedSet.size;
+
+  // Find resume lesson: first uncompleted lesson, or last lesson if all done
+  const resumeLesson = allLessons.find(l => !completedSet.has(l.id)) ?? allLessons[allLessons.length - 1];
+
+  return { completedCount, completedSet, resumeLesson };
+}
 
 
 const trackVideoMap: Record<string, string> = {
@@ -84,27 +123,35 @@ function TrackIntroBlock({ text }: { text: string }) {
 function ContinueLearningCard({
   nextLessonTitle,
   totalLessons,
+  completedCount,
   pathId,
-  firstLessonId,
+  resumeLessonId,
 }: {
   nextLessonTitle: string;
   totalLessons: number;
+  completedCount: number;
   pathId: string;
-  firstLessonId: string;
+  resumeLessonId: string;
 }) {
+  const pct = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
+  const hasStarted = completedCount > 0;
+  const allDone = completedCount >= totalLessons;
+
   return (
     <div className="glass-panel rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
       <div className="flex-1 min-w-0">
-        <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium mb-1">Continue Learning</p>
+        <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium mb-1">
+          {allDone ? "Review" : hasStarted ? "Continue Learning" : "Start Learning"}
+        </p>
         <h3 className="text-sm font-semibold truncate">{nextLessonTitle}</h3>
         <div className="flex items-center gap-3 mt-2">
-          <Progress value={0} className="h-1.5 flex-1 max-w-[160px] bg-muted" />
-          <span className="text-xs text-muted-foreground font-mono">0/{totalLessons} completed</span>
+          <Progress value={pct} className="h-1.5 flex-1 max-w-[160px] bg-muted" />
+          <span className="text-xs text-muted-foreground font-mono">{completedCount}/{totalLessons} completed</span>
         </div>
       </div>
-      <Link to={`/path/${pathId}/lesson/${firstLessonId}`}>
+      <Link to={`/path/${pathId}/lesson/${resumeLessonId}`}>
         <Button size="sm" className="gap-1.5 text-xs">
-          <Play className="h-3 w-3" /> Start Learning
+          <Play className="h-3 w-3" /> {allDone ? "Review" : hasStarted ? "Continue" : "Start Learning"}
         </Button>
       </Link>
     </div>
@@ -174,22 +221,27 @@ const upNextContent: Record<string, { trackNumber: number; title: string; descri
 
 function ProgressSidebar({
   currentTrackId,
+  completedCount = 0,
+  totalLessons = 0,
 }: {
   currentTrackId: string;
+  completedCount?: number;
+  totalLessons?: number;
 }) {
   const matchingHandsOn = handsOnTracks.find(t => t.curriculumTrackId === currentTrackId);
   const upNext = upNextContent[currentTrackId];
   const isLastTrack = currentTrackId === "advanced-architecture";
   const isPrereq = currentTrackId === "cloud-infrastructure-intro" || currentTrackId.startsWith("prereq-");
   const isOnboarding = currentTrackId === "welcome-orientation" || isPrereq;
+  const pct = (totalLessons && totalLessons > 0) ? Math.round(((completedCount ?? 0) / totalLessons) * 100) : 0;
 
   return (
     <div className="space-y-5">
       {/* Course Progress */}
       <div className="glass-panel rounded-xl p-5">
         <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">Course Progress</h3>
-        <Progress value={0} className="h-2 bg-muted mb-2" />
-        <p className="text-xs text-muted-foreground font-mono">0%</p>
+        <Progress value={pct} className="h-2 bg-muted mb-2" />
+        <p className="text-xs text-muted-foreground font-mono">{pct}%</p>
       </div>
 
       {isOnboarding ? (
@@ -299,6 +351,10 @@ const LearningPathPage = () => {
   const { pathId } = useParams<{ pathId: string }>();
   const path = getLearningPathById(pathId || "");
 
+  // Must call hooks unconditionally before early return
+  const allLessons = path ? path.courses.flatMap(c => c.lessons) : [];
+  const { completedCount, resumeLesson } = useTrackProgress(pathId || "", allLessons);
+
   if (!path) {
     return (
       <AppLayout>
@@ -313,10 +369,8 @@ const LearningPathPage = () => {
   }
 
   const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
-  const firstLesson = path.courses[0]?.lessons[0];
-  
+  const resumeIdx = resumeLesson ? allLessons.findIndex(l => l.id === resumeLesson.id) : 0;
 
-  const allLessons = path.courses.flatMap(c => c.lessons);
   const progressSteps = allLessons.map(l => ({ id: l.id, label: l.title.length > 8 ? l.title.slice(0, 8) + "…" : l.title }));
 
   return (
@@ -324,8 +378,8 @@ const LearningPathPage = () => {
       <ProgressBar
         title={path.title}
         steps={progressSteps}
-        currentStepIndex={0}
-        completedCount={0}
+        currentStepIndex={resumeIdx}
+        completedCount={completedCount}
       />
       <section className="gradient-hero py-12 lg:py-16 px-6 lg:px-12 border-b border-border/30">
         <Link to="/training" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
@@ -355,12 +409,13 @@ const LearningPathPage = () => {
       <section className="px-6 lg:px-12 max-w-5xl pt-8 space-y-6">
         <IntroVideo pathId={path.id} />
         {path.trackIntro && <TrackIntroBlock text={path.trackIntro} />}
-        {firstLesson && (
+        {resumeLesson && (
           <ContinueLearningCard
-            nextLessonTitle={firstLesson.title}
+            nextLessonTitle={resumeLesson.title}
             totalLessons={totalLessons}
+            completedCount={completedCount}
             pathId={path.id}
-            firstLessonId={firstLesson.id}
+            resumeLessonId={resumeLesson.id}
           />
         )}
       </section>
@@ -420,6 +475,8 @@ const LearningPathPage = () => {
           <div className="w-full lg:w-72 shrink-0">
             <ProgressSidebar
               currentTrackId={path.id}
+              completedCount={completedCount}
+              totalLessons={totalLessons}
             />
           </div>
         </div>
