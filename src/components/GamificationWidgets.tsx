@@ -548,7 +548,7 @@ export function StreakFreezeCard() {
           Day off pass
         </p>
         <p className="text-[11px] leading-relaxed mb-4"
-          style={{ color: "rgba(255,255,255,0.55)" }}>
+          style={{ color: "#ffffff" }}>
           Miss a day without losing your progress. Earned by sharing the university with a colleague who completes their first lesson.
         </p>
 
