@@ -355,7 +355,7 @@ const Dashboard = () => {
               </div>
               <div className="shrink-0 w-44 glass-panel rounded-xl p-4 text-center border-primary/20">
                 <p className="text-3xl font-mono font-bold text-foreground">{overallProgress}%</p>
-                <p className="text-xs text-muted-foreground mt-1">of full curriculum</p>
+                <p className="text-xs dark:text-white/70 text-muted-foreground mt-1">of full curriculum</p>
                 <div className="h-1.5 rounded-full bg-muted overflow-hidden my-3">
                   <div className="h-full rounded-full bg-primary transition-all duration-700" style={{ width: `${overallProgress}%` }} />
                 </div>
