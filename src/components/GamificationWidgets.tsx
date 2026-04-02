@@ -159,7 +159,7 @@ export function DailyGoalRing({ size = 80, isNewUser = false }: { size?: number;
           <span className="text-[9px] dark:text-white/70 text-muted-foreground">/{state.dailyGoal}</span>
         </div>
       </div>
-      <p className="text-[10px] text-muted-foreground">
+      <p className="text-[10px] dark:text-white text-muted-foreground">
         {isNewUser ? "Complete one lesson today" : todayDone ? "Target reached for today!" : `${Math.max(0, state.dailyGoal - state.dailyXP)} points to go`}
       </p>
       <div className="w-full pt-2 border-t border-border/40 space-y-2">
