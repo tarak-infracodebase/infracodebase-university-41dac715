@@ -506,8 +506,8 @@ function ListItem({
         <div
           style={{
             fontSize: 14.5,
-            fontWeight: 700,
-            color: "rgba(255,255,255,0.92)",
+            fontWeight: item.read ? 400 : 700,
+            color: item.read ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.92)",
             marginBottom: 3,
           }}
         >
