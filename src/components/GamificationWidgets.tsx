@@ -110,8 +110,8 @@ export function DailyGoalRing({ size = 80, isNewUser = false }: { size?: number;
     <div className="glass-panel rounded-xl p-5 flex flex-col items-center gap-3 relative">
       <div className="flex items-center justify-between w-full">
         <div>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">Daily target</p>
-          <p className="text-[11px] text-muted-foreground mt-0.5">Points to earn today to keep your learning habit going.</p>
+          <p className="text-[10px] uppercase tracking-widest dark:text-white/65 text-muted-foreground font-medium">Daily target</p>
+          <p className="text-[11px] dark:text-white/85 text-muted-foreground mt-0.5">Points to earn today to keep your learning habit going.</p>
         </div>
         <button
           onClick={() => setShowPicker(v => !v)}
