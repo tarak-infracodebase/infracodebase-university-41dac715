@@ -84,6 +84,7 @@ export function NotificationBell({
     return () => document.removeEventListener("keydown", keyHandler);
   }, [panelOpen, closePanel]);
 
+  const allRead = notifications.every((n) => n.read);
   const featured = notifications[0];
   const rest = notifications.slice(1);
 
