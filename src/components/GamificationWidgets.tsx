@@ -585,18 +585,14 @@ export function StreakFreezeCard() {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full rounded-xl py-2.5 text-xs font-medium flex items-center justify-center gap-1.5 transition-all"
+          className="w-full rounded-lg py-2.5 text-sm font-semibold cursor-pointer"
           style={{
-            border: "0.5px solid rgba(255,255,255,0.2)",
-            background: "rgba(255,255,255,0.08)",
-            color: "rgba(255,255,255,0.8)",
+            background: 'rgba(255,255,255,0.15)',
+            border: '1.5px solid rgba(255,255,255,0.55)',
+            color: '#ffffff',
           }}
         >
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-          </svg>
-          Earn another — share the university
+          ⇄ Earn another — share the university
         </button>
       </div>
       <ShareModal open={showModal} onClose={() => setShowModal(false)} />
