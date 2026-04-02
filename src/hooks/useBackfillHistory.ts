@@ -59,8 +59,8 @@ export function useBackfillHistory() {
   useEffect(() => {
     if (!isLoaded || !user) return;
 
-    const alreadyRan = localStorage.getItem(`${BACKFILL_KEY}_${user.id}`);
-    if (alreadyRan) return;
+    // Use sessionStorage so backfill re-runs on fresh login but not on every render
+    if (sessionStorage.getItem("icbu_backfill_done") === "1") return;
 
     const meta = (user.unsafeMetadata ?? {}) as Record<string, unknown>;
 
@@ -69,11 +69,11 @@ export function useBackfillHistory() {
       ? (meta.lessonHistory as LessonHistoryEntry[])
       : [];
     if (existing.length > 0) {
-      localStorage.setItem(`${BACKFILL_KEY}_${user.id}`, "1");
+      sessionStorage.setItem("icbu_backfill_done", "1");
       return;
     }
 
-    // Collect from both sources, cloud first then localStorage fallback
+    // Merge from BOTH Clerk and localStorage, Clerk wins on conflicts
     const seen = new Set<string>();
     const backfilled: LessonHistoryEntry[] = [];
 
@@ -86,7 +86,7 @@ export function useBackfillHistory() {
       }
     };
 
-    // Source 1: Clerk unsafeMetadata.progress.trackProgress (cloud)
+    // Source 1: Clerk unsafeMetadata.progress.trackProgress (cloud — added first so it wins)
     try {
       const cloudProgress = (meta.progress as Record<string, unknown>)?.trackProgress as TrackProgress | undefined;
       if (cloudProgress && typeof cloudProgress === "object") {
@@ -98,12 +98,18 @@ export function useBackfillHistory() {
     try {
       const raw = localStorage.getItem("icbu_track_progress");
       if (raw) {
-        addEntries(mapTrackProgress(JSON.parse(raw) as TrackProgress));
+        const localProgress = JSON.parse(raw) as TrackProgress;
+        addEntries(mapTrackProgress(localProgress));
+
+        // Also merge local trackProgress back into Clerk so it's not lost
+        const cloudTP = ((meta.progress as Record<string, unknown>)?.trackProgress ?? {}) as TrackProgress;
+        const merged = { ...localProgress, ...cloudTP }; // Clerk wins
+        localStorage.setItem("icbu_track_progress", JSON.stringify(merged));
       }
     } catch { /* ignore */ }
 
     if (backfilled.length === 0) {
-      localStorage.setItem(`${BACKFILL_KEY}_${user.id}`, "1");
+      sessionStorage.setItem("icbu_backfill_done", "1");
       return;
     }
 
@@ -115,7 +121,7 @@ export function useBackfillHistory() {
         },
       })
       .then(() => {
-        localStorage.setItem(`${BACKFILL_KEY}_${user.id}`, "1");
+        sessionStorage.setItem("icbu_backfill_done", "1");
       })
       .catch(console.error);
   }, [isLoaded, user]);
