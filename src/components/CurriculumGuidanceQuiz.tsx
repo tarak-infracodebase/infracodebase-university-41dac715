@@ -160,7 +160,7 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
                 >
                   <span
                     className={`shrink-0 h-4 w-4 rounded-full border-2 flex items-center justify-center transition-colors ${
-                      selectedAnswer === i ? "border-[#d97706]" : "border-[#444]"
+                      selectedAnswer === i ? "border-[#d97706]" : "border-muted-foreground/40"
                     }`}
                   >
                     {selectedAnswer === i && (
