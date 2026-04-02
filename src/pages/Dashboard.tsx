@@ -548,7 +548,6 @@ const Dashboard = () => {
             </p>
             <div className="space-y-3">
               {BADGES.map((badge, i) => {
-                // Blend gamification badges with challenge-based milestones
                 const challengeEarned = (() => {
                   if (badge.id === "first_lesson") return comp >= 1;
                   if (badge.id === "streak_3") return challengeStreak >= 3;
@@ -561,29 +560,34 @@ const Dashboard = () => {
                   return false;
                 })();
                 const earned = earnedBadges.some(b => b.id === badge.id) || challengeEarned;
+                const isFirstAndNewUser = isNewUser && i === 0;
                 return (
                   <div
                     key={badge.id}
-                    className={cn("flex items-center gap-3", !earned && "opacity-35")}
+                    className={cn("flex items-center gap-3", !earned && !isFirstAndNewUser && "opacity-35")}
                   >
                     <CrystalIcon
                       color={earned
                         ? crystalColors[i % crystalColors.length]
-                        : "hsl(228, 20%, 20%)"}
+                        : isFirstAndNewUser
+                          ? "hsl(217, 91%, 60%)"
+                          : "hsl(228, 20%, 20%)"}
                       size={18}
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-foreground truncate">{badge.name}</p>
                       <p className="text-[10px] text-muted-foreground">{badge.desc}</p>
                     </div>
-                    {badge.xp > 0 && (
+                    {isFirstAndNewUser ? (
+                      <span className="text-xs font-bold font-mono text-blue-400">up next</span>
+                    ) : badge.xp > 0 ? (
                       <span className={cn(
                         "text-[11px] font-mono shrink-0",
                         earned ? "text-[hsl(145,60%,45%)]" : "text-muted-foreground"
                       )}>
                         +{badge.xp}
                       </span>
-                    )}
+                    ) : null}
                   </div>
                 );
               })}
