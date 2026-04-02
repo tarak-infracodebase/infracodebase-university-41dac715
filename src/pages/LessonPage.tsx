@@ -109,28 +109,6 @@ const LessonPage = () => {
                     <span className="hidden sm:inline">Prev</span>
                   </Link>
                 )}
-                {nextLesson && (
-                  <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={() => {
-                    try {
-                      const raw = localStorage.getItem("icbu_track_progress");
-                      const progress = raw ? JSON.parse(raw) : {};
-                      const key = path.id;
-                      const current = progress[key] || { completed: 0, completedLessons: [], status: "in_progress" };
-                      const completedSet = new Set<string>(current.completedLessons || []);
-                      completedSet.add(lesson.id);
-                      const newCount = Math.min(completedSet.size, allLessons.length);
-                      progress[key] = { completed: newCount, completedLessons: Array.from(completedSet), status: "in_progress" };
-                      localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
-                      window.dispatchEvent(new Event("icbu_xp_update"));
-                      updateLessonStatus(lesson.id, "completed", newCount);
-                    } catch {}
-                    window.scrollTo(0, 0);
-                  }}
-                    className="flex items-center gap-1 text-xs text-primary hover:text-primary/80 transition-colors">
-                    <span className="hidden sm:inline">Next</span>
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                )}
               </div>
             </div>
           </div>
@@ -191,6 +169,9 @@ const LessonPage = () => {
                     }
                     if (para.startsWith('- ')) {
                       return <div key={i} className="flex items-start gap-2 ml-2 my-1"><ChevronRight className="h-3 w-3 text-primary shrink-0 mt-1" /><span>{para.substring(2)}</span></div>;
+                    }
+                    if (para.startsWith('Modules:')) {
+                      return <p key={i} className="mb-2.5"><span className="font-semibold text-primary">Modules:</span>{para.substring(8)}</p>;
                     }
                     return para ? <p key={i} className="mb-2.5">{para.replace(/\*\*/g, '')}</p> : null;
                   })}

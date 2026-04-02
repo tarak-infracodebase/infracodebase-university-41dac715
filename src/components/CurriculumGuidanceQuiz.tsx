@@ -106,7 +106,7 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
         className="absolute inset-0 z-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative z-10 w-full max-w-lg mx-4 rounded-xl border border-[#222] bg-[#141414] p-4 sm:p-6 shadow-2xl">
+      <div className="relative z-10 w-full max-w-lg mx-4 rounded-xl border border-border bg-background p-4 sm:p-6 shadow-2xl">
         <button onClick={onClose} className="absolute top-4 right-4 text-[hsl(var(--muted-foreground))] hover:text-[hsl(var(--foreground))] transition-colors">
           <X className="h-4 w-4" />
         </button>
@@ -118,7 +118,7 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
               {showResult ? "Your recommendation" : `Question ${step + 1} of ${questions.length}`}
             </span>
           </div>
-          <div className="h-1 w-full rounded-full bg-[#222] overflow-hidden">
+          <div className="h-1 w-full rounded-full bg-muted overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-300"
               style={{ width: `${progress}%`, background: GRADIENT_BG }}
@@ -155,12 +155,12 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
                   className={`relative z-10 flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
                     selectedAnswer === i
                       ? "border-[#d97706]/60 bg-[#d97706]/5"
-                      : "border-[#222] hover:border-[#333]"
+                      : "border-border hover:border-muted-foreground/40"
                   }`}
                 >
                   <span
                     className={`shrink-0 h-4 w-4 rounded-full border-2 flex items-center justify-center transition-colors ${
-                      selectedAnswer === i ? "border-[#d97706]" : "border-[#444]"
+                      selectedAnswer === i ? "border-[#d97706]" : "border-muted-foreground/40"
                     }`}
                   >
                     {selectedAnswer === i && (

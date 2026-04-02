@@ -27,7 +27,7 @@ export const prereqFoundations: LearningPath = {
             "The three deployment models: public, private, and hybrid cloud",
             "Why the underlying model matters more than memorizing service names"
           ],
-          coreConcepts: "Cloud platforms provide access to real infrastructure through software interfaces. Instead of buying and operating physical servers, you rent infrastructure from providers that already run massive data centers. The provider hides the physical complexity — the data center floor, the physical switches, the storage hardware, the hypervisor layer. But those things still exist. You are requesting infrastructure that turns physical systems into software-defined building blocks.\n\n**The Three Service Models**\n- IaaS — Infrastructure as a Service: you manage virtual machines, networks, and storage; the provider manages the physical hardware beneath\n- PaaS — Platform as a Service: you manage your application and data; the provider manages the runtime, operating system, and everything below\n- SaaS — Software as a Service: you use software that the provider fully hosts, manages, and operates\n\n**The Three Deployment Models**\n- Public cloud: infrastructure owned and operated by a provider, shared across many customers on dedicated partitions\n- Private cloud: infrastructure operated exclusively for one organization, either on-premises or hosted\n- Hybrid cloud: a combination of public and private, connected so workloads and data can move between environments as needed",
+          coreConcepts: "Cloud platforms provide access to real infrastructure through software interfaces. Instead of buying and operating physical servers, you rent infrastructure from providers that already run massive data centers. The provider hides the physical complexity — the data center floor, the physical switches, the storage hardware, the hypervisor layer. But those things still exist. You are requesting infrastructure that turns physical systems into software-defined building blocks.\n\n**The Three Service Models**\n- IaaS — Infrastructure as a Service: you manage virtual machines, networks, and storage; the provider manages the physical hardware beneath\n- PaaS — Platform as a Service: you manage your application and data; the provider (AWS, Azure, or GCP) manages the runtime, operating system, and everything below\n- SaaS — Software as a Service: you use software that the provider fully hosts, manages, and operates\n\nIn this course, 'the provider' refers to cloud platforms such as AWS, Microsoft Azure, and Google Cloud Platform (GCP).\n\n**The Three Deployment Models**\n- Public cloud: infrastructure owned and operated by a provider, shared across many customers on dedicated partitions\n- Private cloud: infrastructure operated exclusively for one organization, either on-premises or hosted\n- Hybrid cloud: a combination of public and private, connected so workloads and data can move between environments as needed",
           exercise: {
             title: "Cloud vs Physical Infrastructure",
             description: "Write a comparison between running infrastructure on physical hardware versus running it through a cloud provider. Then answer: what complexity does the provider absorb, and what responsibility still stays with you?"
@@ -57,22 +57,22 @@ export const prereqFoundations: LearningPath = {
         {
           id: "p1-lesson-2",
           title: "The Core Building Blocks of Infrastructure",
-          whyThisMatters: "AWS alone has hundreds of services. Azure and GCP do too. That can overwhelm you quickly. But underneath that complexity, most systems are built from a small set of repeating ideas. If you understand those ideas first, you can make sense of any cloud platform much faster.",
+          whyThisMatters: "Those providers — AWS, Azure, and GCP — each have hundreds of services. That can overwhelm you quickly. But underneath that complexity, most systems are built from a small set of repeating ideas. If you understand those ideas first, you can make sense of any cloud platform much faster.",
           coreConcepts: "Every infrastructure environment is built from five core categories:\n\n- Compute: Something runs code — virtual machines, containers, serverless functions\n- Storage: Something stores data — object storage, block disks, databases\n- Networking: Something connects components and controls traffic — virtual networks, subnets, routing, load balancers, firewalls\n- Identity and Access: Something determines who or what is allowed to do what — users, service accounts, roles, policies\n- Observability: Something helps you understand system behavior — metrics, logs, traces, dashboards, alerts\n\nThese categories show up on every cloud platform. The service names differ. The roles do not.",
           comparisonTables: [
             {
-              headers: ["Concept / Skill", "AWS", "Azure / GCP"],
+              headers: ["Concept / Skill", "AWS", "Azure", "GCP"],
               rows: [
-                ["Virtual Machine", "EC2", "Azure VM / Compute Engine"],
-                ["Object Storage", "S3", "Azure Blob Storage / GCS"],
-                ["Private Network", "VPC", "Azure Virtual Network / GCP VPC"],
-                ["Managed Relational DB", "RDS", "Azure SQL Database / Cloud SQL"],
-                ["Managed NoSQL DB", "DynamoDB", "Azure Cosmos DB / Firestore"],
-                ["Identity & Access", "IAM", "Microsoft Entra ID / GCP IAM"],
-                ["Metrics & Logs", "CloudWatch", "Azure Monitor / Cloud Logging"],
-                ["Serverless Functions", "Lambda", "Azure Functions / Cloud Functions"],
-                ["Container Orchestration", "EKS", "AKS / GKE"],
-                ["DNS", "Route 53", "Azure DNS / Cloud DNS"]
+                ["Virtual Machine", "EC2", "Azure VM", "Compute Engine"],
+                ["Object Storage", "S3", "Azure Blob Storage", "Cloud Storage (GCS)"],
+                ["Private Network", "VPC", "Azure Virtual Network (VNet)", "VPC"],
+                ["Managed Relational DB", "RDS", "Azure SQL Database", "Cloud SQL"],
+                ["Managed NoSQL DB", "DynamoDB", "Azure Cosmos DB", "Firestore"],
+                ["Identity & Access", "IAM", "Microsoft Entra ID", "Cloud IAM"],
+                ["Metrics & Logs", "CloudWatch", "Azure Monitor", "Cloud Logging"],
+                ["Serverless Functions", "Lambda", "Azure Functions", "Cloud Functions"],
+                ["Container Orchestration", "EKS", "AKS", "GKE"],
+                ["DNS", "Route 53", "Azure DNS", "Cloud DNS"]
               ]
             }
           ],
@@ -1141,7 +1141,7 @@ export const prereqExpert: LearningPath = {
     {
       id: "mod16-governance",
       title: "Module 16 — Governance and Organizational-Scale Infrastructure",
-      description: "Landing zones, organizational hierarchies, service control policies, and platform engineering.",
+      description: "Landing zones, organizational hierarchies, service control policies, platform engineering, and Site Reliability Engineering (SRE).",
       difficulty: "advanced",
       estimatedTime: "20 min",
       lessons: [
@@ -1180,8 +1180,8 @@ export const prereqExpert: LearningPath = {
         {
           id: "p3-lesson-33",
           title: "Platform Engineering and Developer Enablement",
-          whyThisMatters: "Platform engineering is how organizations scale infrastructure expertise. Instead of every team learning every cloud service, a platform team builds golden paths that abstract complexity while maintaining standards.",
-          coreConcepts: "**Internal Developer Platforms**\nA platform engineering team builds an internal platform that abstracts cloud complexity for application developers. Instead of every developer learning every cloud service, they interact with a platform that provides golden paths: opinionated, pre-approved ways to provision infrastructure, deploy applications, and monitor systems.\n\n**Golden Paths**\nA golden path is an opinionated, recommended way to accomplish a common task. Create a new service using the golden path and you automatically get: CI/CD pipeline, container registry, appropriate IAM permissions, observability, security scanning, and infrastructure following the organization's standards.\n\n**Self-Service Infrastructure**\nPlatform teams enable application teams to provision infrastructure themselves, within guardrails. Service catalogs, Terraform modules, and internal APIs let developers get what they need without filing tickets.",
+          whyThisMatters: "Platform engineering and Site Reliability Engineering (SRE) are how organizations scale infrastructure expertise. Instead of every team learning every cloud service, a platform team builds golden paths that abstract complexity while maintaining standards, while SRE teams ensure those systems remain reliable in production.",
+          coreConcepts: "**Internal Developer Platforms**\nA platform engineering team builds an internal platform that abstracts cloud complexity for application developers. Instead of every developer learning every cloud service, they interact with a platform that provides golden paths: opinionated, pre-approved ways to provision infrastructure, deploy applications, and monitor systems. This work is relevant for engineers working in Platform Engineering and Site Reliability Engineering (SRE) roles, both of which depend heavily on infrastructure provisioning and automation.\n\n**Golden Paths**\nA golden path is an opinionated, recommended way to accomplish a common task. Create a new service using the golden path and you automatically get: CI/CD pipeline, container registry, appropriate IAM permissions, observability, security scanning, and infrastructure following the organization's standards.\n\n**Self-Service Infrastructure**\nPlatform teams enable application teams to provision infrastructure themselves, within guardrails. Service catalogs, Terraform modules, and internal APIs let developers get what they need without filing tickets.",
           exercise: {
             title: "Platform Design",
             description: "Design a golden path for creating a new microservice. Define what the developer provides and what the platform automatically provisions."

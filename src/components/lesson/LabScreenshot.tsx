@@ -30,8 +30,11 @@ export function LabScreenshot({ stepId, label = "Attach your screenshot" }: LabS
 
   return (
     <div className="mt-4" onPaste={handlePaste}>
-      <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground/50 mb-2">
+      <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground/50 mb-1">
         {label}
+      </p>
+      <p className="text-xs text-muted-foreground mb-2 leading-relaxed">
+        Upload a screenshot showing your work for this step — e.g. your terminal output, a deployed resource, or a configuration result. Accepted formats: PNG, JPG, GIF
       </p>
 
       {image ? (
