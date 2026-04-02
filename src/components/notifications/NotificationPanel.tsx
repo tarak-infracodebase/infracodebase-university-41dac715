@@ -559,6 +559,8 @@ function ListItem({
           flexDirection: "column",
           justifyContent: "flex-end",
           padding: "9px 10px",
+          opacity: item.read ? 0.5 : 1,
+          transition: "opacity 0.2s",
         }}
       >
         {/* Glow */}
