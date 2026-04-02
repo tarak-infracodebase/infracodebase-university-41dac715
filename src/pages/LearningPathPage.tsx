@@ -221,6 +221,8 @@ const upNextContent: Record<string, { trackNumber: number; title: string; descri
 
 function ProgressSidebar({
   currentTrackId,
+  completedCount = 0,
+  totalLessons = 0,
 }: {
   currentTrackId: string;
   completedCount?: number;
