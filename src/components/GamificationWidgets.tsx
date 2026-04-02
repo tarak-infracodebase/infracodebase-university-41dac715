@@ -166,7 +166,7 @@ export function DailyGoalRing({ size = 80, isNewUser = false }: { size?: number;
         <div className="flex items-center gap-2">
           <Flame className={cn("h-3.5 w-3.5 shrink-0", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")} />
           <div>
-            <p className={cn("text-xs font-medium", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")}>
+            <p className={cn("text-xs font-medium", state.streak > 0 ? "text-orange-500" : "dark:text-white text-muted-foreground")}>
               {isNewUser ? "Your streak starts the day you start." : `${state.streak} days in a row`}
             </p>
             <p className="text-[10px] text-muted-foreground">
