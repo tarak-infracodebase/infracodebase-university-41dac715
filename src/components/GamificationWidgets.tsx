@@ -94,12 +94,13 @@ export function StreakCard() {
 }
 
 // ── DailyGoalRing ──────────────────────────────────────────────────────────
-export function DailyGoalRing({ size = 80 }: { size?: number }) {
+export function DailyGoalRing({ size = 80, isNewUser = false }: { size?: number; isNewUser?: boolean }) {
   const { state, todayDone, setDailyGoal } = useGamificationContext();
   const { progress } = useChallenge();
   const challengeStreak = calculateChallengeStreak(progress.completedDays);
   const [showPicker, setShowPicker] = React.useState(false);
-  const pct = Math.min((state.dailyXP / state.dailyGoal) * 100, 100);
+  const displayXP = isNewUser ? state.dailyGoal : state.dailyXP;
+  const pct = isNewUser ? 0 : Math.min((state.dailyXP / state.dailyGoal) * 100, 100);
   const strokeWidth = 6;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -145,21 +146,21 @@ export function DailyGoalRing({ size = 80 }: { size?: number }) {
           <circle
             cx={size / 2} cy={size / 2} r={radius}
             fill="none"
-            stroke={todayDone ? "hsl(var(--crystal-green))" : "hsl(var(--primary))"}
+            stroke={todayDone ? "hsl(var(--crystal-green))" : isNewUser ? "hsl(217, 91%, 60%)" : "hsl(var(--primary))"}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={circumference}
-            strokeDashoffset={offset}
+            strokeDashoffset={isNewUser ? circumference : offset}
             className="transition-all duration-700"
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-sm font-mono font-bold">{state.dailyXP}</span>
+          <span className="text-sm font-mono font-bold">{displayXP}</span>
           <span className="text-[9px] text-muted-foreground">/{state.dailyGoal}</span>
         </div>
       </div>
       <p className="text-[10px] text-muted-foreground">
-        {todayDone ? "Target reached for today!" : `${Math.max(0, state.dailyGoal - state.dailyXP)} points to go`}
+        {isNewUser ? "Complete one lesson today" : todayDone ? "Target reached for today!" : `${Math.max(0, state.dailyGoal - state.dailyXP)} points to go`}
       </p>
       <div className="w-full pt-2 border-t border-border/40 space-y-2">
         <div className="flex items-center gap-2">
