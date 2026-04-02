@@ -493,10 +493,10 @@ const Dashboard = () => {
 
           {/* Learning points over time — daily */}
           <div className="glass-panel rounded-xl p-5">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-1">
+            <h2 className="text-sm font-bold uppercase tracking-wider dark:text-white/65 text-muted-foreground mb-1">
               Learning points over time
             </h2>
-            <p className="text-[11px] text-muted-foreground mb-4">
+            <p className="text-[11px] dark:text-white/85 text-muted-foreground mb-4">
               Points earned each day — last 14 days.
             </p>
             {isNewUser ? (
@@ -513,7 +513,7 @@ const Dashboard = () => {
                 {dailyChartData.map((d, i) => (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
                     <span
-                      className="text-[9px] font-mono text-muted-foreground"
+                      className="text-[9px] font-mono dark:text-white/70 text-muted-foreground"
                       style={{ minHeight: "12px" }}
                     >
                       {d.xp > 0 ? d.xp : ""}
@@ -530,7 +530,7 @@ const Dashboard = () => {
                       }}
                     />
                     {i % 3 === 0 && (
-                      <span className="text-[9px] text-muted-foreground">{d.label}</span>
+                      <span className="text-[9px] dark:text-white/70 text-muted-foreground">{d.label}</span>
                     )}
                   </div>
                 ))}
