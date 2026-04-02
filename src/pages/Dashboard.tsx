@@ -359,7 +359,7 @@ const Dashboard = () => {
                 <div className="h-1.5 rounded-full bg-muted overflow-hidden my-3">
                   <div className="h-full rounded-full bg-primary transition-all duration-700" style={{ width: `${overallProgress}%` }} />
                 </div>
-                <p className="text-[11px] text-muted-foreground mb-3">{tracksCompleted} of {totalTracks} tracks completed</p>
+                <p className="text-[11px] dark:text-white/70 text-muted-foreground mb-3">{tracksCompleted} of {totalTracks} tracks completed</p>
                 <Link to="/curriculum">
                   <Button size="sm" className="w-full text-xs gap-1">
                     Continue learning <ArrowRight className="h-3 w-3" />
