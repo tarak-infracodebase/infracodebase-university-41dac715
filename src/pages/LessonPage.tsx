@@ -20,7 +20,7 @@ const LessonPage = () => {
   const { pathId, lessonId } = useParams<{ pathId: string; lessonId: string }>();
   const result = getLessonById(pathId || "", lessonId || "");
   const { toasts, showXp, dismiss } = useXpToast();
-  const { trackLesson } = useProgressHistory();
+  const { trackLesson, updateLessonStatus } = useProgressHistory();
 
   // Track lesson visit in history (must be before early return)
   useEffect(() => {
@@ -118,9 +118,11 @@ const LessonPage = () => {
                       const current = progress[key] || { completed: 0, completedLessons: [], status: "in_progress" };
                       const completedSet = new Set<string>(current.completedLessons || []);
                       completedSet.add(lesson.id);
-                      progress[key] = { completed: Math.min(completedSet.size, allLessons.length), completedLessons: Array.from(completedSet), status: "in_progress" };
+                      const newCount = Math.min(completedSet.size, allLessons.length);
+                      progress[key] = { completed: newCount, completedLessons: Array.from(completedSet), status: "in_progress" };
                       localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
                       window.dispatchEvent(new Event("icbu_xp_update"));
+                      updateLessonStatus(lesson.id, "completed", newCount);
                     } catch {}
                     window.scrollTo(0, 0);
                   }}
@@ -334,9 +336,11 @@ const LessonPage = () => {
                       const current = progress[key] || { completed: 0, completedLessons: [], status: "in_progress" };
                       const completedSet = new Set<string>(current.completedLessons || []);
                       completedSet.add(lesson.id);
-                      progress[key] = { completed: Math.min(completedSet.size, allLessons.length), completedLessons: Array.from(completedSet), status: "in_progress" };
+                      const newCount = Math.min(completedSet.size, allLessons.length);
+                      progress[key] = { completed: newCount, completedLessons: Array.from(completedSet), status: "in_progress" };
                       localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
                       window.dispatchEvent(new Event("icbu_xp_update"));
+                      updateLessonStatus(lesson.id, "completed", newCount);
                     } catch {}
                     window.scrollTo(0, 0);
                   }}
