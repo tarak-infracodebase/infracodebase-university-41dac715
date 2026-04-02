@@ -231,12 +231,50 @@ export function NotificationBell({
 
           {/* Content */}
           <div style={{ padding: "0 18px 18px" }}>
+            {/* All caught up banner */}
+            {allRead && (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                background: 'rgba(29, 158, 117, 0.12)',
+                border: '0.5px solid rgba(29, 158, 117, 0.25)',
+                borderRadius: '10px',
+                padding: '10px 14px',
+                marginTop: '14px',
+                marginBottom: '14px',
+              }}>
+                <div style={{
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%',
+                  background: 'rgba(29, 158, 117, 0.2)',
+                  border: '0.5px solid rgba(29, 158, 117, 0.4)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}>
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path d="M2 5.5l2 2 4-4" stroke="#1D9E75" strokeWidth="1.5"
+                      strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4, margin: 0 }}>
+                  <strong style={{ color: '#fff', fontWeight: 500 }}>You're all caught up.</strong>
+                  {' '}New notifications will appear here.
+                </p>
+              </div>
+            )}
+
             {/* Featured card */}
             {featured && (
-              <FeaturedCard
-                item={featured}
-                onClick={() => openNotification(featured)}
-              />
+              <div style={{ opacity: allRead ? 0.6 : 1, transition: 'opacity 0.2s' }}>
+                <FeaturedCard
+                  item={featured}
+                  onClick={() => openNotification(featured)}
+                />
+              </div>
             )}
 
             {/* List items */}
