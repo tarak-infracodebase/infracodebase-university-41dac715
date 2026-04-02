@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ProgressBar } from "@/components/ProgressBar";
 import { getLearningPathById } from "@/data/courseData";
@@ -9,6 +10,44 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { AzurePeriodicTableCard } from "@/components/AzurePeriodicTableLink";
 import { InfracodebaseDocsCard } from "@/components/InfracodebaseDocsLink";
+
+interface TrackProgressEntry {
+  completed?: number;
+  completedLessons?: string[];
+  status?: string;
+}
+
+function useTrackProgress(pathId: string, allLessons: { id: string; title: string }[]) {
+  const [completedSet, setCompletedSet] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const load = () => {
+      try {
+        const raw = localStorage.getItem("icbu_track_progress");
+        if (!raw) return;
+        const progress = JSON.parse(raw) as Record<string, TrackProgressEntry>;
+        const entry = progress[pathId];
+        if (entry?.completedLessons) {
+          setCompletedSet(new Set(entry.completedLessons));
+        }
+      } catch {}
+    };
+    load();
+    window.addEventListener("icbu_xp_update", load);
+    window.addEventListener("storage", load);
+    return () => {
+      window.removeEventListener("icbu_xp_update", load);
+      window.removeEventListener("storage", load);
+    };
+  }, [pathId]);
+
+  const completedCount = completedSet.size;
+
+  // Find resume lesson: first uncompleted lesson, or last lesson if all done
+  const resumeLesson = allLessons.find(l => !completedSet.has(l.id)) ?? allLessons[allLessons.length - 1];
+
+  return { completedCount, completedSet, resumeLesson };
+}
 
 
 const trackVideoMap: Record<string, string> = {
