@@ -346,6 +346,10 @@ const LearningPathPage = () => {
   const { pathId } = useParams<{ pathId: string }>();
   const path = getLearningPathById(pathId || "");
 
+  // Must call hooks unconditionally before early return
+  const allLessons = path ? path.courses.flatMap(c => c.lessons) : [];
+  const { completedCount, resumeLesson } = useTrackProgress(pathId || "", allLessons);
+
   if (!path) {
     return (
       <AppLayout>
@@ -360,10 +364,8 @@ const LearningPathPage = () => {
   }
 
   const totalLessons = path.courses.reduce((t, c) => t + c.lessons.length, 0);
-  const firstLesson = path.courses[0]?.lessons[0];
-  
+  const resumeIdx = resumeLesson ? allLessons.findIndex(l => l.id === resumeLesson.id) : 0;
 
-  const allLessons = path.courses.flatMap(c => c.lessons);
   const progressSteps = allLessons.map(l => ({ id: l.id, label: l.title.length > 8 ? l.title.slice(0, 8) + "…" : l.title }));
 
   return (
@@ -371,8 +373,8 @@ const LearningPathPage = () => {
       <ProgressBar
         title={path.title}
         steps={progressSteps}
-        currentStepIndex={0}
-        completedCount={0}
+        currentStepIndex={resumeIdx}
+        completedCount={completedCount}
       />
       <section className="gradient-hero py-12 lg:py-16 px-6 lg:px-12 border-b border-border/30">
         <Link to="/training" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground mb-6 transition-colors">
@@ -402,12 +404,13 @@ const LearningPathPage = () => {
       <section className="px-6 lg:px-12 max-w-5xl pt-8 space-y-6">
         <IntroVideo pathId={path.id} />
         {path.trackIntro && <TrackIntroBlock text={path.trackIntro} />}
-        {firstLesson && (
+        {resumeLesson && (
           <ContinueLearningCard
-            nextLessonTitle={firstLesson.title}
+            nextLessonTitle={resumeLesson.title}
             totalLessons={totalLessons}
+            completedCount={completedCount}
             pathId={path.id}
-            firstLessonId={firstLesson.id}
+            resumeLessonId={resumeLesson.id}
           />
         )}
       </section>
