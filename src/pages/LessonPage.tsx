@@ -22,6 +22,7 @@ const LessonPage = () => {
   const result = getLessonById(pathId || "", lessonId || "");
   const { toasts, showXp, dismiss } = useXpToast();
   const { trackLesson, updateLessonStatus } = useProgressHistory();
+  const { user } = useUser();
 
   // Track lesson visit in history (must be before early return)
   useEffect(() => {
