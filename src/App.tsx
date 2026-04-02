@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { GamificationProvider } from "@/hooks/GamificationProvider";
 import { LevelUpCelebration } from "@/components/LevelUpCelebration";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { useBackfillHistory } from "@/hooks/useBackfillHistory";
 import Index from "./pages/Index";
 import LearningPathPage from "./pages/LearningPathPage";
 import LessonPage from "./pages/LessonPage";
