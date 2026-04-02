@@ -166,20 +166,40 @@ export default function History() {
             </p>
           </div>
           {hasAny && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-xs text-muted-foreground hover:text-destructive"
-              onClick={handleClear}
-              disabled={clearing}
-            >
-              {clearing ? (
-                <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />
-              ) : (
-                <Trash2 className="w-3.5 h-3.5 mr-1" />
-              )}
-              Clear history
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-xs text-muted-foreground hover:text-destructive"
+                  disabled={clearing}
+                >
+                  {clearing ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />
+                  ) : (
+                    <Trash2 className="w-3.5 h-3.5 mr-1" />
+                  )}
+                  Clear history
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Clear all history?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will permanently remove all your lesson history including in-progress, recently visited, and completed entries. This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleClear}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    Clear history
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           )}
         </div>
 
