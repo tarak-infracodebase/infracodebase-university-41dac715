@@ -475,6 +475,8 @@ const LearningPathPage = () => {
           <div className="w-full lg:w-72 shrink-0">
             <ProgressSidebar
               currentTrackId={path.id}
+              completedCount={completedCount}
+              totalLessons={totalLessons}
             />
           </div>
         </div>
