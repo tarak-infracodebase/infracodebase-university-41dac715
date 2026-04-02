@@ -51,7 +51,7 @@ export function ReflectionNotebook({ lessonId }: ReflectionNotebookProps) {
           <span className="font-mono text-xs text-[hsl(145,60%,45%)]">✓ Saved</span>
         )}
         <Button onClick={handleSave} size="sm" variant="outline" className="text-xs font-mono">
-          Save note
+          Save Answer
         </Button>
       </div>
     </div>

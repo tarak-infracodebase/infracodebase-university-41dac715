@@ -47,7 +47,7 @@ const ValidationChecklist = ({ items, lessonId, onAllChecked }: ValidationCheckl
         <h2 className="text-base font-bold">Validation Checklist</h2>
       </div>
       <p className="text-xs text-muted-foreground mb-4">
-        Check each item once you feel confident about it. Complete all items to mark this lesson as done.
+        Work through the lesson content first, then check each item as you feel confident. If you can't tick something yet, that's your signal to revisit that part of the lesson.
       </p>
       <div className="space-y-2">
         {items.map((item, i) => (
