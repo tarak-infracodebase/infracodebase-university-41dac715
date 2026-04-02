@@ -155,8 +155,8 @@ export function DailyGoalRing({ size = 80, isNewUser = false }: { size?: number;
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-sm font-mono font-bold">{displayXP}</span>
-          <span className="text-[9px] text-muted-foreground">/{state.dailyGoal}</span>
+          <span className="text-sm font-mono font-bold dark:text-white">{displayXP}</span>
+          <span className="text-[9px] dark:text-white/70 text-muted-foreground">/{state.dailyGoal}</span>
         </div>
       </div>
       <p className="text-[10px] text-muted-foreground">
