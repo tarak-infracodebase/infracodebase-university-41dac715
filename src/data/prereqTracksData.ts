@@ -61,18 +61,18 @@ export const prereqFoundations: LearningPath = {
           coreConcepts: "Every infrastructure environment is built from five core categories:\n\n- Compute: Something runs code — virtual machines, containers, serverless functions\n- Storage: Something stores data — object storage, block disks, databases\n- Networking: Something connects components and controls traffic — virtual networks, subnets, routing, load balancers, firewalls\n- Identity and Access: Something determines who or what is allowed to do what — users, service accounts, roles, policies\n- Observability: Something helps you understand system behavior — metrics, logs, traces, dashboards, alerts\n\nThese categories show up on every cloud platform. The service names differ. The roles do not.",
           comparisonTables: [
             {
-              headers: ["Concept / Skill", "AWS", "Azure / GCP"],
+              headers: ["Concept / Skill", "AWS", "Azure", "GCP"],
               rows: [
-                ["Virtual Machine", "EC2", "Azure VM / Compute Engine"],
-                ["Object Storage", "S3", "Azure Blob Storage / GCS"],
-                ["Private Network", "VPC", "Azure Virtual Network / GCP VPC"],
-                ["Managed Relational DB", "RDS", "Azure SQL Database / Cloud SQL"],
-                ["Managed NoSQL DB", "DynamoDB", "Azure Cosmos DB / Firestore"],
-                ["Identity & Access", "IAM", "Microsoft Entra ID / GCP IAM"],
-                ["Metrics & Logs", "CloudWatch", "Azure Monitor / Cloud Logging"],
-                ["Serverless Functions", "Lambda", "Azure Functions / Cloud Functions"],
-                ["Container Orchestration", "EKS", "AKS / GKE"],
-                ["DNS", "Route 53", "Azure DNS / Cloud DNS"]
+                ["Virtual Machine", "EC2", "Azure VM", "Compute Engine"],
+                ["Object Storage", "S3", "Azure Blob Storage", "Cloud Storage (GCS)"],
+                ["Private Network", "VPC", "Azure Virtual Network (VNet)", "VPC"],
+                ["Managed Relational DB", "RDS", "Azure SQL Database", "Cloud SQL"],
+                ["Managed NoSQL DB", "DynamoDB", "Azure Cosmos DB", "Firestore"],
+                ["Identity & Access", "IAM", "Microsoft Entra ID", "Cloud IAM"],
+                ["Metrics & Logs", "CloudWatch", "Azure Monitor", "Cloud Logging"],
+                ["Serverless Functions", "Lambda", "Azure Functions", "Cloud Functions"],
+                ["Container Orchestration", "EKS", "AKS", "GKE"],
+                ["DNS", "Route 53", "Azure DNS", "Cloud DNS"]
               ]
             }
           ],
