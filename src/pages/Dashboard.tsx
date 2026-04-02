@@ -499,32 +499,43 @@ const Dashboard = () => {
             <p className="text-[11px] text-muted-foreground mb-4">
               Points earned each day — last 14 days.
             </p>
-            <div className="flex items-end gap-1.5 h-32">
-              {dailyChartData.map((d, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <span
-                    className="text-[9px] font-mono text-muted-foreground"
-                    style={{ minHeight: "12px" }}
-                  >
-                    {d.xp > 0 ? d.xp : ""}
-                  </span>
-                  <div
-                    className="w-full rounded-t transition-all duration-500"
-                    style={{
-                      height: `${Math.max((d.xp / maxDaily) * 100, d.xp > 0 ? 5 : 2)}%`,
-                      background: d.xp > 0
-                        ? `linear-gradient(to top, ${crystalColors[i % crystalColors.length]}, ${crystalColors[(i + 1) % crystalColors.length]})`
-                        : "hsl(var(--muted))",
-                      opacity: d.xp > 0 ? 1 : 0.25,
-                      minHeight: "3px",
-                    }}
-                  />
-                  {i % 3 === 0 && (
-                    <span className="text-[9px] text-muted-foreground">{d.label}</span>
-                  )}
-                </div>
-              ))}
-            </div>
+            {isNewUser ? (
+              <div
+                className="flex items-center justify-center border border-dashed rounded-lg mt-2.5"
+                style={{ height: "70px", borderColor: "rgba(255,255,255,0.20)" }}
+              >
+                <p className="text-xs" style={{ color: "rgba(255,255,255,0.65)" }}>
+                  Your chart appears after your first lesson
+                </p>
+              </div>
+            ) : (
+              <div className="flex items-end gap-1.5 h-32">
+                {dailyChartData.map((d, i) => (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                    <span
+                      className="text-[9px] font-mono text-muted-foreground"
+                      style={{ minHeight: "12px" }}
+                    >
+                      {d.xp > 0 ? d.xp : ""}
+                    </span>
+                    <div
+                      className="w-full rounded-t transition-all duration-500"
+                      style={{
+                        height: `${Math.max((d.xp / maxDaily) * 100, d.xp > 0 ? 5 : 2)}%`,
+                        background: d.xp > 0
+                          ? `linear-gradient(to top, ${crystalColors[i % crystalColors.length]}, ${crystalColors[(i + 1) % crystalColors.length]})`
+                          : "hsl(var(--muted))",
+                        opacity: d.xp > 0 ? 1 : 0.25,
+                        minHeight: "3px",
+                      }}
+                    />
+                    {i % 3 === 0 && (
+                      <span className="text-[9px] text-muted-foreground">{d.label}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Milestones */}
