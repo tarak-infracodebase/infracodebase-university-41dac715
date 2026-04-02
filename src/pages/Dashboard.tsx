@@ -540,10 +540,10 @@ const Dashboard = () => {
 
           {/* Milestones */}
           <div className="glass-panel rounded-xl p-5">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+            <h2 className="text-sm font-bold uppercase tracking-wider dark:text-white/65 text-muted-foreground">
               Milestones
             </h2>
-            <p className="text-[11px] text-muted-foreground mt-0.5 mb-4">
+            <p className="text-[11px] dark:text-white/85 text-muted-foreground mt-0.5 mb-4">
               Earned by learning consistently.
             </p>
             <div className="space-y-3">
@@ -564,7 +564,7 @@ const Dashboard = () => {
                 return (
                   <div
                     key={badge.id}
-                    className={cn("flex items-center gap-3", !earned && !isFirstAndNewUser && "opacity-35")}
+                    className={cn("flex items-center gap-3", !earned && !isFirstAndNewUser && "opacity-40")}
                   >
                     <CrystalIcon
                       color={earned
@@ -575,15 +575,15 @@ const Dashboard = () => {
                       size={18}
                     />
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-foreground truncate">{badge.name}</p>
-                      <p className="text-[10px] text-muted-foreground">{badge.desc}</p>
+                      <p className="text-xs font-medium dark:text-white text-foreground truncate">{badge.name}</p>
+                      <p className="text-[10px] dark:text-white/70 text-muted-foreground">{badge.desc}</p>
                     </div>
                     {isFirstAndNewUser ? (
                       <span className="text-xs font-bold font-mono text-blue-400">up next</span>
                     ) : badge.xp > 0 ? (
                       <span className={cn(
                         "text-[11px] font-mono shrink-0",
-                        earned ? "text-[hsl(145,60%,45%)]" : "text-muted-foreground"
+                        earned ? "text-[hsl(145,60%,45%)]" : "dark:text-white/70 text-muted-foreground"
                       )}>
                         +{badge.xp}
                       </span>
