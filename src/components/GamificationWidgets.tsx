@@ -566,7 +566,7 @@ export function StreakFreezeCard() {
                 <p className="font-mono font-semibold" style={{ fontSize: "20px", color: "#fff" }}>
                   1 pass ready
                 </p>
-                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.5)", marginTop: "1px" }}>
+                <p className="text-[11px]" style={{ color: "#ffffff", opacity: 0.85, marginTop: "1px" }}>
                   Your progress is protected if you miss a day
                 </p>
               </>
