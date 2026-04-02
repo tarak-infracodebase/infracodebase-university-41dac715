@@ -118,7 +118,7 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
               {showResult ? "Your recommendation" : `Question ${step + 1} of ${questions.length}`}
             </span>
           </div>
-          <div className="h-1 w-full rounded-full bg-[#222] overflow-hidden">
+          <div className="h-1 w-full rounded-full bg-muted overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-300"
               style={{ width: `${progress}%`, background: GRADIENT_BG }}
