@@ -325,17 +325,30 @@ function FeaturedCard({
       {/* Text section */}
       <div className="flex items-start gap-2.5">
         {/* Unread dot */}
-        <span
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: 999,
-            background: item.read ? "rgba(255,255,255,0.15)" : "#f97316",
-            boxShadow: item.read ? "none" : "0 0 8px rgba(249,115,22,0.6)",
-            flexShrink: 0,
-            marginTop: 5,
-          }}
-        />
+        {item.read ? (
+          <span
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 999,
+              border: '1.5px solid rgba(255,255,255,0.2)',
+              flexShrink: 0,
+              marginTop: 5,
+            }}
+          />
+        ) : (
+          <span
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: 999,
+              background: "#f97316",
+              boxShadow: "0 0 8px rgba(249,115,22,0.6)",
+              flexShrink: 0,
+              marginTop: 5,
+            }}
+          />
+        )}
         <div className="flex-1 min-w-0">
           <div
             style={{
