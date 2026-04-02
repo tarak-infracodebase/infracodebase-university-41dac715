@@ -167,10 +167,10 @@ export function DailyGoalRing({ size = 80, isNewUser = false }: { size?: number;
           <Flame className={cn("h-3.5 w-3.5 shrink-0", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")} />
           <div>
             <p className={cn("text-xs font-medium", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")}>
-              {state.streak} days in a row
+              {isNewUser ? "Your streak starts the day you start." : `${state.streak} days in a row`}
             </p>
             <p className="text-[10px] text-muted-foreground">
-              {todayDone ? "Done for today ✓" : state.streak > 0 ? "Complete a lesson to keep going" : "Complete a lesson today to start your habit"}
+              {isNewUser ? "Complete a lesson today to start your habit" : todayDone ? "Done for today ✓" : state.streak > 0 ? "Complete a lesson to keep going" : "Complete a lesson today to start your habit"}
             </p>
           </div>
         </div>
