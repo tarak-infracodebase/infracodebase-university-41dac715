@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { getLessonById, learningPaths } from "@/data/courseData";
 import { AppLayout } from "@/components/AppLayout";
+import { useUser } from "@clerk/clerk-react";
 
 import { ArrowLeft, ArrowRight, BookOpen, AlertTriangle, Lightbulb, PenTool, ChevronRight, RefreshCw } from "lucide-react";
 import { useEffect } from "react";
@@ -21,6 +22,7 @@ const LessonPage = () => {
   const result = getLessonById(pathId || "", lessonId || "");
   const { toasts, showXp, dismiss } = useXpToast();
   const { trackLesson, updateLessonStatus } = useProgressHistory();
+  const { user } = useUser();
 
   // Track lesson visit in history (must be before early return)
   useEffect(() => {
@@ -309,7 +311,7 @@ const LessonPage = () => {
                   </Link>
                 ) : <div />}
                 {nextLesson ? (
-                  <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={() => {
+                  <Link to={`/path/${path.id}/lesson/${nextLesson.id}`} onClick={async () => {
                     try {
                       const raw = localStorage.getItem("icbu_track_progress");
                       const progress = raw ? JSON.parse(raw) : {};
@@ -322,6 +324,22 @@ const LessonPage = () => {
                       localStorage.setItem("icbu_track_progress", JSON.stringify(progress));
                       window.dispatchEvent(new Event("icbu_xp_update"));
                       updateLessonStatus(lesson.id, "completed", newCount);
+
+                      // Immediately sync trackProgress to Clerk
+                      if (user) {
+                        const existing = (user.unsafeMetadata ?? {}) as Record<string, unknown>;
+                        const currentTP = (existing.progress as Record<string, unknown>)?.trackProgress as Record<string, unknown> ?? {};
+                        user.update({
+                          unsafeMetadata: {
+                            ...existing,
+                            progress: {
+                              ...(existing.progress as Record<string, unknown> ?? {}),
+                              trackProgress: { ...currentTP, ...progress },
+                              lastSynced: new Date().toISOString(),
+                            },
+                          },
+                        }).catch(console.warn);
+                      }
                     } catch {}
                     window.scrollTo(0, 0);
                   }}
