@@ -213,12 +213,16 @@ export function NotificationBell({
           {/* Header */}
           <div style={{ padding: "14px 18px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <span style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.87)" }}>Notifications</span>
-            {unreadCount > 0 && (
+            {allRead ? (
+              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
+                All caught up
+              </span>
+            ) : (
               <button
                 onClick={(e) => { e.stopPropagation(); markAllRead(); }}
-                style={{ fontSize: 12, color: "rgba(255,255,255,0.28)", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.5)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.28)")}
+                style={{ fontSize: 12, color: "#60A5FA", background: "transparent", border: "none", cursor: "pointer", padding: 0 }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#93bbfd")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#60A5FA")}
               >
                 Mark all read
               </button>
