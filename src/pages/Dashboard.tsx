@@ -286,9 +286,11 @@ const Dashboard = () => {
                   <span className="text-primary">operate</span>{" "}
                   cloud infrastructure.
                 </h2>
-                <p className="text-sm text-muted-foreground mb-5 max-w-2xl leading-relaxed">
-                  Every track and hands-on exercise builds toward real infrastructure skills you can
-                  apply immediately. Start with the first track — no prior experience required.
+                <p className="text-sm text-muted-foreground mb-2 max-w-2xl leading-relaxed">
+                  Start your first lesson to begin tracking progress
+                </p>
+                <p className="text-xs text-muted-foreground mb-5 max-w-2xl leading-relaxed">
+                  Your first step is the Cloud &amp; Infrastructure Introduction — 5 lessons, 30 min.
                 </p>
                 <Link to="/curriculum">
                   <Button size="sm" className="gap-1.5 text-xs">
@@ -296,7 +298,7 @@ const Dashboard = () => {
                   </Button>
                 </Link>
               </div>
-              <div className="shrink-0 w-44 glass-panel rounded-xl p-4 text-center border-primary/20">
+              <div className="shrink-0 w-44 glass-panel rounded-xl p-4 text-center border-primary/20" style={{ opacity: 0.3 }}>
                 <p className="text-3xl font-mono font-bold text-foreground">{overallProgress}%</p>
                 <p className="text-xs text-muted-foreground mt-1">of full curriculum</p>
                 <div className="h-1.5 rounded-full bg-muted overflow-hidden my-3">
