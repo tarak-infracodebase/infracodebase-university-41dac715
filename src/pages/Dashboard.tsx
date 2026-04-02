@@ -286,9 +286,11 @@ const Dashboard = () => {
                   <span className="text-primary">operate</span>{" "}
                   cloud infrastructure.
                 </h2>
-                <p className="text-sm text-muted-foreground mb-5 max-w-2xl leading-relaxed">
-                  Every track and hands-on exercise builds toward real infrastructure skills you can
-                  apply immediately. Start with the first track — no prior experience required.
+                <p className="text-sm text-muted-foreground mb-2 max-w-2xl leading-relaxed">
+                  Start your first lesson to begin tracking progress
+                </p>
+                <p className="text-xs text-muted-foreground mb-5 max-w-2xl leading-relaxed">
+                  Your first step is the Cloud &amp; Infrastructure Introduction — 5 lessons, 30 min.
                 </p>
                 <Link to="/curriculum">
                   <Button size="sm" className="gap-1.5 text-xs">
@@ -296,7 +298,7 @@ const Dashboard = () => {
                   </Button>
                 </Link>
               </div>
-              <div className="shrink-0 w-44 glass-panel rounded-xl p-4 text-center border-primary/20">
+              <div className="shrink-0 w-44 glass-panel rounded-xl p-4 text-center border-primary/20" style={{ opacity: 0.3 }}>
                 <p className="text-3xl font-mono font-bold text-foreground">{overallProgress}%</p>
                 <p className="text-xs text-muted-foreground mt-1">of full curriculum</p>
                 <div className="h-1.5 rounded-full bg-muted overflow-hidden my-3">
@@ -384,17 +386,17 @@ const Dashboard = () => {
                 {
                   icon: <BookOpen className="h-3.5 w-3.5 text-primary" />,
                   label: "Lessons completed",
-                  value: state.completedLessons.length,
+                  value: isNewUser ? "—" : state.completedLessons.length,
                 },
                 {
                   icon: <Play className="h-3.5 w-3.5 text-[hsl(145,60%,45%)]" />,
                   label: "Videos watched",
-                  value: state.watchedVideos.length,
+                  value: isNewUser ? "—" : state.watchedVideos.length,
                 },
                 {
                   icon: <Zap className="h-3.5 w-3.5 text-[hsl(45,85%,55%)]" />,
                   label: "Hands-on exercises",
-                  value: comp + state.completedLessons.filter(
+                  value: isNewUser ? "—" : comp + state.completedLessons.filter(
                     (id: string) => id.startsWith("hands-on")
                   ).length,
                 },
@@ -411,10 +413,15 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
+            {isNewUser && (
+              <p className="text-xs text-blue-400 mt-2.5">
+                Complete a lesson to see your stats
+              </p>
+            )}
           </div>
 
           {/* Daily Target */}
-          <DailyGoalRing size={80} />
+          <DailyGoalRing size={80} isNewUser={isNewUser} />
 
           {/* Day Off Pass */}
           <StreakFreezeCard />
@@ -439,34 +446,39 @@ const Dashboard = () => {
             </p>
             <p
               className="text-[11px] mb-5 leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.55)" }}
+              style={{ color: "rgba(255,255,255,0.80)" }}
             >
-              Test yourself as you learn. Getting it right on the first try shows you've
-              understood the concept — not just read it.
+              {isNewUser
+                ? "After each track, a quick check tests whether you understood — not just read. Getting it right on the first try is what counts."
+                : "Test yourself as you learn. Getting it right on the first try shows you've understood the concept — not just read it."}
             </p>
             <div className="grid grid-cols-3 gap-2">
               {[
                 {
-                  val: state.completedLessons.length > 0
+                  val: isNewUser ? "—" : (state.completedLessons.length > 0
                     ? state.perfectChecks +
                       Math.max(0, state.completedLessons.length - state.perfectChecks)
-                    : 0,
+                    : 0),
                   label: "Attempted",
                   color: "#fff",
                 },
-                { val: state.perfectChecks, label: "First try", color: "hsl(160,60%,65%)" },
+                { val: isNewUser ? "—" : state.perfectChecks, label: "First try", color: "hsl(160,60%,65%)" },
                 {
-                  val: state.completedLessons.length > 0
+                  val: isNewUser ? "—" : (state.completedLessons.length > 0
                     ? `${Math.round((state.perfectChecks / state.completedLessons.length) * 100)}%`
-                    : "—",
+                    : "—"),
                   label: "Accuracy",
                   color: "#fff",
                 },
               ].map((s, i) => (
                 <div
                   key={i}
-                  className="text-center rounded-xl p-3"
-                  style={{ background: "rgba(255,255,255,0.08)" }}
+                  className={isNewUser
+                    ? "text-center rounded-xl p-3 bg-transparent border border-dashed"
+                    : "text-center rounded-xl p-3"}
+                  style={isNewUser
+                    ? { borderColor: "rgba(255,255,255,0.25)" }
+                    : { background: "rgba(255,255,255,0.08)" }}
                 >
                   <p className="text-xl font-semibold font-mono" style={{ color: s.color }}>
                     {s.val}
@@ -487,32 +499,43 @@ const Dashboard = () => {
             <p className="text-[11px] text-muted-foreground mb-4">
               Points earned each day — last 14 days.
             </p>
-            <div className="flex items-end gap-1.5 h-32">
-              {dailyChartData.map((d, i) => (
-                <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <span
-                    className="text-[9px] font-mono text-muted-foreground"
-                    style={{ minHeight: "12px" }}
-                  >
-                    {d.xp > 0 ? d.xp : ""}
-                  </span>
-                  <div
-                    className="w-full rounded-t transition-all duration-500"
-                    style={{
-                      height: `${Math.max((d.xp / maxDaily) * 100, d.xp > 0 ? 5 : 2)}%`,
-                      background: d.xp > 0
-                        ? `linear-gradient(to top, ${crystalColors[i % crystalColors.length]}, ${crystalColors[(i + 1) % crystalColors.length]})`
-                        : "hsl(var(--muted))",
-                      opacity: d.xp > 0 ? 1 : 0.25,
-                      minHeight: "3px",
-                    }}
-                  />
-                  {i % 3 === 0 && (
-                    <span className="text-[9px] text-muted-foreground">{d.label}</span>
-                  )}
-                </div>
-              ))}
-            </div>
+            {isNewUser ? (
+              <div
+                className="flex items-center justify-center border border-dashed rounded-lg mt-2.5"
+                style={{ height: "70px", borderColor: "rgba(255,255,255,0.20)" }}
+              >
+                <p className="text-xs" style={{ color: "rgba(255,255,255,0.65)" }}>
+                  Your chart appears after your first lesson
+                </p>
+              </div>
+            ) : (
+              <div className="flex items-end gap-1.5 h-32">
+                {dailyChartData.map((d, i) => (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                    <span
+                      className="text-[9px] font-mono text-muted-foreground"
+                      style={{ minHeight: "12px" }}
+                    >
+                      {d.xp > 0 ? d.xp : ""}
+                    </span>
+                    <div
+                      className="w-full rounded-t transition-all duration-500"
+                      style={{
+                        height: `${Math.max((d.xp / maxDaily) * 100, d.xp > 0 ? 5 : 2)}%`,
+                        background: d.xp > 0
+                          ? `linear-gradient(to top, ${crystalColors[i % crystalColors.length]}, ${crystalColors[(i + 1) % crystalColors.length]})`
+                          : "hsl(var(--muted))",
+                        opacity: d.xp > 0 ? 1 : 0.25,
+                        minHeight: "3px",
+                      }}
+                    />
+                    {i % 3 === 0 && (
+                      <span className="text-[9px] text-muted-foreground">{d.label}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Milestones */}
@@ -525,7 +548,6 @@ const Dashboard = () => {
             </p>
             <div className="space-y-3">
               {BADGES.map((badge, i) => {
-                // Blend gamification badges with challenge-based milestones
                 const challengeEarned = (() => {
                   if (badge.id === "first_lesson") return comp >= 1;
                   if (badge.id === "streak_3") return challengeStreak >= 3;
@@ -538,29 +560,34 @@ const Dashboard = () => {
                   return false;
                 })();
                 const earned = earnedBadges.some(b => b.id === badge.id) || challengeEarned;
+                const isFirstAndNewUser = isNewUser && i === 0;
                 return (
                   <div
                     key={badge.id}
-                    className={cn("flex items-center gap-3", !earned && "opacity-35")}
+                    className={cn("flex items-center gap-3", !earned && !isFirstAndNewUser && "opacity-35")}
                   >
                     <CrystalIcon
                       color={earned
                         ? crystalColors[i % crystalColors.length]
-                        : "hsl(228, 20%, 20%)"}
+                        : isFirstAndNewUser
+                          ? "hsl(217, 91%, 60%)"
+                          : "hsl(228, 20%, 20%)"}
                       size={18}
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-foreground truncate">{badge.name}</p>
                       <p className="text-[10px] text-muted-foreground">{badge.desc}</p>
                     </div>
-                    {badge.xp > 0 && (
+                    {isFirstAndNewUser ? (
+                      <span className="text-xs font-bold font-mono text-blue-400">up next</span>
+                    ) : badge.xp > 0 ? (
                       <span className={cn(
                         "text-[11px] font-mono shrink-0",
                         earned ? "text-[hsl(145,60%,45%)]" : "text-muted-foreground"
                       )}>
                         +{badge.xp}
                       </span>
-                    )}
+                    ) : null}
                   </div>
                 );
               })}
@@ -576,11 +603,39 @@ const Dashboard = () => {
             <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
               Skill Development
             </h2>
-            <div className="grid lg:grid-cols-2 gap-x-8 gap-y-3">
-              {skills.map((s, i) => (
-                <SkillBar key={i} label={s.label} value={s.value} color={s.color} />
-              ))}
-            </div>
+            {isNewUser ? (
+              <div>
+                <p className="text-sm font-medium text-foreground mb-1">
+                  Skills appear as you learn
+                </p>
+                <p className="text-xs mb-2.5" style={{ color: "rgba(255,255,255,0.70)" }}>
+                  Each track builds a score across 12 skill areas.
+                </p>
+                {skills.map((s, i) => (
+                  <div key={i} className="flex items-center gap-2 mb-2">
+                    <span className="text-xs flex-1" style={{ color: "rgba(255,255,255,0.85)" }}>
+                      {s.label}
+                    </span>
+                    <div
+                      className="flex-1 h-0.5 rounded"
+                      style={{ background: "rgba(255,255,255,0.12)" }}
+                    />
+                    <span
+                      className="text-xs font-mono w-4 text-right"
+                      style={{ color: "rgba(255,255,255,0.40)" }}
+                    >
+                      —
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="grid lg:grid-cols-2 gap-x-8 gap-y-3">
+                {skills.map((s, i) => (
+                  <SkillBar key={i} label={s.label} value={s.value} color={s.color} />
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

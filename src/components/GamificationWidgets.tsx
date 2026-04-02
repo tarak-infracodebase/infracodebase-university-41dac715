@@ -94,12 +94,13 @@ export function StreakCard() {
 }
 
 // ── DailyGoalRing ──────────────────────────────────────────────────────────
-export function DailyGoalRing({ size = 80 }: { size?: number }) {
+export function DailyGoalRing({ size = 80, isNewUser = false }: { size?: number; isNewUser?: boolean }) {
   const { state, todayDone, setDailyGoal } = useGamificationContext();
   const { progress } = useChallenge();
   const challengeStreak = calculateChallengeStreak(progress.completedDays);
   const [showPicker, setShowPicker] = React.useState(false);
-  const pct = Math.min((state.dailyXP / state.dailyGoal) * 100, 100);
+  const displayXP = isNewUser ? state.dailyGoal : state.dailyXP;
+  const pct = isNewUser ? 0 : Math.min((state.dailyXP / state.dailyGoal) * 100, 100);
   const strokeWidth = 6;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -145,31 +146,31 @@ export function DailyGoalRing({ size = 80 }: { size?: number }) {
           <circle
             cx={size / 2} cy={size / 2} r={radius}
             fill="none"
-            stroke={todayDone ? "hsl(var(--crystal-green))" : "hsl(var(--primary))"}
+            stroke={todayDone ? "hsl(var(--crystal-green))" : isNewUser ? "hsl(217, 91%, 60%)" : "hsl(var(--primary))"}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={circumference}
-            strokeDashoffset={offset}
+            strokeDashoffset={isNewUser ? circumference : offset}
             className="transition-all duration-700"
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-sm font-mono font-bold">{state.dailyXP}</span>
+          <span className="text-sm font-mono font-bold">{displayXP}</span>
           <span className="text-[9px] text-muted-foreground">/{state.dailyGoal}</span>
         </div>
       </div>
       <p className="text-[10px] text-muted-foreground">
-        {todayDone ? "Target reached for today!" : `${Math.max(0, state.dailyGoal - state.dailyXP)} points to go`}
+        {isNewUser ? "Complete one lesson today" : todayDone ? "Target reached for today!" : `${Math.max(0, state.dailyGoal - state.dailyXP)} points to go`}
       </p>
       <div className="w-full pt-2 border-t border-border/40 space-y-2">
         <div className="flex items-center gap-2">
           <Flame className={cn("h-3.5 w-3.5 shrink-0", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")} />
           <div>
             <p className={cn("text-xs font-medium", state.streak > 0 ? "text-orange-500" : "text-muted-foreground")}>
-              {state.streak} days in a row
+              {isNewUser ? "Your streak starts the day you start." : `${state.streak} days in a row`}
             </p>
             <p className="text-[10px] text-muted-foreground">
-              {todayDone ? "Done for today ✓" : state.streak > 0 ? "Complete a lesson to keep going" : "Complete a lesson today to start your habit"}
+              {isNewUser ? "Complete a lesson today to start your habit" : todayDone ? "Done for today ✓" : state.streak > 0 ? "Complete a lesson to keep going" : "Complete a lesson today to start your habit"}
             </p>
           </div>
         </div>
@@ -584,18 +585,14 @@ export function StreakFreezeCard() {
 
         <button
           onClick={() => setShowModal(true)}
-          className="w-full rounded-xl py-2.5 text-xs font-medium flex items-center justify-center gap-1.5 transition-all"
+          className="w-full rounded-lg py-2.5 text-sm font-semibold cursor-pointer"
           style={{
-            border: "0.5px solid rgba(255,255,255,0.2)",
-            background: "rgba(255,255,255,0.08)",
-            color: "rgba(255,255,255,0.8)",
+            background: 'rgba(255,255,255,0.15)',
+            border: '1.5px solid rgba(255,255,255,0.55)',
+            color: '#ffffff',
           }}
         >
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-          </svg>
-          Earn another — share the university
+          ⇄ Earn another — share the university
         </button>
       </div>
       <ShareModal open={showModal} onClose={() => setShowModal(false)} />
