@@ -155,7 +155,7 @@ export function CurriculumGuidanceQuiz({ open, onClose }: QuizModalProps) {
                   className={`relative z-10 flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
                     selectedAnswer === i
                       ? "border-[#d97706]/60 bg-[#d97706]/5"
-                      : "border-[#222] hover:border-[#333]"
+                      : "border-border hover:border-muted-foreground/40"
                   }`}
                 >
                   <span
