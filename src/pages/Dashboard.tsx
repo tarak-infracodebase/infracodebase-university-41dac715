@@ -341,7 +341,7 @@ const Dashboard = () => {
                     />
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground mb-5">
+                <p className="text-sm dark:text-white/85 text-muted-foreground mb-5">
                   {tracksCompleted > 0
                     ? `You've completed ${tracksCompleted} track${tracksCompleted > 1 ? "s" : ""}. Pick up the next one to keep building.`
                     : "Pick up where you left off or start something new."
