@@ -346,8 +346,7 @@ export function ReferralModal() {
   const [animating, setAnimating] = useState(false);
   const { user } = useUser();
 
-  const inviteCode = user?.id?.slice(0, 8) || "user";
-  const referralUrl = `${REFERRAL_BASE}/${inviteCode}`;
+  const referralUrl = user?.id ? `${REFERRAL_BASE}/${user.id}` : "";
 
   const stats = { signedUp: 0, converted: 0, credits: 0 };
 
