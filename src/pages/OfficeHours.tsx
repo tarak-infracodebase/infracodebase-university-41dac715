@@ -1264,8 +1264,8 @@ function SessionModal({
       {c.reply && (
         <div style={{ marginLeft: '42px', marginBottom: '20px' }}>
           <div style={{ display: 'flex', gap: '10px' }}>
-            <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `1.5px solid ${c.reply.ring}` }}>
-              <img src={c.reply.avatar} alt={c.reply.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.reply.name, 28)} />
+            <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `1.5px solid ${c.reply.ring}` }}>
+              <img src={c.reply.avatar} alt={c.reply.name} style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '50%' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.reply.name, 32)} />
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px', flexWrap: 'wrap' }}>
