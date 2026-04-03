@@ -1588,6 +1588,7 @@ export default function OfficeHours() {
         notesMD={SESSION3_NOTES_MD}
         downloadFilename="build-with-her-april-1-2026.md"
         youtubeEmbedUrl="https://www.youtube.com/embed/RtlKHzz-k_s"
+        sessionUrl="https://university.infracodebase.com/workshops#shifting-left-azure-baseline"
       />
     </AppLayout>
   );
