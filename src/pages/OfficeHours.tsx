@@ -997,10 +997,10 @@ function NotesEditor({
 
 /* ── Session Modal ── */
 function SessionModal({
-  open, onClose, screenshots: shots, isTarak, title, subtitle, sessionComments, notesHTML, notesMD, downloadFilename, youtubeEmbedUrl,
+  open, onClose, screenshots: shots, isTarak, title, subtitle, sessionComments, notesHTML, notesMD, downloadFilename, youtubeEmbedUrl, sessionUrl,
 }: {
   open: boolean; onClose: () => void; screenshots: { src: string; caption: string }[]; isTarak: boolean;
-  title: string; subtitle: string; sessionComments: any[]; notesHTML: string; notesMD: string; downloadFilename: string; youtubeEmbedUrl?: string;
+  title: string; subtitle: string; sessionComments: any[]; notesHTML: string; notesMD: string; downloadFilename: string; youtubeEmbedUrl?: string; sessionUrl?: string;
 }) {
   const { user } = useUser();
   const isAdmin = (user?.publicMetadata as Record<string, unknown>)?.role === "admin";
