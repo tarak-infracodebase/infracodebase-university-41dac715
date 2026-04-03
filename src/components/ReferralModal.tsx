@@ -344,7 +344,8 @@ export function ReferralModal() {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [animating, setAnimating] = useState(false);
-  const { user } = useUser();
+  const { user, isLoaded: userLoaded } = useUser();
+  const { isSignedIn } = useAuth();
 
   const referralUrl = user?.id ? `${REFERRAL_BASE}/${user.id}` : "";
 
