@@ -1243,9 +1243,9 @@ function SessionModal({
   {sessionComments.map((c: any, i: number) => (
     <div key={i}>
       <div style={{ display: 'flex', gap: '10px', marginBottom: c.reply ? '12px' : '20px' }}>
-        <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '1.5px solid hsl(var(--border))' }}>
+        <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '1.5px solid hsl(var(--border))' }}>
           {c.avatar ? (
-            <img src={c.avatar} alt={c.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.name, 32)} />
+            <img src={c.avatar} alt={c.name} style={{ width: '36px', height: '36px', objectFit: 'cover', borderRadius: '50%' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.name, 36)} />
           ) : (
             <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg,#c2410c,#16a34a)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#fff' }}>{c.name[0]}</div>
           )}
