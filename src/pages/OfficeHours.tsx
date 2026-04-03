@@ -257,24 +257,24 @@ Cameron provided expert context on how shift-left security applies at enterprise
 
 const session3Comments = [
   {
-    name: 'Tawni', date: 'April 1, 2026', avatar: '/Tawni.jpeg',
+    name: 'Tawni', date: 'April 1, 2026', avatar: '/avatars/Tawni-2.jpeg',
     text: 'This was such a meaningful session for me. Being the first to hit 100% compliance with personal + enterprise rules felt like a real milestone. Excited to share the template with everyone.',
     upvotes: 14,
-    reply: { name: 'Tarak', badge: 'Host', badgeColor: 'linear-gradient(90deg,#f5821f,#16a34a)', ring: '#f5821f', avatar: TARAK_AVATAR, text: "You earned it Tawni — the way you iterated through the rules and got to 100% was exactly the workflow we designed for. Can't wait to see people fork your template.", upvotes: 7 }
+    reply: { name: 'Tarak', badge: 'Host', badgeColor: 'linear-gradient(90deg,#f5821f,#16a34a)', ring: '#f5821f', avatar: '/avatars/tarak-2.jpeg', text: "You earned it Tawni — the way you iterated through the rules and got to 100% was exactly the workflow we designed for. Can't wait to see people fork your template.", upvotes: 7 }
   },
   {
-    name: 'Comfort Benton', date: 'April 1, 2026', avatar: '/Comfort_Benton.jpeg',
+    name: 'Shravani P', date: 'April 1, 2026', avatar: '/avatars/Shravani.jpeg',
     text: 'The SDLC vs SSDLC comparison really clicked for me. Seeing the difference between bolting security on late vs building it in from the start — that slide was everything.',
     upvotes: 11, reply: null
   },
   {
-    name: 'Reilly', date: 'April 1, 2026', avatar: '/Reilly.jpeg',
+    name: 'Cameron Walters', date: 'April 1, 2026', avatar: '/avatars/Walters_Cameron.jpeg',
     text: 'Cameron\'s perspective from enterprise security was incredible. It\'s one thing to hear about shift-left in theory — hearing how it works at Teradata made it real.',
     upvotes: 9,
-    reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: JUSTIN_AVATAR, text: "Cameron brought exactly the kind of real-world context we want in these sessions. Security engineering at that scale is a different game.", upvotes: 5 }
+    reply: { name: 'Justin O\'Connor', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: '/avatars/justin-2.jpeg', text: "Cameron brought exactly the kind of real-world context we want in these sessions. Security engineering at that scale is a different game.", upvotes: 5 }
   },
   {
-    name: 'Abby', date: 'April 1, 2026', avatar: '/Abby.jpeg',
+    name: 'Megg', date: 'April 1, 2026', avatar: null,
     text: "The four questions framework from Shostack is something I'm going to use in every project now. Simple but powerful.",
     upvotes: 8, reply: null
   },
@@ -1243,9 +1243,9 @@ function SessionModal({
   {sessionComments.map((c: any, i: number) => (
     <div key={i}>
       <div style={{ display: 'flex', gap: '10px', marginBottom: c.reply ? '12px' : '20px' }}>
-        <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '1.5px solid hsl(var(--border))' }}>
+        <div style={{ width: '36px', height: '36px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: '1.5px solid hsl(var(--border))' }}>
           {c.avatar ? (
-            <img src={c.avatar} alt={c.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.name, 32)} />
+            <img src={c.avatar} alt={c.name} style={{ width: '36px', height: '36px', objectFit: 'cover', borderRadius: '50%' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.name, 36)} />
           ) : (
             <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg,#c2410c,#16a34a)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700, color: '#fff' }}>{c.name[0]}</div>
           )}
@@ -1264,8 +1264,8 @@ function SessionModal({
       {c.reply && (
         <div style={{ marginLeft: '42px', marginBottom: '20px' }}>
           <div style={{ display: 'flex', gap: '10px' }}>
-            <div style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `1.5px solid ${c.reply.ring}` }}>
-              <img src={c.reply.avatar} alt={c.reply.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.reply.name, 28)} />
+            <div style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden', flexShrink: 0, border: `1.5px solid ${c.reply.ring}` }}>
+              <img src={c.reply.avatar} alt={c.reply.name} style={{ width: '32px', height: '32px', objectFit: 'cover', borderRadius: '50%' }} onError={(e) => applyAvatarFallback(e.currentTarget, c.reply.name, 32)} />
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '4px', flexWrap: 'wrap' }}>
