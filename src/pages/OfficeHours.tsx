@@ -1543,6 +1543,7 @@ export default function OfficeHours() {
               tagLabel="Azure"
               tagStyle={{ background: 'rgba(0,120,212,0.15)', color: '#60a9ff', border: '0.5px solid rgba(0,120,212,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '12px', fontWeight: 500 }}
               onClick={() => setModalOpen(true)}
+              sessionUrl="https://university.infracodebase.com/workshops#clickops-to-iac"
             />
           </div>
         </section>
