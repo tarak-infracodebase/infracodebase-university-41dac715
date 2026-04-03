@@ -27,12 +27,16 @@ function ReferralExpandedContent({
   onClose,
   copyLink,
   copied,
+  isSignedIn,
+  userLoaded,
 }: {
   referralUrl: string;
   stats: { signedUp: number; converted: number; credits: number };
   onClose: () => void;
   copyLink: () => void;
   copied: boolean;
+  isSignedIn: boolean;
+  userLoaded: boolean;
 }) {
   return (
     <div
