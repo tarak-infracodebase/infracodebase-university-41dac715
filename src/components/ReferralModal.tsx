@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { X, ArrowRight, Briefcase, Star, Copy, Check, ChevronDown } from "lucide-react";
 
 const REFERRAL_BASE = "https://infracodebase.com/invite";
@@ -27,12 +27,16 @@ function ReferralExpandedContent({
   onClose,
   copyLink,
   copied,
+  isSignedIn,
+  userLoaded,
 }: {
   referralUrl: string;
   stats: { signedUp: number; converted: number; credits: number };
   onClose: () => void;
   copyLink: () => void;
   copied: boolean;
+  isSignedIn: boolean;
+  userLoaded: boolean;
 }) {
   return (
     <div
@@ -186,18 +190,25 @@ function ReferralExpandedContent({
           style={{
             fontFamily: "'DM Mono', monospace",
             fontSize: 12,
-            color: "rgba(255,255,255,0.48)",
+            color: !isSignedIn ? "rgba(255,255,255,0.28)" : "rgba(255,255,255,0.48)",
             background: "rgba(255,255,255,0.05)",
             border: "0.5px solid rgba(255,255,255,0.1)",
             borderRadius: 8,
             padding: "9px 12px",
           }}
         >
-          {referralUrl}
+          {!userLoaded ? (
+            <div className="h-3 w-full rounded bg-white/10 animate-pulse" />
+          ) : !isSignedIn ? (
+            "Sign in to get your referral link"
+          ) : (
+            referralUrl
+          )}
         </div>
         <button
           onClick={copyLink}
-          className="shrink-0 flex items-center gap-1.5 font-bold text-[12px] transition-colors"
+          disabled={!referralUrl}
+          className="shrink-0 flex items-center gap-1.5 font-bold text-[12px] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           style={{
             fontFamily: "'Sora', sans-serif",
             borderRadius: 8,
@@ -344,10 +355,10 @@ export function ReferralModal() {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [animating, setAnimating] = useState(false);
-  const { user } = useUser();
+  const { user, isLoaded: userLoaded } = useUser();
+  const { isSignedIn } = useAuth();
 
-  const inviteCode = user?.id?.slice(0, 8) || "user";
-  const referralUrl = `${REFERRAL_BASE}/${inviteCode}`;
+  const referralUrl = user?.id ? `${REFERRAL_BASE}/${user.id}` : "";
 
   const stats = { signedUp: 0, converted: 0, credits: 0 };
 
@@ -420,6 +431,8 @@ export function ReferralModal() {
                     onClose={handleClose}
                     copyLink={copyLink}
                     copied={copied}
+                    isSignedIn={!!isSignedIn}
+                    userLoaded={userLoaded}
                   />
                 </div>
               </div>
@@ -439,6 +452,8 @@ export function ReferralModal() {
                       onClose={handleClose}
                       copyLink={copyLink}
                       copied={copied}
+                      isSignedIn={!!isSignedIn}
+                      userLoaded={userLoaded}
                     />
                   </GlowContainer>
                 </div>
