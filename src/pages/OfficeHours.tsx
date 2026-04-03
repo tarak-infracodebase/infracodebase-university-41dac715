@@ -1515,6 +1515,7 @@ export default function OfficeHours() {
               tagLabel="Shift left"
               tagStyle={{ background: 'rgba(232,93,4,0.15)', color: '#f59e0b', border: '0.5px solid rgba(232,93,4,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '12px', fontWeight: 500 }}
               onClick={() => setModal3Open(true)}
+              sessionUrl="https://university.infracodebase.com/workshops#shifting-left-azure-baseline"
             />
 
             {/* Workshop 2 — March 25, 2026 */}
