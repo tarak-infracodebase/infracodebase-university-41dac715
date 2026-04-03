@@ -1011,6 +1011,7 @@ function SessionModal({
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [captions, setCaptions] = useState(shots.map(s => s.caption));
   const [captionEditing, setCaptionEditing] = useState(false);
+  const [shareCopied, setShareCopied] = useState(false);
 
   // Comments
   const [comments, setComments] = useState<{name: string; date: string; text: string; avatar?: string; replies?: any[]}[]>([]);
