@@ -186,18 +186,25 @@ function ReferralExpandedContent({
           style={{
             fontFamily: "'DM Mono', monospace",
             fontSize: 12,
-            color: "rgba(255,255,255,0.48)",
+            color: !isSignedIn ? "rgba(255,255,255,0.28)" : "rgba(255,255,255,0.48)",
             background: "rgba(255,255,255,0.05)",
             border: "0.5px solid rgba(255,255,255,0.1)",
             borderRadius: 8,
             padding: "9px 12px",
           }}
         >
-          {referralUrl}
+          {!userLoaded ? (
+            <div className="h-3 w-full rounded bg-white/10 animate-pulse" />
+          ) : !isSignedIn ? (
+            "Sign in to get your referral link"
+          ) : (
+            referralUrl
+          )}
         </div>
         <button
           onClick={copyLink}
-          className="shrink-0 flex items-center gap-1.5 font-bold text-[12px] transition-colors"
+          disabled={!referralUrl}
+          className="shrink-0 flex items-center gap-1.5 font-bold text-[12px] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
           style={{
             fontFamily: "'Sora', sans-serif",
             borderRadius: 8,
