@@ -274,7 +274,7 @@ const session3Comments = [
     reply: { name: 'Justin O\'Connor', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: '/avatars/justin-2.jpeg', text: "Cameron brought exactly the kind of real-world context we want in these sessions. Security engineering at that scale is a different game.", upvotes: 5 }
   },
   {
-    name: 'Megg', date: 'April 1, 2026', avatar: null,
+    name: 'Megg', date: 'April 1, 2026', avatar: '/avatars/megg.jpeg',
     text: "The four questions framework from Shostack is something I'm going to use in every project now. Simple but powerful.",
     upvotes: 8, reply: null
   },
