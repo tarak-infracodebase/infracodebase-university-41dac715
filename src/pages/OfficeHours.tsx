@@ -1574,6 +1574,7 @@ export default function OfficeHours() {
         notesMD={SESSION2_NOTES_MD}
         downloadFilename="build-with-her-march-25-2026.md"
         youtubeEmbedUrl="https://www.youtube.com/embed/I68mkGJHMhA"
+        sessionUrl="https://university.infracodebase.com/workshops#migrating-azure-aws-gcp"
       />
       <SessionModal
         open={modal3Open}
