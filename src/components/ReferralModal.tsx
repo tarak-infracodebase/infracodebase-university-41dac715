@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { X, ArrowRight, Briefcase, Star, Copy, Check, ChevronDown } from "lucide-react";
 
 const REFERRAL_BASE = "https://infracodebase.com/invite";
