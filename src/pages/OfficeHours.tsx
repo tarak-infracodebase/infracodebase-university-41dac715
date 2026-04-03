@@ -1320,12 +1320,13 @@ function SessionModal({
 
 /* ── Vertical Workshop Card (SheBuilds-style) ── */
 function WorkshopCard({
-  gradient, thumbTitle, date, duration, detailTitle, facilitators, tagLabel, tagStyle, onClick,
+  gradient, thumbTitle, date, duration, detailTitle, facilitators, tagLabel, tagStyle, onClick, sessionUrl,
 }: {
   gradient: string; thumbTitle: string; date: string; duration: string;
-  detailTitle: string; facilitators: string; tagLabel: string; tagStyle: React.CSSProperties; onClick: () => void;
+  detailTitle: string; facilitators: string; tagLabel: string; tagStyle: React.CSSProperties; onClick: () => void; sessionUrl: string;
 }) {
   const [hov, setHov] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
   return (
     <div
       onClick={onClick}
@@ -1381,7 +1382,28 @@ function WorkshopCard({
         </p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={tagStyle}>{tagLabel}</span>
-          <span style={{ fontSize: '12px', color: '#8b9cff', fontWeight: 500 }}>View session →</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(sessionUrl);
+                setLinkCopied(true);
+                setTimeout(() => setLinkCopied(false), 2000);
+              }}
+              title={linkCopied ? 'Copied!' : 'Copy link'}
+              style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: '4px', borderRadius: '6px', color: linkCopied ? '#22c55e' : 'hsl(var(--muted-foreground))', transition: 'color 0.15s' }}
+              onMouseEnter={e => { if (!linkCopied) e.currentTarget.style.color = 'hsl(var(--foreground))'; }}
+              onMouseLeave={e => { if (!linkCopied) e.currentTarget.style.color = 'hsl(var(--muted-foreground))'; }}
+            >
+              {linkCopied ? <Check className="h-3.5 w-3.5" /> : <Link className="h-3.5 w-3.5" />}
+              {linkCopied && (
+                <span style={{ position: 'absolute', bottom: 'calc(100% + 4px)', left: '50%', transform: 'translateX(-50%)', background: '#1e293b', color: '#22c55e', fontSize: '11px', fontWeight: 600, padding: '3px 8px', borderRadius: '5px', whiteSpace: 'nowrap', pointerEvents: 'none' }}>
+                  Copied!
+                </span>
+              )}
+            </button>
+            <span style={{ fontSize: '12px', color: '#8b9cff', fontWeight: 500 }}>View session →</span>
+          </div>
         </div>
       </div>
 
