@@ -1560,6 +1560,7 @@ export default function OfficeHours() {
         notesHTML={INITIAL_SESSION_NOTES}
         notesMD={SESSION_NOTES_MD}
         downloadFilename="build-with-her-march-18-2026.md"
+        sessionUrl="https://university.infracodebase.com/workshops#clickops-to-iac"
       />
       <SessionModal
         open={modal2Open}
