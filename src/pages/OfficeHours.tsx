@@ -1454,98 +1454,26 @@ export default function OfficeHours() {
           </div>
         </div>
 
-        {/* ── SECTION 1 — HERO ── */}
-        <section style={{ position: 'relative', borderRadius: '14px', border: '1px solid hsl(var(--border))', background: 'hsl(var(--card))' }}>
-          <div style={{ height: '4px', background: SPECTRUM_GRADIENT, borderRadius: '14px 14px 0 0' }} />
-
-          {/* Edit button */}
-          {isTarak && (
-            <button
-              onClick={() => setHeroEditing(e => !e)}
-              className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-                heroEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              }`}
-            >
-              <Edit2 className="h-4 w-4" />
-            </button>
-          )}
-
-          <div className="p-6 lg:p-8 flex flex-col lg:flex-row gap-8">
-            <div className="flex-1 space-y-4">
-              <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-                </span>
-                NEXT SESSION
-              </span>
-
-              <h1 className="text-2xl lg:text-3xl font-bold text-foreground leading-tight">
-                <InlineField value={heroTitle} onChange={setHeroTitle} editing={heroEditing} className="text-2xl lg:text-3xl font-bold text-foreground leading-tight" />
-              </h1>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                <InlineField value={heroDesc} onChange={setHeroDesc} editing={heroEditing} multiline className="text-sm text-muted-foreground leading-relaxed" />
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1.5">
-                  <Calendar className="h-4 w-4" />
-                  <InlineField value={heroDate} onChange={setHeroDate} editing={heroEditing} />
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Clock className="h-4 w-4" />
-                  <InlineField value={heroTime} onChange={setHeroTime} editing={heroEditing} />
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-3 pt-2">
-                <CalendarDropdown />
-              </div>
-            </div>
-
-            {/* Hosted by */}
-            <div className="shrink-0 rounded-lg border border-border/30 bg-muted/30 p-5 space-y-4" style={{ minWidth: '300px' }}>
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hosted by</p>
-              <div className="space-y-4">
-                {hostedByData.map(host => (
-                  <div key={host.name} className="flex items-center gap-3">
-                    <div style={{ position: 'relative' }}>
-                      <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
-                        <img src={host.photo || host.avatar} alt={host.name} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} onError={(e) => applyAvatarFallback(e.currentTarget, host.name, 44, '2px solid #1c2e47')} />
-                      </div>
-                      {isTarak && (
-                        <>
-                          <div
-                            style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s', cursor: 'pointer' }}
-                            onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-                            onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
-                            onClick={() => document.getElementById(host.uploadId)?.click()}
-                          >
-                            <span style={{ color: '#fff', fontSize: '12px', fontWeight: 700 }}>EDIT</span>
-                          </div>
-                          <input id={host.uploadId} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handlePhotoUpload(e, host.setter)} />
-                        </>
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground">{host.name}</p>
-                      <p className="text-xs text-muted-foreground">{host.role}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-
         {/* ── SECTION 3 — PAST SESSIONS ── */}
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-1">Past Sessions</h2>
           <p className="text-sm text-muted-foreground mb-6">Click any session to watch the recording, relive our moments, and read the notes.</p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'stretch' }}>
-            {/* Workshop 2 — March 25, 2026 (newest first / left) */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px', alignItems: 'stretch' }}>
+            {/* Workshop 3 — April 1, 2026 (newest first) */}
+            <WorkshopCard
+              gradient="linear-gradient(135deg, #E85D04 0%, #C1121F 45%, #6A0572 100%)"
+              thumbTitle="Shifting Left: Building a Secure Azure Baseline"
+              date="April 1, 2026"
+              duration="1h 04m"
+              detailTitle="Build with Her — Shifting Left: Building a Secure Azure Baseline"
+              facilitators="Tawni, Tarak & Justin O'Connor"
+              tagLabel="Shift left"
+              tagStyle={{ background: 'rgba(232,93,4,0.15)', color: '#f59e0b', border: '0.5px solid rgba(232,93,4,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '12px', fontWeight: 500 }}
+              onClick={() => setModal3Open(true)}
+            />
+
+            {/* Workshop 2 — March 25, 2026 */}
             <WorkshopCard
               gradient="linear-gradient(135deg, #1d4ed8 0%, #7c3aed 55%, #16653a 100%)"
               thumbTitle="Migrating Azure Infrastructure to AWS and GCP"
@@ -1558,7 +1486,7 @@ export default function OfficeHours() {
               onClick={() => setModal2Open(true)}
             />
 
-            {/* Workshop 1 — March 18, 2026 (older / right) */}
+            {/* Workshop 1 — March 18, 2026 */}
             <WorkshopCard
               gradient="linear-gradient(135deg, #7c3aed 0%, #db2877 55%, #ea580c 100%)"
               thumbTitle="ClickOps to IaC: Azure Infrastructure"
@@ -1598,6 +1526,19 @@ export default function OfficeHours() {
         notesMD={SESSION2_NOTES_MD}
         downloadFilename="build-with-her-march-25-2026.md"
         youtubeEmbedUrl="https://www.youtube.com/embed/I68mkGJHMhA"
+      />
+      <SessionModal
+        open={modal3Open}
+        onClose={() => setModal3Open(false)}
+        screenshots={session3Screenshots}
+        isTarak={Boolean(isTarak)}
+        title="Build with Her — Shifting Left: Building a Secure Azure Baseline"
+        subtitle="April 1, 2026 · 1h 04m · Tawni, Tarak & Justin"
+        sessionComments={session3Comments}
+        notesHTML={SESSION3_NOTES_HTML}
+        notesMD={SESSION3_NOTES_MD}
+        downloadFilename="build-with-her-april-1-2026.md"
+        youtubeEmbedUrl="https://www.youtube.com/embed/RtlKHzz-k_s"
       />
     </AppLayout>
   );
