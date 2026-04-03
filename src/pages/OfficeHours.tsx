@@ -1411,59 +1411,9 @@ function WorkshopCard({
 export default function OfficeHours() {
   const { user } = useUser();
   const isTarak = user?.emailAddresses?.some(e => e.emailAddress === 'tarak@infracodebase.com');
-  const [question, setQuestion] = useState("");
-  const [submitted, setSubmitted] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
-
-  // Hero editing
-  const [heroEditing, setHeroEditing] = useState(false);
-  const [heroTitle, setHeroTitle] = useState("Shifting Left: Building a Secure Azure Baseline");
-   const [heroDesc, setHeroDesc] = useState("Live demo: take a simple Azure 3-tier web app template, question its assumptions, and apply constraints like input validation, API boundaries, and secrets management before it's introduced into a CI pipeline.");
-   const [heroDate, setHeroDate] = useState("Wednesday, April 1, 2026");
-  const [heroTime, setHeroTime] = useState("5:00 PM CET");
-
-
-
-
-  // Instructor photo uploads
-  const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => {
-    return localStorage.getItem('office-hours-photo-justin') || null;
-  });
-  const [tarakPhoto, setTarakPhotoState] = useState<string | null>(() => {
-    return localStorage.getItem('office-hours-photo-tarak') || null;
-  });
-
-  const setJustinPhoto = (val: string | null) => {
-    setJustinPhotoState(val);
-    if (val) localStorage.setItem('office-hours-photo-justin', val);
-    else localStorage.removeItem('office-hours-photo-justin');
-  };
-  const setTarakPhoto = (val: string | null) => {
-    setTarakPhotoState(val);
-    if (val) localStorage.setItem('office-hours-photo-tarak', val);
-    else localStorage.removeItem('office-hours-photo-tarak');
-  };
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>, setter: (v: string) => void) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => setter(ev.target?.result as string);
-    reader.readAsDataURL(file);
-  };
-  
-
-  const handleSubmitQuestion = () => {
-    if (!question.trim()) return;
-    setSubmitted(true);
-    setQuestion("");
-    setTimeout(() => setSubmitted(false), 4000);
-  };
-
-  const hostedByData = [
-    { name: "Tawni", initial: "T", role: "Senior Full Stack", avatar: "/hosts/tawni.jpeg", photo: null as string | null, setter: setJustinPhoto, uploadId: "upload-tawni" },
-  ] as const;
+  const [modal3Open, setModal3Open] = useState(false);
 
   return (
     <AppLayout>
