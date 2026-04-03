@@ -452,6 +452,8 @@ export function ReferralModal() {
                       onClose={handleClose}
                       copyLink={copyLink}
                       copied={copied}
+                      isSignedIn={!!isSignedIn}
+                      userLoaded={userLoaded}
                     />
                   </GlowContainer>
                 </div>
