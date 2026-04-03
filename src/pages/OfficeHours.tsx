@@ -1083,10 +1083,31 @@ function SessionModal({
                   </div>
                 ))}
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <h2 className="text-xl font-semibold text-foreground">{title}</h2>
                 <p className="text-sm text-muted-foreground">{subtitle}</p>
               </div>
+              {sessionUrl && (
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexShrink: 0 }}>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(sessionUrl);
+                      setShareCopied(true);
+                      setTimeout(() => setShareCopied(false), 2000);
+                    }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', border: '1px solid hsl(var(--border))', background: 'none', cursor: 'pointer', color: shareCopied ? '#22c55e' : 'hsl(var(--muted-foreground))', fontSize: '13px', fontWeight: 500, transition: 'all 0.15s' }}
+                  >
+                    {shareCopied ? <Check className="h-3.5 w-3.5" /> : <Link className="h-3.5 w-3.5" />}
+                    {shareCopied ? 'Link copied!' : 'Share'}
+                  </button>
+                  <button
+                    onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(sessionUrl)}`, '_blank', 'noopener')}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', border: '1px solid hsl(var(--border))', background: 'none', cursor: 'pointer', color: 'hsl(var(--muted-foreground))', fontSize: '13px', fontWeight: 500, transition: 'all 0.15s' }}
+                  >
+                    <Linkedin className="h-3.5 w-3.5" /> LinkedIn
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Tabs */}
