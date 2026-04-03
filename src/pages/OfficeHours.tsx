@@ -167,6 +167,119 @@ const session2Screenshots = [
   { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_00_48.png", caption: "Teams call — second group view" },
 ];
 
+const session3Screenshots = [
+  { src: "/workshops/workshop-3/moments/session-call.png", caption: "Teams call — full group" },
+  { src: "/workshops/workshop-3/moments/slide-workflow.png", caption: "Guest: Cameron Walters — Teradata InfoSec" },
+  { src: "/workshops/workshop-3/moments/workspaces.png", caption: "Tawni's Infracodebase workspaces" },
+  { src: "/workshops/workshop-3/moments/new-workspace.png", caption: "New workspace — Infracodebase Agent" },
+  { src: "/workshops/workshop-3/moments/templates.png", caption: "Public infrastructure templates" },
+  { src: "/workshops/workshop-3/moments/workspace-agent.png", caption: "Agent context — uploading iterum.md rules" },
+  { src: "/workshops/workshop-3/moments/slide-ssdlc.png", caption: "Slide — SDLC vs SSDLC: security from the first idea" },
+  { src: "/workshops/workshop-3/moments/editor-100.png", caption: "Iterum Secure Template — 100% compliance score" },
+  { src: "/workshops/workshop-3/moments/compliance-100.png", caption: "Architecture diagram — 100% layout quality" },
+];
+
+const SESSION3_NOTES_HTML = `<h2>Build with Her — April 1, 2026 — 1h 04m</h2>
+<h3>Facilitators</h3>
+<p>Tawni Glover, Tarak, Justin O'Connor</p>
+<h3>Guest</h3>
+<p>Cameron Walters — Teradata InfoSec (Application Security & Security Engineering)</p>
+<h3>Purpose</h3>
+<ul>
+<li>Continue Build with Her learning series</li>
+<li>Demonstrate shift-left security principles applied to a real Azure workspace</li>
+<li>Introduce the concept of SSDLC vs traditional SDLC</li>
+<li>Showcase community-led workspace iteration</li>
+</ul>
+<h3>Main Themes</h3>
+<ul>
+<li>Shift-left security — embedding security from the first idea</li>
+<li>SSDLC vs SDLC — why bolting security on late creates debt</li>
+<li>Enterprise rule sets and personal rule sets</li>
+<li>Compliance scoring and workspace iteration</li>
+<li>Context → Generate → Validate → Iterate workflow</li>
+</ul>
+<h3>Demo</h3>
+<p>Tawni led the session, walking through her personal AI workflow for building a secure Azure baseline. She demonstrated how to combine personal rule sets with enterprise compliance validation using Infracodebase workspaces, iterating until reaching 100% compliance and 100% layout quality.</p>
+<h3>Key Points</h3>
+<ul>
+<li><strong>Shostack's Four Questions:</strong> What are we working on? What can go wrong? What are we going to do about it? Did we do a good enough job?</li>
+<li><strong>SDLC (bolted on late):</strong> No security thinking → no threat model → no security rules → too late to change → fingers crossed → security debt</li>
+<li><strong>SSDLC (security from the first idea):</strong> Threat model & requirements → secure arch & data flow → governed generation → CI & sequential gates → signed & policy gate → logs & alerts</li>
+<li><strong>Core workflow:</strong> Context → Generate → Validate → Iterate — every tool that touches your project has rules, one vocabulary across agents</li>
+</ul>
+<h3>Community Highlight</h3>
+<p>Tawni was the first participant to combine personal rule sets with enterprise compliance validation, reaching 100% compliance and 100% layout quality in her Iterum Secure Template workspace.</p>
+<h3>Community Contribution</h3>
+<p>Tawni agreed to share her workspace publicly as a reusable template in Infracodebase University.</p>
+<h3>Closing</h3>
+<p>Cameron provided expert context on how shift-left security applies at enterprise scale. The session demonstrated that security isn't a phase — it's a mindset that starts before the first line of code.</p>`;
+
+const SESSION3_NOTES_MD = `# Build with Her — April 1, 2026 — 1h 04m
+
+## Facilitators
+Tawni Glover, Tarak, Justin O'Connor
+
+## Guest
+Cameron Walters — Teradata InfoSec (Application Security & Security Engineering)
+
+## Purpose
+- Continue Build with Her learning series
+- Demonstrate shift-left security principles applied to a real Azure workspace
+- Introduce the concept of SSDLC vs traditional SDLC
+- Showcase community-led workspace iteration
+
+## Main Themes
+- Shift-left security — embedding security from the first idea
+- SSDLC vs SDLC — why bolting security on late creates debt
+- Enterprise rule sets and personal rule sets
+- Compliance scoring and workspace iteration
+- Context → Generate → Validate → Iterate workflow
+
+## Demo
+Tawni led the session, walking through her personal AI workflow for building a secure Azure baseline. She demonstrated how to combine personal rule sets with enterprise compliance validation using Infracodebase workspaces, iterating until reaching 100% compliance and 100% layout quality.
+
+## Key Points
+- **Shostack's Four Questions:** What are we working on? What can go wrong? What are we going to do about it? Did we do a good enough job?
+- **SDLC (bolted on late):** No security thinking → no threat model → no security rules → too late to change → fingers crossed → security debt
+- **SSDLC (security from the first idea):** Threat model & requirements → secure arch & data flow → governed generation → CI & sequential gates → signed & policy gate → logs & alerts
+- **Core workflow:** Context → Generate → Validate → Iterate — every tool that touches your project has rules, one vocabulary across agents
+
+## Community Highlight
+Tawni was the first participant to combine personal rule sets with enterprise compliance validation, reaching 100% compliance and 100% layout quality in her Iterum Secure Template workspace.
+
+## Community Contribution
+Tawni agreed to share her workspace publicly as a reusable template in Infracodebase University.
+
+## Closing
+Cameron provided expert context on how shift-left security applies at enterprise scale. The session demonstrated that security isn't a phase — it's a mindset that starts before the first line of code.
+`;
+
+const session3Comments = [
+  {
+    name: 'Tawni', date: 'April 1, 2026', avatar: '/Tawni.jpeg',
+    text: 'This was such a meaningful session for me. Being the first to hit 100% compliance with personal + enterprise rules felt like a real milestone. Excited to share the template with everyone.',
+    upvotes: 14,
+    reply: { name: 'Tarak', badge: 'Host', badgeColor: 'linear-gradient(90deg,#f5821f,#16a34a)', ring: '#f5821f', avatar: TARAK_AVATAR, text: "You earned it Tawni — the way you iterated through the rules and got to 100% was exactly the workflow we designed for. Can't wait to see people fork your template.", upvotes: 7 }
+  },
+  {
+    name: 'Comfort Benton', date: 'April 1, 2026', avatar: '/Comfort_Benton.jpeg',
+    text: 'The SDLC vs SSDLC comparison really clicked for me. Seeing the difference between bolting security on late vs building it in from the start — that slide was everything.',
+    upvotes: 11, reply: null
+  },
+  {
+    name: 'Reilly', date: 'April 1, 2026', avatar: '/Reilly.jpeg',
+    text: 'Cameron\'s perspective from enterprise security was incredible. It\'s one thing to hear about shift-left in theory — hearing how it works at Teradata made it real.',
+    upvotes: 9,
+    reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: JUSTIN_AVATAR, text: "Cameron brought exactly the kind of real-world context we want in these sessions. Security engineering at that scale is a different game.", upvotes: 5 }
+  },
+  {
+    name: 'Abby', date: 'April 1, 2026', avatar: '/Abby.jpeg',
+    text: "The four questions framework from Shostack is something I'm going to use in every project now. Simple but powerful.",
+    upvotes: 8, reply: null
+  },
+];
+
 const SESSION2_NOTES_HTML = `<h2>Build with Her — March 25, 2026 — 56m 46s</h2>
 <h3>Facilitators</h3>
 <p>Justin O'Connor, Tarak</p>
