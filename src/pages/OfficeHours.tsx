@@ -997,10 +997,10 @@ function NotesEditor({
 
 /* ── Session Modal ── */
 function SessionModal({
-  open, onClose, screenshots: shots, isTarak, title, subtitle, sessionComments, notesHTML, notesMD, downloadFilename, youtubeEmbedUrl,
+  open, onClose, screenshots: shots, isTarak, title, subtitle, sessionComments, notesHTML, notesMD, downloadFilename, youtubeEmbedUrl, sessionUrl,
 }: {
   open: boolean; onClose: () => void; screenshots: { src: string; caption: string }[]; isTarak: boolean;
-  title: string; subtitle: string; sessionComments: any[]; notesHTML: string; notesMD: string; downloadFilename: string; youtubeEmbedUrl?: string;
+  title: string; subtitle: string; sessionComments: any[]; notesHTML: string; notesMD: string; downloadFilename: string; youtubeEmbedUrl?: string; sessionUrl?: string;
 }) {
   const { user } = useUser();
   const isAdmin = (user?.publicMetadata as Record<string, unknown>)?.role === "admin";
@@ -1011,6 +1011,7 @@ function SessionModal({
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [captions, setCaptions] = useState(shots.map(s => s.caption));
   const [captionEditing, setCaptionEditing] = useState(false);
+  const [shareCopied, setShareCopied] = useState(false);
 
   // Comments
   const [comments, setComments] = useState<{name: string; date: string; text: string; avatar?: string; replies?: any[]}[]>([]);
@@ -1082,10 +1083,31 @@ function SessionModal({
                   </div>
                 ))}
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <h2 className="text-xl font-semibold text-foreground">{title}</h2>
                 <p className="text-sm text-muted-foreground">{subtitle}</p>
               </div>
+              {sessionUrl && (
+                <div style={{ display: 'flex', gap: '6px', alignItems: 'center', flexShrink: 0 }}>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(sessionUrl);
+                      setShareCopied(true);
+                      setTimeout(() => setShareCopied(false), 2000);
+                    }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', border: '1px solid hsl(var(--border))', background: 'none', cursor: 'pointer', color: shareCopied ? '#22c55e' : 'hsl(var(--muted-foreground))', fontSize: '13px', fontWeight: 500, transition: 'all 0.15s' }}
+                  >
+                    {shareCopied ? <Check className="h-3.5 w-3.5" /> : <Link className="h-3.5 w-3.5" />}
+                    {shareCopied ? 'Link copied!' : 'Share'}
+                  </button>
+                  <button
+                    onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(sessionUrl)}`, '_blank', 'noopener')}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', borderRadius: '8px', border: '1px solid hsl(var(--border))', background: 'none', cursor: 'pointer', color: 'hsl(var(--muted-foreground))', fontSize: '13px', fontWeight: 500, transition: 'all 0.15s' }}
+                  >
+                    <Linkedin className="h-3.5 w-3.5" /> LinkedIn
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Tabs */}
@@ -1320,12 +1342,13 @@ function SessionModal({
 
 /* ── Vertical Workshop Card (SheBuilds-style) ── */
 function WorkshopCard({
-  gradient, thumbTitle, date, duration, detailTitle, facilitators, tagLabel, tagStyle, onClick,
+  gradient, thumbTitle, date, duration, detailTitle, facilitators, tagLabel, tagStyle, onClick, sessionUrl,
 }: {
   gradient: string; thumbTitle: string; date: string; duration: string;
-  detailTitle: string; facilitators: string; tagLabel: string; tagStyle: React.CSSProperties; onClick: () => void;
+  detailTitle: string; facilitators: string; tagLabel: string; tagStyle: React.CSSProperties; onClick: () => void; sessionUrl: string;
 }) {
   const [hov, setHov] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
   return (
     <div
       onClick={onClick}
@@ -1381,7 +1404,28 @@ function WorkshopCard({
         </p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={tagStyle}>{tagLabel}</span>
-          <span style={{ fontSize: '12px', color: '#8b9cff', fontWeight: 500 }}>View session →</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(sessionUrl);
+                setLinkCopied(true);
+                setTimeout(() => setLinkCopied(false), 2000);
+              }}
+              title={linkCopied ? 'Copied!' : 'Copy link'}
+              style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', padding: '4px', borderRadius: '6px', color: linkCopied ? '#22c55e' : 'hsl(var(--muted-foreground))', transition: 'color 0.15s' }}
+              onMouseEnter={e => { if (!linkCopied) e.currentTarget.style.color = 'hsl(var(--foreground))'; }}
+              onMouseLeave={e => { if (!linkCopied) e.currentTarget.style.color = 'hsl(var(--muted-foreground))'; }}
+            >
+              {linkCopied ? <Check className="h-3.5 w-3.5" /> : <Link className="h-3.5 w-3.5" />}
+              {linkCopied && (
+                <span style={{ position: 'absolute', bottom: 'calc(100% + 4px)', left: '50%', transform: 'translateX(-50%)', background: '#1e293b', color: '#22c55e', fontSize: '11px', fontWeight: 600, padding: '3px 8px', borderRadius: '5px', whiteSpace: 'nowrap', pointerEvents: 'none' }}>
+                  Copied!
+                </span>
+              )}
+            </button>
+            <span style={{ fontSize: '12px', color: '#8b9cff', fontWeight: 500 }}>View session →</span>
+          </div>
         </div>
       </div>
 
@@ -1471,6 +1515,7 @@ export default function OfficeHours() {
               tagLabel="Shift left"
               tagStyle={{ background: 'rgba(232,93,4,0.15)', color: '#f59e0b', border: '0.5px solid rgba(232,93,4,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '12px', fontWeight: 500 }}
               onClick={() => setModal3Open(true)}
+              sessionUrl="https://university.infracodebase.com/workshops#shifting-left-azure-baseline"
             />
 
             {/* Workshop 2 — March 25, 2026 */}
@@ -1484,6 +1529,7 @@ export default function OfficeHours() {
               tagLabel="Cross-cloud"
               tagStyle={{ background: 'rgba(91,106,245,0.15)', color: '#8b9cff', border: '0.5px solid rgba(91,106,245,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '12px', fontWeight: 500 }}
               onClick={() => setModal2Open(true)}
+              sessionUrl="https://university.infracodebase.com/workshops#migrating-azure-aws-gcp"
             />
 
             {/* Workshop 1 — March 18, 2026 */}
@@ -1497,6 +1543,7 @@ export default function OfficeHours() {
               tagLabel="Azure"
               tagStyle={{ background: 'rgba(0,120,212,0.15)', color: '#60a9ff', border: '0.5px solid rgba(0,120,212,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '12px', fontWeight: 500 }}
               onClick={() => setModalOpen(true)}
+              sessionUrl="https://university.infracodebase.com/workshops#clickops-to-iac"
             />
           </div>
         </section>
@@ -1513,6 +1560,7 @@ export default function OfficeHours() {
         notesHTML={INITIAL_SESSION_NOTES}
         notesMD={SESSION_NOTES_MD}
         downloadFilename="build-with-her-march-18-2026.md"
+        sessionUrl="https://university.infracodebase.com/workshops#clickops-to-iac"
       />
       <SessionModal
         open={modal2Open}
@@ -1526,6 +1574,7 @@ export default function OfficeHours() {
         notesMD={SESSION2_NOTES_MD}
         downloadFilename="build-with-her-march-25-2026.md"
         youtubeEmbedUrl="https://www.youtube.com/embed/I68mkGJHMhA"
+        sessionUrl="https://university.infracodebase.com/workshops#migrating-azure-aws-gcp"
       />
       <SessionModal
         open={modal3Open}
@@ -1539,6 +1588,7 @@ export default function OfficeHours() {
         notesMD={SESSION3_NOTES_MD}
         downloadFilename="build-with-her-april-1-2026.md"
         youtubeEmbedUrl="https://www.youtube.com/embed/RtlKHzz-k_s"
+        sessionUrl="https://university.infracodebase.com/workshops#shifting-left-azure-baseline"
       />
     </AppLayout>
   );
