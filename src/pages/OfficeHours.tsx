@@ -1529,6 +1529,7 @@ export default function OfficeHours() {
               tagLabel="Cross-cloud"
               tagStyle={{ background: 'rgba(91,106,245,0.15)', color: '#8b9cff', border: '0.5px solid rgba(91,106,245,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '12px', fontWeight: 500 }}
               onClick={() => setModal2Open(true)}
+              sessionUrl="https://university.infracodebase.com/workshops#migrating-azure-aws-gcp"
             />
 
             {/* Workshop 1 — March 18, 2026 */}
