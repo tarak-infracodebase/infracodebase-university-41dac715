@@ -34,6 +34,18 @@ interface EventItem {
 
 const events: EventItem[] = [
   {
+    id: 9,
+    title: "Building Self-Service, Secure, and Scalable Developer Platforms",
+    series: "infracodebase",
+    format: "video",
+    type: "Technical Session",
+    speakers: [{ name: "Lalit", role: "Sr Cloud Architect" }, { name: "Tarak", role: "Co-Founder" }, { name: "Justin", role: "Founder" }],
+    link: "https://www.youtube.com/watch?v=hz9jcH9ipFU",
+    platform: "youtube",
+    thumbnail: `https://img.youtube.com/vi/hz9jcH9ipFU/maxresdefault.jpg`,
+    embedUrl: "https://www.youtube.com/embed/hz9jcH9ipFU",
+  },
+  {
     id: 8,
     title: "Coffee, Chaos, & ProdSec",
     series: "infracodebase",
