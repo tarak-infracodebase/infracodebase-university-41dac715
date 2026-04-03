@@ -167,6 +167,119 @@ const session2Screenshots = [
   { src: "/workshops/workshop-2/moments/Screenshot_2026-03-25_at_18_00_48.png", caption: "Teams call — second group view" },
 ];
 
+const session3Screenshots = [
+  { src: "/workshops/workshop-3/moments/session-call.png", caption: "Teams call — full group" },
+  { src: "/workshops/workshop-3/moments/slide-workflow.png", caption: "Guest: Cameron Walters — Teradata InfoSec" },
+  { src: "/workshops/workshop-3/moments/workspaces.png", caption: "Tawni's Infracodebase workspaces" },
+  { src: "/workshops/workshop-3/moments/new-workspace.png", caption: "New workspace — Infracodebase Agent" },
+  { src: "/workshops/workshop-3/moments/templates.png", caption: "Public infrastructure templates" },
+  { src: "/workshops/workshop-3/moments/workspace-agent.png", caption: "Agent context — uploading iterum.md rules" },
+  { src: "/workshops/workshop-3/moments/slide-ssdlc.png", caption: "Slide — SDLC vs SSDLC: security from the first idea" },
+  { src: "/workshops/workshop-3/moments/editor-100.png", caption: "Iterum Secure Template — 100% compliance score" },
+  { src: "/workshops/workshop-3/moments/compliance-100.png", caption: "Architecture diagram — 100% layout quality" },
+];
+
+const SESSION3_NOTES_HTML = `<h2>Build with Her — April 1, 2026 — 1h 04m</h2>
+<h3>Facilitators</h3>
+<p>Tawni Glover, Tarak, Justin O'Connor</p>
+<h3>Guest</h3>
+<p>Cameron Walters — Teradata InfoSec (Application Security & Security Engineering)</p>
+<h3>Purpose</h3>
+<ul>
+<li>Continue Build with Her learning series</li>
+<li>Demonstrate shift-left security principles applied to a real Azure workspace</li>
+<li>Introduce the concept of SSDLC vs traditional SDLC</li>
+<li>Showcase community-led workspace iteration</li>
+</ul>
+<h3>Main Themes</h3>
+<ul>
+<li>Shift-left security — embedding security from the first idea</li>
+<li>SSDLC vs SDLC — why bolting security on late creates debt</li>
+<li>Enterprise rule sets and personal rule sets</li>
+<li>Compliance scoring and workspace iteration</li>
+<li>Context → Generate → Validate → Iterate workflow</li>
+</ul>
+<h3>Demo</h3>
+<p>Tawni led the session, walking through her personal AI workflow for building a secure Azure baseline. She demonstrated how to combine personal rule sets with enterprise compliance validation using Infracodebase workspaces, iterating until reaching 100% compliance and 100% layout quality.</p>
+<h3>Key Points</h3>
+<ul>
+<li><strong>Shostack's Four Questions:</strong> What are we working on? What can go wrong? What are we going to do about it? Did we do a good enough job?</li>
+<li><strong>SDLC (bolted on late):</strong> No security thinking → no threat model → no security rules → too late to change → fingers crossed → security debt</li>
+<li><strong>SSDLC (security from the first idea):</strong> Threat model & requirements → secure arch & data flow → governed generation → CI & sequential gates → signed & policy gate → logs & alerts</li>
+<li><strong>Core workflow:</strong> Context → Generate → Validate → Iterate — every tool that touches your project has rules, one vocabulary across agents</li>
+</ul>
+<h3>Community Highlight</h3>
+<p>Tawni was the first participant to combine personal rule sets with enterprise compliance validation, reaching 100% compliance and 100% layout quality in her Iterum Secure Template workspace.</p>
+<h3>Community Contribution</h3>
+<p>Tawni agreed to share her workspace publicly as a reusable template in Infracodebase University.</p>
+<h3>Closing</h3>
+<p>Cameron provided expert context on how shift-left security applies at enterprise scale. The session demonstrated that security isn't a phase — it's a mindset that starts before the first line of code.</p>`;
+
+const SESSION3_NOTES_MD = `# Build with Her — April 1, 2026 — 1h 04m
+
+## Facilitators
+Tawni Glover, Tarak, Justin O'Connor
+
+## Guest
+Cameron Walters — Teradata InfoSec (Application Security & Security Engineering)
+
+## Purpose
+- Continue Build with Her learning series
+- Demonstrate shift-left security principles applied to a real Azure workspace
+- Introduce the concept of SSDLC vs traditional SDLC
+- Showcase community-led workspace iteration
+
+## Main Themes
+- Shift-left security — embedding security from the first idea
+- SSDLC vs SDLC — why bolting security on late creates debt
+- Enterprise rule sets and personal rule sets
+- Compliance scoring and workspace iteration
+- Context → Generate → Validate → Iterate workflow
+
+## Demo
+Tawni led the session, walking through her personal AI workflow for building a secure Azure baseline. She demonstrated how to combine personal rule sets with enterprise compliance validation using Infracodebase workspaces, iterating until reaching 100% compliance and 100% layout quality.
+
+## Key Points
+- **Shostack's Four Questions:** What are we working on? What can go wrong? What are we going to do about it? Did we do a good enough job?
+- **SDLC (bolted on late):** No security thinking → no threat model → no security rules → too late to change → fingers crossed → security debt
+- **SSDLC (security from the first idea):** Threat model & requirements → secure arch & data flow → governed generation → CI & sequential gates → signed & policy gate → logs & alerts
+- **Core workflow:** Context → Generate → Validate → Iterate — every tool that touches your project has rules, one vocabulary across agents
+
+## Community Highlight
+Tawni was the first participant to combine personal rule sets with enterprise compliance validation, reaching 100% compliance and 100% layout quality in her Iterum Secure Template workspace.
+
+## Community Contribution
+Tawni agreed to share her workspace publicly as a reusable template in Infracodebase University.
+
+## Closing
+Cameron provided expert context on how shift-left security applies at enterprise scale. The session demonstrated that security isn't a phase — it's a mindset that starts before the first line of code.
+`;
+
+const session3Comments = [
+  {
+    name: 'Tawni', date: 'April 1, 2026', avatar: '/Tawni.jpeg',
+    text: 'This was such a meaningful session for me. Being the first to hit 100% compliance with personal + enterprise rules felt like a real milestone. Excited to share the template with everyone.',
+    upvotes: 14,
+    reply: { name: 'Tarak', badge: 'Host', badgeColor: 'linear-gradient(90deg,#f5821f,#16a34a)', ring: '#f5821f', avatar: TARAK_AVATAR, text: "You earned it Tawni — the way you iterated through the rules and got to 100% was exactly the workflow we designed for. Can't wait to see people fork your template.", upvotes: 7 }
+  },
+  {
+    name: 'Comfort Benton', date: 'April 1, 2026', avatar: '/Comfort_Benton.jpeg',
+    text: 'The SDLC vs SSDLC comparison really clicked for me. Seeing the difference between bolting security on late vs building it in from the start — that slide was everything.',
+    upvotes: 11, reply: null
+  },
+  {
+    name: 'Reilly', date: 'April 1, 2026', avatar: '/Reilly.jpeg',
+    text: 'Cameron\'s perspective from enterprise security was incredible. It\'s one thing to hear about shift-left in theory — hearing how it works at Teradata made it real.',
+    upvotes: 9,
+    reply: { name: 'Justin', badge: 'Host', badgeColor: 'linear-gradient(90deg,#009ddc,#963d97)', ring: '#009ddc', avatar: JUSTIN_AVATAR, text: "Cameron brought exactly the kind of real-world context we want in these sessions. Security engineering at that scale is a different game.", upvotes: 5 }
+  },
+  {
+    name: 'Abby', date: 'April 1, 2026', avatar: '/Abby.jpeg',
+    text: "The four questions framework from Shostack is something I'm going to use in every project now. Simple but powerful.",
+    upvotes: 8, reply: null
+  },
+];
+
 const SESSION2_NOTES_HTML = `<h2>Build with Her — March 25, 2026 — 56m 46s</h2>
 <h3>Facilitators</h3>
 <p>Justin O'Connor, Tarak</p>
@@ -1298,59 +1411,9 @@ function WorkshopCard({
 export default function OfficeHours() {
   const { user } = useUser();
   const isTarak = user?.emailAddresses?.some(e => e.emailAddress === 'tarak@infracodebase.com');
-  const [question, setQuestion] = useState("");
-  const [submitted, setSubmitted] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
-
-  // Hero editing
-  const [heroEditing, setHeroEditing] = useState(false);
-  const [heroTitle, setHeroTitle] = useState("Shifting Left: Building a Secure Azure Baseline");
-   const [heroDesc, setHeroDesc] = useState("Live demo: take a simple Azure 3-tier web app template, question its assumptions, and apply constraints like input validation, API boundaries, and secrets management before it's introduced into a CI pipeline.");
-   const [heroDate, setHeroDate] = useState("Wednesday, April 1, 2026");
-  const [heroTime, setHeroTime] = useState("5:00 PM CET");
-
-
-
-
-  // Instructor photo uploads
-  const [justinPhoto, setJustinPhotoState] = useState<string | null>(() => {
-    return localStorage.getItem('office-hours-photo-justin') || null;
-  });
-  const [tarakPhoto, setTarakPhotoState] = useState<string | null>(() => {
-    return localStorage.getItem('office-hours-photo-tarak') || null;
-  });
-
-  const setJustinPhoto = (val: string | null) => {
-    setJustinPhotoState(val);
-    if (val) localStorage.setItem('office-hours-photo-justin', val);
-    else localStorage.removeItem('office-hours-photo-justin');
-  };
-  const setTarakPhoto = (val: string | null) => {
-    setTarakPhotoState(val);
-    if (val) localStorage.setItem('office-hours-photo-tarak', val);
-    else localStorage.removeItem('office-hours-photo-tarak');
-  };
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>, setter: (v: string) => void) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => setter(ev.target?.result as string);
-    reader.readAsDataURL(file);
-  };
-  
-
-  const handleSubmitQuestion = () => {
-    if (!question.trim()) return;
-    setSubmitted(true);
-    setQuestion("");
-    setTimeout(() => setSubmitted(false), 4000);
-  };
-
-  const hostedByData = [
-    { name: "Tawni", initial: "T", role: "Senior Full Stack", avatar: "/hosts/tawni.jpeg", photo: null as string | null, setter: setJustinPhoto, uploadId: "upload-tawni" },
-  ] as const;
+  const [modal3Open, setModal3Open] = useState(false);
 
   return (
     <AppLayout>
@@ -1391,98 +1454,26 @@ export default function OfficeHours() {
           </div>
         </div>
 
-        {/* ── SECTION 1 — HERO ── */}
-        <section style={{ position: 'relative', borderRadius: '14px', border: '1px solid hsl(var(--border))', background: 'hsl(var(--card))' }}>
-          <div style={{ height: '4px', background: SPECTRUM_GRADIENT, borderRadius: '14px 14px 0 0' }} />
-
-          {/* Edit button */}
-          {isTarak && (
-            <button
-              onClick={() => setHeroEditing(e => !e)}
-              className={`absolute top-4 right-4 z-10 p-2 rounded-lg border transition-colors ${
-                heroEditing ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400" : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              }`}
-            >
-              <Edit2 className="h-4 w-4" />
-            </button>
-          )}
-
-          <div className="p-6 lg:p-8 flex flex-col lg:flex-row gap-8">
-            <div className="flex-1 space-y-4">
-              <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-                </span>
-                NEXT SESSION
-              </span>
-
-              <h1 className="text-2xl lg:text-3xl font-bold text-foreground leading-tight">
-                <InlineField value={heroTitle} onChange={setHeroTitle} editing={heroEditing} className="text-2xl lg:text-3xl font-bold text-foreground leading-tight" />
-              </h1>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                <InlineField value={heroDesc} onChange={setHeroDesc} editing={heroEditing} multiline className="text-sm text-muted-foreground leading-relaxed" />
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1.5">
-                  <Calendar className="h-4 w-4" />
-                  <InlineField value={heroDate} onChange={setHeroDate} editing={heroEditing} />
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Clock className="h-4 w-4" />
-                  <InlineField value={heroTime} onChange={setHeroTime} editing={heroEditing} />
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-3 pt-2">
-                <CalendarDropdown />
-              </div>
-            </div>
-
-            {/* Hosted by */}
-            <div className="shrink-0 rounded-lg border border-border/30 bg-muted/30 p-5 space-y-4" style={{ minWidth: '300px' }}>
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Hosted by</p>
-              <div className="space-y-4">
-                {hostedByData.map(host => (
-                  <div key={host.name} className="flex items-center gap-3">
-                    <div style={{ position: 'relative' }}>
-                      <div style={{ width: '44px', height: '44px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1c2e47', flexShrink: 0 }}>
-                        <img src={host.photo || host.avatar} alt={host.name} style={{ width: '44px', height: '44px', borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} onError={(e) => applyAvatarFallback(e.currentTarget, host.name, 44, '2px solid #1c2e47')} />
-                      </div>
-                      {isTarak && (
-                        <>
-                          <div
-                            style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.15s', cursor: 'pointer' }}
-                            onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-                            onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
-                            onClick={() => document.getElementById(host.uploadId)?.click()}
-                          >
-                            <span style={{ color: '#fff', fontSize: '12px', fontWeight: 700 }}>EDIT</span>
-                          </div>
-                          <input id={host.uploadId} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handlePhotoUpload(e, host.setter)} />
-                        </>
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-foreground">{host.name}</p>
-                      <p className="text-xs text-muted-foreground">{host.role}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-
         {/* ── SECTION 3 — PAST SESSIONS ── */}
         <section>
           <h2 className="text-2xl font-bold text-foreground mb-1">Past Sessions</h2>
           <p className="text-sm text-muted-foreground mb-6">Click any session to watch the recording, relive our moments, and read the notes.</p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', alignItems: 'stretch' }}>
-            {/* Workshop 2 — March 25, 2026 (newest first / left) */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px', alignItems: 'stretch' }}>
+            {/* Workshop 3 — April 1, 2026 (newest first) */}
+            <WorkshopCard
+              gradient="linear-gradient(135deg, #E85D04 0%, #C1121F 45%, #6A0572 100%)"
+              thumbTitle="Shifting Left: Building a Secure Azure Baseline"
+              date="April 1, 2026"
+              duration="1h 04m"
+              detailTitle="Build with Her — Shifting Left: Building a Secure Azure Baseline"
+              facilitators="Tawni, Tarak & Justin O'Connor"
+              tagLabel="Shift left"
+              tagStyle={{ background: 'rgba(232,93,4,0.15)', color: '#f59e0b', border: '0.5px solid rgba(232,93,4,0.3)', borderRadius: '20px', padding: '3px 9px', fontSize: '12px', fontWeight: 500 }}
+              onClick={() => setModal3Open(true)}
+            />
+
+            {/* Workshop 2 — March 25, 2026 */}
             <WorkshopCard
               gradient="linear-gradient(135deg, #1d4ed8 0%, #7c3aed 55%, #16653a 100%)"
               thumbTitle="Migrating Azure Infrastructure to AWS and GCP"
@@ -1495,7 +1486,7 @@ export default function OfficeHours() {
               onClick={() => setModal2Open(true)}
             />
 
-            {/* Workshop 1 — March 18, 2026 (older / right) */}
+            {/* Workshop 1 — March 18, 2026 */}
             <WorkshopCard
               gradient="linear-gradient(135deg, #7c3aed 0%, #db2877 55%, #ea580c 100%)"
               thumbTitle="ClickOps to IaC: Azure Infrastructure"
@@ -1535,6 +1526,19 @@ export default function OfficeHours() {
         notesMD={SESSION2_NOTES_MD}
         downloadFilename="build-with-her-march-25-2026.md"
         youtubeEmbedUrl="https://www.youtube.com/embed/I68mkGJHMhA"
+      />
+      <SessionModal
+        open={modal3Open}
+        onClose={() => setModal3Open(false)}
+        screenshots={session3Screenshots}
+        isTarak={Boolean(isTarak)}
+        title="Build with Her — Shifting Left: Building a Secure Azure Baseline"
+        subtitle="April 1, 2026 · 1h 04m · Tawni, Tarak & Justin"
+        sessionComments={session3Comments}
+        notesHTML={SESSION3_NOTES_HTML}
+        notesMD={SESSION3_NOTES_MD}
+        downloadFilename="build-with-her-april-1-2026.md"
+        youtubeEmbedUrl="https://www.youtube.com/embed/RtlKHzz-k_s"
       />
     </AppLayout>
   );
